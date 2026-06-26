@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #eff8ff;
+  --color-brand-100: #dbeefe;
+  --color-brand-200: #bfe0fd;
+  --color-brand-300: #92ccfb;
+  --color-brand-400: #5eaff7;
+  --color-brand-500: #3a91f2;
+  --color-brand-600: #2474e7;
+  --color-brand-700: #1c5ed4;
+  --color-brand-800: #1d4dab;
+  --color-brand-900: #1d4287;
+  --color-brand-950: #162a53;
+
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-slate-800 antialiased;
+}
+
+/* Room for sticky mobile CTA bar */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 4.5rem;
+  }
+}
