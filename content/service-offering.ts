@@ -2,7 +2,7 @@
 export const poolCareOffering = {
   headline: "We bring leaking, broken & aging pools back to life",
   subhead:
-    "Leak detection technicians, pool repair experts, and renovation specialists for residential and commercial properties across Central Texas.",
+    "Central Texas experts in pool leak detection, repairs, equipment replacement and renovations for residential, commercial and HOA / community properties.",
   tagline: "Central Texas Pool Leak Detection, Repair, Renovation & Inspection",
   metaDescription:
     "Leak detection technicians, pool repair experts, and renovation specialists in Austin and Central Texas — leak repair, equipment, replaster, and inspections. RAIL certified. Veteran-owned.",
