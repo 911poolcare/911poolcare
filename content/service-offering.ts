@@ -1,6 +1,6 @@
 /** Site positioning — single source of truth for marketing copy */
 export const poolCareOffering = {
-  headline: "We bring Leaking, Broken & Aging Pools Back to Life",
+  headline: "We bring leaking, broken & aging pools back to life",
   subhead:
     "Leak detection technicians, pool repair experts, and renovation specialists for residential and commercial properties across Central Texas.",
   tagline: "Central Texas Pool Leak Detection, Repair, Renovation & Inspection",
