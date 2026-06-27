@@ -11,7 +11,7 @@ type LogoProps = {
 
 const sizes = {
   sm: { width: 120, height: 94, imageClass: "h-9 w-auto" },
-  md: { width: 148, height: 116, imageClass: "h-11 w-auto sm:h-12" },
+  md: { width: 222, height: 174, imageClass: "h-[4.125rem] w-auto sm:h-12" },
   lg: { width: 180, height: 141, imageClass: "h-14 w-auto" },
 };
 
