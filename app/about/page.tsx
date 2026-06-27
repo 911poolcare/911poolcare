@@ -63,7 +63,7 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="How we work"
             title="What sets us apart"
-            description="Specialist pool care — consistent quality, clear communication, and respect on every job."
+            description="Pool repair and renovation specialists — consistent quality, clear communication, and respect on every job."
           />
 
           <div className="grid gap-5 sm:grid-cols-2">
@@ -86,7 +86,7 @@ export default function AboutPage() {
         <Container>
           <SectionHeading
             eyebrow="What we do"
-            title="Full-service specialist pool care"
+            title="Pool repair & renovation specialists"
             description={about.servicesIntro}
           />
 

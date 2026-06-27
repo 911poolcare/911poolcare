@@ -28,9 +28,9 @@ export function ServicesPreview() {
 
           eyebrow="Our Services"
 
-          title="Everything your pool needs — one team"
+          title="Leak, repair & renovation specialists"
 
-          description={`We handle ${poolCareOffering.inlineList}.`}
+          description={`Leak detection technicians, pool repair experts, and renovation specialists — ${poolCareOffering.inlineList}.`}
 
         />
 

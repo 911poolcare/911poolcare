@@ -11,7 +11,7 @@ export function ContactSection() {
       <Container>
         <SectionHeading
           eyebrow="Get Started"
-          title="Let's discuss your pool care needs"
+          title="Let's discuss your pool repair needs"
           description="Fill out the form or call us to schedule service. Free consultations are available for renovation projects. We respond fast — often same day."
         />
 

@@ -6,7 +6,7 @@ export const partnerProgram = {
     "Partner with 911 Pool Care — competitive pricing to resell specialist services, priority scheduling, and direct support for pool service companies in Central Texas.",
   headline: "Help your customers more. Grow your business.",
   intro:
-    "Pool service companies partner with us for full specialist pool care — leak detection and repair, equipment repair and replacement, pool renovations and replaster, and inspections — without competing for weekly cleaning routes. Partners get competitive pricing, priority scheduling, and direct support.",
+    "Pool service companies partner with us for leak detection technicians, pool repair experts, and renovation specialists — leak detection and repair, equipment repair and replacement, pool renovations and replaster, and inspections — without competing for weekly cleaning routes. Partners get competitive pricing, priority scheduling, and direct support.",
   benefits: [
     {
       title: "Competitive partner pricing",

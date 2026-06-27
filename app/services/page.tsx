@@ -12,7 +12,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export const metadata: Metadata = {
   title: "Pool Services",
-  description: `Full-service pool care in Austin and Central Texas — ${poolCareOffering.inlineList}.`,
+  description: `Leak detection technicians, pool repair experts, and renovation specialists in Austin and Central Texas — ${poolCareOffering.inlineList}.`,
 };
 
 export default function ServicesIndexPage() {
@@ -21,7 +21,7 @@ export default function ServicesIndexPage() {
       <Container>
         <SectionHeading
           eyebrow="Our Services"
-          title="Full-service pool care"
+          title="Pool repair & renovation experts"
           description={`We handle ${poolCareOffering.inlineList}.`}
         />
 

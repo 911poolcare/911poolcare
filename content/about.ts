@@ -7,7 +7,7 @@ export const about = {
     "Locally owned pool specialists in Central Texas. 7+ years of leak detection, equipment repair, renovations, and inspections — technicians, not pool cleaners.",
   headline: "Technicians. Experts. Not pool cleaners.",
   subhead:
-    "911 Pool Care was built with one goal: be the best and most consistent pool care specialists in our field.",
+    "911 Pool Care was built with one goal: be the best and most consistent pool repair and renovation specialists in our field.",
   mission:
     "We are technicians and experts in leak detection and repair, equipment repair and replacement, pool renovations and replaster, and inspections — not a cleaning company that occasionally handles technical work.",
   story: [
@@ -45,7 +45,7 @@ export const about = {
     { label: formatGoogleReviewsLabel() },
   ],
   servicesIntro:
-    `Our work covers ${poolCareOffering.inlineList} for residential and commercial properties across Central Texas.`,
+    `Our leak detection technicians, pool repair experts, and renovation specialists cover ${poolCareOffering.inlineList} for residential and commercial properties across Central Texas.`,
 } as const;
 
 function formatGoogleReviewsLabel(): string {

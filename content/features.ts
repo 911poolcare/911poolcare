@@ -12,8 +12,8 @@ export type Feature = {
 
 export const features: Feature[] = [
   {
-    title: "Full-Service Pool Care",
-    description: `We handle ${poolCareOffering.inlineList} — one team for the specialist work your pool needs.`,
+    title: "Repair & Renovation Experts",
+    description: `Leak detection technicians and pool repair specialists for ${poolCareOffering.inlineList}.`,
     icon: Layers,
   },
   {

@@ -14,7 +14,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: `${site.name} | Full-Service Pool Care Austin TX`,
+    default: `${site.name} | Pool Repair & Renovation Experts Austin TX`,
     template: `%s | ${site.name}`,
   },
   description: site.description,

@@ -10,7 +10,7 @@ export function OurPromise() {
         <SectionHeading
           eyebrow="Our Promise"
           title="Accountable service you can count on"
-          description="Full-service specialist pool care. Clear pricing. No weekly cleaning routes."
+          description="Leak detection technicians. Pool repair experts. Renovation specialists. Clear pricing. No weekly cleaning routes."
         />
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -46,7 +46,7 @@ export default function AreasPage() {
                     href={getCityHubPath(city.slug)}
                     className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-brand-700 hover:text-brand-800"
                   >
-                    View {city.name} pool care →
+                    View {city.name} pool services →
                   </Link>
                 </div>
               );
@@ -59,7 +59,7 @@ export default function AreasPage() {
         <Container>
           <SectionHeading
             eyebrow="All Service Areas"
-            title="Pool care across Central Texas"
+            title="Pool repair across Central Texas"
             description="Find 911 Pool Care services in your city. Licensed, insured, and locally trusted."
           />
 

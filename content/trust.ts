@@ -32,8 +32,8 @@ export const leakDetectionProcess = [
 
 export const ourPromise = [
   {
-    title: "Full-service pool care",
-    description: `One team for ${poolCareOffering.inlineList}.`,
+    title: "Repair & renovation experts",
+    description: `Leak detection technicians and pool repair specialists for ${poolCareOffering.inlineList}.`,
   },
   {
     title: "Specialists — not a cleaning company",
@@ -61,8 +61,8 @@ export type FAQItem = {
 
 export const faqs: FAQItem[] = [
   {
-    question: "What pool care services do you offer?",
-    answer: `We provide full-service specialist pool care — ${poolCareOffering.inlineList}. We do not offer weekly pool cleaning.`,
+    question: "What pool repair services do you offer?",
+    answer: `We are leak detection technicians, pool repair experts, and renovation specialists — ${poolCareOffering.inlineList}. We do not offer weekly pool cleaning.`,
   },
   {
     question: "Do you offer pool renovation and replastering?",

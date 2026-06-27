@@ -15,9 +15,9 @@ export const cityHubs: Record<string, CityHub> = {
     name: "Austin",
     headline: "Austin pool leak detection, equipment, renovation & inspection",
     intro:
-      "911 Pool Care provides full-service pool care throughout Austin — leak detection and repair, pool equipment repair and replacement, pool renovations and replaster, and certified inspections. Residential and commercial. We do not offer weekly pool cleaning.",
+      "911 Pool Care brings leak detection technicians, pool repair experts, and renovation specialists to Austin — leak detection and repair, pool equipment repair and replacement, pool renovations and replaster, and certified inspections. Residential and commercial. We do not offer weekly pool cleaning.",
     metaDescription:
-      "Full-service pool care in Austin, TX — leak detection & repair, equipment repair, renovations & replaster, inspections. Call 512-947-2023.",
+      "Leak detection technicians & pool repair experts in Austin, TX — equipment repair, renovations & replaster, inspections. Call 512-947-2023.",
     neighborhoods: [
       "Northwest Hills",
       "Westlake",
@@ -42,9 +42,9 @@ export const cityHubs: Record<string, CityHub> = {
     name: "Georgetown",
     headline: "Georgetown pool leak detection, equipment, renovation & inspection",
     intro:
-      "Full-service pool care in Georgetown — leak detection and repair, equipment repair and replacement, pool renovations and replaster, and certified inspections. Serving Sun City, Wolf Ranch, and all of Georgetown. No weekly cleaning.",
+      "Leak detection technicians, pool repair experts, and renovation specialists in Georgetown — leak detection and repair, equipment repair and replacement, pool renovations and replaster, and certified inspections. Serving Sun City, Wolf Ranch, and all of Georgetown. No weekly cleaning.",
     metaDescription:
-      "Full-service pool care in Georgetown, TX — leaks, equipment, renovations & inspections. Call 512-947-2023.",
+      "Leak detection technicians & pool repair experts in Georgetown, TX — equipment, renovations & inspections. Call 512-947-2023.",
     neighborhoods: [
       "Sun City",
       "Wolf Ranch",
