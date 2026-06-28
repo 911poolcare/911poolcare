@@ -21,11 +21,6 @@ const CREATE_CLIENT_MUTATION = `
         id
         name
         jobberWebUri
-        properties(first: 1) {
-          nodes {
-            id
-          }
-        }
       }
       userErrors {
         message
@@ -51,9 +46,6 @@ const CREATE_REQUEST_MUTATION = `
             postalCode
           }
         }
-        assessment {
-          instructions
-        }
       }
       userErrors {
         message
@@ -65,12 +57,7 @@ const CREATE_REQUEST_MUTATION = `
 
 type ClientCreateResult = {
   clientCreate: {
-    client: {
-      id: string;
-      name: string;
-      jobberWebUri: string;
-      properties: { nodes: Array<{ id: string }> };
-    } | null;
+    client: { id: string; name: string; jobberWebUri: string } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
 };
@@ -90,7 +77,6 @@ type RequestCreateResult = {
           postalCode: string;
         };
       } | null;
-      assessment: { instructions: string | null } | null;
     } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
@@ -211,26 +197,46 @@ async function createRequest(
   title: string,
   instructions: string,
 ) {
-  const input: Record<string, unknown> = {
+  const withAssessment: Record<string, unknown> = {
     clientId,
     title,
     assessment: { instructions },
   };
-
   if (propertyId) {
-    input.propertyId = propertyId;
+    withAssessment.propertyId = propertyId;
   }
 
-  const result = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
-    input,
+  try {
+    const result = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
+      input: withAssessment,
+    });
+
+    const errors = formatUserErrors(result.requestCreate.userErrors);
+    if (!errors && result.requestCreate.request) {
+      return result.requestCreate.request;
+    }
+    if (errors) {
+      console.warn("[Jobber] requestCreate with assessment:", errors);
+    }
+  } catch (error) {
+    console.warn("[Jobber] requestCreate with assessment:", error);
+  }
+
+  const minimal: Record<string, unknown> = { clientId, title };
+  if (propertyId) {
+    minimal.propertyId = propertyId;
+  }
+
+  const fallback = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
+    input: minimal,
   });
 
-  const errors = formatUserErrors(result.requestCreate.userErrors);
-  if (errors) {
-    throw new Error(`Jobber requestCreate failed: ${errors}`);
+  const fallbackErrors = formatUserErrors(fallback.requestCreate.userErrors);
+  if (fallbackErrors) {
+    throw new Error(`Jobber requestCreate failed: ${fallbackErrors}`);
   }
 
-  const request = result.requestCreate.request;
+  const request = fallback.requestCreate.request;
   if (!request) {
     throw new Error("Jobber requestCreate returned no request");
   }
@@ -284,10 +290,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber clientCreate returned no client");
   }
 
-  let propertyId: string | null = client.properties.nodes[0]?.id ?? null;
-  if (!propertyId) {
-    propertyId = await createClientProperty(client.id, address);
-  }
+  const propertyId = await createClientProperty(client.id, address);
 
   const request = await createRequest(
     client.id,
