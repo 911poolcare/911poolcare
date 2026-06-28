@@ -4,8 +4,8 @@ import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 
 const CREATE_CLIENT_MUTATION = `
-  mutation CreateWebsiteLeadClient($client: ClientCreateInput!) {
-    clientCreate(client: $client) {
+  mutation CreateWebsiteLeadClient($input: ClientCreateInput!) {
+    clientCreate(input: $input) {
       client {
         id
         name
@@ -20,8 +20,8 @@ const CREATE_CLIENT_MUTATION = `
 `;
 
 const CREATE_REQUEST_MUTATION = `
-  mutation CreateWebsiteLeadRequest($request: RequestCreateInput!) {
-    requestCreate(request: $request) {
+  mutation CreateWebsiteLeadRequest($input: RequestCreateInput!) {
+    requestCreate(input: $input) {
       request {
         id
         title
@@ -76,7 +76,7 @@ function parseLocation(cityOrZip: string) {
   return {
     city: city || "Central Texas",
     province: "TX",
-    country: "USA",
+    country: "United States",
     postalCode,
   };
 }
@@ -96,7 +96,11 @@ function buildClientNote(data: ContactFormData, serviceLabel: string) {
 }
 
 function normalizePhone(phone: string) {
-  return phone.replace(/[^\d+]/g, "").replace(/^1(\d{10})$/, "+1$1");
+  const digits = phone.replace(/\D/g, "").replace(/^1(\d{10})$/, "$1");
+  if (digits.length === 10) {
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return phone.trim();
 }
 
 export async function createJobberLeadFromContact(data: ContactFormData) {
@@ -115,6 +119,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
       : undefined,
     phones: [{ number: phone, primary: true, description: "MAIN" }],
     billingAddress: {
+      street1: "Address to be confirmed",
       city: location.city,
       province: location.province,
       country: location.country,
@@ -125,7 +130,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
 
   const clientResult = await jobberGraphql<ClientCreateResult>(
     CREATE_CLIENT_MUTATION,
-    { client: clientInput },
+    { input: clientInput },
   );
 
   const clientErrors = formatUserErrors(clientResult.clientCreate.userErrors);
@@ -146,6 +151,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     ...(data.email ? { email: data.email } : {}),
     property: {
       addressAttributes: {
+        street1: "Address to be confirmed",
         city: location.city,
         province: location.province,
         country: location.country,
@@ -156,7 +162,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
 
   const requestResult = await jobberGraphql<RequestCreateResult>(
     CREATE_REQUEST_MUTATION,
-    { request: requestInput },
+    { input: requestInput },
   );
 
   const requestErrors = formatUserErrors(requestResult.requestCreate.userErrors);
