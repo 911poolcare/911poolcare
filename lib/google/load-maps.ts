@@ -8,12 +8,12 @@ export function isGooglePlacesConfigured() {
   return Boolean(getGooglePlacesApiKey());
 }
 
-function waitForGoogleMapsReady(timeoutMs = 10_000): Promise<void> {
+function waitForGoogleMapsReady(timeoutMs = 15_000): Promise<void> {
   return new Promise((resolve, reject) => {
     const started = Date.now();
 
     const check = () => {
-      if (window.google?.maps) {
+      if (window.google?.maps?.importLibrary) {
         resolve();
         return;
       }
@@ -35,7 +35,7 @@ export function loadGoogleMapsBootstrap(): Promise<void> {
     return Promise.reject(new Error("Google Maps can only load in the browser"));
   }
 
-  if (window.google?.maps) {
+  if (window.google?.maps?.importLibrary) {
     return Promise.resolve();
   }
 
@@ -49,18 +49,19 @@ export function loadGoogleMapsBootstrap(): Promise<void> {
   }
 
   mapsLoadPromise = new Promise((resolve, reject) => {
+    const finish = () => {
+      waitForGoogleMapsReady().then(resolve).catch((error) => {
+        mapsLoadPromise = null;
+        reject(error);
+      });
+    };
+
     const existing = document.querySelector<HTMLScriptElement>(
       'script[data-google-maps="bootstrap"]',
     );
 
     if (existing) {
-      existing.addEventListener(
-        "load",
-        () => {
-          waitForGoogleMapsReady().then(resolve).catch(reject);
-        },
-        { once: true },
-      );
+      existing.addEventListener("load", finish, { once: true });
       existing.addEventListener(
         "error",
         () => {
@@ -69,8 +70,7 @@ export function loadGoogleMapsBootstrap(): Promise<void> {
         },
         { once: true },
       );
-
-      waitForGoogleMapsReady().then(resolve).catch(reject);
+      finish();
       return;
     }
 
@@ -79,9 +79,7 @@ export function loadGoogleMapsBootstrap(): Promise<void> {
     script.async = true;
     script.defer = true;
     script.dataset.googleMaps = "bootstrap";
-    script.onload = () => {
-      waitForGoogleMapsReady().then(resolve).catch(reject);
-    };
+    script.onload = finish;
     script.onerror = () => {
       mapsLoadPromise = null;
       reject(new Error("Google Maps failed to load"));

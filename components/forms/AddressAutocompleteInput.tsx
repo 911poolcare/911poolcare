@@ -12,6 +12,8 @@ type AddressAutocompleteInputProps = {
   placeholder?: string;
 };
 
+const INIT_RETRY_DELAYS_MS = [0, 500, 1500];
+
 export function AddressAutocompleteInput({
   onAddressSelect,
   onInitFailure,
@@ -36,6 +38,7 @@ export function AddressAutocompleteInput({
     }
 
     let cancelled = false;
+    const timeouts: number[] = [];
 
     const handleSelect = async (event: Event) => {
       const selectEvent = event as google.maps.places.PlacePredictionSelectEvent;
@@ -47,45 +50,71 @@ export function AddressAutocompleteInput({
       }
     };
 
-    const init = async () => {
-      try {
-        const { PlaceAutocompleteElement } = await loadGooglePlacesLibrary();
-        if (cancelled || !host.isConnected) {
-          return;
-        }
-
-        const autocomplete = new PlaceAutocompleteElement({
-          includedRegionCodes: ["us"],
-          locationBias: {
-            radius: 80_000,
-            center: site.google.coordinates,
-          },
-        });
-
-        await customElements.whenDefined("gmp-place-autocomplete");
-
-        if (cancelled || !host.isConnected) {
-          return;
-        }
-
-        autocomplete.placeholder = placeholder;
-        autocomplete.classList.add("address-autocomplete");
-        autocomplete.addEventListener("gmp-select", handleSelect);
-        host.replaceChildren(autocomplete);
-        autocompleteRef.current = autocomplete;
-      } catch (error) {
-        console.error("[AddressAutocomplete] Failed to initialize:", error);
-        onInitFailureRef.current?.();
+    const mountAutocomplete = async () => {
+      const { PlaceAutocompleteElement } = await loadGooglePlacesLibrary();
+      if (cancelled || !host.isConnected) {
+        return false;
       }
+
+      const autocomplete = new PlaceAutocompleteElement({
+        includedRegionCodes: ["us"],
+        locationBias: {
+          radius: 80_000,
+          center: site.google.coordinates,
+        },
+      });
+
+      autocomplete.placeholder = placeholder;
+      autocomplete.classList.add("address-autocomplete");
+      autocomplete.addEventListener("gmp-select", handleSelect);
+      host.replaceChildren(autocomplete);
+      autocompleteRef.current = autocomplete;
+      return true;
     };
 
-    const frame = window.requestAnimationFrame(() => {
-      void init();
-    });
+    const tryInit = (attempt: number) => {
+      const delay = INIT_RETRY_DELAYS_MS[attempt] ?? 1500;
+
+      const timeout = window.setTimeout(() => {
+        void mountAutocomplete()
+          .then((mounted) => {
+            if (mounted || cancelled) {
+              return;
+            }
+
+            if (attempt < INIT_RETRY_DELAYS_MS.length - 1) {
+              tryInit(attempt + 1);
+              return;
+            }
+
+            onInitFailureRef.current?.();
+          })
+          .catch((error) => {
+            console.error("[AddressAutocomplete] Failed to initialize:", error);
+
+            if (cancelled) {
+              return;
+            }
+
+            if (attempt < INIT_RETRY_DELAYS_MS.length - 1) {
+              tryInit(attempt + 1);
+              return;
+            }
+
+            onInitFailureRef.current?.();
+          });
+      }, delay);
+
+      timeouts.push(timeout);
+    };
+
+    tryInit(0);
 
     return () => {
       cancelled = true;
-      window.cancelAnimationFrame(frame);
+      for (const timeout of timeouts) {
+        window.clearTimeout(timeout);
+      }
       autocompleteRef.current?.removeEventListener("gmp-select", handleSelect);
       autocompleteRef.current = null;
       host.replaceChildren();
