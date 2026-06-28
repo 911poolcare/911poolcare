@@ -7,22 +7,24 @@ import { parsePlaceAddressComponents, type ParsedAddress } from "@/lib/google/pa
 
 type AddressAutocompleteInputProps = {
   onAddressSelect: (address: ParsedAddress) => void;
+  onInitFailure?: () => void;
   hasError?: boolean;
-  className?: string;
   placeholder?: string;
 };
 
 export function AddressAutocompleteInput({
   onAddressSelect,
+  onInitFailure,
   hasError,
-  className,
   placeholder = "Start typing your address...",
 }: AddressAutocompleteInputProps) {
   const [host, setHost] = useState<HTMLDivElement | null>(null);
   const autocompleteRef = useRef<google.maps.places.PlaceAutocompleteElement | null>(null);
   const onAddressSelectRef = useRef(onAddressSelect);
+  const onInitFailureRef = useRef(onInitFailure);
 
   onAddressSelectRef.current = onAddressSelect;
+  onInitFailureRef.current = onInitFailure;
 
   const setHostRef = useCallback((node: HTMLDivElement | null) => {
     setHost(node);
@@ -45,8 +47,9 @@ export function AddressAutocompleteInput({
       }
     };
 
-    void loadGooglePlacesLibrary()
-      .then(({ PlaceAutocompleteElement }) => {
+    const init = async () => {
+      try {
+        const { PlaceAutocompleteElement } = await loadGooglePlacesLibrary();
         if (cancelled || !host.isConnected) {
           return;
         }
@@ -59,18 +62,30 @@ export function AddressAutocompleteInput({
           },
         });
 
+        await customElements.whenDefined("gmp-place-autocomplete");
+
+        if (cancelled || !host.isConnected) {
+          return;
+        }
+
         autocomplete.placeholder = placeholder;
         autocomplete.classList.add("address-autocomplete");
         autocomplete.addEventListener("gmp-select", handleSelect);
         host.replaceChildren(autocomplete);
         autocompleteRef.current = autocomplete;
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("[AddressAutocomplete] Failed to initialize:", error);
-      });
+        onInitFailureRef.current?.();
+      }
+    };
+
+    const frame = window.requestAnimationFrame(() => {
+      void init();
+    });
 
     return () => {
       cancelled = true;
+      window.cancelAnimationFrame(frame);
       autocompleteRef.current?.removeEventListener("gmp-select", handleSelect);
       autocompleteRef.current = null;
       host.replaceChildren();
@@ -92,7 +107,6 @@ export function AddressAutocompleteInput({
       className={[
         "address-autocomplete-host",
         hasError ? "address-autocomplete-host--error" : "",
-        className,
       ]
         .filter(Boolean)
         .join(" ")}
