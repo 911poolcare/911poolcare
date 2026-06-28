@@ -18,12 +18,14 @@ export const site = {
   },
   railCertified: {
     label: "RAIL Certified",
+    fullName: "Residential Appliance Installer License",
     description:
-      "RAIL certification is required in Texas whenever electrical work is performed — including pool pumps, heaters, lights, and automation.",
+      "RAIL — Residential Appliance Installer License — is the Texas standard required whenever electrical work is performed on pool equipment, including pumps, heaters, lights, and automation.",
+    inline:
+      "RAIL certified (Residential Appliance Installer License) for Texas pool electrical work",
   },
   google: {
-    mapsUrl:
-      "https://www.google.com/maps/place/911+Pool+Care/@30.2645554,-97.8352093,17z",
+    mapsUrl: "https://maps.app.goo.gl/rNdHB9BWzMFnPkyq6",
     mapEmbedUrl:
       "https://maps.google.com/maps?q=911+Pool+Care,+Leander,+TX+78641&z=11&output=embed",
     coordinates: {
@@ -42,14 +44,17 @@ export const site = {
   },
   serviceAreas: [
     "Austin",
+    "Georgetown",
     "Leander",
     "Cedar Park",
     "Round Rock",
-    "Georgetown",
     "Pflugerville",
     "Liberty Hill",
     "Jonestown",
+    "Lago Vista",
+    "Dripping Springs",
     "San Marcos",
+    "Horseshoe Bay",
   ],
   trustSignals: [
     { label: "RAIL Certified", icon: "badge" as const },
@@ -72,6 +77,22 @@ export const site = {
     site: "https://www.911poolcare.com",
   },
 } as const;
+
+export function formatServiceAreaLabel(area: string): string {
+  if (area === "Horseshoe Bay") return "Horseshoe Bay (renovations)";
+  return area;
+}
+
+export function getServiceAreasDisplay(): string {
+  return site.serviceAreas.map(formatServiceAreaLabel).join(" · ");
+}
+
+/** Sentence-style service scope copy — keeps acronyms like HOAs capitalized. */
+export function formatServiceScopeDescriptionInline(): string {
+  return site.serviceScope.description
+    .toLowerCase()
+    .replace(/\bhoas\b/g, "HOAs");
+}
 
 /** e.g. "4.9 · 135 Google reviews" — update `site.google` when your profile changes */
 export function formatGoogleReviewsLabel(): string {

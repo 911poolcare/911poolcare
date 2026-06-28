@@ -12,7 +12,7 @@ export function LeakDetectionProcess() {
         <SectionHeading
           eyebrow="Leak Detection"
           title="How our leak detection process works"
-          description="Our leak detection technicians use on-site Leakalyzer testing, pressure checks, and electronic detection when you need answers fast."
+          description="We start with visual and dye testing, use pressure testing and electronic locating when needed, and finish with a clear repair plan tailored to your situation."
         />
 
         <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

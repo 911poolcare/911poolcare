@@ -1,7 +1,8 @@
+import Link from "next/link";
 import { Phone, MessageSquare } from "lucide-react";
 import { poolCareOffering } from "@/content/service-offering";
 import { siteHeroGallery } from "@/content/hero-images";
-import { site } from "@/content/site";
+import { getServiceAreasDisplay, site } from "@/content/site";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { HeroBadges } from "@/components/home/HeroBadges";
@@ -28,13 +29,15 @@ export function Hero() {
             {poolCareOffering.subhead}
           </p>
 
-          <ul className="mt-5 flex flex-wrap gap-2">
+          <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {poolCareOffering.primary.map((service) => (
-              <li
-                key={service.slug}
-                className="rounded-full bg-white/15 px-3.5 py-1.5 text-sm font-medium text-white ring-1 ring-white/20"
-              >
-                {service.label}
+              <li key={service.slug} className="min-w-0">
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="flex min-h-12 w-full items-center justify-center rounded-full bg-white/15 px-4 py-2.5 text-center text-sm font-medium leading-snug text-white ring-1 ring-white/20 transition-colors hover:bg-white/25"
+                >
+                  {service.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -53,9 +56,9 @@ export function Hero() {
           </div>
 
           <p className="mt-5 text-sm text-brand-200">
-            <strong className="text-white">Now growing in Austin & Georgetown</strong>
+            <strong className="text-white">Serving Central Texas</strong>
             {" · "}
-            Leander · Round Rock · Cedar Park · Pflugerville
+            {getServiceAreasDisplay()}
           </p>
         </div>
 

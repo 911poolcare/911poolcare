@@ -3,6 +3,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import {
   priorityRenovationMarkets,
   renovationSeo,
+  renovationSpotlightCards,
 } from "@/content/renovations";
 import { pricing } from "@/content/pricing";
 import { Button } from "@/components/ui/Button";
@@ -19,7 +20,7 @@ export function RenovationSpotlight() {
             Pool Renovations
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            Replaster, PebbleTec & full pool remodels
+            Replaster, PebbleTec & other finishes — full pool remodels
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-slate-600">
             {renovationSeo.hubDescription} {pricing.renovation.consultationDescription}
@@ -47,20 +48,12 @@ export function RenovationSpotlight() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          {[
-            "Replaster & resurfacing",
-            "PebbleTec finishes",
-            "Tile & coping",
-            "Full pool remodels",
-          ].map((item) => (
+          {renovationSpotlightCards.map((item) => (
             <div
               key={item}
               className="rounded-2xl border border-brand-200 bg-white p-5 shadow-sm"
             >
               <p className="font-semibold text-slate-900">{item}</p>
-              <p className="mt-1 text-sm text-slate-600">
-                Residential & commercial across Central Texas
-              </p>
             </div>
           ))}
         </div>

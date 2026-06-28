@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllCitySlugs } from "@/content/cities";
+import { getAllCitySlugs, getCitiesForService } from "@/content/cities";
 import { renovationSlug } from "@/content/renovations";
 import { getAllServiceSlugs } from "@/content/services";
 import { site } from "@/content/site";
@@ -41,8 +41,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const otherCityServicePages = getAllServiceSlugs()
     .filter((slug) => slug !== renovationSlug)
     .flatMap((slug) =>
-      getAllCitySlugs().map((city) => ({
-        url: `${base}/services/${slug}/${city}`,
+      getCitiesForService(slug).map((city) => ({
+        url: `${base}/services/${slug}/${city.slug}`,
         lastModified: now,
         changeFrequency: "monthly" as const,
         priority: 0.75,

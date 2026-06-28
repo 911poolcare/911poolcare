@@ -11,7 +11,10 @@ export function HeroBadges() {
         </span>
       </li>
       <li>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white ring-1 ring-white/20">
+        <span
+          className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white ring-1 ring-white/20"
+          title={site.railCertified.fullName}
+        >
           <Zap className="h-4 w-4 text-accent-400" aria-hidden />
           {site.railCertified.label}
         </span>

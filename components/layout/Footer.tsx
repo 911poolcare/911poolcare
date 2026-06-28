@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { site } from "@/content/site";
+import { getServiceAreasDisplay, site } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 
@@ -23,7 +23,7 @@ export function Footer() {
             href="/areas"
             className="text-sm leading-relaxed text-slate-400 hover:text-white"
           >
-            {site.serviceAreas.join(" · ")}
+            {getServiceAreasDisplay()}
           </Link>
           <p className="mt-4">
             <Link href="/about" className="text-sm font-medium text-slate-400 hover:text-white">

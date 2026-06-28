@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { cities, priorityCities } from "@/content/cities";
+import { cities, cityOffersService, priorityCities } from "@/content/cities";
 import { cityHubs } from "@/content/city-hubs";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
@@ -75,7 +75,9 @@ export default function AreasPage() {
                   </Link>
                 </h2>
                 <ul className="mt-4 space-y-2">
-                  {services.map((service) => (
+                  {services
+                    .filter((service) => cityOffersService(city, service.slug))
+                    .map((service) => (
                     <li key={service.slug}>
                       <Link
                         href={getCityServicePath(service.slug, city.slug)}
@@ -86,6 +88,11 @@ export default function AreasPage() {
                     </li>
                   ))}
                 </ul>
+                {city.renovationsOnly ? (
+                  <p className="mt-3 text-xs text-slate-500">
+                    Renovations & replaster only in this area for now.
+                  </p>
+                ) : null}
               </div>
             ))}
           </div>

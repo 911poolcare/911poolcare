@@ -69,6 +69,9 @@ export const legacyRedirects: LegacyRedirect[] = [
   { source: "/locations", destination: "/areas", permanent: true },
   { source: "/locations/leander", destination: "/areas/leander", permanent: true },
   { source: "/locations/sanmarcos", destination: "/areas/san-marcos", permanent: true },
+  { source: "/locations/lago-vista", destination: "/areas/lago-vista", permanent: true },
+  { source: "/locations/dripping-springs", destination: "/areas/dripping-springs", permanent: true },
+  { source: "/locations/horseshoe-bay", destination: "/areas/horseshoe-bay", permanent: true },
   {
     source: "/services/pool-leak-detection-austin",
     destination: "/services/pool-leak-detection/austin",

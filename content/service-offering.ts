@@ -4,10 +4,10 @@ export const poolCareOffering = {
   seoHeadline: "Pool Leak Detection & Repair · Austin, TX",
   headline: "We bring leaking, broken & aging pools back to life",
   subhead:
-    "Central Texas experts in pool leak detection, repairs, equipment replacement and renovations for residential, commercial and HOA / community properties.",
+    "Central Texas experts in pool leak detection, repairs, equipment replacement and renovations for residential, commercial and HOAs / community properties.",
   tagline: "Central Texas Pool Leak Detection, Repair, Renovation & Inspection",
   metaDescription:
-    "Pool leak detection & repair in Austin, TX — 4.9★ rated. Equipment repair, renovations, replaster & inspections across Greater Austin. RAIL certified. Veteran-owned. Call 512-947-2023.",
+    "Pool leak detection & repair in Austin, TX — 4.9★ rated. Equipment repair, renovations, replaster & inspections across Greater Austin. RAIL certified (Residential Appliance Installer License). Veteran-owned. Call 512-947-2023.",
   primary: [
     {
       label: "Pool leak detection & repair",
@@ -30,6 +30,9 @@ export const poolCareOffering = {
   /** Inline list for sentences */
   inlineList:
     "leak detection and repair, equipment repair and replacement, pool renovations and replaster, and pool inspections",
+  /** Services index / section heading — all four core services */
+  servicesHeading:
+    "Pool leak detection & repair · Equipment repair & replacement · Renovations & replaster · Pool inspections",
 } as const;
 
 export const primaryServiceSlugs = new Set(

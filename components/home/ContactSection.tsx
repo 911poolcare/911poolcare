@@ -1,4 +1,4 @@
-import { site } from "@/content/site";
+import { getServiceAreasDisplay, site } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -52,7 +52,7 @@ export function ContactSection() {
                     </a>
                     <br />
                     <span className="text-slate-500">
-                      {site.serviceAreas.slice(0, 6).join(" · ")} & more
+                      {getServiceAreasDisplay()}
                     </span>
                   </span>
                 </li>

@@ -7,6 +7,7 @@
     "dev:clean": "node scripts/dev-clean.mjs",
     "import:images": "node scripts/import-wix-images.mjs",
     "import:media": "node scripts/import-shared-media.mjs",
+    "import:reviews": "node scripts/import-google-reviews.mjs",
     "optimize:media": "node scripts/optimize-media.mjs",
     "build": "next build",
     "start": "next start",

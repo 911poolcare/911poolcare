@@ -9,6 +9,11 @@ export const partnerProgram = {
     "Pool service companies partner with us for leak detection technicians, pool repair experts, and renovation specialists — leak detection and repair, equipment repair and replacement, pool renovations and replaster, and inspections — without competing for weekly cleaning routes. Partners get competitive pricing, priority scheduling, and direct support.",
   benefits: [
     {
+      title: "No leak detection deposit for partners",
+      description:
+        "Partner referrals are not charged the $120 residential leak detection deposit — so you can send specialist jobs our way without extra friction for your customer or your business.",
+    },
+    {
       title: "Competitive partner pricing",
       description:
         "Discounted rates on leak detection, pool equipment repair, renovations, and inspections — so you can resell our services to your customers with confidence and protect your margins.",

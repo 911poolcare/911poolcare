@@ -1,4 +1,5 @@
 import { faqs } from "@/content/trust";
+import { getFeaturedGoogleReviews } from "@/content/testimonials";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
 
@@ -38,6 +39,17 @@ export function getLocalBusinessSchema() {
       reviewCount: site.google.reviewCount,
       bestRating: 5,
     },
+    review: getFeaturedGoogleReviews().map((review) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: review.name },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: review.rating,
+        bestRating: 5,
+      },
+      reviewBody: review.quote,
+      ...(review.datePublished ? { datePublished: review.datePublished } : {}),
+    })),
     sameAs: [site.google.mapsUrl],
     hasOfferCatalog: {
       "@type": "OfferCatalog",

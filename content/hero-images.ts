@@ -3,21 +3,35 @@
 export type HeroImage = {
   src: string;
   alt: string;
+  href?: string;
+  label?: string;
 };
 
-/** Homepage hero — rotates between finished results, renovation scale, and underwater expertise */
+/** Homepage hero — one slide per core service */
 export const siteHeroGallery: HeroImage[] = [
   {
-    src: "/images/jobs/pool-renovations/2024-06-24-p01.jpg",
-    alt: "Renovated pebble-finish pool with sparkling blue water at a Central Texas home",
+    src: "/images/hero/carousel-leak-detection.png",
+    alt: "Pool leak detection and repair on a spa in Central Texas",
+    href: "/services/pool-leak-detection",
+    label: "Leak detection & repair",
   },
   {
-    src: "/images/jobs/pool-renovations/2024-11-13-p03.jpg",
-    alt: "911 Pool Care crew applying new plaster on a luxury pool overlooking Lake Travis",
+    src: "/images/hero/carousel-equipment-repair.png",
+    alt: "Pool equipment and electrical panel repair by 911 Pool Care",
+    href: "/services/pool-equipment-repair",
+    label: "Equipment repair",
   },
   {
-    src: "/images/jobs/team/2026-01-20-p01.jpg",
-    alt: "911 Pool Care technician performing underwater pool leak detection in full dive gear",
+    src: "/images/hero/carousel-renovations.png",
+    alt: "Pool renovation crew applying new plaster finish in Central Texas",
+    href: "/services/pool-renovations",
+    label: "Renovations & replaster",
+  },
+  {
+    src: "/images/hero/carousel-inspections.jpg",
+    alt: "Certified pool inspection with professional scuba equipment",
+    href: "/services/pool-inspections",
+    label: "Pool inspections",
   },
 ];
 
@@ -25,19 +39,19 @@ export const siteHero: HeroImage = siteHeroGallery[0];
 
 export const serviceHeroImages: Record<string, HeroImage> = {
   "pool-leak-detection": {
-    src: "/images/jobs/pool-leak-detection/2026-06-09-p02.jpg",
-    alt: "Underwater dye testing to pinpoint a pool shell leak in Central Texas",
+    src: "/images/hero/carousel-leak-detection.png",
+    alt: "Pool leak detection and repair on a spa in Central Texas",
   },
   "pool-equipment-repair": {
-    src: "/images/jobs/pool-equipment-repair/2025-07-05-p03.jpg",
-    alt: "Pool equipment repair on a Pentair pump and filter system in Austin, Texas",
+    src: "/images/hero/carousel-equipment-repair.png",
+    alt: "Pool equipment and electrical panel repair by 911 Pool Care",
   },
   "pool-renovations": {
-    src: "/images/jobs/pool-renovations/2024-11-13-p03.jpg",
-    alt: "Professional pool replaster crew working on a luxury pool renovation in Central Texas",
+    src: "/images/hero/carousel-renovations.png",
+    alt: "Pool renovation crew applying new plaster finish in Central Texas",
   },
   "pool-inspections": {
-    src: "/images/jobs/pool-inspections/2026-02-26-p01.jpg",
+    src: "/images/hero/carousel-inspections.jpg",
     alt: "Certified pool inspection with professional scuba equipment for underwater evaluation",
   },
 };

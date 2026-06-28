@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCityBySlug, getAllCitySlugs } from "@/content/cities";
+import { getCityBySlug, getCitiesForService, cityOffersService } from "@/content/cities";
 import { getServiceBySlug, getAllServiceSlugs } from "@/content/services";
 import { site } from "@/content/site";
 import {
@@ -17,8 +17,8 @@ export async function generateStaticParams() {
   const params: { slug: string; city: string }[] = [];
 
   for (const slug of getAllServiceSlugs()) {
-    for (const city of getAllCitySlugs()) {
-      params.push({ slug, city });
+    for (const city of getCitiesForService(slug)) {
+      params.push({ slug, city: city.slug });
     }
   }
 
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const service = getServiceBySlug(slug);
   const city = getCityBySlug(citySlug);
 
-  if (!service || !city) {
+  if (!service || !city || !cityOffersService(city, slug)) {
     return { title: "Page Not Found" };
   }
 
@@ -53,7 +53,7 @@ export default async function CityServicePage({ params }: PageProps) {
   const service = getServiceBySlug(slug);
   const city = getCityBySlug(citySlug);
 
-  if (!service || !city) {
+  if (!service || !city || !cityOffersService(city, slug)) {
     notFound();
   }
 

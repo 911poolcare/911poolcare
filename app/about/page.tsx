@@ -126,14 +126,14 @@ export default function AboutPage() {
             </Button>
           </div>
           <p className="mt-6">
-            <Link
+            <a
               href={site.google.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm font-semibold text-brand-700 hover:text-brand-800"
             >
               See our work on Google →
-            </Link>
+            </a>
           </p>
         </Container>
       </Section>

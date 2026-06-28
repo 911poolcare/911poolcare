@@ -21,8 +21,8 @@ export default function ServicesIndexPage() {
       <Container>
         <SectionHeading
           eyebrow="Our Services"
-          title="Pool repair & renovation experts"
-          description={`We handle ${poolCareOffering.inlineList}.`}
+          title={poolCareOffering.servicesHeading}
+          description="Residential and commercial pools across Central Texas — veteran-owned, licensed, and insured."
         />
 
         <div className="grid gap-6 sm:grid-cols-2">

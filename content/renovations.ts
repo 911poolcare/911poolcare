@@ -7,8 +7,15 @@ export const renovationSeo = {
   title: "Pool Renovation & Replastering Austin TX",
   titleTemplate: (city: string) => `Pool Renovation ${city} TX | Replaster & PebbleTec`,
   hubDescription:
-    "Pool renovations and replastering across Central Texas — replaster, PebbleTec, tile, coping, and full remodels for residential and commercial properties. Free on-site consultation.",
+    "Residential and commercial pool renovations and replastering across Central Texas — replaster, PebbleTec and other finish options to match your look and budget, tile and coping repair, and full remodels.",
 } as const;
+
+export const renovationSpotlightCards = [
+  "Replaster & resurfacing",
+  "PebbleTec & other finishes",
+  "Tile & coping repair",
+  "Full pool remodels",
+] as const;
 
 export const finishTypes = [
   {
@@ -17,12 +24,12 @@ export const finishTypes = [
       "Restore worn, stained, or delaminating plaster with a fresh surface built to handle Central Texas heat and heavy use.",
   },
   {
-    title: "PebbleTec & aggregate finishes",
+    title: "PebbleTec & other finishes",
     description:
-      "Durable, premium PebbleTec and pebble finishes that look great and hold up season after season.",
+      "PebbleTec, pebble, and other premium finishes — we'll help you choose the right material for your pool, budget, and how you use it.",
   },
   {
-    title: "Tile & coping",
+    title: "Tile & coping repair",
     description:
       "Update waterline tile, coping, and trim for a cleaner look and better long-term protection at the waterline.",
   },
@@ -104,8 +111,14 @@ export const cityRenovationIntros: Record<string, string> = {
     "Liberty Hill's growing neighborhoods include pools that need resurfacing and updates. We provide renovation consultations and full replaster services.",
   jonestown:
     "Jonestown and Lake Travis area pools often need expert replaster and tile work after years of sun exposure. We handle renovations from consultation through completion.",
+  "lago-vista":
+    "Lago Vista and Lake Travis hillside pools benefit from replaster, PebbleTec, and tile updates after years of sun and water exposure. We provide free renovation consultations in the area.",
+  "dripping-springs":
+    "Dripping Springs pools — from Hill Country estates to neighborhood backyards — are prime candidates for replaster, PebbleTec, and full renovation projects.",
   "san-marcos":
     "San Marcos homeowners and property managers rely on us for pool replaster, PebbleTec, tile updates, and full renovation projects.",
+  "horseshoe-bay":
+    "Horseshoe Bay resort and lakefront properties often need high-end replaster, tile, and renovation work. We currently serve Horseshoe Bay for pool renovations and replaster projects.",
 };
 
 /** Keyword-rich meta descriptions per city */
@@ -126,8 +139,14 @@ export const cityRenovationMeta: Record<string, string> = {
     "Pool renovation & replastering in Liberty Hill, TX. PebbleTec, tile & full pool remodels. Free consultation. Call 512-947-2023.",
   jonestown:
     "Pool replaster & renovation in Jonestown, TX. PebbleTec, tile, coping & resurfacing. Free on-site consultation. Call 512-947-2023.",
+  "lago-vista":
+    "Pool renovation & replastering in Lago Vista, TX. PebbleTec, tile, coping & full remodels. Free consultation. Call 512-947-2023.",
+  "dripping-springs":
+    "Pool renovation & replastering in Dripping Springs, TX. Replaster, PebbleTec, tile & coping. Free on-site consultation. Call 512-947-2023.",
   "san-marcos":
     "Pool renovation & replastering in San Marcos, TX. Replaster, PebbleTec, tile & full remodels. Free consultation. Call 512-947-2023.",
+  "horseshoe-bay":
+    "Pool renovation & replastering in Horseshoe Bay, TX. PebbleTec, tile, coping & lakefront pool remodels. Free consultation. Call 512-947-2023.",
 };
 
 export const priorityRenovationMarkets = [

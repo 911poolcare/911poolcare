@@ -1,12 +1,11 @@
-import { Medal, ShieldCheck, Sparkles, Wrench, Zap } from "lucide-react";
-import { site } from "@/content/site";
+import { ClipboardCheck, ShieldCheck, Sparkles, Wrench } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
 const items = [
   { icon: Wrench, label: "Leak Detection & Repair" },
   { icon: ShieldCheck, label: "Equipment Repair" },
   { icon: Sparkles, label: "Renovations & Replaster" },
-  { icon: Zap, label: site.railCertified.label },
+  { icon: ClipboardCheck, label: "Pool Inspections" },
 ];
 
 export function TrustBar() {

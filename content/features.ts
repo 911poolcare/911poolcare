@@ -24,7 +24,7 @@ export const features: Feature[] = [
   },
   {
     title: poolEquipment.label,
-    description: `Repair and replacement for ${poolEquipment.inlineList}. RAIL certified for Texas pool electrical work.`,
+    description: `Repair and replacement for ${poolEquipment.inlineList}. ${site.railCertified.inline}.`,
     icon: Wrench,
   },
   {
@@ -34,7 +34,7 @@ export const features: Feature[] = [
     icon: MessageCircle,
   },
   {
-    title: site.railCertified.label,
+    title: site.railCertified.fullName,
     description: site.railCertified.description,
     icon: Zap,
   },

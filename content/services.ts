@@ -1,8 +1,10 @@
 import { poolEquipment } from "@/content/equipment";
 import { serviceHeroImages } from "@/content/hero-images";
 import { inspectionSeo } from "@/content/inspections";
+import { pricing } from "@/content/pricing";
 import { renovationSeo } from "@/content/renovations";
 import { primaryServiceSlugs } from "@/content/service-offering";
+import { site } from "@/content/site";
 
 export type Service = {
   slug: string;
@@ -32,14 +34,15 @@ export const services: Service[] = [
     intro:
       "Suspected leak in Austin or Greater Austin? We verify water loss on site, isolate the source with pressure and electronic testing, and complete the repair — in the shell, plumbing, or equipment. Fair pricing and clear answers, every time.",
     highlights: [
-      "On-site Leakalyzer water loss verification",
-      "Electronic and pressure testing to isolate leaks",
-      "Underwater inspections without draining when possible",
-      "Fair pricing: if we can't find the leak, you pay only the $120 down payment",
+      "Visual, dye, and pressure testing to isolate leaks",
+      "Electronic locating — hydrophones, probes, and pipe cameras",
+      `Transparent residential detection pricing from $${pricing.leakDetection.poolOnlySinglePump}`,
+      `Residential guarantee: if we can't find the leak, pay only $${pricing.leakDetection.downPayment} down`,
+      "Leak repairs quoted based on location, access, and scope",
       "Pool leak repair — plumbing, shell, and equipment",
     ],
     metaDescription:
-      "Pool leak detection & repair in Austin, TX and Greater Austin. Leakalyzer testing, electronic detection, 4.9★ rated. If we can't find the leak, pay only $120 down. Call 512-947-2023.",
+      `Pool leak detection & repair in Austin, TX and Greater Austin. Detection from $${pricing.leakDetection.poolOnlySinglePump}. Residential $${pricing.leakDetection.downPayment} down-payment guarantee. 4.9★ rated. Call 512-947-2023.`,
   },
   {
     slug: "pool-equipment-repair",
@@ -49,14 +52,14 @@ export const services: Service[] = [
     imageAlt: serviceHeroImages["pool-equipment-repair"].alt,
     headline: "Pool equipment repair & replacement",
     intro:
-      "Pumps, filters, heaters, automation, lights, and more — we diagnose, repair, and replace pool equipment for residential and commercial properties. RAIL certified for Texas pool electrical work. Pump diagnostics are $120 and heater diagnostics are $150, each with a $50 credit toward repairs.",
+      `Pumps, filters, heaters, automation, lights, and more — we diagnose, repair, and replace pool equipment for residential and commercial properties. ${site.railCertified.inline}. Pump diagnostics are $120 and heater diagnostics are $150, each with a $50 credit toward repairs.`,
     highlights: [
       "Pump repair, diagnosis & replacement",
       "Filter repair & replacement",
       "Heater repair, diagnosis & replacement",
       "Automation & control system troubleshooting",
       "Pool light repair & replacement",
-      "RAIL certified for Texas pool electrical work",
+      site.railCertified.inline,
       "Pump diagnostic: $120 ($50 credit toward repairs)",
       "Heater diagnostic: $150 ($50 credit toward repairs)",
     ],

@@ -28,9 +28,9 @@ export function ServicesPreview() {
 
           eyebrow="Our Services"
 
-          title="Leak, repair & renovation specialists"
+          title={poolCareOffering.servicesHeading}
 
-          description={`Leak detection technicians, pool repair experts, and renovation specialists — ${poolCareOffering.inlineList}.`}
+          description="Residential and commercial pools across Central Texas — veteran-owned, licensed, and insured."
 
         />
 

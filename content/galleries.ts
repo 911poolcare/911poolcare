@@ -1,4 +1,4 @@
-import { getServiceGalleryImages, getTeamGalleryImages } from "@/content/media";
+import { getServiceGalleryImages } from "@/content/media";
 
 export type GalleryImage = {
   src: string;
@@ -22,9 +22,33 @@ function renovationImage(file: string, alt: string, caption?: string): GalleryIm
   return { src: `/images/renovations/${file}`, alt, caption };
 }
 
-function aboutImage(file: string, alt: string, caption?: string): GalleryImage {
-  return { src: `/images/about/${file}`, alt, caption };
+function jobImage(src: string, alt: string, caption?: string): GalleryImage {
+  return { src, alt, caption };
 }
+
+/** Curated about-page gallery — excludes non-job assets like the bobblehead render. */
+const aboutGalleryImages: GalleryImage[] = [
+  jobImage(
+    "/images/jobs/team/2026-01-20-p01.jpg",
+    "Underwater leak detection work in a Central Texas pool",
+  ),
+  jobImage(
+    "/images/jobs/team/2025-07-16-p01.jpg",
+    "911 Pool Care team celebrating a completed splash pad project",
+  ),
+  jobImage(
+    "/images/jobs/pool-equipment-repair/2025-06-07-p01.jpg",
+    "Pool equipment and electrical panel repair by 911 Pool Care",
+  ),
+  jobImage(
+    "/images/jobs/pool-leak-detection/2026-02-19-p01.jpg",
+    "Underwater pool leak detection and repair on the pool floor",
+  ),
+  jobImage(
+    "/images/jobs/pool-leak-detection/2026-05-29-p01.jpg",
+    "Underwater pool shell repair at the wall and return line",
+  ),
+];
 
 const legacyServiceGalleries: Record<string, GalleryImage[]> = {
   "pool-leak-detection": [
@@ -112,23 +136,7 @@ export const renovationShowcase: ShowcaseImage[] = [
 ];
 
 export function getAboutGallery(): GalleryImage[] {
-  const team = getTeamGalleryImages();
-  if (team.length > 0) return team;
-
-  return [
-    aboutImage(
-      "2aca84_6f37fdb1334b44068ab2e5ddc6be577f.jpg",
-      "911 Pool Care team member on a pool service job in Central Texas",
-    ),
-    aboutImage(
-      "2aca84_2182ff34fdf8454790eee4e70c5cb5d2.jpg",
-      "911 Pool Care technician performing pool work on site",
-    ),
-    renovationImage(
-      "2aca84_74bf25962d114482ae5513e090ca422f.jpg",
-      "Finished pool renovation by 911 Pool Care",
-    ),
-  ];
+  return aboutGalleryImages;
 }
 
 export function getServiceGallery(slug: string): GalleryImage[] {

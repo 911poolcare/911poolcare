@@ -1,32 +1,32 @@
 import { poolCareOffering } from "@/content/service-offering";
-import { site } from "@/content/site";
-import { poolEquipment, poolEquipmentPhrase } from "@/content/equipment";
+import { getServiceAreasDisplay, formatServiceScopeDescriptionInline, site } from "@/content/site";
+import { poolEquipmentPhrase } from "@/content/equipment";
 import { pricing } from "@/content/pricing";
 
 export const leakDetectionProcess = [
   {
     step: "1",
-    title: "On-site water loss check",
+    title: "Visual inspection & dye testing",
     description:
-      "We verify water loss on site using a Leakalyzer system — so we know whether you're dealing with a real leak before we go further.",
+      "We look at the pool running and not running — checking for wet spots, cracked or uneven patio areas, bubbles in return lines, and other clues that point to a possible leak.",
   },
   {
     step: "2",
-    title: "Pressure & electronic testing",
+    title: "Targeted dye testing",
     description:
-      "We pressure-test plumbing lines and use electronic listening equipment to isolate leaks in pipes, fittings, and equipment.",
+      "We use dye testing in and around the pool to locate leaking pipes, lights, skimmers, and areas in the shell.",
   },
   {
     step: "3",
-    title: "Pool shell & underwater inspection",
+    title: "Pressure testing & leak locating",
     description:
-      "When needed, we inspect the vessel underwater — skimmers, lights, returns, and structural areas — without unnecessary draining.",
+      "When needed, we pressure-test plumbing to confirm leaking pipes and pinpoint the leak using hydrophones underwater, deck and ground probes, and pipe cameras with locators to find leaks under concrete and deep in the ground.",
   },
   {
     step: "4",
-    title: "Clear findings & repair plan",
+    title: "Repair plan & options",
     description:
-      "You get straightforward answers: where the leak is, what it will take to fix it, and what happens next. No guessing games.",
+      "You get a precise plan for the best way to repair the leak — with options based on your budget and what's repairable.",
   },
 ] as const;
 
@@ -41,8 +41,8 @@ export const ourPromise = [
       "We don't offer weekly pool cleaning. We focus on leak work, equipment, renovations, and inspections — and partner with pool service companies for specialist referrals.",
   },
   {
-    title: "Fair leak detection pricing",
-    description: pricing.leakDetection.guaranteeSummary,
+    title: "Fair residential leak detection pricing",
+    description: pricing.leakDetection.residentialGuaranteeSummary,
   },
   {
     title: "Clear equipment diagnostics",
@@ -77,11 +77,11 @@ export const faqs: FAQItem[] = [
   {
     question: "Do you work with pool cleaning companies?",
     answer:
-      "Yes. Pool service companies partner with us for leak detection, pool equipment repair, renovations, and inspections. Partners get competitive pricing to resell our services, priority scheduling for referrals, and direct support when questions or issues come up — so you can better serve your customers without competing for weekly cleaning routes. Visit our Partners page or call us to get started.",
+      "Yes. Pool service companies partner with us for leak detection, pool equipment repair, renovations, and inspections. Partners get competitive pricing to resell our services, priority scheduling for referrals, and direct support when questions or issues come up — so you can better serve your customers without competing for weekly cleaning routes. Partner referrals are not charged the $120 leak detection deposit. Visit our Partners page or call us to get started.",
   },
   {
     question: "What pool equipment do you repair?",
-    answer: `We repair and replace pool equipment — ${poolEquipment.inlineList}. That includes pumps, filters, heaters, automation and control systems, pool lights, and related electrical work. We're RAIL certified for pool electrical service in Texas.`,
+    answer: `We repair and replace pumps, filters, heaters, automation and control systems, pool lights, timers, and related electrical work. We're ${site.railCertified.inline}.`,
   },
   {
     question: "How do I know if my pool has a leak?",
@@ -89,8 +89,16 @@ export const faqs: FAQItem[] = [
       "Common signs include water level dropping faster than normal evaporation, rising water bills, soggy spots around the pool, air in the pump, or trouble keeping chemicals balanced. If your pool is losing more than ½ inch of water per day, it's time to schedule a professional leak evaluation.",
   },
   {
+    question: "How much does leak detection cost?",
+    answer: pricing.leakDetection.faqAnswer,
+  },
+  {
     question: "What is your leak detection guarantee?",
-    answer: pricing.leakDetection.guaranteeDetail,
+    answer: pricing.leakDetection.guaranteeFaqAnswer,
+  },
+  {
+    question: "How much do leak repairs cost?",
+    answer: pricing.leakDetection.repairNote,
   },
   {
     question: "What is a Leakalyzer and why do you use it?",
@@ -108,7 +116,7 @@ export const faqs: FAQItem[] = [
   },
   {
     question: "What areas do you serve?",
-    answer: `We serve ${site.serviceAreas.join(", ")}, and surrounding Central Texas communities — with a growing focus on Austin and Georgetown.`,
+    answer: `We serve ${getServiceAreasDisplay().replace(/ · /g, ", ")}, and surrounding Central Texas communities — with a growing focus on Austin and Georgetown. Horseshoe Bay is currently served for pool renovations only.`,
   },
   {
     question: "Are you licensed and insured?",
@@ -116,10 +124,10 @@ export const faqs: FAQItem[] = [
   },
   {
     question: "What is RAIL certification and why does it matter?",
-    answer: site.railCertified.description,
+    answer: `${site.railCertified.description} Pool pumps, heaters, lights, and automation all require properly licensed electrical work in Texas.`,
   },
   {
     question: "Do you serve commercial properties?",
-    answer: `Yes. We serve residential and commercial customers — ${site.serviceScope.description.toLowerCase()} Whether it's a backyard pool, HOA amenity, or commercial property, we handle leak detection, ${poolEquipmentPhrase()}, renovations, and inspections.`,
+    answer: `Yes. We serve residential and commercial customers — ${formatServiceScopeDescriptionInline()} Whether it's a backyard pool, HOA amenity, or commercial property, we handle leak detection, ${poolEquipmentPhrase()}, renovations, and inspections.`,
   },
 ];
