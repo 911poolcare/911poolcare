@@ -21,6 +21,11 @@ const CREATE_CLIENT_MUTATION = `
         id
         name
         jobberWebUri
+        properties(first: 1) {
+          nodes {
+            id
+          }
+        }
       }
       userErrors {
         message
@@ -57,7 +62,12 @@ const CREATE_REQUEST_MUTATION = `
 
 type ClientCreateResult = {
   clientCreate: {
-    client: { id: string; name: string; jobberWebUri: string } | null;
+    client: {
+      id: string;
+      name: string;
+      jobberWebUri: string;
+      properties: { nodes: Array<{ id: string }> };
+    } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
 };
@@ -290,7 +300,9 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber clientCreate returned no client");
   }
 
-  const propertyId = await createClientProperty(client.id, address);
+  const propertyId =
+    client.properties.nodes[0]?.id ??
+    (await createClientProperty(client.id, address));
 
   const request = await createRequest(
     client.id,

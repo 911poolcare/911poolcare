@@ -6,7 +6,13 @@ import { createClientProperty } from "@/lib/jobber/property";
 const CREATE_CLIENT = `
   mutation LeadProbeClient($input: ClientCreateInput!) {
     clientCreate(input: $input) {
-      client { id name }
+      client {
+        id
+        name
+        properties(first: 1) {
+          nodes { id address { street1 city } }
+        }
+      }
       userErrors { message path }
     }
   }
@@ -44,7 +50,10 @@ export async function GET() {
 
     const clientResult = await jobberGraphql<{
       clientCreate: {
-        client: { id: string } | null;
+        client: {
+          id: string;
+          properties: { nodes: Array<{ id: string }> };
+        } | null;
         userErrors: Array<{ message: string; path?: string[] }>;
       };
     }>(CREATE_CLIENT, {
@@ -74,7 +83,10 @@ export async function GET() {
       return NextResponse.json({ ok: false, step: "clientCreate", error: "No client returned" });
     }
 
-    const propertyId = await createClientProperty(clientId, testAddress);
+    const propertyIdFromClient =
+      clientResult.clientCreate.client?.properties.nodes[0]?.id ?? null;
+    const propertyId =
+      propertyIdFromClient ?? (await createClientProperty(clientId, testAddress));
 
     const requestInput: Record<string, unknown> = {
       clientId,
@@ -114,6 +126,7 @@ export async function GET() {
     return NextResponse.json({
       ok: true,
       clientId,
+      propertyIdFromClient,
       propertyId,
       requestId: request.id,
       requestPropertyId: request.property?.id ?? null,

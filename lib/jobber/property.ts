@@ -43,26 +43,34 @@ export async function createClientProperty(
   clientId: string,
   address: JobberAddressInput,
 ): Promise<string | null> {
-  try {
-    const result = await jobberGraphql<PropertyCreateResult>(
-      PROPERTY_CREATE_MUTATION,
-      {
-        clientId,
-        input: {
-          properties: [{ address }],
+  const propertyVariants = [{ address }, { addressAttributes: address }];
+
+  for (const property of propertyVariants) {
+    try {
+      const result = await jobberGraphql<PropertyCreateResult>(
+        PROPERTY_CREATE_MUTATION,
+        {
+          clientId,
+          input: {
+            properties: [property],
+          },
         },
-      },
-    );
+      );
 
-    const errors = formatUserErrors(result.propertyCreate.userErrors);
-    if (errors) {
-      console.warn("[Jobber] propertyCreate:", errors);
-      return null;
+      const errors = formatUserErrors(result.propertyCreate.userErrors);
+      if (errors) {
+        console.warn("[Jobber] propertyCreate:", errors);
+        continue;
+      }
+
+      const propertyId = result.propertyCreate.properties?.[0]?.id ?? null;
+      if (propertyId) {
+        return propertyId;
+      }
+    } catch (error) {
+      console.warn("[Jobber] propertyCreate:", error);
     }
-
-    return result.propertyCreate.properties?.[0]?.id ?? null;
-  } catch (error) {
-    console.warn("[Jobber] propertyCreate:", error);
-    return null;
   }
+
+  return null;
 }
