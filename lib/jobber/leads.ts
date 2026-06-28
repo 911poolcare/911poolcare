@@ -1,6 +1,5 @@
 import { serviceOptions } from "@/content/services";
 import type { ContactFormData } from "@/lib/validations/contact";
-import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 
 const CREATE_CLIENT_MUTATION = `
@@ -134,21 +133,9 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber clientCreate returned no client");
   }
 
-  const requestInput: Record<string, unknown> = {
+  const requestInput = {
     clientId: client.id,
     title: requestTitle,
-    source: JOBBER_LEAD_SOURCE,
-    phone,
-    ...(data.email ? { email: data.email } : {}),
-    property: {
-      addressAttributes: {
-        street1: "Address to be confirmed",
-        city: location.city,
-        province: location.province,
-        country: location.country,
-        ...(location.postalCode ? { postalCode: location.postalCode } : {}),
-      },
-    },
   };
 
   const requestResult = await jobberGraphql<RequestCreateResult>(
