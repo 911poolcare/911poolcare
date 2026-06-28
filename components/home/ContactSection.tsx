@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { GoogleMapEmbed } from "@/components/contact/GoogleMapEmbed";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 export function ContactSection() {
@@ -41,7 +42,14 @@ export function ContactSection() {
                 <li className="flex items-start gap-3 text-slate-700">
                   <MapPin className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
                   <span>
-                    {site.address.full}
+                    <a
+                      href={site.google.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-brand-700 hover:text-brand-800"
+                    >
+                      {site.address.full}
+                    </a>
                     <br />
                     <span className="text-slate-500">
                       {site.serviceAreas.slice(0, 6).join(" · ")} & more
@@ -55,6 +63,10 @@ export function ContactSection() {
           <div className="lg:col-span-3">
             <ContactForm />
           </div>
+        </div>
+
+        <div className="mt-10">
+          <GoogleMapEmbed />
         </div>
       </Container>
     </Section>

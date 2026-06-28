@@ -8,7 +8,9 @@ import {
   renovationSlug,
 } from "@/content/renovations";
 import { renovationShowcase } from "@/content/galleries";
+import { getCityServiceProgressSets, getServiceProgressSets } from "@/content/media";
 import { BeforeAfterGallery } from "@/components/gallery/BeforeAfterGallery";
+import { JobProgressGallery } from "@/components/gallery/JobProgressGallery";
 import { getCityServicePath } from "@/lib/local-seo";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -19,8 +21,24 @@ type RenovationPageExtrasProps = {
 };
 
 export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
+  const progressSets = city
+    ? getCityServiceProgressSets(renovationSlug, city.slug, city, 3)
+    : getServiceProgressSets(renovationSlug, 4);
+
   return (
     <>
+      {progressSets.length > 0 ? (
+        <JobProgressGallery
+          sets={progressSets}
+          title={
+            city
+              ? `Renovation progress — ${city.name} pools`
+              : "Renovation before, during & after"
+          }
+          description="Multiple photos from the same replaster or remodel job — stripped, resurfaced, and finished."
+        />
+      ) : null}
+
       <BeforeAfterGallery images={renovationShowcase} />
 
       <Section muted>

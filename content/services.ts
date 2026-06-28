@@ -1,4 +1,5 @@
 import { poolEquipment } from "@/content/equipment";
+import { serviceHeroImages } from "@/content/hero-images";
 import { inspectionSeo } from "@/content/inspections";
 import { renovationSeo } from "@/content/renovations";
 import { primaryServiceSlugs } from "@/content/service-offering";
@@ -25,11 +26,11 @@ export const services: Service[] = [
     title: "Pool Leak Detection & Repair",
     description:
       "Find and fix pool leaks — Leakalyzer testing, electronic detection, and lasting repairs.",
-    image: "/images/services/leak-detection.jpg",
-    imageAlt: "Technician performing underwater pool leak detection and repair",
-    headline: "Pool leak detection & repair",
+    image: serviceHeroImages["pool-leak-detection"].src,
+    imageAlt: serviceHeroImages["pool-leak-detection"].alt,
+    headline: "Pool leak detection & repair in Austin, TX",
     intro:
-      "Suspected leak? We verify water loss on site, isolate the source with pressure and electronic testing, and complete the repair — in the shell, plumbing, or equipment. Fair pricing and clear answers, every time.",
+      "Suspected leak in Austin or Greater Austin? We verify water loss on site, isolate the source with pressure and electronic testing, and complete the repair — in the shell, plumbing, or equipment. Fair pricing and clear answers, every time.",
     highlights: [
       "On-site Leakalyzer water loss verification",
       "Electronic and pressure testing to isolate leaks",
@@ -38,14 +39,14 @@ export const services: Service[] = [
       "Pool leak repair — plumbing, shell, and equipment",
     ],
     metaDescription:
-      "Pool leak detection and repair in Austin and Central Texas. Leakalyzer testing, electronic detection, and professional leak repairs.",
+      "Pool leak detection & repair in Austin, TX and Greater Austin. Leakalyzer testing, electronic detection, 4.9★ rated. If we can't find the leak, pay only $120 down. Call 512-947-2023.",
   },
   {
     slug: "pool-equipment-repair",
     title: poolEquipment.label,
     description: poolEquipment.shortDescription,
-    image: "/images/services/equipment-repair.jpg",
-    imageAlt: "Pool pump, filter, and heater equipment during professional pool equipment repair",
+    image: serviceHeroImages["pool-equipment-repair"].src,
+    imageAlt: serviceHeroImages["pool-equipment-repair"].alt,
     headline: "Pool equipment repair & replacement",
     intro:
       "Pumps, filters, heaters, automation, lights, and more — we diagnose, repair, and replace pool equipment for residential and commercial properties. RAIL certified for Texas pool electrical work. Pump diagnostics are $120 and heater diagnostics are $150, each with a $50 credit toward repairs.",
@@ -66,8 +67,8 @@ export const services: Service[] = [
     title: "Pool Renovations & Replastering",
     description:
       "Replaster, PebbleTec, tile, coping, and full pool remodels. Free on-site consultation.",
-    image: "/images/services/renovation.jpg",
-    imageAlt: "Crew applying PebbleTec finish during a pool renovation in Austin Texas",
+    image: serviceHeroImages["pool-renovations"].src,
+    imageAlt: serviceHeroImages["pool-renovations"].alt,
     headline: "Pool renovations & replaster",
     intro:
       "Refresh or fully remodel your pool — replaster, PebbleTec, tile, coping, and complete renovations for residential and commercial properties. We start with a free on-site consultation and a clear plan.",
@@ -86,8 +87,8 @@ export const services: Service[] = [
     title: "Pool Inspections",
     description:
       "Certified pool inspections with written reports and photo documentation for buyers, sellers, and realtors.",
-    image: "/images/services/inspection.jpg",
-    imageAlt: "Certified pool inspector evaluating pool equipment and structure",
+    image: serviceHeroImages["pool-inspections"].src,
+    imageAlt: serviceHeroImages["pool-inspections"].alt,
     headline: inspectionSeo.headline,
     intro: inspectionSeo.intro,
     highlights: [

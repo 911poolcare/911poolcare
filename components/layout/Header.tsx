@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/about", label: "About" },
-  { href: "/services/pool-renovations", label: "Renovations" },
   { href: "/services", label: "Services" },
   { href: "/partners", label: "Partners" },
   { href: "/#leak-process", label: "Leak Process" },

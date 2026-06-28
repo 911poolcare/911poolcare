@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Phone, MessageSquare } from "lucide-react";
 import { about } from "@/content/about";
-import { aboutGallery } from "@/content/galleries";
+import { getAboutGallery } from "@/content/galleries";
 import { poolCareOffering } from "@/content/service-offering";
 import { site } from "@/content/site";
 import { PhotoGallery } from "@/components/gallery/PhotoGallery";
@@ -52,7 +52,7 @@ export default function AboutPage() {
       </Section>
 
       <PhotoGallery
-        images={aboutGallery}
+        images={getAboutGallery()}
         title="Our team at work"
         description="A look at the leak, equipment, and renovation work we deliver across Central Texas."
         muted

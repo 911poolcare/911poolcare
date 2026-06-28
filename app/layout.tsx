@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { defaultOpenGraphImage, twitterCard } from "@/content/og-images";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -14,7 +17,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: `${site.name} | Pool Repair & Renovation Experts Austin TX`,
+    default: `Pool Leak Detection & Repair Austin TX | ${site.name}`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
@@ -26,7 +29,13 @@ export const metadata: Metadata = {
     siteName: site.name,
     locale: "en_US",
     type: "website",
-    images: [{ url: site.logo.src, alt: site.name }],
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: twitterCard.card,
+    title: twitterCard.title,
+    description: twitterCard.description,
+    images: twitterCard.images,
   },
   icons: {
     icon: "/favicon.png",
@@ -42,6 +51,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans">
+        <JsonLd />
+        <GoogleAnalytics />
         <Header />
         <main>{children}</main>
         <Footer />

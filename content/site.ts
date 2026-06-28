@@ -1,4 +1,5 @@
 import { poolCareOffering } from "@/content/service-offering";
+import { siteHero } from "@/content/hero-images";
 
 export const site = {
   name: "911 Pool Care",
@@ -23,6 +24,12 @@ export const site = {
   google: {
     mapsUrl:
       "https://www.google.com/maps/place/911+Pool+Care/@30.2645554,-97.8352093,17z",
+    mapEmbedUrl:
+      "https://maps.google.com/maps?q=911+Pool+Care,+Leander,+TX+78641&z=11&output=embed",
+    coordinates: {
+      lat: 30.2645554,
+      lng: -97.8352093,
+    },
     /** Update periodically from your Google Business profile */
     rating: 4.9,
     reviewCount: 135,
@@ -55,10 +62,7 @@ export const site = {
     width: 446,
     height: 352,
   },
-  hero: {
-    src: "/images/hero/hero-main.jpg",
-    alt: "Renovated swimming pool with spa and stone patio in Central Texas",
-  },
+  hero: siteHero,
   urls: {
     site: "https://www.911poolcare.com",
   },

@@ -6,6 +6,8 @@
     "dev": "next dev --turbopack",
     "dev:clean": "node scripts/dev-clean.mjs",
     "import:images": "node scripts/import-wix-images.mjs",
+    "import:media": "node scripts/import-shared-media.mjs",
+    "optimize:media": "node scripts/optimize-media.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -21,13 +23,20 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^24.0.4",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "eslint": "^9.29.0",
     "eslint-config-next": "^15.3.4",
+    "sharp": "^0.35.2",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3"
+  },
+  "allowScripts": {
+    "@ffmpeg-installer/ffmpeg@1.1.0": true,
+    "sharp@0.34.5": true,
+    "sharp@0.35.2": true
   }
 }

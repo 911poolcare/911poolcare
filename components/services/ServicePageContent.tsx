@@ -15,11 +15,23 @@ import {
   getCityHubPath,
 } from "@/lib/local-seo";
 import { inspectionSeo } from "@/content/inspections";
+import {
+  getCityServiceGalleryImages,
+  getCityServiceHeroImage,
+  getCityServiceProgressSets,
+  getCityServiceVideos,
+  getServiceGalleryImages,
+  getServiceHeroImage,
+  getServiceProgressSets,
+  getServiceVideos,
+} from "@/content/media";
 import { getServiceGallery } from "@/content/galleries";
 import { RenovationPageExtras } from "@/components/services/RenovationPageExtras";
 import { InspectionPageExtras } from "@/components/services/InspectionPageExtras";
 import { ServicePricing } from "@/components/services/ServicePricing";
 import { PhotoGallery } from "@/components/gallery/PhotoGallery";
+import { JobProgressGallery } from "@/components/gallery/JobProgressGallery";
+import { VideoGallery } from "@/components/gallery/VideoGallery";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -40,7 +52,27 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
   const intro = city ? getCityServiceIntro(service, city) : service.intro;
   const cityHub = city ? getCityHub(city.slug) : undefined;
   const ctaLabel = getServiceCtaLabel(service.slug);
-  const gallery = getServiceGallery(service.slug);
+  const heroSrc = city
+    ? getCityServiceHeroImage(service.slug, city.slug) ?? getServiceHeroImage(service.slug) ?? service.image
+    : getServiceHeroImage(service.slug) ?? service.image;
+  const gallery = city
+    ? getCityServiceGalleryImages(service.slug, city.slug)
+    : getServiceGalleryImages(service.slug).length > 0
+      ? getServiceGalleryImages(service.slug)
+      : getServiceGallery(service.slug);
+  const progressSets = city
+    ? getCityServiceProgressSets(service.slug, city.slug, city)
+    : getServiceProgressSets(service.slug);
+  const videos = city
+    ? getCityServiceVideos(service.slug, city.slug)
+    : getServiceVideos(service.slug);
+  const showProgress = service.slug !== "pool-renovations";
+  const galleryTitle = city
+    ? `${service.title} in ${city.name} — project photos`
+    : `${service.title} — project photos`;
+  const videoTitle = city
+    ? `${service.title} in ${city.name} — project videos`
+    : `${service.title} — project videos`;
 
   return (
     <>
@@ -84,7 +116,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
 
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
             <Image
-              src={service.image}
+              src={heroSrc}
               alt={service.imageAlt}
               fill
               priority
@@ -176,12 +208,45 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
         </Container>
       </Section>
 
+      {showProgress && progressSets.length > 0 ? (
+        <JobProgressGallery
+          sets={progressSets}
+          title={
+            city
+              ? `Before, during & after — ${city.name} jobs`
+              : "Before, during & after"
+          }
+          description={
+            city
+              ? `Photos from recent ${service.title.toLowerCase()} jobs in and around ${city.name}.`
+              : "Photos from the same pool job — how we diagnose, repair, and finish the work."
+          }
+        />
+      ) : null}
+
       {gallery.length > 0 ? (
         <PhotoGallery
           images={gallery}
-          title={`${service.title} — project photos`}
-          description="Photos from recent jobs pulled from our project portfolio."
-          muted={false}
+          title={galleryTitle}
+          description={
+            city
+              ? `Recent ${service.title.toLowerCase()} work serving ${city.name} and nearby areas.`
+              : "Photos from recent jobs pulled from our project portfolio."
+          }
+          muted={progressSets.length > 0}
+        />
+      ) : null}
+
+      {videos.length > 0 ? (
+        <VideoGallery
+          videos={videos}
+          title={videoTitle}
+          description={
+            city
+              ? `Short clips from ${city.name}-area jobs.`
+              : "Short clips from recent detection, repair, equipment, and renovation jobs."
+          }
+          muted={gallery.length === 0}
         />
       ) : null}
 
