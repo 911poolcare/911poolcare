@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 import { isGooglePlacesConfigured, loadGooglePlacesLibrary } from "@/lib/google/load-maps";
 import { parsePlaceAddressComponents, type ParsedAddress } from "@/lib/google/parse-address";
@@ -18,18 +18,21 @@ export function AddressAutocompleteInput({
   className,
   placeholder = "Start typing your address...",
 }: AddressAutocompleteInputProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [host, setHost] = useState<HTMLDivElement | null>(null);
   const autocompleteRef = useRef<google.maps.places.PlaceAutocompleteElement | null>(null);
   const onAddressSelectRef = useRef(onAddressSelect);
 
   onAddressSelectRef.current = onAddressSelect;
 
+  const setHostRef = useCallback((node: HTMLDivElement | null) => {
+    setHost(node);
+  }, []);
+
   useEffect(() => {
-    if (!isGooglePlacesConfigured() || !containerRef.current) {
+    if (!isGooglePlacesConfigured() || !host) {
       return;
     }
 
-    const host = containerRef.current;
     let cancelled = false;
 
     const handleSelect = async (event: Event) => {
@@ -72,7 +75,7 @@ export function AddressAutocompleteInput({
       autocompleteRef.current = null;
       host.replaceChildren();
     };
-  }, [placeholder]);
+  }, [host, placeholder]);
 
   useEffect(() => {
     const autocomplete = autocompleteRef.current;
@@ -81,11 +84,11 @@ export function AddressAutocompleteInput({
     }
 
     autocomplete.classList.toggle("address-autocomplete--error", Boolean(hasError));
-  }, [hasError]);
+  }, [hasError, host]);
 
   return (
     <div
-      ref={containerRef}
+      ref={setHostRef}
       className={[
         "address-autocomplete-host",
         hasError ? "address-autocomplete-host--error" : "",
