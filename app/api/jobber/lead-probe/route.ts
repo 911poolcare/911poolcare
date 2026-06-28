@@ -9,8 +9,9 @@ const CREATE_CLIENT = `
       client {
         id
         name
-        properties(first: 1) {
-          nodes { id address { street1 city } }
+        properties {
+          id
+          address { street1 city }
         }
       }
       userErrors { message path }
@@ -52,7 +53,7 @@ export async function GET() {
       clientCreate: {
         client: {
           id: string;
-          properties: { nodes: Array<{ id: string }> };
+          properties: Array<{ id: string }>;
         } | null;
         userErrors: Array<{ message: string; path?: string[] }>;
       };
@@ -84,7 +85,7 @@ export async function GET() {
     }
 
     const propertyIdFromClient =
-      clientResult.clientCreate.client?.properties.nodes[0]?.id ?? null;
+      clientResult.clientCreate.client?.properties[0]?.id ?? null;
     const propertyId =
       propertyIdFromClient ?? (await createClientProperty(clientId, testAddress));
 

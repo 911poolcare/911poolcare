@@ -21,10 +21,8 @@ const CREATE_CLIENT_MUTATION = `
         id
         name
         jobberWebUri
-        properties(first: 1) {
-          nodes {
-            id
-          }
+        properties {
+          id
         }
       }
       userErrors {
@@ -66,7 +64,7 @@ type ClientCreateResult = {
       id: string;
       name: string;
       jobberWebUri: string;
-      properties: { nodes: Array<{ id: string }> };
+      properties: Array<{ id: string }>;
     } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
@@ -301,8 +299,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
   }
 
   const propertyId =
-    client.properties.nodes[0]?.id ??
-    (await createClientProperty(client.id, address));
+    client.properties[0]?.id ?? (await createClientProperty(client.id, address));
 
   const request = await createRequest(
     client.id,
