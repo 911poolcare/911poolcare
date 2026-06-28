@@ -219,7 +219,11 @@ function normalizePhone(phone: string) {
   return phone.trim();
 }
 
-function buildRequestInputBase(
+function buildRequestInputBase(clientId: string, title: string) {
+  return { clientId, title };
+}
+
+function buildRequestInputWithDetails(
   clientId: string,
   title: string,
   instructions: string,
@@ -293,55 +297,59 @@ async function createRequestWithProperty(
   instructions: string,
   propertyId: string | null,
 ) {
-  const base = buildRequestInputBase(clientId, title, instructions);
+  const bases = [
+    {
+      input: buildRequestInputWithDetails(clientId, title, instructions),
+      label: "detailed",
+    },
+    {
+      input: buildRequestInputBase(clientId, title),
+      label: "minimal",
+    },
+  ];
 
-  if (propertyId) {
-    const withPropertyId = await tryCreateRequest(
-      { ...base, propertyId },
-      "propertyId",
-    );
-    if (withPropertyId?.property?.id) return withPropertyId;
+  for (const { input: base, label: baseLabel } of bases) {
+    if (propertyId) {
+      const withPropertyId = await tryCreateRequest(
+        { ...base, propertyId },
+        `${baseLabel}/propertyId`,
+      );
+      if (withPropertyId?.property?.id) return withPropertyId;
 
-    const withPropertyRef = await tryCreateRequest(
-      { ...base, property: { id: propertyId } },
-      "property.id",
-    );
-    if (withPropertyRef) {
-      if (!withPropertyRef.property?.id) {
-        await linkRequestProperty(withPropertyRef.id, propertyId);
+      const withPropertyRef = await tryCreateRequest(
+        { ...base, property: { id: propertyId } },
+        `${baseLabel}/property.id`,
+      );
+      if (withPropertyRef) {
+        if (!withPropertyRef.property?.id) {
+          await linkRequestProperty(withPropertyRef.id, propertyId);
+        }
+        return withPropertyRef;
       }
-      return withPropertyRef;
+    }
+
+    const withAddressAttributes = await tryCreateRequest(
+      { ...base, property: { addressAttributes: address } },
+      `${baseLabel}/property.addressAttributes`,
+    );
+    if (withAddressAttributes?.property?.id) return withAddressAttributes;
+
+    const withInlineAddress = await tryCreateRequest(
+      { ...base, property: { address } },
+      `${baseLabel}/property.address`,
+    );
+    if (withInlineAddress?.property?.id) return withInlineAddress;
+
+    const fallback = await tryCreateRequest(base, `${baseLabel}/title only`);
+    if (fallback) {
+      if (propertyId && !fallback.property?.id) {
+        await linkRequestProperty(fallback.id, propertyId);
+      }
+      return fallback;
     }
   }
 
-  const withInlineProperty = await tryCreateRequest(
-    {
-      ...base,
-      property: { addressAttributes: address },
-    },
-    "property.addressAttributes",
-  );
-  if (withInlineProperty?.property?.id) return withInlineProperty;
-
-  const withInlineAddress = await tryCreateRequest(
-    {
-      ...base,
-      property: { address },
-    },
-    "property.address",
-  );
-  if (withInlineAddress?.property?.id) return withInlineAddress;
-
-  const fallback = await tryCreateRequest(base, "title only");
-  if (!fallback) {
-    throw new Error("Jobber requestCreate failed for all property strategies");
-  }
-
-  if (propertyId && !fallback.property?.id) {
-    await linkRequestProperty(fallback.id, propertyId);
-  }
-
-  return fallback;
+  throw new Error("Jobber requestCreate failed for all property strategies");
 }
 
 export async function createJobberLeadFromContact(data: ContactFormData) {

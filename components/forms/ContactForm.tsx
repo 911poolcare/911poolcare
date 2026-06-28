@@ -196,7 +196,7 @@ export function ContactForm({
       grantThankYouAccess();
       router.replace("/thank-you", { scroll: true });
     } catch (err) {
-      setStatus("idle");
+      setStatus("error");
       setErrorMessage(
         err instanceof Error
           ? err.message
