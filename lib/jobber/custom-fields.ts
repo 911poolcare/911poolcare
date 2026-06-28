@@ -28,9 +28,17 @@ type CustomFieldConfigResult = {
   };
 };
 
-type ResolvedCustomFieldIds = {
+export type ResolvedCustomFieldIds = {
   servicesRequestedId: string | null;
   referralSourceId: string | null;
+};
+
+export type CustomFieldLookupDiagnostics = {
+  fieldIds: ResolvedCustomFieldIds;
+  ready: boolean;
+  lookupError: string | null;
+  clientTextFields: Array<{ name: string; appliesTo: string }>;
+  nearMatches: string[];
 };
 
 let cachedFieldIds: ResolvedCustomFieldIds | null = null;
@@ -46,43 +54,87 @@ function resolveFromEnv(): ResolvedCustomFieldIds {
   };
 }
 
-async function resolveFromJobber(): Promise<ResolvedCustomFieldIds> {
+function resolveIdsFromFields(
+  fields: Array<{ id: string; name: string }>,
+): ResolvedCustomFieldIds {
+  const byName = new Map(fields.map((field) => [field.name.trim(), field.id]));
+
+  return {
+    servicesRequestedId: byName.get(JOBBER_CF_SERVICES_NAME) ?? null,
+    referralSourceId: byName.get(JOBBER_CF_REFERRAL_NAME) ?? null,
+  };
+}
+
+async function loadClientTextFields(): Promise<{
+  fields: Array<{ id: string; name: string; appliesTo: string }>;
+  error: string | null;
+}> {
   try {
     const result = await jobberGraphql<CustomFieldConfigResult>(
       LIST_CUSTOM_FIELD_CONFIGS,
     );
 
-    const clientTextFields = result.customFieldConfigurations.nodes.filter(
-      (field) => appliesToClients(field.appliesTo),
-    );
-
-    const byName = new Map(
-      clientTextFields.map((field) => [field.name.trim(), field.id]),
-    );
-
     return {
-      servicesRequestedId: byName.get(JOBBER_CF_SERVICES_NAME) ?? null,
-      referralSourceId: byName.get(JOBBER_CF_REFERRAL_NAME) ?? null,
+      fields: result.customFieldConfigurations.nodes.filter((field) =>
+        appliesToClients(field.appliesTo),
+      ),
+      error: null,
     };
   } catch (error) {
-    console.warn("[Jobber] Could not load custom field configurations:", error);
-    return { servicesRequestedId: null, referralSourceId: null };
+    return {
+      fields: [],
+      error: error instanceof Error ? error.message : "Unknown Jobber API error",
+    };
   }
 }
 
-export async function getJobberClientCustomFieldIds(): Promise<ResolvedCustomFieldIds> {
-  if (cachedFieldIds) return cachedFieldIds;
+export async function inspectJobberClientCustomFields(
+  options: { refresh?: boolean } = {},
+): Promise<CustomFieldLookupDiagnostics> {
+  if (options.refresh) {
+    cachedFieldIds = null;
+  }
 
   const fromEnv = resolveFromEnv();
-  const fromJobber = await resolveFromJobber();
+  const { fields, error } = await loadClientTextFields();
+  const fromJobber = resolveIdsFromFields(fields);
 
-  cachedFieldIds = {
+  const fieldIds: ResolvedCustomFieldIds = {
     servicesRequestedId:
       fromEnv.servicesRequestedId ?? fromJobber.servicesRequestedId,
     referralSourceId: fromEnv.referralSourceId ?? fromJobber.referralSourceId,
   };
 
-  return cachedFieldIds;
+  const ready = Boolean(fieldIds.servicesRequestedId && fieldIds.referralSourceId);
+  if (ready) {
+    cachedFieldIds = fieldIds;
+  }
+
+  const nearMatches = fields
+    .map((field) => field.name)
+    .filter((name) => /website|services|referral|referred/i.test(name));
+
+  return {
+    fieldIds,
+    ready,
+    lookupError: error,
+    clientTextFields: fields.map((field) => ({
+      name: field.name,
+      appliesTo: field.appliesTo,
+    })),
+    nearMatches,
+  };
+}
+
+export async function getJobberClientCustomFieldIds(
+  options: { refresh?: boolean } = {},
+): Promise<ResolvedCustomFieldIds> {
+  if (!options.refresh && cachedFieldIds) {
+    return cachedFieldIds;
+  }
+
+  const diagnostics = await inspectJobberClientCustomFields(options);
+  return diagnostics.fieldIds;
 }
 
 export function buildClientCustomFieldInputs(
