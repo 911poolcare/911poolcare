@@ -9,10 +9,6 @@ import {
 import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { attachLeadNotes } from "@/lib/jobber/notes";
-import {
-  createClientProperty,
-  type JobberAddressInput,
-} from "@/lib/jobber/property";
 
 const CREATE_CLIENT_MUTATION = `
   mutation CreateWebsiteLeadClient($input: ClientCreateInput!) {
@@ -55,23 +51,6 @@ const CREATE_REQUEST_MUTATION = `
   }
 `;
 
-const REQUEST_EDIT_MUTATION = `
-  mutation LinkWebsiteLeadRequestProperty($input: RequestEditInput!) {
-    requestEdit(input: $input) {
-      request {
-        id
-        property {
-          id
-        }
-      }
-      userErrors {
-        message
-        path
-      }
-    }
-  }
-`;
-
 type ClientCreateResult = {
   clientCreate: {
     client: { id: string; name: string; jobberWebUri: string } | null;
@@ -99,14 +78,13 @@ type RequestCreateResult = {
   };
 };
 
-type RequestEditResult = {
-  requestEdit: {
-    request: { id: string; property: { id: string } | null } | null;
-    userErrors: Array<{ message: string; path?: string[] }>;
-  };
+type AddressInput = {
+  street1: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  country: string;
 };
-
-type CreatedRequest = NonNullable<RequestCreateResult["requestCreate"]["request"]>;
 
 const SERVICE_SHORT_LABELS: Record<string, string> = {
   "leak-detection": "Leak",
@@ -116,8 +94,6 @@ const SERVICE_SHORT_LABELS: Record<string, string> = {
   "pool-company-partner": "Partner",
   other: "Other",
 };
-
-const REQUEST_SOURCE = "911 Pool Care Website";
 
 function splitName(fullName: string) {
   const parts = fullName.trim().split(/\s+/).filter(Boolean);
@@ -147,7 +123,7 @@ function getReferralLabel(data: ContactFormData) {
   );
 }
 
-function buildAddress(data: ContactFormData): JobberAddressInput {
+function buildAddress(data: ContactFormData): AddressInput {
   return {
     street1: data.street.trim(),
     city: data.city.trim(),
@@ -157,7 +133,7 @@ function buildAddress(data: ContactFormData): JobberAddressInput {
   };
 }
 
-function formatAddressLine(address: JobberAddressInput) {
+function formatAddressLine(address: AddressInput) {
   return `${address.street1}, ${address.city}, ${address.province} ${address.postalCode}`;
 }
 
@@ -219,137 +195,65 @@ function normalizePhone(phone: string) {
   return phone.trim();
 }
 
-function buildRequestInputBase(clientId: string, title: string) {
-  return { clientId, title };
-}
-
-function buildRequestInputWithDetails(
-  clientId: string,
-  title: string,
-  instructions: string,
-) {
-  return {
-    clientId,
-    title,
-    source: REQUEST_SOURCE,
-    assessment: { instructions },
-  };
-}
-
-async function tryCreateRequest(
-  input: Record<string, unknown>,
-  label: string,
-): Promise<CreatedRequest | null> {
-  try {
-    const result = await jobberGraphql<RequestCreateResult>(
-      CREATE_REQUEST_MUTATION,
-      { input },
-    );
-
-    const errors = formatUserErrors(result.requestCreate.userErrors);
-    if (errors) {
-      console.warn(`[Jobber] requestCreate (${label}):`, errors);
-      return null;
-    }
-
-    return result.requestCreate.request;
-  } catch (error) {
-    console.warn(`[Jobber] requestCreate (${label}):`, error);
-    return null;
-  }
-}
-
-async function linkRequestProperty(requestId: string, propertyId: string) {
-  const variants: Record<string, unknown>[] = [
-    { requestId, propertyId },
-    { id: requestId, propertyId },
-    { requestId, property: { id: propertyId } },
-  ];
-
-  for (const input of variants) {
-    try {
-      const result = await jobberGraphql<RequestEditResult>(
-        REQUEST_EDIT_MUTATION,
-        { input },
-      );
-
-      const errors = formatUserErrors(result.requestEdit.userErrors);
-      if (errors) {
-        console.warn("[Jobber] requestEdit (link property):", errors);
-        continue;
-      }
-
-      if (result.requestEdit.request?.property?.id) {
-        return true;
-      }
-    } catch (error) {
-      console.warn("[Jobber] requestEdit (link property):", error);
-    }
-  }
-
-  return false;
-}
-
 async function createRequestWithProperty(
   clientId: string,
   title: string,
-  address: JobberAddressInput,
-  instructions: string,
-  propertyId: string | null,
+  address: AddressInput,
 ) {
-  const bases = [
-    {
-      input: buildRequestInputWithDetails(clientId, title, instructions),
-      label: "detailed",
-    },
-    {
-      input: buildRequestInputBase(clientId, title),
-      label: "minimal",
-    },
+  const propertyInputs: Array<Record<string, unknown>> = [
+    { property: { addressAttributes: address } },
+    { property: { address } },
   ];
 
-  for (const { input: base, label: baseLabel } of bases) {
-    if (propertyId) {
-      const withPropertyId = await tryCreateRequest(
-        { ...base, propertyId },
-        `${baseLabel}/propertyId`,
+  for (const propertyInput of propertyInputs) {
+    try {
+      const requestResult = await jobberGraphql<RequestCreateResult>(
+        CREATE_REQUEST_MUTATION,
+        {
+          input: {
+            clientId,
+            title,
+            ...propertyInput,
+          },
+        },
       );
-      if (withPropertyId?.property?.id) return withPropertyId;
 
-      const withPropertyRef = await tryCreateRequest(
-        { ...base, property: { id: propertyId } },
-        `${baseLabel}/property.id`,
+      const requestErrors = formatUserErrors(
+        requestResult.requestCreate.userErrors,
       );
-      if (withPropertyRef) {
-        if (!withPropertyRef.property?.id) {
-          await linkRequestProperty(withPropertyRef.id, propertyId);
-        }
-        return withPropertyRef;
+      if (requestErrors) {
+        console.warn("[Jobber] requestCreate with property:", requestErrors);
+      } else if (requestResult.requestCreate.request) {
+        return requestResult.requestCreate.request;
       }
-    }
-
-    const withAddressAttributes = await tryCreateRequest(
-      { ...base, property: { addressAttributes: address } },
-      `${baseLabel}/property.addressAttributes`,
-    );
-    if (withAddressAttributes?.property?.id) return withAddressAttributes;
-
-    const withInlineAddress = await tryCreateRequest(
-      { ...base, property: { address } },
-      `${baseLabel}/property.address`,
-    );
-    if (withInlineAddress?.property?.id) return withInlineAddress;
-
-    const fallback = await tryCreateRequest(base, `${baseLabel}/title only`);
-    if (fallback) {
-      if (propertyId && !fallback.property?.id) {
-        await linkRequestProperty(fallback.id, propertyId);
-      }
-      return fallback;
+    } catch (error) {
+      console.warn("[Jobber] requestCreate with property:", error);
     }
   }
 
-  throw new Error("Jobber requestCreate failed for all property strategies");
+  const fallbackResult = await jobberGraphql<RequestCreateResult>(
+    CREATE_REQUEST_MUTATION,
+    {
+      input: {
+        clientId,
+        title,
+      },
+    },
+  );
+
+  const fallbackErrors = formatUserErrors(
+    fallbackResult.requestCreate.userErrors,
+  );
+  if (fallbackErrors) {
+    throw new Error(`Jobber requestCreate failed: ${fallbackErrors}`);
+  }
+
+  const request = fallbackResult.requestCreate.request;
+  if (!request) {
+    throw new Error("Jobber requestCreate returned no request");
+  }
+
+  return request;
 }
 
 export async function createJobberLeadFromContact(data: ContactFormData) {
@@ -397,19 +301,11 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber clientCreate returned no client");
   }
 
-  const propertyId = await createClientProperty(client.id, address);
-
   const request = await createRequestWithProperty(
     client.id,
     requestTitle,
     address,
-    requestNote,
-    propertyId,
   );
-
-  if (!request) {
-    throw new Error("Jobber requestCreate returned no request");
-  }
 
   await attachLeadNotes({
     clientId: client.id,
@@ -422,6 +318,6 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     clientUri: client.jobberWebUri,
     requestId: request.id,
     requestUri: request.jobberWebUri,
-    propertyId: request.property?.id ?? propertyId,
+    propertyId: request.property?.id ?? null,
   };
 }
