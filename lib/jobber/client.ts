@@ -25,8 +25,8 @@ export async function submitLeadToJobber(
       name: data.name,
       phone: data.phone,
       email: data.email,
-      service: data.service,
-      city: data.city,
+      services: data.services,
+      address: `${data.street}, ${data.city}, ${data.state} ${data.zip}`,
     });
 
     return {

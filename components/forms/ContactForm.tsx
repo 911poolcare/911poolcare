@@ -1,60 +1,177 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, CheckCircle2 } from "lucide-react";
-import { serviceOptions } from "@/content/services";
+import { upload } from "@vercel/blob/client";
+import { Loader2, CheckCircle2, X } from "lucide-react";
 import {
+  contactAttachmentLimits,
+  referralSourceOptions,
+} from "@/content/contact-form";
+import { serviceOptions } from "@/content/services";
+import { validateAttachmentFiles } from "@/lib/contact/attachments";
+import {
+  contactFormFieldsSchema,
   contactSchema,
+  type ContactAttachment,
+  type ContactFormFields,
   type ContactFormData,
 } from "@/lib/validations/contact";
 import { Button } from "@/components/ui/Button";
 
+type FormFields = ContactFormFields;
+
 export function ContactForm({ defaultService }: { defaultService?: string }) {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle",
+  );
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedServices, setSelectedServices] = useState<string[]>(
+    defaultService ? [defaultService] : [],
+  );
+  const [serviceError, setServiceError] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [fileError, setFileError] = useState("");
 
   const {
     register,
     handleSubmit,
+    watch,
     reset,
     formState: { errors },
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
+  } = useForm<FormFields>({
+    resolver: zodResolver(contactFormFieldsSchema),
     defaultValues: {
       name: "",
       phone: "",
       email: "",
-      service: defaultService ?? "",
+      street: "",
       city: "",
+      state: "TX",
+      zip: "",
       message: "",
+      referralSource: "",
+      referralSourceOther: "",
       website: "",
     },
   });
 
-  async function onSubmit(data: ContactFormData) {
+  const referralSource = watch("referralSource");
+  const showReferralOther = referralSource === "other";
+
+  const totalFileSizeMb = useMemo(() => {
+    const bytes = files.reduce((sum, file) => sum + file.size, 0);
+    return (bytes / (1024 * 1024)).toFixed(1);
+  }, [files]);
+
+  function toggleService(value: string) {
+    setServiceError("");
+    setSelectedServices((current) =>
+      current.includes(value)
+        ? current.filter((item) => item !== value)
+        : [...current, value],
+    );
+  }
+
+  function handleFilesSelected(event: React.ChangeEvent<HTMLInputElement>) {
+    const selected = Array.from(event.target.files ?? []);
+    event.target.value = "";
+    const combined = [...files, ...selected];
+    const validationError = validateAttachmentFiles(combined);
+    if (validationError) {
+      setFileError(validationError);
+      return;
+    }
+    setFileError("");
+    setFiles(combined);
+  }
+
+  function removeFile(index: number) {
+    setFiles((current) => current.filter((_, itemIndex) => itemIndex !== index));
+    setFileError("");
+  }
+
+  async function uploadAttachments(): Promise<ContactAttachment[]> {
+    if (!files.length) return [];
+
+    const uploads = await Promise.all(
+      files.map(async (file) => {
+        const blob = await upload(file.name, file, {
+          access: "public",
+          handleUploadUrl: "/api/contact/upload",
+        });
+
+        return {
+          name: file.name,
+          url: blob.url,
+          contentType: file.type || "application/octet-stream",
+        };
+      }),
+    );
+
+    return uploads;
+  }
+
+  async function onSubmit(fields: FormFields) {
+    if (!selectedServices.length) {
+      setServiceError("Please select at least one service.");
+      return;
+    }
+
+    const attachmentValidation = validateAttachmentFiles(files);
+    if (attachmentValidation) {
+      setFileError(attachmentValidation);
+      return;
+    }
+
     setStatus("loading");
     setErrorMessage("");
+    setServiceError("");
+    setFileError("");
 
     try {
+      const attachments = await uploadAttachments().catch((error) => {
+        console.error("[contact] attachment upload failed", error);
+        throw new Error(
+          "We couldn't upload your photos or videos. Please try again or call us directly.",
+        );
+      });
+
+      const payload: ContactFormData = {
+        ...fields,
+        services: selectedServices as ContactFormData["services"],
+        attachments: attachments.length ? attachments : undefined,
+      };
+
+      const parsed = contactSchema.safeParse(payload);
+      if (!parsed.success) {
+        throw new Error("Please check the form and try again.");
+      }
+
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(parsed.data),
       });
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Something went wrong. Please call us instead.");
+        throw new Error(
+          body.error ?? "Something went wrong. Please call us instead.",
+        );
       }
 
       setStatus("success");
       reset();
+      setSelectedServices(defaultService ? [defaultService] : []);
+      setFiles([]);
     } catch (err) {
       setStatus("error");
       setErrorMessage(
-        err instanceof Error ? err.message : "Something went wrong. Please call us instead.",
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please call us instead.",
       );
     }
   }
@@ -101,7 +218,7 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
           />
         </Field>
 
-        <Field label="Email (optional)" error={errors.email?.message} className="sm:col-span-2">
+        <Field label="Email" error={errors.email?.message} className="sm:col-span-2">
           <input
             {...register("email")}
             type="email"
@@ -112,37 +229,167 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
           />
         </Field>
 
-        <Field label="Service needed" error={errors.service?.message} className="sm:col-span-1">
-          <select {...register("service")} className={inputClass(errors.service)}>
-            <option value="">Select a service</option>
-            {serviceOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
+        <div className="sm:col-span-2">
+          <p className="mb-2 text-sm font-medium text-slate-700">
+            Services needed <span className="text-red-600">*</span>
+          </p>
+          <p className="mb-3 text-sm text-slate-500">Select all that apply.</p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {serviceOptions.map((option) => {
+              const checked = selectedServices.includes(option.value);
+              return (
+                <label
+                  key={option.value}
+                  className={[
+                    "flex cursor-pointer items-start gap-3 rounded-xl border px-4 py-3 text-sm transition-colors",
+                    checked
+                      ? "border-brand-500 bg-brand-50"
+                      : "border-slate-300 hover:border-slate-400",
+                  ].join(" ")}
+                >
+                  <input
+                    type="checkbox"
+                    className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
+                    checked={checked}
+                    onChange={() => toggleService(option.value)}
+                  />
+                  <span className="text-slate-800">{option.label}</span>
+                </label>
+              );
+            })}
+          </div>
+          {serviceError ? (
+            <p className="mt-2 text-sm text-red-600" role="alert">
+              {serviceError}
+            </p>
+          ) : null}
+        </div>
+
+        <Field
+          label="Street address"
+          error={errors.street?.message}
+          className="sm:col-span-2"
+        >
+          <input
+            {...register("street")}
+            autoComplete="street-address"
+            className={inputClass(errors.street)}
+            placeholder="123 Main St"
+          />
+        </Field>
+
+        <Field label="City" error={errors.city?.message} className="sm:col-span-1">
+          <input
+            {...register("city")}
+            autoComplete="address-level2"
+            className={inputClass(errors.city)}
+            placeholder="Leander"
+          />
+        </Field>
+
+        <div className="grid grid-cols-2 gap-4 sm:col-span-1">
+          <Field label="State" error={errors.state?.message}>
+            <input
+              {...register("state")}
+              autoComplete="address-level1"
+              className={inputClass(errors.state)}
+              placeholder="TX"
+            />
+          </Field>
+          <Field label="ZIP" error={errors.zip?.message}>
+            <input
+              {...register("zip")}
+              inputMode="numeric"
+              autoComplete="postal-code"
+              className={inputClass(errors.zip)}
+              placeholder="78641"
+            />
+          </Field>
+        </div>
+
+        <Field
+          label="Describe your issue"
+          error={errors.message?.message}
+          className="sm:col-span-2"
+        >
+          <textarea
+            {...register("message")}
+            rows={4}
+            className={inputClass(errors.message)}
+            placeholder="Tell us what's going on with your pool..."
+          />
+        </Field>
+
+        <Field
+          label="Photos or videos (optional)"
+          error={fileError}
+          className="sm:col-span-2"
+        >
+          <input
+            type="file"
+            accept={contactAttachmentLimits.accept}
+            multiple
+            onChange={handleFilesSelected}
+            className="block w-full text-sm text-slate-600 file:mr-4 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-brand-700 hover:file:bg-brand-100"
+          />
+          <p className="mt-2 text-xs text-slate-500">
+            Up to {contactAttachmentLimits.maxFiles} files,{" "}
+            {contactAttachmentLimits.maxFileSizeMb}MB each. Photos and videos help us
+            prepare for your visit.
+            {files.length ? ` Selected: ${totalFileSizeMb}MB total.` : null}
+          </p>
+          {files.length ? (
+            <ul className="mt-3 space-y-2">
+              {files.map((file, index) => (
+                <li
+                  key={`${file.name}-${index}`}
+                  className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-700"
+                >
+                  <span className="truncate pr-3">{file.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(index)}
+                    className="shrink-0 text-slate-500 hover:text-slate-800"
+                    aria-label={`Remove ${file.name}`}
+                  >
+                    <X className="h-4 w-4" aria-hidden />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </Field>
+
+        <Field
+          label="How did you find us? (optional)"
+          error={errors.referralSource?.message}
+          className="sm:col-span-2"
+        >
+          <select {...register("referralSource")} className={inputClass(errors.referralSource)}>
+            <option value="">Select one</option>
+            {referralSourceOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
               </option>
             ))}
           </select>
         </Field>
 
-        <Field label="City or ZIP" error={errors.city?.message} className="sm:col-span-1">
-          <input
-            {...register("city")}
-            autoComplete="address-level2"
-            className={inputClass(errors.city)}
-            placeholder="Leander or 78641"
-          />
-        </Field>
-
-        <Field label="Message (optional)" error={errors.message?.message} className="sm:col-span-2">
-          <textarea
-            {...register("message")}
-            rows={4}
-            className={inputClass(errors.message)}
-            placeholder="Tell us about your pool issue..."
-          />
-        </Field>
+        {showReferralOther ? (
+          <Field
+            label="Please specify"
+            error={errors.referralSourceOther?.message}
+            className="sm:col-span-2"
+          >
+            <input
+              {...register("referralSourceOther")}
+              className={inputClass(errors.referralSourceOther)}
+              placeholder="How did you hear about us?"
+            />
+          </Field>
+        ) : null}
       </div>
 
-      {/* Honeypot — hidden from humans */}
       <input
         {...register("website")}
         type="text"
