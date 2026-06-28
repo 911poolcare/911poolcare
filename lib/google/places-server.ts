@@ -74,22 +74,19 @@ export async function fetchPlaceAutocompleteSuggestions(
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": apiKey,
-      "X-Goog-FieldMask":
-        "suggestions.placePrediction.placeId,suggestions.placePrediction.place,suggestions.placePrediction.text",
+      "X-Goog-FieldMask": "*",
     },
     body: JSON.stringify({
       input,
       sessionToken,
       includedRegionCodes: ["us"],
-      regionCode: "us",
-      languageCode: "en-US",
       locationBias: {
         circle: {
           center: {
             latitude: site.google.coordinates.lat,
             longitude: site.google.coordinates.lng,
           },
-          radius: 80_000,
+          radius: 80_000.0,
         },
       },
     }),
@@ -100,15 +97,17 @@ export async function fetchPlaceAutocompleteSuggestions(
     console.error("[places/autocomplete]", response.status, body);
 
     let googleStatus: string | undefined;
+    let googleMessage: string | undefined;
     try {
       const parsed = JSON.parse(body) as GoogleErrorResponse;
       googleStatus = parsed.error?.status;
+      googleMessage = parsed.error?.message;
     } catch {
       // ignore parse errors
     }
 
     throw new PlacesApiError(
-      `Places autocomplete failed (${response.status})`,
+      googleMessage ?? `Places autocomplete failed (${response.status})`,
       response.status,
       googleStatus,
     );

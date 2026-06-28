@@ -32,6 +32,7 @@ export async function GET() {
         ok: false,
         reason: error.googleStatus ?? "places_api_error",
         httpStatus: error.status,
+        message: error.message,
         hint:
           error.googleStatus === "PERMISSION_DENIED"
             ? "Check API key restrictions (use Application restrictions: None for server) and billing."
