@@ -35,6 +35,7 @@ const contactFieldsSchema = z.object({
   message: z.string().max(2000).optional().or(z.literal("")),
   referralSource: z.union([z.enum(referralValues), z.literal("")]).optional(),
   referralSourceOther: z.string().max(120).optional().or(z.literal("")),
+  referringPartnerCompany: z.string().max(120).optional().or(z.literal("")),
   attachments: z.array(contactAttachmentSchema).max(6).optional(),
   website: z.string().max(0).optional(),
 });

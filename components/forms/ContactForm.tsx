@@ -22,7 +22,13 @@ import { Button } from "@/components/ui/Button";
 
 type FormFields = ContactFormFields;
 
-export function ContactForm({ defaultService }: { defaultService?: string }) {
+export function ContactForm({
+  defaultService,
+  variant = "default",
+}: {
+  defaultService?: string;
+  variant?: "default" | "partner";
+}) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
   );
@@ -53,6 +59,7 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
       message: "",
       referralSource: "",
       referralSourceOther: "",
+      referringPartnerCompany: "",
       website: "",
     },
   });
@@ -229,6 +236,24 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
           />
         </Field>
 
+        {variant === "partner" ? (
+          <Field
+            label="Your company name (referring partner)"
+            error={errors.referringPartnerCompany?.message}
+            className="sm:col-span-2"
+          >
+            <input
+              {...register("referringPartnerCompany")}
+              autoComplete="organization"
+              className={inputClass(errors.referringPartnerCompany)}
+              placeholder="ABC Pool Company"
+            />
+            <p className="mt-2 text-xs text-slate-500">
+              Optional — helps us credit the referral to your business.
+            </p>
+          </Field>
+        ) : null}
+
         <div className="sm:col-span-2">
           <p className="mb-2 text-sm font-medium text-slate-700">
             Services needed <span className="text-red-600">*</span>
@@ -360,22 +385,24 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
           ) : null}
         </Field>
 
-        <Field
-          label="How did you find us? (optional)"
-          error={errors.referralSource?.message}
-          className="sm:col-span-2"
-        >
-          <select {...register("referralSource")} className={inputClass(errors.referralSource)}>
-            <option value="">Select one</option>
-            {referralSourceOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </Field>
+        {variant === "default" ? (
+          <Field
+            label="How did you find us? (optional)"
+            error={errors.referralSource?.message}
+            className="sm:col-span-2"
+          >
+            <select {...register("referralSource")} className={inputClass(errors.referralSource)}>
+              <option value="">Select one</option>
+              {referralSourceOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </Field>
+        ) : null}
 
-        {showReferralOther ? (
+        {variant === "default" && showReferralOther ? (
           <Field
             label="Please specify"
             error={errors.referralSourceOther?.message}

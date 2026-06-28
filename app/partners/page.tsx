@@ -119,7 +119,7 @@ export default function PartnersPage() {
             title="Request partner information"
             description="Tell us about your company and service area. We'll follow up to discuss how we can work together."
           />
-          <ContactForm defaultService="pool-company-partner" />
+          <ContactForm defaultService="pool-company-partner" variant="partner" />
           <p className="mt-6 text-center text-sm text-slate-600">
             Prefer to talk now?{" "}
             <Link href={site.phoneHref} className="font-semibold text-brand-700 hover:text-brand-800">

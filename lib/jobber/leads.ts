@@ -172,7 +172,10 @@ function buildRequestTitle(data: ContactFormData, serviceLabels: string[]) {
     serviceLabels.length <= 2
       ? serviceLabels.join(" + ")
       : `${serviceLabels.length} services requested`;
-  return `${services} | ${formatAddressLine(address)}`.slice(0, 255);
+  const partner = data.referringPartnerCompany?.trim();
+  const base = `${services} | ${formatAddressLine(address)}`;
+  const title = partner ? `[${partner}] ${base}` : base;
+  return title.slice(0, 255);
 }
 
 function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
@@ -188,6 +191,11 @@ function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
   const referral = getReferralLabel(data);
   if (referral) {
     lines.push("", `How they found us: ${referral}`);
+  }
+
+  const partner = data.referringPartnerCompany?.trim();
+  if (partner) {
+    lines.push("", `Referring partner: ${partner}`);
   }
 
   if (data.message?.trim()) {
