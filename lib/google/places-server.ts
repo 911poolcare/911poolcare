@@ -22,6 +22,26 @@ export type PlaceAutocompleteSuggestion = {
   label: string;
 };
 
+export class PlacesApiError extends Error {
+  status: number;
+  googleStatus?: string;
+
+  constructor(message: string, status: number, googleStatus?: string) {
+    super(message);
+    this.name = "PlacesApiError";
+    this.status = status;
+    this.googleStatus = googleStatus;
+  }
+}
+
+type GoogleErrorResponse = {
+  error?: {
+    code?: number;
+    message?: string;
+    status?: string;
+  };
+};
+
 type PlacesAutocompleteResponse = {
   suggestions?: Array<{
     placePrediction?: {
@@ -54,11 +74,15 @@ export async function fetchPlaceAutocompleteSuggestions(
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": apiKey,
+      "X-Goog-FieldMask":
+        "suggestions.placePrediction.placeId,suggestions.placePrediction.place,suggestions.placePrediction.text",
     },
     body: JSON.stringify({
       input,
       sessionToken,
       includedRegionCodes: ["us"],
+      regionCode: "us",
+      languageCode: "en-US",
       locationBias: {
         circle: {
           center: {
@@ -74,7 +98,20 @@ export async function fetchPlaceAutocompleteSuggestions(
   if (!response.ok) {
     const body = await response.text();
     console.error("[places/autocomplete]", response.status, body);
-    throw new Error(`Places autocomplete failed (${response.status})`);
+
+    let googleStatus: string | undefined;
+    try {
+      const parsed = JSON.parse(body) as GoogleErrorResponse;
+      googleStatus = parsed.error?.status;
+    } catch {
+      // ignore parse errors
+    }
+
+    throw new PlacesApiError(
+      `Places autocomplete failed (${response.status})`,
+      response.status,
+      googleStatus,
+    );
   }
 
   const data = (await response.json()) as PlacesAutocompleteResponse;
@@ -113,7 +150,10 @@ export async function fetchPlaceAddressDetails(
   if (!response.ok) {
     const body = await response.text();
     console.error("[places/details]", response.status, body);
-    throw new Error(`Places details failed (${response.status})`);
+    throw new PlacesApiError(
+      `Places details failed (${response.status})`,
+      response.status,
+    );
   }
 
   const data = (await response.json()) as PlacesDetailsResponse;

@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   fetchPlaceAutocompleteSuggestions,
   isGooglePlacesServerConfigured,
+  PlacesApiError,
 } from "@/lib/google/places-server";
 
 const requestSchema = z.object({
@@ -34,8 +35,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ suggestions });
   } catch (error) {
     console.error("[places/autocomplete]", error);
+    const hint =
+      error instanceof PlacesApiError && error.googleStatus === "PERMISSION_DENIED"
+        ? "permission_denied"
+        : "upstream_error";
     return NextResponse.json(
-      { error: "Unable to fetch address suggestions." },
+      { error: "Unable to fetch address suggestions.", hint },
       { status: 502 },
     );
   }
