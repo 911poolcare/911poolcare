@@ -13,7 +13,7 @@ function waitForGoogleMapsReady(timeoutMs = 15_000): Promise<void> {
     const started = Date.now();
 
     const check = () => {
-      if (window.google?.maps?.importLibrary) {
+      if (window.google?.maps) {
         resolve();
         return;
       }
@@ -35,7 +35,7 @@ export function loadGoogleMapsBootstrap(): Promise<void> {
     return Promise.reject(new Error("Google Maps can only load in the browser"));
   }
 
-  if (window.google?.maps?.importLibrary) {
+  if (window.google?.maps) {
     return Promise.resolve();
   }
 
