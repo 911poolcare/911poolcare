@@ -1,26 +1,41 @@
 import type { ContactFormData } from "@/lib/validations/contact";
+import { isJobberConfigured } from "@/lib/jobber/config";
+import { createJobberLeadFromContact } from "@/lib/jobber/leads";
+
+export type JobberLeadResult = {
+  clientId: string;
+  clientUri: string;
+  requestId: string | null;
+  requestUri: string | null;
+};
 
 /**
- * Jobber GraphQL integration stub.
- * Wire up OAuth + clientCreate / request mutations once credentials are in .env.local.
- * Docs: https://developer.getjobber.com/docs/
+ * Creates a Jobber lead client + work request from the website contact form.
+ * Requires JOBBER_CLIENT_ID, JOBBER_CLIENT_SECRET, and JOBBER_REFRESH_TOKEN.
  */
-export async function submitLeadToJobber(data: ContactFormData): Promise<void> {
-  const hasCredentials =
-    process.env.JOBBER_CLIENT_ID &&
-    process.env.JOBBER_CLIENT_SECRET &&
-    process.env.JOBBER_REFRESH_TOKEN;
+export async function submitLeadToJobber(
+  data: ContactFormData,
+): Promise<JobberLeadResult> {
+  if (!isJobberConfigured()) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("Jobber integration is not configured");
+    }
 
-  if (!hasCredentials) {
     console.info("[Jobber] Lead received (credentials not configured):", {
       name: data.name,
       phone: data.phone,
+      email: data.email,
       service: data.service,
       city: data.city,
     });
-    return;
+
+    return {
+      clientId: "dev-stub",
+      clientUri: "",
+      requestId: null,
+      requestUri: null,
+    };
   }
 
-  // TODO: refresh OAuth token, then POST to https://api.getjobber.com/api/graphql
-  throw new Error("Jobber integration not yet configured");
+  return createJobberLeadFromContact(data);
 }
