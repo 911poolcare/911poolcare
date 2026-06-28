@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { upload } from "@vercel/blob/client";
@@ -11,6 +11,9 @@ import {
 } from "@/content/contact-form";
 import { serviceOptions } from "@/content/services";
 import { validateAttachmentFiles } from "@/lib/contact/attachments";
+import { isGooglePlacesConfigured } from "@/lib/google/load-maps";
+import type { ParsedAddress } from "@/lib/google/parse-address";
+import { AddressAutocompleteInput } from "@/components/forms/AddressAutocompleteInput";
 import {
   contactFormFieldsSchema,
   contactSchema,
@@ -45,6 +48,7 @@ export function ContactForm({
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormFields>({
     resolver: zodResolver(contactFormFieldsSchema),
@@ -66,6 +70,19 @@ export function ContactForm({
 
   const referralSource = watch("referralSource");
   const showReferralOther = referralSource === "other";
+  const addressAutocompleteEnabled = isGooglePlacesConfigured();
+
+  const handleAddressSelect = useCallback(
+    (address: ParsedAddress) => {
+      setValue("street", address.street, { shouldValidate: true, shouldDirty: true });
+      setValue("city", address.city, { shouldValidate: true, shouldDirty: true });
+      setValue("state", address.state, { shouldValidate: true, shouldDirty: true });
+      setValue("zip", address.zip, { shouldValidate: true, shouldDirty: true });
+    },
+    [setValue],
+  );
+
+  const streetField = register("street");
 
   const totalFileSizeMb = useMemo(() => {
     const bytes = files.reduce((sum, file) => sum + file.size, 0);
@@ -295,12 +312,18 @@ export function ContactForm({
           error={errors.street?.message}
           className="sm:col-span-2"
         >
-          <input
-            {...register("street")}
-            autoComplete="street-address"
+          <AddressAutocompleteInput
+            {...streetField}
+            onAddressSelect={handleAddressSelect}
+            hasError={!!errors.street}
             className={inputClass(errors.street)}
-            placeholder="123 Main St"
+            placeholder="Start typing your address..."
           />
+          <p className="mt-2 text-xs text-slate-500">
+            {addressAutocompleteEnabled
+              ? "Select your address from the suggestions — city, state, and ZIP fill in automatically."
+              : "Enter your full street address."}
+          </p>
         </Field>
 
         <Field label="City" error={errors.city?.message} className="sm:col-span-1">
