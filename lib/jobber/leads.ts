@@ -81,18 +81,11 @@ function parseLocation(cityOrZip: string) {
   };
 }
 
-function buildClientNote(data: ContactFormData, serviceLabel: string) {
-  const lines = [
-    `Service interest: ${serviceLabel}`,
-    `City / area: ${data.city}`,
-    `Submitted from: ${JOBBER_LEAD_SOURCE}`,
-  ];
-
-  if (data.message?.trim()) {
-    lines.push("", "Customer message:", data.message.trim());
-  }
-
-  return lines.join("\n");
+function buildRequestTitle(data: ContactFormData, serviceLabel: string, city: string) {
+  const base = `${serviceLabel} — ${city}`;
+  const message = data.message?.trim();
+  if (!message) return base;
+  return `${base}: ${message.slice(0, 120)}`;
 }
 
 function normalizePhone(phone: string) {
@@ -107,13 +100,12 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
   const { firstName, lastName } = splitName(data.name);
   const serviceLabel = getServiceLabel(data.service);
   const location = parseLocation(data.city);
-  const note = buildClientNote(data, serviceLabel);
+  const requestTitle = buildRequestTitle(data, serviceLabel, location.city);
   const phone = normalizePhone(data.phone);
 
   const clientInput: Record<string, unknown> = {
     firstName,
     lastName,
-    isLead: true,
     emails: data.email
       ? [{ address: data.email, primary: true, description: "MAIN" }]
       : undefined,
@@ -125,7 +117,6 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
       country: location.country,
       ...(location.postalCode ? { postalCode: location.postalCode } : {}),
     },
-    note,
   };
 
   const clientResult = await jobberGraphql<ClientCreateResult>(
@@ -145,7 +136,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
 
   const requestInput: Record<string, unknown> = {
     clientId: client.id,
-    title: serviceLabel,
+    title: requestTitle,
     source: JOBBER_LEAD_SOURCE,
     phone,
     ...(data.email ? { email: data.email } : {}),
