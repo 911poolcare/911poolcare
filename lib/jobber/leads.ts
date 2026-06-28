@@ -245,6 +245,14 @@ function normalizePhone(phone: string) {
   return phone.trim();
 }
 
+async function tryJobberStep(label: string, action: () => Promise<void>) {
+  try {
+    await action();
+  } catch (error) {
+    console.error(`[Jobber] ${label}:`, error);
+  }
+}
+
 async function createServiceProperty(clientId: string, address: AddressInput) {
   const propertyResult = await jobberGraphql<PropertyCreateResult>(
     CREATE_PROPERTY_MUTATION,
@@ -332,33 +340,24 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber clientCreate returned no client");
   }
 
-  const property = await createServiceProperty(client.id, address);
+  let propertyId: string | null = null;
 
-  const requestInput: Record<string, unknown> = {
-    clientId: client.id,
-    title: requestTitle,
-    propertyId: property.id,
-  };
+  await tryJobberStep("propertyCreate", async () => {
+    const property = await createServiceProperty(client.id, address);
+    propertyId = property.id;
+  });
 
-  let requestResult = await jobberGraphql<RequestCreateResult>(
+  const requestResult = await jobberGraphql<RequestCreateResult>(
     CREATE_REQUEST_MUTATION,
-    { input: requestInput },
+    {
+      input: {
+        clientId: client.id,
+        title: requestTitle,
+      },
+    },
   );
 
-  let requestErrors = formatUserErrors(requestResult.requestCreate.userErrors);
-  if (requestErrors?.toLowerCase().includes("property")) {
-    requestResult = await jobberGraphql<RequestCreateResult>(
-      CREATE_REQUEST_MUTATION,
-      {
-        input: {
-          clientId: client.id,
-          title: requestTitle,
-        },
-      },
-    );
-    requestErrors = formatUserErrors(requestResult.requestCreate.userErrors);
-  }
-
+  const requestErrors = formatUserErrors(requestResult.requestCreate.userErrors);
   if (requestErrors) {
     throw new Error(`Jobber requestCreate failed: ${requestErrors}`);
   }
@@ -368,9 +367,10 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber requestCreate returned no request");
   }
 
-  let linkedPropertyId = request.property?.id ?? null;
-  if (!linkedPropertyId) {
-    linkedPropertyId = await linkRequestProperty(request.id, property.id);
+  if (propertyId) {
+    await tryJobberStep("requestEdit property", async () => {
+      await linkRequestProperty(request.id, propertyId!);
+    });
   }
 
   const noteResult = await jobberGraphql<RequestEditNoteResult>(
@@ -393,6 +393,6 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     clientUri: client.jobberWebUri,
     requestId: request.id,
     requestUri: request.jobberWebUri,
-    propertyId: linkedPropertyId ?? property.id,
+    propertyId,
   };
 }

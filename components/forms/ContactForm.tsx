@@ -157,6 +157,13 @@ export function ContactForm({
     try {
       const attachments = await uploadAttachments().catch((error) => {
         console.error("[contact] attachment upload failed", error);
+        const message =
+          error instanceof Error ? error.message : "Upload failed";
+        if (message.includes("not configured") || message.includes("token")) {
+          throw new Error(
+            "Photo uploads are temporarily unavailable. Remove files and submit again, or call us directly.",
+          );
+        }
         throw new Error(
           "We couldn't upload your photos or videos. Please try again or call us directly.",
         );
