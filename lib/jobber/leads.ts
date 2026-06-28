@@ -7,6 +7,7 @@ import {
   logMissingCustomFieldSetup,
 } from "@/lib/jobber/custom-fields";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
+import { attachLeadNotes } from "@/lib/jobber/notes";
 
 const CREATE_CLIENT_MUTATION = `
   mutation CreateWebsiteLeadClient($input: ClientCreateInput!) {
@@ -14,21 +15,6 @@ const CREATE_CLIENT_MUTATION = `
       client {
         id
         name
-        jobberWebUri
-      }
-      userErrors {
-        message
-        path
-      }
-    }
-  }
-`;
-
-const CREATE_PROPERTY_MUTATION = `
-  mutation CreateWebsiteLeadProperty($input: PropertyCreateInput!) {
-    propertyCreate(input: $input) {
-      property {
-        id
         jobberWebUri
       }
       userErrors {
@@ -48,38 +34,13 @@ const CREATE_REQUEST_MUTATION = `
         jobberWebUri
         property {
           id
+          address {
+            street1
+            city
+            province
+            postalCode
+          }
         }
-      }
-      userErrors {
-        message
-        path
-      }
-    }
-  }
-`;
-
-const EDIT_REQUEST_MUTATION = `
-  mutation EditWebsiteLeadRequest($input: RequestEditInput!) {
-    requestEdit(input: $input) {
-      request {
-        id
-        property {
-          id
-        }
-      }
-      userErrors {
-        message
-        path
-      }
-    }
-  }
-`;
-
-const EDIT_REQUEST_NOTE_MUTATION = `
-  mutation EditWebsiteLeadRequestNote($input: RequestEditNoteInput!) {
-    requestEditNote(input: $input) {
-      request {
-        id
       }
       userErrors {
         message
@@ -96,35 +57,22 @@ type ClientCreateResult = {
   };
 };
 
-type PropertyCreateResult = {
-  propertyCreate: {
-    property: { id: string; jobberWebUri: string } | null;
-    userErrors: Array<{ message: string; path?: string[] }>;
-  };
-};
-
 type RequestCreateResult = {
   requestCreate: {
     request: {
       id: string;
       title: string;
       jobberWebUri: string;
-      property: { id: string } | null;
+      property: {
+        id: string;
+        address: {
+          street1: string;
+          city: string;
+          province: string;
+          postalCode: string;
+        };
+      } | null;
     } | null;
-    userErrors: Array<{ message: string; path?: string[] }>;
-  };
-};
-
-type RequestEditResult = {
-  requestEdit: {
-    request: { id: string; property: { id: string } | null } | null;
-    userErrors: Array<{ message: string; path?: string[] }>;
-  };
-};
-
-type RequestEditNoteResult = {
-  requestEditNote: {
-    request: { id: string } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
 };
@@ -196,11 +144,12 @@ function buildRequestTitle(data: ContactFormData, serviceValues: string[]) {
     shortLabels.length <= 3
       ? shortLabels.join(" + ")
       : `${shortLabels.length} services`;
-  const cityState = `${data.city.trim()}, ${data.state.trim().toUpperCase()}`;
+  const address = buildAddress(data);
+  const streetCity = `${address.street1}, ${address.city}, ${address.province}`;
   const partner = data.referringPartnerCompany?.trim();
-  const base = `${services} — ${cityState}`;
+  const base = `${services} — ${streetCity}`;
   const title = partner ? `[${partner}] ${base}` : base;
-  return title.slice(0, 120);
+  return title.slice(0, 255);
 }
 
 function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
@@ -245,54 +194,53 @@ function normalizePhone(phone: string) {
   return phone.trim();
 }
 
-async function tryJobberStep(label: string, action: () => Promise<void>) {
+async function createRequestWithProperty(
+  clientId: string,
+  title: string,
+  address: AddressInput,
+) {
   try {
-    await action();
-  } catch (error) {
-    console.error(`[Jobber] ${label}:`, error);
-  }
-}
+    const requestResult = await jobberGraphql<RequestCreateResult>(
+      CREATE_REQUEST_MUTATION,
+      {
+        input: {
+          clientId,
+          title,
+          property: {
+            address,
+          },
+        },
+      },
+    );
 
-async function createServiceProperty(clientId: string, address: AddressInput) {
-  const propertyResult = await jobberGraphql<PropertyCreateResult>(
-    CREATE_PROPERTY_MUTATION,
+    const requestErrors = formatUserErrors(
+      requestResult.requestCreate.userErrors,
+    );
+    if (requestErrors) {
+      console.warn("[Jobber] requestCreate with property:", requestErrors);
+    } else if (requestResult.requestCreate.request) {
+      return requestResult.requestCreate.request;
+    }
+  } catch (error) {
+    console.warn("[Jobber] requestCreate with property:", error);
+  }
+
+  const fallbackResult = await jobberGraphql<RequestCreateResult>(
+    CREATE_REQUEST_MUTATION,
     {
       input: {
         clientId,
-        address,
+        title,
       },
     },
   );
 
-  const propertyErrors = formatUserErrors(
-    propertyResult.propertyCreate.userErrors,
-  );
-  if (propertyErrors) {
-    throw new Error(`Jobber propertyCreate failed: ${propertyErrors}`);
+  const fallbackErrors = formatUserErrors(fallbackResult.requestCreate.userErrors);
+  if (fallbackErrors) {
+    throw new Error(`Jobber requestCreate failed: ${fallbackErrors}`);
   }
 
-  const property = propertyResult.propertyCreate.property;
-  if (!property) {
-    throw new Error("Jobber propertyCreate returned no property");
-  }
-
-  return property;
-}
-
-async function linkRequestProperty(requestId: string, propertyId: string) {
-  const editResult = await jobberGraphql<RequestEditResult>(EDIT_REQUEST_MUTATION, {
-    input: {
-      requestId,
-      propertyId,
-    },
-  });
-
-  const editErrors = formatUserErrors(editResult.requestEdit.userErrors);
-  if (editErrors) {
-    throw new Error(`Jobber requestEdit failed: ${editErrors}`);
-  }
-
-  return editResult.requestEdit.request?.property?.id ?? null;
+  return fallbackResult.requestCreate.request;
 }
 
 export async function createJobberLeadFromContact(data: ContactFormData) {
@@ -340,59 +288,27 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber clientCreate returned no client");
   }
 
-  let propertyId: string | null = null;
-
-  await tryJobberStep("propertyCreate", async () => {
-    const property = await createServiceProperty(client.id, address);
-    propertyId = property.id;
-  });
-
-  const requestResult = await jobberGraphql<RequestCreateResult>(
-    CREATE_REQUEST_MUTATION,
-    {
-      input: {
-        clientId: client.id,
-        title: requestTitle,
-      },
-    },
+  const request = await createRequestWithProperty(
+    client.id,
+    requestTitle,
+    address,
   );
 
-  const requestErrors = formatUserErrors(requestResult.requestCreate.userErrors);
-  if (requestErrors) {
-    throw new Error(`Jobber requestCreate failed: ${requestErrors}`);
-  }
-
-  const request = requestResult.requestCreate.request;
   if (!request) {
     throw new Error("Jobber requestCreate returned no request");
   }
 
-  if (propertyId) {
-    await tryJobberStep("requestEdit property", async () => {
-      await linkRequestProperty(request.id, propertyId!);
-    });
-  }
-
-  const noteResult = await jobberGraphql<RequestEditNoteResult>(
-    EDIT_REQUEST_NOTE_MUTATION,
-    {
-      input: {
-        requestId: request.id,
-        message: requestNote,
-      },
-    },
-  );
-
-  const noteErrors = formatUserErrors(noteResult.requestEditNote.userErrors);
-  if (noteErrors) {
-    throw new Error(`Jobber requestEditNote failed: ${noteErrors}`);
-  }
+  await attachLeadNotes({
+    clientId: client.id,
+    requestId: request.id,
+    message: requestNote,
+  });
 
   return {
     clientId: client.id,
     clientUri: client.jobberWebUri,
     requestId: request.id,
     requestUri: request.jobberWebUri,
-    propertyId,
+    propertyId: request.property?.id ?? null,
   };
 }
