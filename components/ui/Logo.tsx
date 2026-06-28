@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 type LogoProps = {
   className?: string;
   size?: "sm" | "md" | "lg";
+  variant?: "default" | "light";
   priority?: boolean;
 };
 
@@ -15,8 +16,9 @@ const sizes = {
   lg: { width: 180, height: 141, imageClass: "h-14 w-auto" },
 };
 
-export function Logo({ className, size = "md", priority = false }: LogoProps) {
+export function Logo({ className, size = "md", variant = "default", priority = false }: LogoProps) {
   const dimensions = sizes[size];
+  const logo = variant === "light" ? site.logoLight : site.logo;
 
   return (
     <Link
@@ -25,7 +27,7 @@ export function Logo({ className, size = "md", priority = false }: LogoProps) {
       aria-label={`${site.name} — home`}
     >
       <Image
-        src={site.logo.src}
+        src={logo.src}
         alt={site.name}
         width={dimensions.width}
         height={dimensions.height}

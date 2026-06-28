@@ -62,6 +62,11 @@ export const site = {
     width: 446,
     height: 352,
   },
+  logoLight: {
+    src: "/images/logos/logo-white.png",
+    width: 446,
+    height: 352,
+  },
   hero: siteHero,
   urls: {
     site: "https://www.911poolcare.com",
