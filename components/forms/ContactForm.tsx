@@ -344,8 +344,12 @@ export function ContactForm({
               <input type="hidden" {...register("street")} />
               <AddressAutocompleteInput
                 onAddressSelect={handleAddressSelect}
+                onStreetChange={(street) =>
+                  setValue("street", street, { shouldDirty: true })
+                }
                 onInitFailure={() => setAutocompleteUnavailable(true)}
                 hasError={!!errors.street}
+                className={inputClass(errors.street)}
                 placeholder="Start typing your address..."
               />
             </>
