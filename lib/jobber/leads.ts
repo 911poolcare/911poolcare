@@ -9,6 +9,10 @@ import {
 import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { attachLeadNotes } from "@/lib/jobber/notes";
+import {
+  createClientProperty,
+  type JobberAddressInput,
+} from "@/lib/jobber/property";
 
 const CREATE_CLIENT_MUTATION = `
   mutation CreateWebsiteLeadClient($input: ClientCreateInput!) {
@@ -17,6 +21,11 @@ const CREATE_CLIENT_MUTATION = `
         id
         name
         jobberWebUri
+        properties(first: 1) {
+          nodes {
+            id
+          }
+        }
       }
       userErrors {
         message
@@ -42,6 +51,9 @@ const CREATE_REQUEST_MUTATION = `
             postalCode
           }
         }
+        assessment {
+          instructions
+        }
       }
       userErrors {
         message
@@ -53,7 +65,12 @@ const CREATE_REQUEST_MUTATION = `
 
 type ClientCreateResult = {
   clientCreate: {
-    client: { id: string; name: string; jobberWebUri: string } | null;
+    client: {
+      id: string;
+      name: string;
+      jobberWebUri: string;
+      properties: { nodes: Array<{ id: string }> };
+    } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
 };
@@ -73,17 +90,10 @@ type RequestCreateResult = {
           postalCode: string;
         };
       } | null;
+      assessment: { instructions: string | null } | null;
     } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
-};
-
-type AddressInput = {
-  street1: string;
-  city: string;
-  province: string;
-  postalCode: string;
-  country: string;
 };
 
 const SERVICE_SHORT_LABELS: Record<string, string> = {
@@ -123,7 +133,7 @@ function getReferralLabel(data: ContactFormData) {
   );
 }
 
-function buildAddress(data: ContactFormData): AddressInput {
+function buildAddress(data: ContactFormData): JobberAddressInput {
   return {
     street1: data.street.trim(),
     city: data.city.trim(),
@@ -133,7 +143,7 @@ function buildAddress(data: ContactFormData): AddressInput {
   };
 }
 
-function formatAddressLine(address: AddressInput) {
+function formatAddressLine(address: JobberAddressInput) {
   return `${address.street1}, ${address.city}, ${address.province} ${address.postalCode}`;
 }
 
@@ -195,60 +205,32 @@ function normalizePhone(phone: string) {
   return phone.trim();
 }
 
-async function createRequestWithProperty(
+async function createRequest(
   clientId: string,
+  propertyId: string | null,
   title: string,
-  address: AddressInput,
+  instructions: string,
 ) {
-  const propertyInputs: Array<Record<string, unknown>> = [
-    { property: { addressAttributes: address } },
-    { property: { address } },
-  ];
+  const input: Record<string, unknown> = {
+    clientId,
+    title,
+    assessment: { instructions },
+  };
 
-  for (const propertyInput of propertyInputs) {
-    try {
-      const requestResult = await jobberGraphql<RequestCreateResult>(
-        CREATE_REQUEST_MUTATION,
-        {
-          input: {
-            clientId,
-            title,
-            ...propertyInput,
-          },
-        },
-      );
-
-      const requestErrors = formatUserErrors(
-        requestResult.requestCreate.userErrors,
-      );
-      if (requestErrors) {
-        console.warn("[Jobber] requestCreate with property:", requestErrors);
-      } else if (requestResult.requestCreate.request) {
-        return requestResult.requestCreate.request;
-      }
-    } catch (error) {
-      console.warn("[Jobber] requestCreate with property:", error);
-    }
+  if (propertyId) {
+    input.propertyId = propertyId;
   }
 
-  const fallbackResult = await jobberGraphql<RequestCreateResult>(
-    CREATE_REQUEST_MUTATION,
-    {
-      input: {
-        clientId,
-        title,
-      },
-    },
-  );
+  const result = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
+    input,
+  });
 
-  const fallbackErrors = formatUserErrors(
-    fallbackResult.requestCreate.userErrors,
-  );
-  if (fallbackErrors) {
-    throw new Error(`Jobber requestCreate failed: ${fallbackErrors}`);
+  const errors = formatUserErrors(result.requestCreate.userErrors);
+  if (errors) {
+    throw new Error(`Jobber requestCreate failed: ${errors}`);
   }
 
-  const request = fallbackResult.requestCreate.request;
+  const request = result.requestCreate.request;
   if (!request) {
     throw new Error("Jobber requestCreate returned no request");
   }
@@ -280,6 +262,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     emails: [{ address: data.email, primary: true, description: "MAIN" }],
     phones: [{ number: phone, primary: true, description: "MAIN" }],
     billingAddress: address,
+    properties: [{ address }],
   };
 
   if (customFields.length) {
@@ -301,10 +284,16 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber clientCreate returned no client");
   }
 
-  const request = await createRequestWithProperty(
+  let propertyId: string | null = client.properties.nodes[0]?.id ?? null;
+  if (!propertyId) {
+    propertyId = await createClientProperty(client.id, address);
+  }
+
+  const request = await createRequest(
     client.id,
+    propertyId,
     requestTitle,
-    address,
+    requestNote,
   );
 
   await attachLeadNotes({
@@ -318,6 +307,6 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     clientUri: client.jobberWebUri,
     requestId: request.id,
     requestUri: request.jobberWebUri,
-    propertyId: request.property?.id ?? null,
+    propertyId: request.property?.id ?? propertyId,
   };
 }

@@ -1,14 +1,9 @@
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 
-type NoteMutationResult = {
-  userErrors: Array<{ message: string; path?: string[] }> | null;
-  createdId?: string | null;
-};
-
-const NOTE_CREATE_MUTATION = `
-  mutation CreateWebsiteLeadNote($input: NoteCreateInput!) {
-    noteCreate(input: $input) {
-      note {
+const REQUEST_EDIT_NOTE_MUTATION = `
+  mutation CreateWebsiteLeadRequestNote($input: RequestEditNoteInput!) {
+    requestEditNote(input: $input) {
+      request {
         id
       }
       userErrors {
@@ -33,118 +28,78 @@ const CLIENT_EDIT_NOTE_MUTATION = `
   }
 `;
 
-const REQUEST_EDIT_NOTE_MUTATION = `
-  mutation EditWebsiteLeadRequestNote($input: RequestEditNoteInput!) {
-    requestEditNote(input: $input) {
-      request {
-        id
-      }
-      userErrors {
-        message
-        path
-      }
-    }
-  }
-`;
+async function tryCreateRequestNote(requestId: string, message: string) {
+  const linkedToVariants = [
+    { requestId },
+    { id: requestId },
+  ];
 
-async function tryNoteMutation(
-  label: string,
-  action: () => Promise<NoteMutationResult | void>,
-  options?: { requireCreatedId?: boolean },
-): Promise<boolean> {
-  try {
-    const result = await action();
-    if (!result) return false;
-
-    const errors = formatUserErrors(result.userErrors);
-    if (errors) {
-      console.warn(`[Jobber] ${label}:`, errors);
-      return false;
-    }
-
-    if (options?.requireCreatedId) {
-      return Boolean(result.createdId);
-    }
-
-    return true;
-  } catch (error) {
-    console.warn(`[Jobber] ${label}:`, error);
-    return false;
-  }
-}
-
-async function tryNoteCreate(subjectId: string, message: string) {
-  return tryNoteMutation(
-    "noteCreate",
-    async () => {
+  for (const linkedTo of linkedToVariants) {
+    try {
       const result = await jobberGraphql<{
-        noteCreate: {
-          note: { id: string } | null;
+        requestEditNote: {
+          request: { id: string } | null;
           userErrors: Array<{ message: string; path?: string[] }>;
         };
-      }>(NOTE_CREATE_MUTATION, {
-        input: {
-          subject: { id: subjectId },
-          body: message,
-        },
+      }>(REQUEST_EDIT_NOTE_MUTATION, {
+        input: { linkedTo, message },
       });
 
-      return {
-        userErrors: result.noteCreate.userErrors,
-        createdId: result.noteCreate.note?.id,
-      };
-    },
-    { requireCreatedId: true },
-  );
+      const errors = formatUserErrors(result.requestEditNote.userErrors);
+      if (errors) {
+        console.warn("[Jobber] requestEditNote (create):", errors);
+        continue;
+      }
+
+      if (result.requestEditNote.request) {
+        return true;
+      }
+    } catch (error) {
+      console.warn("[Jobber] requestEditNote (create):", error);
+    }
+  }
+
+  return false;
 }
 
-async function tryClientEditNote(
-  clientId: string,
-  message: string,
-  variant: Record<string, unknown>,
-  label: string,
-) {
-  return tryNoteMutation(label, async () => {
-    const result = await jobberGraphql<{
-      clientEditNote: {
-        client: { id: string } | null;
-        userErrors: Array<{ message: string; path?: string[] }>;
-      };
-    }>(CLIENT_EDIT_NOTE_MUTATION, {
-      input: { clientId, ...variant },
-    });
+async function tryCreateClientNote(clientId: string, message: string) {
+  const linkedToVariants = [
+    { clientId },
+    { id: clientId },
+  ];
 
-    return {
-      userErrors: result.clientEditNote.userErrors,
-      createdId: result.clientEditNote.client?.id,
-    };
-  });
+  for (const linkedTo of linkedToVariants) {
+    try {
+      const result = await jobberGraphql<{
+        clientEditNote: {
+          client: { id: string } | null;
+          userErrors: Array<{ message: string; path?: string[] }>;
+        };
+      }>(CLIENT_EDIT_NOTE_MUTATION, {
+        input: { linkedTo, message },
+      });
+
+      const errors = formatUserErrors(result.clientEditNote.userErrors);
+      if (errors) {
+        console.warn("[Jobber] clientEditNote (create):", errors);
+        continue;
+      }
+
+      if (result.clientEditNote.client) {
+        return true;
+      }
+    } catch (error) {
+      console.warn("[Jobber] clientEditNote (create):", error);
+    }
+  }
+
+  return false;
 }
 
-async function tryRequestEditNote(
-  requestId: string,
-  message: string,
-  variant: Record<string, unknown>,
-  label: string,
-) {
-  return tryNoteMutation(label, async () => {
-    const result = await jobberGraphql<{
-      requestEditNote: {
-        request: { id: string } | null;
-        userErrors: Array<{ message: string; path?: string[] }>;
-      };
-    }>(REQUEST_EDIT_NOTE_MUTATION, {
-      input: { requestId, ...variant },
-    });
-
-    return {
-      userErrors: result.requestEditNote.userErrors,
-      createdId: result.requestEditNote.request?.id,
-    };
-  });
-}
-
-/** Best-effort note creation — tries multiple Jobber note APIs. */
+/**
+ * Best-effort note on the request or client.
+ * Lead details are always sent via assessment.instructions on requestCreate.
+ */
 export async function attachLeadNotes(options: {
   clientId: string;
   requestId: string;
@@ -152,62 +107,6 @@ export async function attachLeadNotes(options: {
 }) {
   const { clientId, requestId, message } = options;
 
-  if (await tryNoteCreate(requestId, message)) return;
-  if (await tryNoteCreate(clientId, message)) return;
-
-  if (
-    await tryClientEditNote(clientId, message, { message }, "clientEditNote")
-  ) {
-    return;
-  }
-
-  if (await tryClientEditNote(clientId, message, { body: message }, "clientEditNote(body)")) {
-    return;
-  }
-
-  if (
-    await tryClientEditNote(
-      clientId,
-      message,
-      { note: message },
-      "clientEditNote(note)",
-    )
-  ) {
-    return;
-  }
-
-  if (
-    await tryRequestEditNote(requestId, message, { message }, "requestEditNote")
-  ) {
-    return;
-  }
-
-  if (
-    await tryRequestEditNote(
-      requestId,
-      message,
-      { body: message },
-      "requestEditNote(body)",
-    )
-  ) {
-    return;
-  }
-
-  if (
-    await tryRequestEditNote(
-      requestId,
-      message,
-      { note: message },
-      "requestEditNote(note)",
-    )
-  ) {
-    return;
-  }
-
-  await tryRequestEditNote(
-    requestId,
-    message,
-    { id: requestId, note: message },
-    "requestEditNote(id+note)",
-  );
+  if (await tryCreateRequestNote(requestId, message)) return;
+  await tryCreateClientNote(clientId, message);
 }

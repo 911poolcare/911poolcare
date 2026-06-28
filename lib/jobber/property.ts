@@ -9,9 +9,12 @@ export type JobberAddressInput = {
 };
 
 const PROPERTY_CREATE_MUTATION = `
-  mutation CreateWebsiteLeadProperty($input: PropertyCreateInput!) {
-    propertyCreate(input: $input) {
-      property {
+  mutation CreateWebsiteLeadProperty(
+    $clientId: EncodedId!
+    $input: PropertyCreateInput!
+  ) {
+    propertyCreate(clientId: $clientId, input: $input) {
+      properties {
         id
         address {
           street1
@@ -30,59 +33,36 @@ const PROPERTY_CREATE_MUTATION = `
 
 type PropertyCreateResult = {
   propertyCreate: {
-    property: { id: string } | null;
+    properties: Array<{ id: string }> | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
 };
 
-export type PropertyCreateAttempt = {
-  label: string;
-  propertyId: string | null;
-  error: string | null;
-};
-
-/** Creates a service property on the client. Tries common input shapes. */
+/** Creates a service property on the client. Returns the first property id or null. */
 export async function createClientProperty(
   clientId: string,
   address: JobberAddressInput,
-): Promise<{ propertyId: string | null; attempts: PropertyCreateAttempt[] }> {
-  const variants: Array<{ label: string; input: Record<string, unknown> }> = [
-    { label: "address", input: { clientId, address } },
-    {
-      label: "properties",
-      input: { clientId, properties: [{ address }] },
-    },
-  ];
+): Promise<string | null> {
+  try {
+    const result = await jobberGraphql<PropertyCreateResult>(
+      PROPERTY_CREATE_MUTATION,
+      {
+        clientId,
+        input: {
+          properties: [{ address }],
+        },
+      },
+    );
 
-  const attempts: PropertyCreateAttempt[] = [];
-
-  for (const { label, input } of variants) {
-    try {
-      const result = await jobberGraphql<PropertyCreateResult>(
-        PROPERTY_CREATE_MUTATION,
-        { input },
-      );
-
-      const errors = formatUserErrors(result.propertyCreate.userErrors);
-      const propertyId = result.propertyCreate.property?.id ?? null;
-
-      attempts.push({
-        label,
-        propertyId,
-        error: errors,
-      });
-
-      if (propertyId) {
-        return { propertyId, attempts };
-      }
-    } catch (error) {
-      attempts.push({
-        label,
-        propertyId: null,
-        error: error instanceof Error ? error.message : String(error),
-      });
+    const errors = formatUserErrors(result.propertyCreate.userErrors);
+    if (errors) {
+      console.warn("[Jobber] propertyCreate:", errors);
+      return null;
     }
-  }
 
-  return { propertyId: null, attempts };
+    return result.propertyCreate.properties?.[0]?.id ?? null;
+  } catch (error) {
+    console.warn("[Jobber] propertyCreate:", error);
+    return null;
+  }
 }
