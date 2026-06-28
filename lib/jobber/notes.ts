@@ -98,7 +98,7 @@ async function tryCreateClientNote(clientId: string, message: string) {
 
 /**
  * Best-effort note on the request or client.
- * Lead details are always sent via assessment.instructions on requestCreate.
+ * Lead details are not sent via assessment — that creates an assessment workflow in Jobber.
  */
 export async function attachLeadNotes(options: {
   clientId: string;

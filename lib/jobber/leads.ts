@@ -2,6 +2,10 @@ import { referralSourceOptions } from "@/content/contact-form";
 import { serviceOptions } from "@/content/services";
 import type { ContactFormData } from "@/lib/validations/contact";
 import {
+  findOrCreateWebsiteClient,
+  resolveServicePropertyId,
+} from "@/lib/jobber/clients";
+import {
   buildClientCustomFieldInputs,
   getJobberClientCustomFieldIds,
   logMissingCustomFieldSetup,
@@ -9,29 +13,7 @@ import {
 import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { attachLeadNotes } from "@/lib/jobber/notes";
-import {
-  createClientProperty,
-  type JobberAddressInput,
-} from "@/lib/jobber/property";
-
-const CREATE_CLIENT_MUTATION = `
-  mutation CreateWebsiteLeadClient($input: ClientCreateInput!) {
-    clientCreate(input: $input) {
-      client {
-        id
-        name
-        jobberWebUri
-        properties {
-          id
-        }
-      }
-      userErrors {
-        message
-        path
-      }
-    }
-  }
-`;
+import type { JobberAddressInput } from "@/lib/jobber/property";
 
 const CREATE_REQUEST_MUTATION = `
   mutation CreateWebsiteLeadRequest($input: RequestCreateInput!) {
@@ -57,18 +39,6 @@ const CREATE_REQUEST_MUTATION = `
     }
   }
 `;
-
-type ClientCreateResult = {
-  clientCreate: {
-    client: {
-      id: string;
-      name: string;
-      jobberWebUri: string;
-      properties: Array<{ id: string }>;
-    } | null;
-    userErrors: Array<{ message: string; path?: string[] }>;
-  };
-};
 
 type RequestCreateResult = {
   requestCreate: {
@@ -203,48 +173,22 @@ async function createRequest(
   clientId: string,
   propertyId: string | null,
   title: string,
-  instructions: string,
 ) {
-  const withAssessment: Record<string, unknown> = {
-    clientId,
-    title,
-    assessment: { instructions },
-  };
+  const input: Record<string, unknown> = { clientId, title };
   if (propertyId) {
-    withAssessment.propertyId = propertyId;
+    input.propertyId = propertyId;
   }
 
-  try {
-    const result = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
-      input: withAssessment,
-    });
-
-    const errors = formatUserErrors(result.requestCreate.userErrors);
-    if (!errors && result.requestCreate.request) {
-      return result.requestCreate.request;
-    }
-    if (errors) {
-      console.warn("[Jobber] requestCreate with assessment:", errors);
-    }
-  } catch (error) {
-    console.warn("[Jobber] requestCreate with assessment:", error);
-  }
-
-  const minimal: Record<string, unknown> = { clientId, title };
-  if (propertyId) {
-    minimal.propertyId = propertyId;
-  }
-
-  const fallback = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
-    input: minimal,
+  const result = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
+    input,
   });
 
-  const fallbackErrors = formatUserErrors(fallback.requestCreate.userErrors);
-  if (fallbackErrors) {
-    throw new Error(`Jobber requestCreate failed: ${fallbackErrors}`);
+  const errors = formatUserErrors(result.requestCreate.userErrors);
+  if (errors) {
+    throw new Error(`Jobber requestCreate failed: ${errors}`);
   }
 
-  const request = fallback.requestCreate.request;
+  const request = result.requestCreate.request;
   if (!request) {
     throw new Error("Jobber requestCreate returned no request");
   }
@@ -283,35 +227,33 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     clientInput.customFields = customFields;
   }
 
-  const clientResult = await jobberGraphql<ClientCreateResult>(
-    CREATE_CLIENT_MUTATION,
-    { input: clientInput },
-  );
+  const { client, created } = await findOrCreateWebsiteClient({
+    email: data.email,
+    clientInput,
+    address,
+  });
 
-  const clientErrors = formatUserErrors(clientResult.clientCreate.userErrors);
-  if (clientErrors) {
-    throw new Error(`Jobber clientCreate failed: ${clientErrors}`);
-  }
-
-  const client = clientResult.clientCreate.client;
-  if (!client) {
-    throw new Error("Jobber clientCreate returned no client");
-  }
-
-  const propertyId =
-    client.properties[0]?.id ?? (await createClientProperty(client.id, address));
+  const propertyId = await resolveServicePropertyId(client, address, created);
 
   const request = await createRequest(
     client.id,
     propertyId,
     requestTitle,
-    requestNote,
   );
 
-  await attachLeadNotes({
+  void attachLeadNotes({
     clientId: client.id,
     requestId: request.id,
     message: requestNote,
+  }).catch((error) => {
+    console.warn("[Jobber] attachLeadNotes:", error);
+  });
+
+  console.info("[Jobber] Lead created", {
+    clientId: client.id,
+    requestId: request.id,
+    propertyId: request.property?.id ?? propertyId,
+    reusedClient: !created,
   });
 
   return {

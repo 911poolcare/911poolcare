@@ -47,8 +47,6 @@ export async function GET() {
 
   try {
     const stamp = Date.now();
-    const noteMessage = `Probe note ${stamp}\nServices: Leak\nAddress: ${testAddress.street1}`;
-
     const clientResult = await jobberGraphql<{
       clientCreate: {
         client: {
@@ -92,7 +90,6 @@ export async function GET() {
     const requestInput: Record<string, unknown> = {
       clientId,
       title: `Probe Request ${stamp}`,
-      assessment: { instructions: noteMessage },
     };
     if (propertyId) {
       requestInput.propertyId = propertyId;

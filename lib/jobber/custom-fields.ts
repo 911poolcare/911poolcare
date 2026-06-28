@@ -133,6 +133,18 @@ export async function getJobberClientCustomFieldIds(
     return cachedFieldIds;
   }
 
+  const fromEnv = resolveFromEnv();
+  if (fromEnv.servicesRequestedId || fromEnv.referralSourceId) {
+    cachedFieldIds = fromEnv;
+    return fromEnv;
+  }
+
+  // Skip slow/failing API discovery on form submit unless explicitly enabled.
+  if (process.env.JOBBER_CF_DISCOVERY !== "1") {
+    cachedFieldIds = fromEnv;
+    return fromEnv;
+  }
+
   const diagnostics = await inspectJobberClientCustomFields(options);
   return diagnostics.fieldIds;
 }

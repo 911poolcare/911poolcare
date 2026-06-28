@@ -19,9 +19,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true });
     }
 
-    await submitLeadToJobber(parsed.data);
+    const result = await submitLeadToJobber(parsed.data);
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true,
+      requestId: result.requestId,
+    });
   } catch (error) {
     console.error("[contact]", error);
     return NextResponse.json(
