@@ -2,8 +2,13 @@ import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 import { contactAttachmentLimits } from "@/content/contact-form";
 
+function isBlobUploadConfigured() {
+  // Vercel-connected stores use BLOB_STORE_ID + OIDC on deploy; local/dev may use BLOB_READ_WRITE_TOKEN.
+  return Boolean(process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN);
+}
+
 export async function POST(request: Request) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!isBlobUploadConfigured()) {
     return NextResponse.json(
       { error: "File uploads are not configured." },
       { status: 503 },
