@@ -19,13 +19,17 @@ export function AddressAutocompleteInput({
   placeholder = "Start typing your address...",
 }: AddressAutocompleteInputProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const autocompleteRef = useRef<google.maps.places.PlaceAutocompleteElement | null>(null);
+  const onAddressSelectRef = useRef(onAddressSelect);
+
+  onAddressSelectRef.current = onAddressSelect;
 
   useEffect(() => {
     if (!isGooglePlacesConfigured() || !containerRef.current) {
       return;
     }
 
-    let autocomplete: google.maps.places.PlaceAutocompleteElement | null = null;
+    const host = containerRef.current;
     let cancelled = false;
 
     const handleSelect = async (event: Event) => {
@@ -34,17 +38,17 @@ export function AddressAutocompleteInput({
       await place.fetchFields({ fields: ["addressComponents"] });
       const parsed = parsePlaceAddressComponents(place.addressComponents ?? []);
       if (parsed.street) {
-        onAddressSelect(parsed);
+        onAddressSelectRef.current(parsed);
       }
     };
 
-    loadGooglePlacesLibrary()
+    void loadGooglePlacesLibrary()
       .then(({ PlaceAutocompleteElement }) => {
-        if (cancelled || !containerRef.current) {
+        if (cancelled || !host.isConnected) {
           return;
         }
 
-        autocomplete = new PlaceAutocompleteElement({
+        const autocomplete = new PlaceAutocompleteElement({
           includedRegionCodes: ["us"],
           locationBias: {
             radius: 80_000,
@@ -54,23 +58,30 @@ export function AddressAutocompleteInput({
 
         autocomplete.placeholder = placeholder;
         autocomplete.classList.add("address-autocomplete");
-        if (hasError) {
-          autocomplete.classList.add("address-autocomplete--error");
-        }
-
         autocomplete.addEventListener("gmp-select", handleSelect);
-        containerRef.current.replaceChildren(autocomplete);
+        host.replaceChildren(autocomplete);
+        autocompleteRef.current = autocomplete;
       })
       .catch((error) => {
-        console.warn("[AddressAutocomplete]", error);
+        console.error("[AddressAutocomplete] Failed to initialize:", error);
       });
 
     return () => {
       cancelled = true;
-      autocomplete?.removeEventListener("gmp-select", handleSelect);
-      containerRef.current?.replaceChildren();
+      autocompleteRef.current?.removeEventListener("gmp-select", handleSelect);
+      autocompleteRef.current = null;
+      host.replaceChildren();
     };
-  }, [hasError, onAddressSelect, placeholder]);
+  }, [placeholder]);
+
+  useEffect(() => {
+    const autocomplete = autocompleteRef.current;
+    if (!autocomplete) {
+      return;
+    }
+
+    autocomplete.classList.toggle("address-autocomplete--error", Boolean(hasError));
+  }, [hasError]);
 
   return (
     <div

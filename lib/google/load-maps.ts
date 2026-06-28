@@ -8,6 +8,28 @@ export function isGooglePlacesConfigured() {
   return Boolean(getGooglePlacesApiKey());
 }
 
+function waitForGoogleMapsReady(timeoutMs = 10_000): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const started = Date.now();
+
+    const check = () => {
+      if (window.google?.maps) {
+        resolve();
+        return;
+      }
+
+      if (Date.now() - started >= timeoutMs) {
+        reject(new Error("Google Maps failed to load"));
+        return;
+      }
+
+      window.setTimeout(check, 50);
+    };
+
+    check();
+  });
+}
+
 export function loadGoogleMapsBootstrap(): Promise<void> {
   if (typeof window === "undefined") {
     return Promise.reject(new Error("Google Maps can only load in the browser"));
@@ -30,11 +52,25 @@ export function loadGoogleMapsBootstrap(): Promise<void> {
     const existing = document.querySelector<HTMLScriptElement>(
       'script[data-google-maps="bootstrap"]',
     );
+
     if (existing) {
-      existing.addEventListener("load", () => resolve(), { once: true });
-      existing.addEventListener("error", () => reject(new Error("Google Maps failed to load")), {
-        once: true,
-      });
+      existing.addEventListener(
+        "load",
+        () => {
+          waitForGoogleMapsReady().then(resolve).catch(reject);
+        },
+        { once: true },
+      );
+      existing.addEventListener(
+        "error",
+        () => {
+          mapsLoadPromise = null;
+          reject(new Error("Google Maps failed to load"));
+        },
+        { once: true },
+      );
+
+      waitForGoogleMapsReady().then(resolve).catch(reject);
       return;
     }
 
@@ -43,8 +79,13 @@ export function loadGoogleMapsBootstrap(): Promise<void> {
     script.async = true;
     script.defer = true;
     script.dataset.googleMaps = "bootstrap";
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Google Maps failed to load"));
+    script.onload = () => {
+      waitForGoogleMapsReady().then(resolve).catch(reject);
+    };
+    script.onerror = () => {
+      mapsLoadPromise = null;
+      reject(new Error("Google Maps failed to load"));
+    };
     document.head.appendChild(script);
   });
 
