@@ -86,7 +86,7 @@ export async function fetchPlaceAutocompleteSuggestions(
             latitude: site.google.coordinates.lat,
             longitude: site.google.coordinates.lng,
           },
-          radius: 80_000.0,
+          radius: 50_000.0,
         },
       },
     }),
