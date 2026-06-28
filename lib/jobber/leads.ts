@@ -173,8 +173,10 @@ function buildRequestTitle(data: ContactFormData, serviceLabels: string[]) {
       ? serviceLabels.join(" + ")
       : `${serviceLabels.length} services requested`;
   const partner = data.referringPartnerCompany?.trim();
+  const summary = data.message.trim().slice(0, 80);
   const base = `${services} | ${formatAddressLine(address)}`;
-  const title = partner ? `[${partner}] ${base}` : base;
+  const withSummary = summary ? `${base}: ${summary}` : base;
+  const title = partner ? `[${partner}] ${withSummary}` : withSummary;
   return title.slice(0, 255);
 }
 
@@ -198,7 +200,7 @@ function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
     lines.push("", `Referring partner: ${partner}`);
   }
 
-  if (data.message?.trim()) {
+  if (data.message.trim()) {
     lines.push("", "Customer message:", data.message.trim());
   }
 

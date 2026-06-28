@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { upload } from "@vercel/blob/client";
 import { Loader2, CheckCircle2, X } from "lucide-react";
@@ -11,6 +11,7 @@ import {
 } from "@/content/contact-form";
 import { serviceOptions } from "@/content/services";
 import { validateAttachmentFiles } from "@/lib/contact/attachments";
+import { formatPhoneInput } from "@/lib/contact/phone";
 import { isGooglePlacesConfigured } from "@/lib/google/load-maps";
 import type { ParsedAddress } from "@/lib/google/parse-address";
 import { AddressAutocompleteInput } from "@/components/forms/AddressAutocompleteInput";
@@ -49,6 +50,7 @@ export function ContactForm({
     watch,
     reset,
     setValue,
+    control,
     formState: { errors },
   } = useForm<FormFields>({
     resolver: zodResolver(contactFormFieldsSchema),
@@ -221,8 +223,12 @@ export function ContactForm({
       className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
       noValidate
     >
+      <p className="mb-5 text-sm text-slate-500">
+        Fields marked with <span className="text-red-600">*</span> are required.
+      </p>
+
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Name" error={errors.name?.message} className="sm:col-span-1">
+        <Field label="Name" required error={errors.name?.message} className="sm:col-span-1">
           <input
             {...register("name")}
             autoComplete="name"
@@ -231,18 +237,25 @@ export function ContactForm({
           />
         </Field>
 
-        <Field label="Phone" error={errors.phone?.message} className="sm:col-span-1">
-          <input
-            {...register("phone")}
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            className={inputClass(errors.phone)}
-            placeholder="(512) 555-1234"
+        <Field label="Phone" required error={errors.phone?.message} className="sm:col-span-1">
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <input
+                {...field}
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                className={inputClass(errors.phone)}
+                placeholder="(512) 555-1234"
+                onChange={(event) => field.onChange(formatPhoneInput(event.target.value))}
+              />
+            )}
           />
         </Field>
 
-        <Field label="Email" error={errors.email?.message} className="sm:col-span-2">
+        <Field label="Email" required error={errors.email?.message} className="sm:col-span-2">
           <input
             {...register("email")}
             type="email"
@@ -273,7 +286,7 @@ export function ContactForm({
 
         <div className="sm:col-span-2">
           <p className="mb-2 text-sm font-medium text-slate-700">
-            Services needed <span className="text-red-600">*</span>
+            Services needed <RequiredMark />
           </p>
           <p className="mb-3 text-sm text-slate-500">Select all that apply.</p>
           <div className="grid gap-2 sm:grid-cols-2">
@@ -309,6 +322,7 @@ export function ContactForm({
 
         <Field
           label="Street address"
+          required
           error={errors.street?.message}
           className="sm:col-span-2"
         >
@@ -326,7 +340,7 @@ export function ContactForm({
           </p>
         </Field>
 
-        <Field label="City" error={errors.city?.message} className="sm:col-span-1">
+        <Field label="City" required error={errors.city?.message} className="sm:col-span-1">
           <input
             {...register("city")}
             autoComplete="address-level2"
@@ -336,7 +350,7 @@ export function ContactForm({
         </Field>
 
         <div className="grid grid-cols-2 gap-4 sm:col-span-1">
-          <Field label="State" error={errors.state?.message}>
+          <Field label="State" required error={errors.state?.message}>
             <input
               {...register("state")}
               autoComplete="address-level1"
@@ -344,7 +358,7 @@ export function ContactForm({
               placeholder="TX"
             />
           </Field>
-          <Field label="ZIP" error={errors.zip?.message}>
+          <Field label="ZIP" required error={errors.zip?.message}>
             <input
               {...register("zip")}
               inputMode="numeric"
@@ -357,6 +371,7 @@ export function ContactForm({
 
         <Field
           label="Describe your issue"
+          required
           error={errors.message?.message}
           className="sm:col-span-2"
         >
@@ -428,6 +443,7 @@ export function ContactForm({
         {variant === "default" && showReferralOther ? (
           <Field
             label="Please specify"
+            required
             error={errors.referralSourceOther?.message}
             className="sm:col-span-2"
           >
@@ -455,10 +471,14 @@ export function ContactForm({
         </p>
       ) : null}
 
+      <p className="mt-6 text-sm text-slate-600">
+        We typically respond during business hours within one business day.
+      </p>
+
       <Button
         type="submit"
         size="lg"
-        className="mt-6 w-full sm:w-auto"
+        className="mt-3 w-full sm:w-auto"
         disabled={status === "loading"}
       >
         {status === "loading" ? (
@@ -474,20 +494,34 @@ export function ContactForm({
   );
 }
 
+function RequiredMark() {
+  return <span className="text-red-600">*</span>;
+}
+
 function Field({
   label,
+  required = false,
   error,
   className,
   children,
 }: {
   label: string;
+  required?: boolean;
   error?: string;
   className?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className={className}>
-      <label className="mb-1.5 block text-sm font-medium text-slate-700">{label}</label>
+      <label className="mb-1.5 block text-sm font-medium text-slate-700">
+        {label}
+        {required ? (
+          <>
+            {" "}
+            <RequiredMark />
+          </>
+        ) : null}
+      </label>
       {children}
       {error ? (
         <p className="mt-1 text-sm text-red-600" role="alert">

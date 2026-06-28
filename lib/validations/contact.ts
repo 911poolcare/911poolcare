@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { referralSourceOptions } from "@/content/contact-form";
+import { stripPhoneDigits } from "@/lib/contact/phone";
 import { serviceOptions } from "@/content/services";
 
 const serviceValues = serviceOptions.map((s) => s.value) as [string, ...string[]];
@@ -18,8 +19,10 @@ const contactFieldsSchema = z.object({
   name: z.string().min(2, "Please enter your name"),
   phone: z
     .string()
-    .min(10, "Please enter a valid phone number")
-    .regex(/^[\d\s()+-]+$/, "Please enter a valid phone number"),
+    .min(1, "Please enter a valid phone number")
+    .refine((value) => stripPhoneDigits(value).length === 10, {
+      message: "Please enter a valid 10-digit phone number",
+    }),
   email: z.string().email("Please enter a valid email address"),
   services: z
     .array(z.enum(serviceValues))
@@ -32,7 +35,11 @@ const contactFieldsSchema = z.object({
     .toUpperCase()
     .regex(/^[A-Z]{2}$/, "Please enter a 2-letter state"),
   zip: z.string().regex(/^\d{5}(-\d{4})?$/, "Please enter a valid ZIP code"),
-  message: z.string().max(2000).optional().or(z.literal("")),
+  message: z
+    .string()
+    .trim()
+    .min(10, "Please describe your issue (at least a few words)")
+    .max(2000, "Please keep your description under 2000 characters"),
   referralSource: z.union([z.enum(referralValues), z.literal("")]).optional(),
   referralSourceOther: z.string().max(120).optional().or(z.literal("")),
   referringPartnerCompany: z.string().max(120).optional().or(z.literal("")),
