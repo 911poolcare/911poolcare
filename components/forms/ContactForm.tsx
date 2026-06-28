@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useCallback, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,8 +12,9 @@ import {
 import { serviceOptions } from "@/content/services";
 import { validateAttachmentFiles } from "@/lib/contact/attachments";
 import { formatPhoneInput } from "@/lib/contact/phone";
-import { isGooglePlacesConfigured } from "@/lib/google/load-maps";
+import { isAddressAutocompleteEnabled } from "@/lib/google/address-autocomplete";
 import type { ParsedAddress } from "@/lib/google/parse-address";
+import { AddressAutocompleteInput } from "@/components/forms/AddressAutocompleteInput";
 import {
   contactFormFieldsSchema,
   contactSchema,
@@ -23,19 +23,6 @@ import {
   type ContactFormData,
 } from "@/lib/validations/contact";
 import { Button } from "@/components/ui/Button";
-
-const AddressAutocompleteInput = dynamic(
-  () =>
-    import("@/components/forms/AddressAutocompleteInput").then(
-      (mod) => mod.AddressAutocompleteInput,
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="address-autocomplete-host min-h-12 animate-pulse rounded-xl border border-slate-300 bg-slate-50" />
-    ),
-  },
-);
 
 type FormFields = ContactFormFields;
 
@@ -85,9 +72,7 @@ export function ContactForm({
 
   const referralSource = watch("referralSource");
   const showReferralOther = referralSource === "other";
-  const addressAutocompleteEnabled = isGooglePlacesConfigured();
-  const [autocompleteUnavailable, setAutocompleteUnavailable] = useState(false);
-  const showAddressAutocomplete = addressAutocompleteEnabled && !autocompleteUnavailable;
+  const addressAutocompleteEnabled = isAddressAutocompleteEnabled();
 
   const handleAddressSelect = useCallback(
     (address: ParsedAddress) => {
@@ -339,7 +324,7 @@ export function ContactForm({
           error={errors.street?.message}
           className="sm:col-span-2"
         >
-          {showAddressAutocomplete ? (
+          {addressAutocompleteEnabled ? (
             <>
               <input type="hidden" {...register("street")} />
               <AddressAutocompleteInput
@@ -347,7 +332,6 @@ export function ContactForm({
                 onStreetChange={(street) =>
                   setValue("street", street, { shouldDirty: true })
                 }
-                onInitFailure={() => setAutocompleteUnavailable(true)}
                 hasError={!!errors.street}
                 className={inputClass(errors.street)}
                 placeholder="Start typing your address..."
@@ -362,7 +346,7 @@ export function ContactForm({
             />
           )}
           <p className="mt-2 text-xs text-slate-500">
-            {showAddressAutocomplete
+            {addressAutocompleteEnabled
               ? "Select your address from the suggestions — city, state, and ZIP fill in automatically."
               : "Enter your full street address."}
           </p>

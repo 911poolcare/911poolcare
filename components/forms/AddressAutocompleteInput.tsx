@@ -1,149 +1,111 @@
 "use client";
 
 import {
-  useCallback,
   useEffect,
   useId,
   useRef,
   useState,
   type KeyboardEvent,
 } from "react";
-import { site } from "@/content/site";
-import { isGooglePlacesConfigured, loadGooglePlacesLibrary } from "@/lib/google/load-maps";
-import { parsePlaceAddressComponents, type ParsedAddress } from "@/lib/google/parse-address";
+import type { ParsedAddress } from "@/lib/google/parse-address";
 
 type AddressAutocompleteInputProps = {
   onAddressSelect: (address: ParsedAddress) => void;
   onStreetChange: (street: string) => void;
-  onInitFailure?: () => void;
   hasError?: boolean;
   className?: string;
   placeholder?: string;
 };
 
-type PlaceSuggestion = {
+type Suggestion = {
+  placeId: string;
   label: string;
-  placePrediction: google.maps.places.PlacePrediction;
 };
+
+function createSessionToken() {
+  return crypto.randomUUID();
+}
 
 export function AddressAutocompleteInput({
   onAddressSelect,
   onStreetChange,
-  onInitFailure,
   hasError,
   className,
   placeholder = "Start typing your address...",
 }: AddressAutocompleteInputProps) {
-  const [ready, setReady] = useState(false);
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const listId = useId();
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const sessionTokenRef = useRef<google.maps.places.AutocompleteSessionToken | null>(null);
+  const sessionTokenRef = useRef(createSessionToken());
   const debounceRef = useRef<number | null>(null);
   const requestIdRef = useRef(0);
 
   const onAddressSelectRef = useRef(onAddressSelect);
   const onStreetChangeRef = useRef(onStreetChange);
-  const onInitFailureRef = useRef(onInitFailure);
 
   onAddressSelectRef.current = onAddressSelect;
   onStreetChangeRef.current = onStreetChange;
-  onInitFailureRef.current = onInitFailure;
 
-  useEffect(() => {
-    if (!isGooglePlacesConfigured()) {
-      return;
-    }
-
-    let cancelled = false;
-
-    loadGooglePlacesLibrary()
-      .then(({ AutocompleteSessionToken }) => {
-        if (cancelled) {
-          return;
-        }
-        sessionTokenRef.current = new AutocompleteSessionToken();
-        setReady(true);
-      })
-      .catch((error) => {
-        console.error("[AddressAutocomplete] Failed to initialize:", error);
-        onInitFailureRef.current?.();
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const resetSessionToken = useCallback(async () => {
-    const { AutocompleteSessionToken } = await loadGooglePlacesLibrary();
-    sessionTokenRef.current = new AutocompleteSessionToken();
-  }, []);
-
-  const fetchSuggestions = useCallback(async (input: string) => {
+  const fetchSuggestions = async (input: string) => {
     const trimmed = input.trim();
     if (trimmed.length < 3) {
       setSuggestions([]);
       setOpen(false);
       setLoading(false);
+      setApiError(null);
       return;
     }
 
     const requestId = ++requestIdRef.current;
     setLoading(true);
+    setApiError(null);
 
     try {
-      const { AutocompleteSuggestion } = await loadGooglePlacesLibrary();
-
-      if (!sessionTokenRef.current) {
-        await resetSessionToken();
-      }
-
-      const { suggestions: results } =
-        await AutocompleteSuggestion.fetchAutocompleteSuggestions({
+      const response = await fetch("/api/places/autocomplete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           input: trimmed,
-          sessionToken: sessionTokenRef.current ?? undefined,
-          includedRegionCodes: ["us"],
-          locationBias: {
-            radius: 80_000,
-            center: site.google.coordinates,
-          },
-        });
+          sessionToken: sessionTokenRef.current,
+        }),
+      });
 
       if (requestId !== requestIdRef.current) {
         return;
       }
 
-      const placeSuggestions = results
-        .map((suggestion) => suggestion.placePrediction)
-        .filter((prediction): prediction is google.maps.places.PlacePrediction =>
-          Boolean(prediction),
-        )
-        .map((prediction) => ({
-          label: prediction.text.text,
-          placePrediction: prediction,
-        }));
+      if (!response.ok) {
+        setSuggestions([]);
+        setOpen(false);
+        setApiError("Address search is temporarily unavailable.");
+        return;
+      }
 
-      setSuggestions(placeSuggestions);
-      setOpen(placeSuggestions.length > 0);
+      const data = (await response.json()) as { suggestions?: Suggestion[] };
+      const results = data.suggestions ?? [];
+
+      setSuggestions(results);
+      setOpen(results.length > 0);
       setHighlighted(0);
     } catch (error) {
-      console.error("[AddressAutocomplete] Suggestion request failed:", error);
+      console.error("[AddressAutocomplete]", error);
       if (requestId === requestIdRef.current) {
         setSuggestions([]);
         setOpen(false);
+        setApiError("Address search is temporarily unavailable.");
       }
     } finally {
       if (requestId === requestIdRef.current) {
         setLoading(false);
       }
     }
-  }, [resetSessionToken]);
+  };
 
   const handleInputChange = (value: string) => {
     setQuery(value);
@@ -166,24 +128,44 @@ export function AddressAutocompleteInput({
 
     setOpen(false);
     setSuggestions([]);
+    setLoading(true);
 
     try {
-      const place = suggestion.placePrediction.toPlace();
-      await place.fetchFields({ fields: ["addressComponents"] });
-      const parsed = parsePlaceAddressComponents(place.addressComponents ?? []);
+      const response = await fetch("/api/places/details", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          placeId: suggestion.placeId,
+          sessionToken: sessionTokenRef.current,
+        }),
+      });
 
-      if (parsed.street) {
-        setQuery(parsed.street);
-        onStreetChangeRef.current(parsed.street);
-        onAddressSelectRef.current(parsed);
+      if (!response.ok) {
+        setQuery(suggestion.label);
+        onStreetChangeRef.current(suggestion.label);
+        setApiError("Could not load that address. Try again or type it manually.");
+        return;
+      }
+
+      const data = (await response.json()) as { address?: ParsedAddress };
+      const address = data.address;
+
+      if (address?.street) {
+        setQuery(address.street);
+        onStreetChangeRef.current(address.street);
+        onAddressSelectRef.current(address);
       } else {
         setQuery(suggestion.label);
         onStreetChangeRef.current(suggestion.label);
       }
 
-      await resetSessionToken();
+      sessionTokenRef.current = createSessionToken();
+      setApiError(null);
     } catch (error) {
-      console.error("[AddressAutocomplete] Failed to load place details:", error);
+      console.error("[AddressAutocomplete]", error);
+      setApiError("Could not load that address. Try again or type it manually.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -242,10 +224,10 @@ export function AddressAutocompleteInput({
         aria-expanded={open}
         aria-controls={listId}
         aria-autocomplete="list"
+        aria-invalid={hasError || undefined}
         aria-activedescendant={open ? `${listId}-option-${highlighted}` : undefined}
-        disabled={!ready}
         className={className}
-        placeholder={ready ? placeholder : "Loading address search..."}
+        placeholder={placeholder}
       />
 
       {loading ? (
@@ -262,7 +244,7 @@ export function AddressAutocompleteInput({
         >
           {suggestions.map((suggestion, index) => (
             <li
-              key={`${suggestion.label}-${index}`}
+              key={`${suggestion.placeId}-${index}`}
               id={`${listId}-option-${index}`}
               role="option"
               aria-selected={index === highlighted}
@@ -280,6 +262,12 @@ export function AddressAutocompleteInput({
             </li>
           ))}
         </ul>
+      ) : null}
+
+      {apiError ? (
+        <p className="mt-1 text-xs text-amber-700" role="status">
+          {apiError}
+        </p>
       ) : null}
     </div>
   );
