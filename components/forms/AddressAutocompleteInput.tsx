@@ -1,71 +1,65 @@
 "use client";
 
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { site } from "@/content/site";
-import { isGooglePlacesConfigured, loadGoogleMapsPlaces } from "@/lib/google/load-maps";
-import { parseGoogleAddressComponents, type ParsedAddress } from "@/lib/google/parse-address";
+import { isGooglePlacesConfigured, loadGooglePlacesLibrary } from "@/lib/google/load-maps";
+import { parsePlaceAddressComponents, type ParsedAddress } from "@/lib/google/parse-address";
 
 type AddressAutocompleteInputProps = {
   onAddressSelect: (address: ParsedAddress) => void;
   hasError?: boolean;
   className?: string;
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "type">;
+  placeholder?: string;
+};
 
-export const AddressAutocompleteInput = forwardRef<
-  HTMLInputElement,
-  AddressAutocompleteInputProps
->(function AddressAutocompleteInput(
-  { onAddressSelect, hasError, className, ...inputProps },
-  forwardedRef,
-) {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-
-  useImperativeHandle(forwardedRef, () => inputRef.current as HTMLInputElement);
+export function AddressAutocompleteInput({
+  onAddressSelect,
+  hasError,
+  className,
+  placeholder = "Start typing your address...",
+}: AddressAutocompleteInputProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isGooglePlacesConfigured() || !inputRef.current) {
+    if (!isGooglePlacesConfigured() || !containerRef.current) {
       return;
     }
 
-    let listener: google.maps.MapsEventListener | null = null;
+    let autocomplete: google.maps.places.PlaceAutocompleteElement | null = null;
     let cancelled = false;
 
-    loadGoogleMapsPlaces()
-      .then(() => {
-        if (cancelled || !inputRef.current || !window.google?.maps?.places) {
+    const handleSelect = async (event: Event) => {
+      const selectEvent = event as google.maps.places.PlacePredictionSelectEvent;
+      const place = selectEvent.placePrediction.toPlace();
+      await place.fetchFields({ fields: ["addressComponents"] });
+      const parsed = parsePlaceAddressComponents(place.addressComponents ?? []);
+      if (parsed.street) {
+        onAddressSelect(parsed);
+      }
+    };
+
+    loadGooglePlacesLibrary()
+      .then(({ PlaceAutocompleteElement }) => {
+        if (cancelled || !containerRef.current) {
           return;
         }
 
-        const { lat, lng } = site.google.coordinates;
-        const center = new google.maps.LatLng(lat, lng);
-        const bounds = new google.maps.Circle({
-          center,
-          radius: 80_000,
-        }).getBounds();
-
-        const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
-          componentRestrictions: { country: "us" },
-          fields: ["address_components"],
-          types: ["address"],
-          ...(bounds ? { bounds, strictBounds: false } : {}),
+        autocomplete = new PlaceAutocompleteElement({
+          includedRegionCodes: ["us"],
+          locationBias: {
+            radius: 80_000,
+            center: site.google.coordinates,
+          },
         });
 
-        listener = autocomplete.addListener("place_changed", () => {
-          const place = autocomplete.getPlace();
-          if (!place.address_components?.length) {
-            return;
-          }
+        autocomplete.placeholder = placeholder;
+        autocomplete.classList.add("address-autocomplete");
+        if (hasError) {
+          autocomplete.classList.add("address-autocomplete--error");
+        }
 
-          const parsed = parseGoogleAddressComponents(place.address_components);
-          if (!parsed.street) {
-            return;
-          }
-
-          onAddressSelect(parsed);
-        });
-
-        autocompleteRef.current = autocomplete;
+        autocomplete.addEventListener("gmp-select", handleSelect);
+        containerRef.current.replaceChildren(autocomplete);
       })
       .catch((error) => {
         console.warn("[AddressAutocomplete]", error);
@@ -73,19 +67,21 @@ export const AddressAutocompleteInput = forwardRef<
 
     return () => {
       cancelled = true;
-      listener?.remove();
-      autocompleteRef.current = null;
+      autocomplete?.removeEventListener("gmp-select", handleSelect);
+      containerRef.current?.replaceChildren();
     };
-  }, [onAddressSelect]);
+  }, [hasError, onAddressSelect, placeholder]);
 
   return (
-    <input
-      {...inputProps}
-      ref={inputRef}
-      type="text"
-      autoComplete="off"
-      className={className}
-      aria-invalid={hasError || undefined}
+    <div
+      ref={containerRef}
+      className={[
+        "address-autocomplete-host",
+        hasError ? "address-autocomplete-host--error" : "",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     />
   );
-});
+}

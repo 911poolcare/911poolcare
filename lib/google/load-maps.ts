@@ -8,12 +8,12 @@ export function isGooglePlacesConfigured() {
   return Boolean(getGooglePlacesApiKey());
 }
 
-export function loadGoogleMapsPlaces(): Promise<void> {
+export function loadGoogleMapsBootstrap(): Promise<void> {
   if (typeof window === "undefined") {
     return Promise.reject(new Error("Google Maps can only load in the browser"));
   }
 
-  if (window.google?.maps?.places) {
+  if (window.google?.maps) {
     return Promise.resolve();
   }
 
@@ -28,7 +28,7 @@ export function loadGoogleMapsPlaces(): Promise<void> {
 
   mapsLoadPromise = new Promise((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(
-      'script[data-google-maps="places"]',
+      'script[data-google-maps="bootstrap"]',
     );
     if (existing) {
       existing.addEventListener("load", () => resolve(), { once: true });
@@ -39,14 +39,19 @@ export function loadGoogleMapsPlaces(): Promise<void> {
     }
 
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&loading=async`;
     script.async = true;
     script.defer = true;
-    script.dataset.googleMaps = "places";
+    script.dataset.googleMaps = "bootstrap";
     script.onload = () => resolve();
     script.onerror = () => reject(new Error("Google Maps failed to load"));
     document.head.appendChild(script);
   });
 
   return mapsLoadPromise;
+}
+
+export async function loadGooglePlacesLibrary(): Promise<google.maps.PlacesLibrary> {
+  await loadGoogleMapsBootstrap();
+  return google.maps.importLibrary("places") as Promise<google.maps.PlacesLibrary>;
 }

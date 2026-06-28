@@ -5,9 +5,25 @@ export type ParsedAddress = {
   zip: string;
 };
 
-/** Parse Google Places `address_components` into form fields. */
-export function parseGoogleAddressComponents(
-  components: google.maps.GeocoderAddressComponent[],
+type AddressComponentLike = {
+  long_name?: string;
+  short_name?: string;
+  longText?: string | null;
+  shortText?: string | null;
+  types: string[];
+};
+
+function getLongName(component: AddressComponentLike) {
+  return component.longText ?? component.long_name ?? "";
+}
+
+function getShortName(component: AddressComponentLike) {
+  return component.shortText ?? component.short_name ?? "";
+}
+
+/** Parse Google address components (legacy or Places API New). */
+export function parsePlaceAddressComponents(
+  components: AddressComponentLike[],
 ): ParsedAddress {
   let streetNumber = "";
   let route = "";
@@ -19,25 +35,25 @@ export function parseGoogleAddressComponents(
     const types = component.types;
 
     if (types.includes("street_number")) {
-      streetNumber = component.long_name;
+      streetNumber = getLongName(component);
     }
     if (types.includes("route")) {
-      route = component.long_name;
+      route = getLongName(component);
     }
     if (types.includes("locality")) {
-      city = component.long_name;
+      city = getLongName(component);
     }
     if (!city && types.includes("sublocality")) {
-      city = component.long_name;
+      city = getLongName(component);
     }
     if (!city && types.includes("sublocality_level_1")) {
-      city = component.long_name;
+      city = getLongName(component);
     }
     if (types.includes("administrative_area_level_1")) {
-      state = component.short_name;
+      state = getShortName(component);
     }
     if (types.includes("postal_code")) {
-      zip = component.long_name;
+      zip = getLongName(component);
     }
   }
 
@@ -48,3 +64,6 @@ export function parseGoogleAddressComponents(
     zip,
   };
 }
+
+/** @deprecated Use parsePlaceAddressComponents */
+export const parseGoogleAddressComponents = parsePlaceAddressComponents;

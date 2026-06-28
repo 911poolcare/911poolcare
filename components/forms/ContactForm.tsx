@@ -84,8 +84,6 @@ export function ContactForm({
     [setValue],
   );
 
-  const streetField = register("street");
-
   const totalFileSizeMb = useMemo(() => {
     const bytes = files.reduce((sum, file) => sum + file.size, 0);
     return (bytes / (1024 * 1024)).toFixed(1);
@@ -326,13 +324,24 @@ export function ContactForm({
           error={errors.street?.message}
           className="sm:col-span-2"
         >
-          <AddressAutocompleteInput
-            {...streetField}
-            onAddressSelect={handleAddressSelect}
-            hasError={!!errors.street}
-            className={inputClass(errors.street)}
-            placeholder="Start typing your address..."
-          />
+          {addressAutocompleteEnabled ? (
+            <>
+              <input type="hidden" {...register("street")} />
+              <AddressAutocompleteInput
+                onAddressSelect={handleAddressSelect}
+                hasError={!!errors.street}
+                className={inputClass(errors.street)}
+                placeholder="Start typing your address..."
+              />
+            </>
+          ) : (
+            <input
+              {...register("street")}
+              autoComplete="street-address"
+              className={inputClass(errors.street)}
+              placeholder="123 Main St"
+            />
+          )}
           <p className="mt-2 text-xs text-slate-500">
             {addressAutocompleteEnabled
               ? "Select your address from the suggestions — city, state, and ZIP fill in automatically."
