@@ -194,7 +194,7 @@ export function ContactForm({
       }
 
       grantThankYouAccess();
-      router.replace("/thank-you");
+      router.replace("/thank-you", { scroll: true });
     } catch (err) {
       setStatus("idle");
       setErrorMessage(

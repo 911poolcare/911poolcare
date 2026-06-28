@@ -18,6 +18,14 @@ export function ThankYouGate({ children }: { children: React.ReactNode }) {
     router.replace("/#contact");
   }, [router]);
 
+  useEffect(() => {
+    if (!allowed) return;
+
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [allowed]);
+
   if (!allowed) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
