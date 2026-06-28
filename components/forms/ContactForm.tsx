@@ -1,16 +1,18 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { upload } from "@vercel/blob/client";
-import { Loader2, CheckCircle2, X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import {
   contactAttachmentLimits,
   referralSourceOptions,
 } from "@/content/contact-form";
 import { serviceOptions } from "@/content/services";
 import { validateAttachmentFiles } from "@/lib/contact/attachments";
+import { grantThankYouAccess } from "@/lib/contact/thank-you";
 import { formatPhoneInput } from "@/lib/contact/phone";
 import { isAddressAutocompleteEnabled } from "@/lib/google/address-autocomplete";
 import type { ParsedAddress } from "@/lib/google/parse-address";
@@ -33,9 +35,8 @@ export function ContactForm({
   defaultService?: string;
   variant?: "default" | "partner";
 }) {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle",
-  );
+  const router = useRouter();
+  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedServices, setSelectedServices] = useState<string[]>(
     defaultService ? [defaultService] : [],
@@ -48,7 +49,6 @@ export function ContactForm({
     register,
     handleSubmit,
     watch,
-    reset,
     setValue,
     control,
     formState: { errors },
@@ -186,10 +186,8 @@ export function ContactForm({
         );
       }
 
-      setStatus("success");
-      reset();
-      setSelectedServices(defaultService ? [defaultService] : []);
-      setFiles([]);
+      grantThankYouAccess();
+      router.replace("/thank-you");
     } catch (err) {
       setStatus("error");
       setErrorMessage(
@@ -198,21 +196,6 @@ export function ContactForm({
           : "Something went wrong. Please call us instead.",
       );
     }
-  }
-
-  if (status === "success") {
-    return (
-      <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-green-600" aria-hidden />
-        <h3 className="mt-4 text-xl font-semibold text-slate-900">Request received!</h3>
-        <p className="mt-2 text-slate-600">
-          We&apos;ll be in touch shortly. For urgent issues, call us directly.
-        </p>
-        <Button className="mt-6" onClick={() => setStatus("idle")}>
-          Submit another request
-        </Button>
-      </div>
-    );
   }
 
   return (
