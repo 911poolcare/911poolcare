@@ -1,6 +1,11 @@
 import { referralSourceOptions } from "@/content/contact-form";
 import { serviceOptions } from "@/content/services";
 import type { ContactFormData } from "@/lib/validations/contact";
+import {
+  buildClientCustomFieldInputs,
+  getJobberClientCustomFieldIds,
+  logMissingCustomFieldSetup,
+} from "@/lib/jobber/custom-fields";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 
 const CREATE_CLIENT_MUTATION = `
@@ -41,6 +46,9 @@ const CREATE_REQUEST_MUTATION = `
         id
         title
         jobberWebUri
+        property {
+          id
+        }
       }
       userErrors {
         message
@@ -97,7 +105,12 @@ type PropertyCreateResult = {
 
 type RequestCreateResult = {
   requestCreate: {
-    request: { id: string; title: string; jobberWebUri: string } | null;
+    request: {
+      id: string;
+      title: string;
+      jobberWebUri: string;
+      property: { id: string } | null;
+    } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
 };
@@ -122,6 +135,15 @@ type AddressInput = {
   province: string;
   postalCode: string;
   country: string;
+};
+
+const SERVICE_SHORT_LABELS: Record<string, string> = {
+  "leak-detection": "Leak",
+  renovation: "Renovation",
+  "equipment-repair": "Equipment",
+  inspection: "Inspection",
+  "pool-company-partner": "Partner",
+  other: "Other",
 };
 
 function splitName(fullName: string) {
@@ -166,23 +188,24 @@ function formatAddressLine(address: AddressInput) {
   return `${address.street1}, ${address.city}, ${address.province} ${address.postalCode}`;
 }
 
-function buildRequestTitle(data: ContactFormData, serviceLabels: string[]) {
-  const address = buildAddress(data);
+function buildRequestTitle(data: ContactFormData, serviceValues: string[]) {
+  const shortLabels = serviceValues.map(
+    (value) => SERVICE_SHORT_LABELS[value] ?? value,
+  );
   const services =
-    serviceLabels.length <= 2
-      ? serviceLabels.join(" + ")
-      : `${serviceLabels.length} services requested`;
+    shortLabels.length <= 3
+      ? shortLabels.join(" + ")
+      : `${shortLabels.length} services`;
+  const cityState = `${data.city.trim()}, ${data.state.trim().toUpperCase()}`;
   const partner = data.referringPartnerCompany?.trim();
-  const summary = data.message.trim().slice(0, 80);
-  const base = `${services} | ${formatAddressLine(address)}`;
-  const withSummary = summary ? `${base}: ${summary}` : base;
-  const title = partner ? `[${partner}] ${withSummary}` : withSummary;
-  return title.slice(0, 255);
+  const base = `${services} — ${cityState}`;
+  const title = partner ? `[${partner}] ${base}` : base;
+  return title.slice(0, 120);
 }
 
 function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
   const lines = [
-    "Website contact form submission",
+    "Website lead — submitted via 911poolcare.com",
     "",
     "Services requested:",
     ...serviceLabels.map((label) => `- ${label}`),
@@ -222,21 +245,65 @@ function normalizePhone(phone: string) {
   return phone.trim();
 }
 
-async function tryJobberStep(label: string, action: () => Promise<void>) {
-  try {
-    await action();
-  } catch (error) {
-    console.error(`[Jobber] ${label}:`, error);
+async function createServiceProperty(clientId: string, address: AddressInput) {
+  const propertyResult = await jobberGraphql<PropertyCreateResult>(
+    CREATE_PROPERTY_MUTATION,
+    {
+      input: {
+        clientId,
+        address,
+      },
+    },
+  );
+
+  const propertyErrors = formatUserErrors(
+    propertyResult.propertyCreate.userErrors,
+  );
+  if (propertyErrors) {
+    throw new Error(`Jobber propertyCreate failed: ${propertyErrors}`);
   }
+
+  const property = propertyResult.propertyCreate.property;
+  if (!property) {
+    throw new Error("Jobber propertyCreate returned no property");
+  }
+
+  return property;
+}
+
+async function linkRequestProperty(requestId: string, propertyId: string) {
+  const editResult = await jobberGraphql<RequestEditResult>(EDIT_REQUEST_MUTATION, {
+    input: {
+      requestId,
+      propertyId,
+    },
+  });
+
+  const editErrors = formatUserErrors(editResult.requestEdit.userErrors);
+  if (editErrors) {
+    throw new Error(`Jobber requestEdit failed: ${editErrors}`);
+  }
+
+  return editResult.requestEdit.request?.property?.id ?? null;
 }
 
 export async function createJobberLeadFromContact(data: ContactFormData) {
   const { firstName, lastName } = splitName(data.name);
   const serviceLabels = getServiceLabels(data.services);
+  const referralLabel = getReferralLabel(data);
   const address = buildAddress(data);
-  const requestTitle = buildRequestTitle(data, serviceLabels);
+  const requestTitle = buildRequestTitle(data, data.services);
   const requestNote = buildRequestNote(data, serviceLabels);
   const phone = normalizePhone(data.phone);
+
+  const customFieldIds = await getJobberClientCustomFieldIds();
+  logMissingCustomFieldSetup(customFieldIds);
+
+  const customFields = buildClientCustomFieldInputs(
+    customFieldIds,
+    serviceLabels,
+    referralLabel,
+  );
 
   const clientInput: Record<string, unknown> = {
     firstName,
@@ -245,6 +312,10 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     phones: [{ number: phone, primary: true, description: "MAIN" }],
     billingAddress: address,
   };
+
+  if (customFields.length) {
+    clientInput.customFields = customFields;
+  }
 
   const clientResult = await jobberGraphql<ClientCreateResult>(
     CREATE_CLIENT_MUTATION,
@@ -261,40 +332,33 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber clientCreate returned no client");
   }
 
-  let propertyId: string | null = null;
+  const property = await createServiceProperty(client.id, address);
 
-  await tryJobberStep("propertyCreate", async () => {
-    const propertyResult = await jobberGraphql<PropertyCreateResult>(
-      CREATE_PROPERTY_MUTATION,
+  const requestInput: Record<string, unknown> = {
+    clientId: client.id,
+    title: requestTitle,
+    propertyId: property.id,
+  };
+
+  let requestResult = await jobberGraphql<RequestCreateResult>(
+    CREATE_REQUEST_MUTATION,
+    { input: requestInput },
+  );
+
+  let requestErrors = formatUserErrors(requestResult.requestCreate.userErrors);
+  if (requestErrors?.toLowerCase().includes("property")) {
+    requestResult = await jobberGraphql<RequestCreateResult>(
+      CREATE_REQUEST_MUTATION,
       {
         input: {
           clientId: client.id,
-          address,
+          title: requestTitle,
         },
       },
     );
+    requestErrors = formatUserErrors(requestResult.requestCreate.userErrors);
+  }
 
-    const propertyErrors = formatUserErrors(
-      propertyResult.propertyCreate.userErrors,
-    );
-    if (propertyErrors) {
-      throw new Error(propertyErrors);
-    }
-
-    propertyId = propertyResult.propertyCreate.property?.id ?? null;
-  });
-
-  const requestResult = await jobberGraphql<RequestCreateResult>(
-    CREATE_REQUEST_MUTATION,
-    {
-      input: {
-        clientId: client.id,
-        title: requestTitle,
-      },
-    },
-  );
-
-  const requestErrors = formatUserErrors(requestResult.requestCreate.userErrors);
   if (requestErrors) {
     throw new Error(`Jobber requestCreate failed: ${requestErrors}`);
   }
@@ -304,47 +368,31 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     throw new Error("Jobber requestCreate returned no request");
   }
 
-  if (propertyId) {
-    await tryJobberStep("requestEdit property", async () => {
-      const editResult = await jobberGraphql<RequestEditResult>(
-        EDIT_REQUEST_MUTATION,
-        {
-          input: {
-            requestId: request.id,
-            propertyId,
-          },
-        },
-      );
-
-      const editErrors = formatUserErrors(editResult.requestEdit.userErrors);
-      if (editErrors) {
-        throw new Error(editErrors);
-      }
-    });
+  let linkedPropertyId = request.property?.id ?? null;
+  if (!linkedPropertyId) {
+    linkedPropertyId = await linkRequestProperty(request.id, property.id);
   }
 
-  await tryJobberStep("requestEditNote", async () => {
-    const noteResult = await jobberGraphql<RequestEditNoteResult>(
-      EDIT_REQUEST_NOTE_MUTATION,
-      {
-        input: {
-          requestId: request.id,
-          message: requestNote,
-        },
+  const noteResult = await jobberGraphql<RequestEditNoteResult>(
+    EDIT_REQUEST_NOTE_MUTATION,
+    {
+      input: {
+        requestId: request.id,
+        message: requestNote,
       },
-    );
+    },
+  );
 
-    const noteErrors = formatUserErrors(noteResult.requestEditNote.userErrors);
-    if (noteErrors) {
-      throw new Error(noteErrors);
-    }
-  });
+  const noteErrors = formatUserErrors(noteResult.requestEditNote.userErrors);
+  if (noteErrors) {
+    throw new Error(`Jobber requestEditNote failed: ${noteErrors}`);
+  }
 
   return {
     clientId: client.id,
     clientUri: client.jobberWebUri,
     requestId: request.id,
     requestUri: request.jobberWebUri,
-    propertyId,
+    propertyId: linkedPropertyId ?? property.id,
   };
 }
