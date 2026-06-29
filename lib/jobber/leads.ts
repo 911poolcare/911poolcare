@@ -14,6 +14,7 @@ import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { attachLeadNotes } from "@/lib/jobber/notes";
 import type { JobberAddressInput } from "@/lib/jobber/property";
+import { buildRequestDetailsInput } from "@/lib/jobber/request-form";
 
 const CREATE_REQUEST_MUTATION = `
   mutation CreateWebsiteLeadRequest($input: RequestCreateInput!) {
@@ -173,27 +174,45 @@ async function createRequest(
   clientId: string,
   propertyId: string | null,
   title: string,
+  data: ContactFormData,
 ) {
-  const input: Record<string, unknown> = { clientId, title };
+  const baseInput: Record<string, unknown> = { clientId, title };
   if (propertyId) {
-    input.propertyId = propertyId;
+    baseInput.propertyId = propertyId;
   }
 
-  const result = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
-    input,
-  });
+  const requestDetails = buildRequestDetailsInput(data);
+  const inputs: Record<string, unknown>[] = requestDetails
+    ? [{ ...baseInput, requestDetails }, baseInput]
+    : [baseInput];
 
-  const errors = formatUserErrors(result.requestCreate.userErrors);
-  if (errors) {
-    throw new Error(`Jobber requestCreate failed: ${errors}`);
+  let lastErrors: string | null = null;
+
+  for (const input of inputs) {
+    const result = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
+      input,
+    });
+
+    const errors = formatUserErrors(result.requestCreate.userErrors);
+    if (!errors) {
+      const request = result.requestCreate.request;
+      if (!request) {
+        throw new Error("Jobber requestCreate returned no request");
+      }
+      if (input !== inputs[0]) {
+        console.warn("[Jobber] requestCreate succeeded without requestDetails");
+      }
+      return request;
+    }
+
+    lastErrors = errors;
+    if (!input.requestDetails) {
+      break;
+    }
+    console.warn("[Jobber] requestCreate with requestDetails failed:", errors);
   }
 
-  const request = result.requestCreate.request;
-  if (!request) {
-    throw new Error("Jobber requestCreate returned no request");
-  }
-
-  return request;
+  throw new Error(`Jobber requestCreate failed: ${lastErrors ?? "unknown error"}`);
 }
 
 export async function createJobberLeadFromContact(data: ContactFormData) {
@@ -239,6 +258,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     client.id,
     propertyId,
     requestTitle,
+    data,
   );
 
   void attachLeadNotes({

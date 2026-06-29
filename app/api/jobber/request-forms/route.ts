@@ -32,10 +32,16 @@ const INTROSPECTION = `
         type { name kind ofType { name kind ofType { name kind ofType { name } } } }
       }
     }
-    formAnswerInput: __type(name: "FormAnswerInput") {
+    formItemInput: __type(name: "FormItemInput") {
       inputFields {
         name
         type { name kind ofType { name kind ofType { name kind ofType { name } } } }
+      }
+    }
+    requestSettingsType: __type(name: "RequestSettings") {
+      fields {
+        name
+        type { name kind ofType { name kind ofType { name } } }
       }
     }
   }
@@ -47,15 +53,8 @@ const REQUEST_SETTINGS = `
       nodes {
         id
         name
-        defaultForm {
-          id
-          name
-        }
-        requestForms {
-          id
-          name
-          isDefault
-        }
+        default
+        requestUrl
       }
     }
   }
