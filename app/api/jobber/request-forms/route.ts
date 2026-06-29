@@ -14,22 +14,28 @@ const INTROSPECTION = `
         }
       }
     }
-    requestFormAnswer: __type(name: "RequestFormAnswerInput") {
+    formInput: __type(name: "FormInput") {
       inputFields {
         name
-        type { name kind ofType { name kind ofType { name } } }
+        type { name kind ofType { name kind ofType { name kind ofType { name } } } }
       }
     }
-    requestFormSectionAnswer: __type(name: "RequestFormSectionAnswerInput") {
+    formSectionInput: __type(name: "FormSectionInput") {
       inputFields {
         name
-        type { name kind ofType { name kind ofType { name } } }
+        type { name kind ofType { name kind ofType { name kind ofType { name } } } }
       }
     }
-    requestFormQuestionAnswer: __type(name: "RequestFormQuestionAnswerInput") {
+    formQuestionInput: __type(name: "FormQuestionInput") {
       inputFields {
         name
-        type { name kind ofType { name kind ofType { name } } }
+        type { name kind ofType { name kind ofType { name kind ofType { name } } } }
+      }
+    }
+    formAnswerInput: __type(name: "FormAnswerInput") {
+      inputFields {
+        name
+        type { name kind ofType { name kind ofType { name kind ofType { name } } } }
       }
     }
   }
@@ -41,7 +47,11 @@ const REQUEST_SETTINGS = `
       nodes {
         id
         name
-        forms {
+        defaultForm {
+          id
+          name
+        }
+        requestForms {
           id
           name
           isDefault
@@ -83,11 +93,25 @@ export async function GET(request: Request) {
     const introspection = await jobberGraphql(INTROSPECTION);
 
     const settingsResult: Record<string, unknown> = {};
-    try {
-      settingsResult.requestSettingsCollection = await jobberGraphql(REQUEST_SETTINGS);
-    } catch (error) {
-      settingsResult.requestSettingsCollectionError =
-        error instanceof Error ? error.message : String(error);
+    const settingsQueries = [
+      ["requestSettingsCollection", REQUEST_SETTINGS],
+      [
+        "requestForms",
+        `query { requestForms(first: 10) { nodes { id name isDefault } } }`,
+      ],
+      [
+        "forms",
+        `query { forms(first: 10) { nodes { id name } } }`,
+      ],
+    ] as const;
+
+    for (const [label, query] of settingsQueries) {
+      try {
+        settingsResult[label] = await jobberGraphql(query);
+      } catch (error) {
+        settingsResult[`${label}Error`] =
+          error instanceof Error ? error.message : String(error);
+      }
     }
 
     let formDetail: unknown = null;
