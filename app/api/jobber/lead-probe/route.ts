@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { isJobberConfigured } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { createClientProperty } from "@/lib/jobber/property";
-import { buildRequestDetailsInput } from "@/lib/jobber/request-form";
+import { buildRequestDetailsInput, getRequestFormIds } from "@/lib/jobber/request-form";
 import type { ContactFormData } from "@/lib/validations/contact";
 
 const CREATE_CLIENT = `
@@ -132,6 +132,10 @@ export async function GET() {
     const requestDetails = buildRequestDetailsInput(probeFormData);
     if (requestDetails) {
       requestInput.requestDetails = requestDetails;
+    }
+    const formIds = getRequestFormIds();
+    if (formIds.length) {
+      requestInput.formIds = formIds;
     }
 
     const requestResult = await jobberGraphql<{

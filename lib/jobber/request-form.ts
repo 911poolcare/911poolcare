@@ -2,8 +2,7 @@ import type { ContactFormData } from "@/lib/validations/contact";
 import { referralSourceOptions } from "@/content/contact-form";
 
 /**
- * Jobber request form option labels — must match the default request form
- * in Jobber → Settings → Requests → Forms exactly (case and punctuation).
+ * Jobber checkbox option labels — must match Settings → Requests → Forms exactly.
  */
 const JOBBER_SERVICE_OPTION_LABELS: Record<string, string> = {
   "leak-detection": "Leak detection & repair",
@@ -14,7 +13,6 @@ const JOBBER_SERVICE_OPTION_LABELS: Record<string, string> = {
   other: "Other",
 };
 
-/** Section headers shown in Jobber's Overview block. */
 const SECTION_SERVICES =
   process.env.JOBBER_FORM_Q_SERVICES ?? "General service selection";
 const SECTION_DETAILS =
@@ -22,15 +20,11 @@ const SECTION_DETAILS =
 const SECTION_OVERVIEW =
   process.env.JOBBER_FORM_SECTION ?? "Overview";
 
-/** Question prompts inside each section (item labels for FormItemInput). */
-const PROMPT_SERVICES =
-  process.env.JOBBER_FORM_Q_SERVICES_PROMPT ??
-  "What services are you interested in?";
-const PROMPT_DETAILS =
-  process.env.JOBBER_FORM_Q_DETAILS_PROMPT ??
-  "Please let us know what issue you are having or what work we can help you accomplish";
+/** Main Request Form settings ID (Jobber → Settings → Requests). Override via env. */
+export const JOBBER_REQUEST_SETTINGS_ID =
+  process.env.JOBBER_REQUEST_SETTINGS_ID ??
+  "Z2lkOi8vSm9iYmVyL1JlcXVlc3RTZXR0aW5ncy8xMTY5MTUw";
 
-/** Website service values → exact Jobber checkbox option text. */
 export const JOBBER_SERVICE_LABEL_MAP = JOBBER_SERVICE_OPTION_LABELS;
 
 type FormItemInput = { label: string; answerText: string };
@@ -54,8 +48,13 @@ function getJobberServiceOptions(serviceValues: string[]) {
   );
 }
 
-function buildDetailsText(data: ContactFormData) {
-  const lines = [data.message.trim()];
+function buildDetailsText(data: ContactFormData, serviceOptions: string[]) {
+  const lines = [
+    "Services requested:",
+    ...serviceOptions.map((label) => `- ${label}`),
+    "",
+    data.message.trim(),
+  ];
 
   const referral = getReferralLabel(data);
   if (referral) {
@@ -77,29 +76,18 @@ function buildDetailsText(data: ContactFormData) {
   return lines.join("\n");
 }
 
-function buildSectionsLayout(data: ContactFormData): RequestDetailsInput {
+/** Proven layout: Overview section, Service Details item only (form-probe confirmed). */
+function buildOverviewDetailsLayout(data: ContactFormData): RequestDetailsInput {
   const serviceOptions = getJobberServiceOptions(data.services);
-
-  // Jobber matches form answers on item.label — use the field header names
-  // shown in the Overview UI ("General service selection", "Service Details").
   return {
     form: {
       sections: [
         {
-          label: SECTION_SERVICES,
-          items: [
-            {
-              label: SECTION_SERVICES,
-              answerText: serviceOptions.join("\n"),
-            },
-          ],
-        },
-        {
-          label: SECTION_DETAILS,
+          label: SECTION_OVERVIEW,
           items: [
             {
               label: SECTION_DETAILS,
-              answerText: buildDetailsText(data),
+              answerText: buildDetailsText(data, serviceOptions),
             },
           ],
         },
@@ -108,9 +96,9 @@ function buildSectionsLayout(data: ContactFormData): RequestDetailsInput {
   };
 }
 
-function buildOverviewLayout(data: ContactFormData): RequestDetailsInput {
+/** Overview with both service selection + details items. */
+function buildOverviewFullLayout(data: ContactFormData): RequestDetailsInput {
   const serviceOptions = getJobberServiceOptions(data.services);
-
   return {
     form: {
       sections: [
@@ -123,7 +111,33 @@ function buildOverviewLayout(data: ContactFormData): RequestDetailsInput {
             },
             {
               label: SECTION_DETAILS,
-              answerText: buildDetailsText(data),
+              answerText: buildDetailsText(data, serviceOptions),
+            },
+          ],
+        },
+      ],
+    },
+  };
+}
+
+/** Each field as its own section (alternate Jobber form shape). */
+function buildSectionsLayout(data: ContactFormData): RequestDetailsInput {
+  const serviceOptions = getJobberServiceOptions(data.services);
+  return {
+    form: {
+      sections: [
+        {
+          label: SECTION_SERVICES,
+          items: [
+            { label: SECTION_SERVICES, answerText: serviceOptions.join("\n") },
+          ],
+        },
+        {
+          label: SECTION_DETAILS,
+          items: [
+            {
+              label: SECTION_DETAILS,
+              answerText: buildDetailsText(data, serviceOptions),
             },
           ],
         },
@@ -140,11 +154,15 @@ export function buildRequestDetailsInput(
     return null;
   }
 
-  if (process.env.JOBBER_FORM_LAYOUT === "overview") {
-    return buildOverviewLayout(data);
+  if (process.env.JOBBER_FORM_LAYOUT === "sections") {
+    return buildSectionsLayout(data);
+  }
+  if (process.env.JOBBER_FORM_LAYOUT === "overview-full") {
+    return buildOverviewFullLayout(data);
   }
 
-  return buildSectionsLayout(data);
+  // Default: single Service Details item under Overview (production-verified).
+  return buildOverviewDetailsLayout(data);
 }
 
 /** Layout variants to try when requestCreate rejects the primary shape. */
@@ -155,10 +173,20 @@ export function buildRequestDetailsVariants(
     return [];
   }
 
-  return [buildSectionsLayout(data), buildOverviewLayout(data)];
+  return [
+    buildOverviewDetailsLayout(data),
+    buildOverviewFullLayout(data),
+    buildSectionsLayout(data),
+  ];
 }
 
-/** Exposed for diagnostics — shows the payload shape sent to Jobber. */
+export function getRequestFormIds(): string[] {
+  if (process.env.JOBBER_REQUEST_FORM_ENABLED === "0") {
+    return [];
+  }
+  return [JOBBER_REQUEST_SETTINGS_ID];
+}
+
 export function describeRequestFormPayload(data: ContactFormData) {
   return buildRequestDetailsInput(data);
 }

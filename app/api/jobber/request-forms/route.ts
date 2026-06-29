@@ -60,6 +60,23 @@ const REQUEST_SETTINGS = `
   }
 `;
 
+const REQUEST_SETTINGS_INTROSPECTION = `
+  query RequestSettingsFields {
+    requestSettings: __type(name: "RequestSettings") {
+      fields {
+        name
+        type { name kind ofType { name } }
+      }
+    }
+    requestCreateInput: __type(name: "RequestCreateInput") {
+      inputFields {
+        name
+        type { name kind ofType { name kind ofType { name } } }
+      }
+    }
+  }
+`;
+
 const REQUEST_FORM_DETAIL = `
   query RequestFormDetail($formId: EncodedId!) {
     requestForm(id: $formId) {
@@ -90,6 +107,7 @@ export async function GET(request: Request) {
 
   try {
     const introspection = await jobberGraphql(INTROSPECTION);
+    const settingsIntrospection = await jobberGraphql(REQUEST_SETTINGS_INTROSPECTION);
 
     const settingsResult: Record<string, unknown> = {};
     const settingsQueries = [
@@ -127,6 +145,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       ok: true,
       introspection,
+      settingsIntrospection,
       ...settingsResult,
       formDetail,
     });

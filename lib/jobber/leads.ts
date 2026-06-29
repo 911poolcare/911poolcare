@@ -14,7 +14,7 @@ import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { attachLeadNotes } from "@/lib/jobber/notes";
 import type { JobberAddressInput } from "@/lib/jobber/property";
-import { buildRequestDetailsVariants } from "@/lib/jobber/request-form";
+import { buildRequestDetailsVariants, getRequestFormIds } from "@/lib/jobber/request-form";
 
 const CREATE_REQUEST_MUTATION = `
   mutation CreateWebsiteLeadRequest($input: RequestCreateInput!) {
@@ -182,12 +182,17 @@ async function createRequest(
   }
 
   const requestDetailsVariants = buildRequestDetailsVariants(data);
-  const layouts = ["sections", "overview"] as const;
+  const layouts = ["overview-details", "overview-full", "sections"] as const;
+  const formIds = getRequestFormIds();
   const inputs: Array<{
     input: Record<string, unknown>;
     layout: (typeof layouts)[number] | "none";
   }> = requestDetailsVariants.map((requestDetails, index) => ({
-    input: { ...baseInput, requestDetails },
+    input: {
+      ...baseInput,
+      requestDetails,
+      ...(formIds.length ? { formIds } : {}),
+    },
     layout: layouts[index] ?? "sections",
   }));
 
@@ -212,7 +217,7 @@ async function createRequest(
         console.warn(
           "[Jobber] requestCreate succeeded without requestDetails — Service Details will be empty",
         );
-      } else if (layout !== "sections") {
+      } else if (layout !== "overview-details") {
         console.warn(
           "[Jobber] requestCreate succeeded with fallback requestDetails layout",
           { layout, lastErrors },
