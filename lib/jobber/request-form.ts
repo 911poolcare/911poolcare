@@ -20,12 +20,17 @@ const SECTION_DETAILS =
 const SECTION_OVERVIEW =
   process.env.JOBBER_FORM_SECTION ?? "Overview";
 
-/** Main Request Form settings ID (Jobber → Settings → Requests). Override via env. */
-export const JOBBER_REQUEST_SETTINGS_ID =
-  process.env.JOBBER_REQUEST_SETTINGS_ID ??
-  "Z2lkOi8vSm9iYmVyL1JlcXVlc3RTZXR0aW5ncy8xMTY5MTUw";
-
-export const JOBBER_SERVICE_LABEL_MAP = JOBBER_SERVICE_OPTION_LABELS;
+/** Optional form template IDs — only set JOBBER_REQUEST_FORM_IDS when validated in Jobber. */
+export function getRequestFormIds(): string[] {
+  if (process.env.JOBBER_REQUEST_FORM_ENABLED === "0") {
+    return [];
+  }
+  const raw = process.env.JOBBER_REQUEST_FORM_IDS?.trim();
+  if (!raw) {
+    return [];
+  }
+  return raw.split(",").map((id) => id.trim()).filter(Boolean);
+}
 
 type FormItemInput = { label: string; answerText: string };
 type FormSectionInput = { label: string; items: FormItemInput[] };
@@ -161,8 +166,8 @@ export function buildRequestDetailsInput(
     return buildOverviewFullLayout(data);
   }
 
-  // Default: single Service Details item under Overview (production-verified).
-  return buildOverviewDetailsLayout(data);
+  // Default: overview-full (services + details) — production-verified.
+  return buildOverviewFullLayout(data);
 }
 
 /** Layout variants to try when requestCreate rejects the primary shape. */
@@ -174,18 +179,13 @@ export function buildRequestDetailsVariants(
   }
 
   return [
-    buildOverviewDetailsLayout(data),
     buildOverviewFullLayout(data),
+    buildOverviewDetailsLayout(data),
     buildSectionsLayout(data),
   ];
 }
 
-export function getRequestFormIds(): string[] {
-  if (process.env.JOBBER_REQUEST_FORM_ENABLED === "0") {
-    return [];
-  }
-  return [JOBBER_REQUEST_SETTINGS_ID];
-}
+export const JOBBER_SERVICE_LABEL_MAP = JOBBER_SERVICE_OPTION_LABELS;
 
 export function describeRequestFormPayload(data: ContactFormData) {
   return buildRequestDetailsInput(data);

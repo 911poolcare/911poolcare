@@ -182,7 +182,7 @@ async function createRequest(
   }
 
   const requestDetailsVariants = buildRequestDetailsVariants(data);
-  const layouts = ["overview-details", "overview-full", "sections"] as const;
+  const layouts = ["overview-full", "overview-details", "sections"] as const;
   const formIds = getRequestFormIds();
   const inputs: Array<{
     input: Record<string, unknown>;
@@ -217,7 +217,7 @@ async function createRequest(
         console.warn(
           "[Jobber] requestCreate succeeded without requestDetails — Service Details will be empty",
         );
-      } else if (layout !== "overview-details") {
+      } else if (layout !== "overview-full") {
         console.warn(
           "[Jobber] requestCreate succeeded with fallback requestDetails layout",
           { layout, lastErrors },
