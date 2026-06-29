@@ -57,12 +57,14 @@ export function ContactForm() {
       message: "",
       referralSource: "",
       referralSourceOther: "",
+      referringPartnerCompany: "",
       website: "",
     },
   });
 
   const referralSource = watch("referralSource");
   const showReferralOther = referralSource === "other";
+  const showReferringPoolCompany = referralSource === "pool-company";
   const addressAutocompleteEnabled = isAddressAutocompleteEnabled();
 
   const handleAddressSelect = useCallback(
@@ -413,6 +415,22 @@ export function ContactForm() {
             ))}
           </select>
         </Field>
+
+        {showReferringPoolCompany ? (
+          <Field
+            label="Which pool company referred you?"
+            required
+            error={errors.referringPartnerCompany?.message}
+            className="sm:col-span-2"
+          >
+            <input
+              {...register("referringPartnerCompany")}
+              autoComplete="organization"
+              className={inputClass(errors.referringPartnerCompany)}
+              placeholder="Company name"
+            />
+          </Field>
+        ) : null}
 
         {showReferralOther ? (
           <Field

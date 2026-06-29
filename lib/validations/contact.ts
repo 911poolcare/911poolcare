@@ -60,6 +60,13 @@ export const contactFormFieldsSchema = contactFieldsSchema
         path: ["referralSourceOther"],
       });
     }
+    if (data.referralSource === "pool-company" && !data.referringPartnerCompany?.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Please enter the pool company name",
+        path: ["referringPartnerCompany"],
+      });
+    }
   });
 
 export const contactSchema = contactFieldsSchema.superRefine((data, ctx) => {
@@ -68,6 +75,13 @@ export const contactSchema = contactFieldsSchema.superRefine((data, ctx) => {
       code: z.ZodIssueCode.custom,
       message: "Please tell us how you found us",
       path: ["referralSourceOther"],
+    });
+  }
+  if (data.referralSource === "pool-company" && !data.referringPartnerCompany?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please enter the pool company name",
+      path: ["referringPartnerCompany"],
     });
   }
 });
