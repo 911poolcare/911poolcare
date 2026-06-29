@@ -2,12 +2,13 @@ import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import type { JobberAddressInput } from "@/lib/jobber/property";
 import { createClientProperty } from "@/lib/jobber/property";
 
-const FIND_CLIENT_BY_EMAIL = `
+const FIND_CLIENTS_BY_SEARCH = `
   query FindWebsiteLeadClient($search: String!) {
     clients(first: 10, filter: { search: $search }) {
       nodes {
         id
         name
+        companyName
         jobberWebUri
         emails {
           address
@@ -112,6 +113,7 @@ type FindClientResult = {
     nodes: Array<{
       id: string;
       name: string;
+      companyName: string | null;
       jobberWebUri: string;
       emails: Array<{ address: string; primary: boolean }>;
       clientProperties: {
@@ -153,6 +155,22 @@ function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
 }
 
+function normalizeName(name: string) {
+  return name.trim().toLowerCase();
+}
+
+function clientMatchesName(
+  client: { name: string; companyName: string | null },
+  search: string,
+) {
+  const normalized = normalizeName(search);
+  if (normalizeName(client.name) === normalized) {
+    return true;
+  }
+  const company = client.companyName?.trim();
+  return company ? normalizeName(company) === normalized : false;
+}
+
 function addressesMatch(
   left: JobberAddressInput,
   right: {
@@ -190,7 +208,7 @@ export async function findClientByEmail(email: string): Promise<ClientRecord | n
   const normalized = normalizeEmail(email);
 
   try {
-    const result = await jobberGraphql<FindClientResult>(FIND_CLIENT_BY_EMAIL, {
+    const result = await jobberGraphql<FindClientResult>(FIND_CLIENTS_BY_SEARCH, {
       search: normalized,
     });
 
@@ -207,6 +225,32 @@ export async function findClientByEmail(email: string): Promise<ClientRecord | n
     return toClientRecord(match);
   } catch (error) {
     console.warn("[Jobber] findClientByEmail:", error);
+    return null;
+  }
+}
+
+export async function findClientByName(name: string): Promise<ClientRecord | null> {
+  const trimmed = name.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  try {
+    const result = await jobberGraphql<FindClientResult>(FIND_CLIENTS_BY_SEARCH, {
+      search: trimmed,
+    });
+
+    const match = result.clients.nodes.find((client) =>
+      clientMatchesName(client, trimmed),
+    );
+
+    if (!match) {
+      return null;
+    }
+
+    return toClientRecord(match);
+  } catch (error) {
+    console.warn("[Jobber] findClientByName:", error);
     return null;
   }
 }

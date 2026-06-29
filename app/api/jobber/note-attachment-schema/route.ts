@@ -28,10 +28,18 @@ const INTROSPECTION = `
   requestNoteLinkInput: __type(name: "RequestNoteLinkInput") {
     inputFields { name type { name kind ofType { name kind ofType { name } } } }
   }
-  formAttachmentInput: __type(name: "FormAttachmentInput") {
-    inputFields { name type { name kind ofType { name kind ofType { name } } } }
+    requestCreateNoteMutation: __schema {
+      mutationType {
+        fields {
+          name
+          args {
+            name
+            type { name kind ofType { name kind ofType { name kind ofType { name } } } }
+          }
+        }
+      }
+    }
   }
-}
 `;
 
 /** Introspects Jobber note + attachment mutation input types. */

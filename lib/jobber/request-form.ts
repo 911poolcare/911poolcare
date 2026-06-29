@@ -65,9 +65,9 @@ function buildDetailsText(data: ContactFormData, serviceOptions: string[]) {
     lines.push("", `How they found us: ${referral}`);
   }
 
-  const partner = data.referringPartnerCompany?.trim();
-  if (partner) {
-    lines.push("", `Referring partner: ${partner}`);
+  const referrer = data.referrerName?.trim();
+  if (referrer) {
+    lines.push("", `Referrer: ${referrer}`);
   }
 
   if (data.attachments?.length) {

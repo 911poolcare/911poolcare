@@ -6,6 +6,11 @@ import {
   resolveServicePropertyId,
 } from "@/lib/jobber/clients";
 import {
+  getReferrerName,
+  REQUEST_REFERRING_CLIENT_FIELD,
+  resolveReferringClientId,
+} from "@/lib/jobber/referrals";
+import {
   buildClientCustomFieldInputs,
   getJobberClientCustomFieldIds,
   logMissingCustomFieldSetup,
@@ -14,6 +19,7 @@ import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { attachLeadNotes } from "@/lib/jobber/notes";
 import type { JobberAddressInput } from "@/lib/jobber/property";
+import { attachPhotosToRequest } from "@/lib/jobber/request-attachments";
 import { buildRequestDetailsVariants, getRequestFormIds } from "@/lib/jobber/request-form";
 
 const CREATE_REQUEST_MUTATION = `
@@ -121,9 +127,9 @@ function buildRequestTitle(data: ContactFormData, serviceValues: string[]) {
       : `${shortLabels.length} services`;
   const address = buildAddress(data);
   const location = `${address.city}, ${address.province}`;
-  const partner = data.referringPartnerCompany?.trim();
+  const referrer = getReferrerName(data);
   const base = `${services} — ${location}`;
-  const title = partner ? `[${partner}] ${base}` : base;
+  const title = referrer ? `[${referrer}] ${base}` : base;
   return title.slice(0, 255);
 }
 
@@ -142,9 +148,9 @@ function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
     lines.push("", `How they found us: ${referral}`);
   }
 
-  const partner = data.referringPartnerCompany?.trim();
-  if (partner) {
-    lines.push("", `Referring partner: ${partner}`);
+  const referrer = getReferrerName(data);
+  if (referrer) {
+    lines.push("", `Referrer: ${referrer}`);
   }
 
   if (data.message.trim()) {
@@ -174,10 +180,14 @@ async function createRequest(
   propertyId: string | null,
   title: string,
   data: ContactFormData,
+  referringClientId: string | null,
 ) {
   const baseInput: Record<string, unknown> = { clientId, title };
   if (propertyId) {
     baseInput.propertyId = propertyId;
+  }
+  if (referringClientId) {
+    baseInput[REQUEST_REFERRING_CLIENT_FIELD] = referringClientId;
   }
 
   const requestDetailsVariants = buildRequestDetailsVariants(data);
@@ -279,11 +289,14 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
 
   const propertyId = await resolveServicePropertyId(client, address, created);
 
+  const referringClientId = await resolveReferringClientId(data);
+
   const request = await createRequest(
     client.id,
     propertyId,
     requestTitle,
     data,
+    referringClientId,
   );
 
   void attachLeadNotes({
@@ -294,10 +307,24 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     console.warn("[Jobber] attachLeadNotes:", error);
   });
 
+  if (data.attachments?.length) {
+    void attachPhotosToRequest(request.id, data.attachments)
+      .then((result) => {
+        console.info("[Jobber] Request photos attached", {
+          requestId: request.id,
+          attached: result.attached,
+        });
+      })
+      .catch((error) => {
+        console.warn("[Jobber] attachPhotosToRequest:", error);
+      });
+  }
+
   console.info("[Jobber] Lead created", {
     clientId: client.id,
     requestId: request.id,
     propertyId: request.property?.id ?? propertyId,
+    referringClientId,
     reusedClient: !created,
   });
 

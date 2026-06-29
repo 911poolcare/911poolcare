@@ -42,7 +42,7 @@ const contactFieldsSchema = z.object({
     .max(2000, "Please keep your description under 2000 characters"),
   referralSource: z.union([z.enum(referralValues), z.literal("")]).optional(),
   referralSourceOther: z.string().max(120).optional().or(z.literal("")),
-  referringPartnerCompany: z.string().max(120).optional().or(z.literal("")),
+  referrerName: z.string().max(120).optional().or(z.literal("")),
   attachments: z.array(contactAttachmentSchema).max(6).optional(),
   website: z.string().max(0).optional(),
 });
@@ -60,11 +60,18 @@ export const contactFormFieldsSchema = contactFieldsSchema
         path: ["referralSourceOther"],
       });
     }
-    if (data.referralSource === "pool-company" && !data.referringPartnerCompany?.trim()) {
+    if (data.referralSource === "pool-company" && !data.referrerName?.trim()) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Please enter the pool company name",
-        path: ["referringPartnerCompany"],
+        path: ["referrerName"],
+      });
+    }
+    if (data.referralSource === "word-of-mouth" && !data.referrerName?.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Please enter who referred you",
+        path: ["referrerName"],
       });
     }
   });
@@ -77,11 +84,18 @@ export const contactSchema = contactFieldsSchema.superRefine((data, ctx) => {
       path: ["referralSourceOther"],
     });
   }
-  if (data.referralSource === "pool-company" && !data.referringPartnerCompany?.trim()) {
+  if (data.referralSource === "pool-company" && !data.referrerName?.trim()) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: "Please enter the pool company name",
-      path: ["referringPartnerCompany"],
+      path: ["referrerName"],
+    });
+  }
+  if (data.referralSource === "word-of-mouth" && !data.referrerName?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please enter who referred you",
+      path: ["referrerName"],
     });
   }
 });

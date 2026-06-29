@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { isJobberConfigured } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { createClientProperty } from "@/lib/jobber/property";
+import { attachPhotosToRequest } from "@/lib/jobber/request-attachments";
 import { buildRequestDetailsInput } from "@/lib/jobber/request-form";
 import type { ContactFormData } from "@/lib/validations/contact";
 
@@ -274,6 +275,26 @@ export async function GET(request: Request) {
       }
     }
 
+    let noteAttachTest: Record<string, unknown> | null = null;
+    const successfulRequest = requestTests.find((test) => test.success && test.requestId);
+    if (successfulRequest?.requestId && typeof successfulRequest.requestId === "string") {
+      try {
+        const result = await attachPhotosToRequest(successfulRequest.requestId, [
+          {
+            name: "probe-pool.jpg",
+            url: imageUrl,
+            contentType: "image/png",
+          },
+        ]);
+        noteAttachTest = { ok: true, ...result };
+      } catch (error) {
+        noteAttachTest = {
+          ok: false,
+          error: error instanceof Error ? error.message : String(error),
+        };
+      }
+    }
+
     return NextResponse.json({
       ok: true,
       imageUrl,
@@ -283,7 +304,8 @@ export async function GET(request: Request) {
       requestNoteFileFields:
         introspection.requestNoteFile?.fields.map((field) => field.name) ?? [],
       requestTests,
-      note: "Google noteCreate+multipart is outdated for Jobber (JSON-only since Apr 2024). Testing FormAttachmentInput on requestDetails.",
+      noteAttachTest,
+      note: "Testing requestCreateNote with NoteAttachmentAttributes.url (JSON, no multipart).",
     });
   } catch (error) {
     return NextResponse.json(
