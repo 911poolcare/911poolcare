@@ -110,7 +110,6 @@ export const serviceOptions = [
   { value: "renovation", label: "Pool Renovation & Replastering" },
   { value: "equipment-repair", label: "Pool Equipment Repair & Replacement" },
   { value: "inspection", label: "Pool Inspection" },
-  { value: "pool-company-partner", label: "Pool Company Partnership" },
   { value: "other", label: "Other / Not Sure" },
 ] as const;
 

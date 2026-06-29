@@ -9,7 +9,6 @@ const JOBBER_SERVICE_OPTION_LABELS: Record<string, string> = {
   renovation: "Pool renovation",
   "equipment-repair": "Pool Equipment Repair & Replacement",
   inspection: "Pool inspection",
-  "pool-company-partner": "Other",
   other: "Other",
 };
 

@@ -45,7 +45,7 @@ export const partnerProgram = {
       step: "1",
       title: "Set up as a partner",
       description:
-        "Tell us about your company and service area. We'll walk you through partner pricing, how referrals work, and what to expect.",
+        "Call or email us about your company and service area. We'll walk you through partner pricing, how referrals work, and what to expect.",
     },
     {
       step: "2",

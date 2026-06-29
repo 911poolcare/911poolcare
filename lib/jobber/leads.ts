@@ -66,7 +66,6 @@ const SERVICE_SHORT_LABELS: Record<string, string> = {
   renovation: "Renovation",
   "equipment-repair": "Equipment",
   inspection: "Inspection",
-  "pool-company-partner": "Partner",
   other: "Other",
 };
 

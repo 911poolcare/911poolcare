@@ -38,10 +38,10 @@ export function PartnerSection() {
             <ArrowRight className="h-5 w-5" aria-hidden />
           </Button>
           <Link
-            href="/#contact"
+            href="/partners#partner-inquiry"
             className="inline-flex min-h-12 items-center justify-center text-sm font-semibold text-brand-700 hover:text-brand-800"
           >
-            Or request partner info below
+            Call or email to get started
           </Link>
         </div>
       </Container>

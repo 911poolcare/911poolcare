@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Phone, MessageSquare } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { partnerProgram } from "@/content/partners";
 import { site } from "@/content/site";
-import { ContactForm } from "@/components/forms/ContactForm";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -13,6 +11,8 @@ export const metadata: Metadata = {
   title: partnerProgram.metaTitle,
   description: partnerProgram.metaDescription,
 };
+
+const partnerEmailHref = `mailto:${site.email}?subject=${encodeURIComponent("Pool company partnership inquiry")}`;
 
 export default function PartnersPage() {
   return (
@@ -33,9 +33,9 @@ export default function PartnersPage() {
               <Phone className="h-5 w-5" aria-hidden />
               Call {site.phone}
             </Button>
-            <Button href="#partner-inquiry" variant="outline" size="lg">
-              <MessageSquare className="h-5 w-5" aria-hidden />
-              Partner Inquiry
+            <Button href={partnerEmailHref} variant="outline" size="lg">
+              <Mail className="h-5 w-5" aria-hidden />
+              Email us
             </Button>
           </div>
         </Container>
@@ -113,19 +113,22 @@ export default function PartnersPage() {
       </Section>
 
       <Section id="partner-inquiry" muted>
-        <Container className="max-w-2xl">
+        <Container className="max-w-2xl text-center">
           <SectionHeading
             eyebrow="Get started"
-            title="Request partner information"
-            description="Tell us about your company and service area. We'll follow up to discuss how we can work together."
+            title="Let's talk about partnering"
+            description="Partnerships start with a conversation. Call or email us and we'll walk through partner pricing, how referrals work, and what to expect."
           />
-          <ContactForm defaultService="pool-company-partner" variant="partner" />
-          <p className="mt-6 text-center text-sm text-slate-600">
-            Prefer to talk now?{" "}
-            <Link href={site.phoneHref} className="font-semibold text-brand-700 hover:text-brand-800">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button href={site.phoneHref} size="lg">
+              <Phone className="h-5 w-5" aria-hidden />
               Call {site.phone}
-            </Link>
-          </p>
+            </Button>
+            <Button href={partnerEmailHref} variant="outline" size="lg">
+              <Mail className="h-5 w-5" aria-hidden />
+              Email {site.email}
+            </Button>
+          </div>
         </Container>
       </Section>
     </>
