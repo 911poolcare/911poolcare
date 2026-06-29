@@ -22,6 +22,12 @@ const INTROSPECTION = `
   noteFileCreate: __type(name: "NoteFileCreateInput") {
     inputFields { name type { name kind ofType { name kind ofType { name } } } }
   }
+  noteAttachmentAttributes: __type(name: "NoteAttachmentAttributes") {
+    inputFields { name type { name kind ofType { name kind ofType { name } } } }
+  }
+  requestNoteLinkInput: __type(name: "RequestNoteLinkInput") {
+    inputFields { name type { name kind ofType { name kind ofType { name } } } }
+  }
   formAttachmentInput: __type(name: "FormAttachmentInput") {
     inputFields { name type { name kind ofType { name kind ofType { name } } } }
   }
