@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { isJobberConfigured } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
+import { createClientProperty } from "@/lib/jobber/property";
+import { buildRequestDetailsInput } from "@/lib/jobber/request-form";
+import type { ContactFormData } from "@/lib/validations/contact";
 
 const FORM_ITEM_INTROSPECTION = `
   query FormItemIntrospection {
@@ -133,6 +136,22 @@ export async function GET() {
       return NextResponse.json({ ok: false, step: "clientCreate", error: "No client returned" });
     }
 
+    const propertyId = await createClientProperty(clientId, testAddress);
+
+    const probeFormData = {
+      name: `FormProbe Test${stamp}`,
+      phone: "512-555-0188",
+      email: `form-probe-${stamp}@911poolcare.com`,
+      services: ["leak-detection"],
+      street: testAddress.street1,
+      city: testAddress.city,
+      state: "TX",
+      zip: testAddress.postalCode,
+      message: "Form probe test — property + Service Details combined.",
+    } satisfies ContactFormData;
+
+    const requestDetails = buildRequestDetailsInput(probeFormData);
+
     const itemVariants: FormItemShape[] = [
       { label: "Service Details", value: "Probe test message" },
       { label: "Service Details", answer: "Probe test message" },
@@ -155,10 +174,10 @@ export async function GET() {
     const requestTests: Array<Record<string, unknown>> = [];
 
     for (const item of itemVariants) {
-      const input = {
+      const input: Record<string, unknown> = {
         clientId,
         title: `Form Probe ${stamp}`,
-        requestDetails: {
+        requestDetails: requestDetails ?? {
           form: {
             sections: [
               {
@@ -169,6 +188,9 @@ export async function GET() {
           },
         },
       };
+      if (propertyId) {
+        input.propertyId = propertyId;
+      }
 
       try {
         const result = await jobberGraphql<{
@@ -201,6 +223,7 @@ export async function GET() {
     return NextResponse.json({
       ok: true,
       clientId,
+      propertyId,
       formItemFields,
       formItemUnionFields,
       requestCreateFields:

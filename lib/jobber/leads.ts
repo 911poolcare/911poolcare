@@ -200,7 +200,12 @@ async function createRequest(
         throw new Error("Jobber requestCreate returned no request");
       }
       if (input !== inputs[0]) {
-        console.warn("[Jobber] requestCreate succeeded without requestDetails");
+        console.warn(
+          "[Jobber] requestCreate succeeded without requestDetails — Service Details will be empty",
+          { lastErrors },
+        );
+      } else if (input.requestDetails) {
+        console.info("[Jobber] requestCreate included requestDetails + propertyId");
       }
       return request;
     }

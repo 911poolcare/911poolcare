@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { isJobberConfigured } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { createClientProperty } from "@/lib/jobber/property";
+import { buildRequestDetailsInput } from "@/lib/jobber/request-form";
+import type { ContactFormData } from "@/lib/validations/contact";
 
 const CREATE_CLIENT = `
   mutation LeadProbeClient($input: ClientCreateInput!) {
@@ -95,6 +97,24 @@ export async function GET() {
       requestInput.propertyId = propertyId;
     }
 
+    const probeFormData = {
+      name: `Probe Test${stamp}`,
+      phone: "512-555-0199",
+      email: `probe-${stamp}@911poolcare.com`,
+      services: ["leak-detection", "equipment-repair"],
+      street: testAddress.street1,
+      city: testAddress.city,
+      state: "TX",
+      zip: testAddress.postalCode,
+      message:
+        "Lead probe test — checking property + Service Details wiring. Please ignore.",
+    } satisfies ContactFormData;
+
+    const requestDetails = buildRequestDetailsInput(probeFormData);
+    if (requestDetails) {
+      requestInput.requestDetails = requestDetails;
+    }
+
     const requestResult = await jobberGraphql<{
       requestCreate: {
         request: {
@@ -129,6 +149,7 @@ export async function GET() {
       requestId: request.id,
       requestPropertyId: request.property?.id ?? null,
       requestPropertyAddress: request.property?.address ?? null,
+      requestDetailsIncluded: Boolean(requestDetails),
     });
   } catch (error) {
     console.error("[lead-probe]", error);
