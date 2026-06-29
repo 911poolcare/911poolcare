@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isJobberConfigured } from "@/lib/jobber/config";
-import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
+import { jobberGraphql } from "@/lib/jobber/graphql";
 
 const INTROSPECTION = `
   query NoteAttachmentIntrospection {
