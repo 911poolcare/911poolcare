@@ -35,7 +35,7 @@ function getReferralLabel(data: ContactFormData) {
 }
 
 function buildFormItem(label: string, value: string): FormItemInput {
-  const valueKey = process.env.JOBBER_FORM_ITEM_VALUE_FIELD ?? "value";
+  const valueKey = process.env.JOBBER_FORM_ITEM_VALUE_FIELD ?? "answerText";
   return { label, [valueKey]: value };
 }
 
