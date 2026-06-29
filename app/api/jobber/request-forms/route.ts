@@ -38,7 +38,7 @@ const INTROSPECTION = `
         type { name kind ofType { name kind ofType { name kind ofType { name } } } }
       }
     }
-    requestSettingsType: __type(name: "RequestSettings") {
+    requestType: __type(name: "Request") {
       fields {
         name
         type { name kind ofType { name kind ofType { name } } }

@@ -1,35 +1,41 @@
 import type { ContactFormData } from "@/lib/validations/contact";
 import { referralSourceOptions } from "@/content/contact-form";
-import { serviceOptions } from "@/content/services";
 
-/** Jobber request form section labels — must match your Jobber form template. */
+/**
+ * Jobber request form option labels — must match the default request form
+ * in Jobber → Settings → Requests → Forms exactly (case and punctuation).
+ */
+const JOBBER_SERVICE_OPTION_LABELS: Record<string, string> = {
+  "leak-detection": "Leak detection & repair",
+  renovation: "Pool renovation",
+  "equipment-repair": "Pool Equipment Repair & Replacement",
+  inspection: "Pool inspection",
+  "pool-company-partner": "Other",
+  other: "Other",
+};
+
+/** Section headers shown in Jobber's Overview block. */
+const SECTION_SERVICES =
+  process.env.JOBBER_FORM_Q_SERVICES ?? "General service selection";
+const SECTION_DETAILS =
+  process.env.JOBBER_FORM_Q_DETAILS ?? "Service Details";
 const SECTION_OVERVIEW =
   process.env.JOBBER_FORM_SECTION ?? "Overview";
 
-/** Question labels on the default Jobber request form. Override via env if renamed. */
-const QUESTION_SERVICES =
-  process.env.JOBBER_FORM_Q_SERVICES ?? "General service selection";
-const QUESTION_DETAILS =
-  process.env.JOBBER_FORM_Q_DETAILS ?? "Service Details";
-const QUESTION_SERVICES_PROMPT =
+/** Question prompts inside each section (item labels for FormItemInput). */
+const PROMPT_SERVICES =
   process.env.JOBBER_FORM_Q_SERVICES_PROMPT ??
   "What services are you interested in?";
-const QUESTION_DETAILS_PROMPT =
+const PROMPT_DETAILS =
   process.env.JOBBER_FORM_Q_DETAILS_PROMPT ??
   "Please let us know what issue you are having or what work we can help you accomplish";
 
-type FormItemInput = Record<string, string>;
-type FormSectionInput = { label: string; items: FormItemInput[] };
-type RequestDetailsInput = { form: { sections: FormSectionInput[] } };
+/** Website service values → exact Jobber checkbox option text. */
+export const JOBBER_SERVICE_LABEL_MAP = JOBBER_SERVICE_OPTION_LABELS;
 
-function getServiceLabels(serviceValues: string[]) {
-  return serviceValues.map((value) => {
-    return (
-      serviceOptions.find((option) => option.value === value)?.label ??
-      value
-    );
-  });
-}
+type FormItemInput = { label: string; answerText: string };
+type FormSectionInput = { label: string; items: FormItemInput[] };
+export type RequestDetailsInput = { form: { sections: FormSectionInput[] } };
 
 function getReferralLabel(data: ContactFormData) {
   if (!data.referralSource) return null;
@@ -42,17 +48,14 @@ function getReferralLabel(data: ContactFormData) {
   );
 }
 
-function buildFormItem(label: string, value: string): FormItemInput {
-  const valueKey = process.env.JOBBER_FORM_ITEM_VALUE_FIELD ?? "answerText";
-  return { label, [valueKey]: value };
+function getJobberServiceOptions(serviceValues: string[]) {
+  return serviceValues.map(
+    (value) => JOBBER_SERVICE_OPTION_LABELS[value] ?? value,
+  );
 }
 
-function buildDetailsText(data: ContactFormData, serviceLabels: string[]) {
-  const lines = [
-    ...serviceLabels.map((label) => `- ${label}`),
-    "",
-    data.message.trim(),
-  ];
+function buildDetailsText(data: ContactFormData) {
+  const lines = [data.message.trim()];
 
   const referral = getReferralLabel(data);
   if (referral) {
@@ -74,6 +77,61 @@ function buildDetailsText(data: ContactFormData, serviceLabels: string[]) {
   return lines.join("\n");
 }
 
+function buildSectionsLayout(data: ContactFormData): RequestDetailsInput {
+  const serviceOptions = getJobberServiceOptions(data.services);
+
+  // Jobber matches form answers on item.label — use the field header names
+  // shown in the Overview UI ("General service selection", "Service Details").
+  return {
+    form: {
+      sections: [
+        {
+          label: SECTION_SERVICES,
+          items: [
+            {
+              label: SECTION_SERVICES,
+              answerText: serviceOptions.join("\n"),
+            },
+          ],
+        },
+        {
+          label: SECTION_DETAILS,
+          items: [
+            {
+              label: SECTION_DETAILS,
+              answerText: buildDetailsText(data),
+            },
+          ],
+        },
+      ],
+    },
+  };
+}
+
+function buildOverviewLayout(data: ContactFormData): RequestDetailsInput {
+  const serviceOptions = getJobberServiceOptions(data.services);
+
+  return {
+    form: {
+      sections: [
+        {
+          label: SECTION_OVERVIEW,
+          items: [
+            {
+              label: SECTION_SERVICES,
+              answerText: serviceOptions.join("\n"),
+            },
+            {
+              label: SECTION_DETAILS,
+              answerText: buildDetailsText(data),
+            },
+          ],
+        },
+      ],
+    },
+  };
+}
+
 /** Builds requestDetails.form for requestCreate when Jobber form wiring is enabled. */
 export function buildRequestDetailsInput(
   data: ContactFormData,
@@ -82,41 +140,25 @@ export function buildRequestDetailsInput(
     return null;
   }
 
-  const serviceLabels = getServiceLabels(data.services);
-  const items: FormItemInput[] = [
-    buildFormItem(QUESTION_SERVICES, serviceLabels.join(", ")),
-    buildFormItem(QUESTION_DETAILS, buildDetailsText(data, serviceLabels)),
-  ];
-
-  // Jobber matches on section + item labels. Try section-per-field if the default
-  // Overview wrapper does not populate (set JOBBER_FORM_LAYOUT=sections).
-  if (process.env.JOBBER_FORM_LAYOUT === "sections") {
-    return {
-      form: {
-        sections: [
-          {
-            label: QUESTION_SERVICES,
-            items: [
-              buildFormItem(QUESTION_SERVICES_PROMPT, serviceLabels.join(", ")),
-            ],
-          },
-          {
-            label: QUESTION_DETAILS,
-            items: [buildFormItem(QUESTION_DETAILS_PROMPT, buildDetailsText(data, serviceLabels))],
-          },
-        ],
-      },
-    };
+  if (process.env.JOBBER_FORM_LAYOUT === "overview") {
+    return buildOverviewLayout(data);
   }
 
-  return {
-    form: {
-      sections: [
-        {
-          label: SECTION_OVERVIEW,
-          items,
-        },
-      ],
-    },
-  };
+  return buildSectionsLayout(data);
+}
+
+/** Layout variants to try when requestCreate rejects the primary shape. */
+export function buildRequestDetailsVariants(
+  data: ContactFormData,
+): RequestDetailsInput[] {
+  if (process.env.JOBBER_REQUEST_FORM_ENABLED === "0") {
+    return [];
+  }
+
+  return [buildSectionsLayout(data), buildOverviewLayout(data)];
+}
+
+/** Exposed for diagnostics — shows the payload shape sent to Jobber. */
+export function describeRequestFormPayload(data: ContactFormData) {
+  return buildRequestDetailsInput(data);
 }

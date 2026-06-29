@@ -14,7 +14,7 @@ import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 import { attachLeadNotes } from "@/lib/jobber/notes";
 import type { JobberAddressInput } from "@/lib/jobber/property";
-import { buildRequestDetailsInput } from "@/lib/jobber/request-form";
+import { buildRequestDetailsVariants } from "@/lib/jobber/request-form";
 
 const CREATE_REQUEST_MUTATION = `
   mutation CreateWebsiteLeadRequest($input: RequestCreateInput!) {
@@ -181,14 +181,23 @@ async function createRequest(
     baseInput.propertyId = propertyId;
   }
 
-  const requestDetails = buildRequestDetailsInput(data);
-  const inputs: Record<string, unknown>[] = requestDetails
-    ? [{ ...baseInput, requestDetails }, baseInput]
-    : [baseInput];
+  const requestDetailsVariants = buildRequestDetailsVariants(data);
+  const layouts = ["sections", "overview"] as const;
+  const inputs: Array<{
+    input: Record<string, unknown>;
+    layout: (typeof layouts)[number] | "none";
+  }> = requestDetailsVariants.map((requestDetails, index) => ({
+    input: { ...baseInput, requestDetails },
+    layout: layouts[index] ?? "sections",
+  }));
+
+  if (!inputs.length) {
+    inputs.push({ input: baseInput, layout: "none" });
+  }
 
   let lastErrors: string | null = null;
 
-  for (const input of inputs) {
+  for (const { input, layout } of inputs) {
     const result = await jobberGraphql<RequestCreateResult>(CREATE_REQUEST_MUTATION, {
       input,
     });
@@ -199,22 +208,29 @@ async function createRequest(
       if (!request) {
         throw new Error("Jobber requestCreate returned no request");
       }
-      if (input !== inputs[0]) {
+      if (layout === "none") {
         console.warn(
           "[Jobber] requestCreate succeeded without requestDetails — Service Details will be empty",
-          { lastErrors },
         );
-      } else if (input.requestDetails) {
+      } else if (layout !== "sections") {
+        console.warn(
+          "[Jobber] requestCreate succeeded with fallback requestDetails layout",
+          { layout, lastErrors },
+        );
+      } else {
         console.info("[Jobber] requestCreate included requestDetails + propertyId");
       }
       return request;
     }
 
     lastErrors = errors;
-    if (!input.requestDetails) {
+    if (layout === "none") {
       break;
     }
-    console.warn("[Jobber] requestCreate with requestDetails failed:", errors);
+    console.error("[Jobber] requestCreate with requestDetails failed:", {
+      layout,
+      errors,
+    });
   }
 
   throw new Error(`Jobber requestCreate failed: ${lastErrors ?? "unknown error"}`);

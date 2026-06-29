@@ -33,6 +33,25 @@ const CREATE_REQUEST = `
   }
 `;
 
+const READ_REQUEST = `
+  query LeadProbeReadback($id: EncodedId!) {
+    request(id: $id) {
+      id
+      requestDetails {
+        form {
+          sections {
+            label
+            items {
+              label
+              answerText
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const testAddress = {
   street1: "999 Probe Test Ln",
   city: "Leander",
@@ -141,6 +160,27 @@ export async function GET() {
       return NextResponse.json({ ok: false, step: "requestCreate", error: "No request returned" });
     }
 
+    let requestDetailsReadback: unknown = null;
+    let readbackError: string | null = null;
+    try {
+      const readResult = await jobberGraphql<{
+        request: {
+          id: string;
+          requestDetails: {
+            form: {
+              sections: Array<{
+                label: string;
+                items: Array<{ label: string; answerText: string | null }>;
+              }>;
+            } | null;
+          } | null;
+        } | null;
+      }>(READ_REQUEST, { id: request.id });
+      requestDetailsReadback = readResult.request?.requestDetails ?? null;
+    } catch (error) {
+      readbackError = error instanceof Error ? error.message : String(error);
+    }
+
     return NextResponse.json({
       ok: true,
       clientId,
@@ -150,6 +190,9 @@ export async function GET() {
       requestPropertyId: request.property?.id ?? null,
       requestPropertyAddress: request.property?.address ?? null,
       requestDetailsIncluded: Boolean(requestDetails),
+      requestDetailsSent: requestDetails,
+      requestDetailsReadback,
+      readbackError,
     });
   } catch (error) {
     console.error("[lead-probe]", error);
