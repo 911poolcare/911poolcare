@@ -1,4 +1,4 @@
-import { curatedJobsByService } from "@/content/curated-jobs";
+import { curatedJobsByService, getCuratedJobLabel } from "@/content/curated-jobs";
 import type { City } from "@/content/cities";
 import { getCityBySlug } from "@/content/cities";
 import type { GalleryImage } from "@/content/galleries";
@@ -148,17 +148,39 @@ export function getCityServiceVideos(
   return getServiceVideos(serviceSlug, limit);
 }
 
+function isCuratedProgressJob(job: MediaJob): boolean {
+  if (job.images.length < 2) return false;
+
+  const captions = job.images.map((image) => image.caption?.toLowerCase());
+  if (job.images.length === 2) {
+    return captions[0] === "before" && captions[1] === "after";
+  }
+
+  return (
+    captions[0] === "before" &&
+    captions[captions.length - 1] === "after" &&
+    captions.slice(1, -1).every((caption) => caption === "during")
+  );
+}
+
 function jobToProgressSet(job: MediaJob, city?: City): JobProgressSet | null {
+  if (!isCuratedProgressJob(job) && job.id.startsWith("curated--")) {
+    return null;
+  }
+
   if (job.images.length < 2) return null;
 
   const cityName = city?.name ?? getCityBySlug(job.citySlug)?.name;
-  const label = job.id.startsWith("curated--")
-    ? job.id.includes("pool-leak-detection")
-      ? `${cityName ?? "Central Texas"} leak repair`
-      : (cityName ?? "Renovation project")
-    : cityName
-      ? `${formatJobLabel(job)} — ${cityName}`
-      : formatJobLabel(job);
+  const curatedLabel = getCuratedJobLabel(job);
+  const label = curatedLabel
+    ? curatedLabel
+    : job.id.startsWith("curated--")
+      ? job.id.includes("pool-leak-detection")
+        ? `${cityName ?? "Central Texas"} leak repair`
+        : (cityName ?? "Renovation project")
+      : cityName
+        ? `${formatJobLabel(job)} — ${cityName}`
+        : formatJobLabel(job);
 
   if (job.images.length === 2) {
     return {

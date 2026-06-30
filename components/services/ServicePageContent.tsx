@@ -67,9 +67,14 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
     ? getCityServiceVideos(service.slug, city.slug)
     : getServiceVideos(service.slug);
   const showProgress = service.slug !== "pool-renovations";
-  const galleryTitle = city
-    ? `${service.title} in ${city.name} — project photos`
-    : `${service.title} — project photos`;
+  const galleryTitle =
+    service.slug === "pool-leak-detection"
+      ? city
+        ? `On the job — ${city.name}`
+        : "Leak detection & repair in the field"
+      : city
+        ? `${service.title} in ${city.name} — project photos`
+        : `${service.title} — project photos`;
   const videoTitle = city
     ? `${service.title} in ${city.name} — project videos`
     : `${service.title} — project videos`;
@@ -237,9 +242,13 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
           images={gallery}
           title={galleryTitle}
           description={
-            city
-              ? `Recent ${service.title.toLowerCase()} work serving ${city.name} and nearby areas.`
-              : "Photos from recent jobs pulled from our project portfolio."
+            service.slug === "pool-leak-detection"
+              ? city
+                ? `Detection, excavation, and repair work from ${city.name}-area jobs.`
+                : "Dye testing, electronic detection, deck excavation, and underground plumbing repairs across Central Texas."
+              : city
+                ? `Recent ${service.title.toLowerCase()} work serving ${city.name} and nearby areas.`
+                : "Photos from recent jobs pulled from our project portfolio."
           }
           muted={progressSets.length > 0}
         />
