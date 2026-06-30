@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
+import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { defaultOpenGraphImage, twitterCard } from "@/content/og-images";
@@ -53,6 +54,7 @@ export default function RootLayout({
       <body className="font-sans">
         <JsonLd />
         <GoogleAnalytics />
+        <Analytics />
         <Header />
         <main>{children}</main>
         <Footer />
