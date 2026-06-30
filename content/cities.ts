@@ -16,6 +16,7 @@ export const cities: City[] = [
   { slug: "liberty-hill", name: "Liberty Hill" },
   { slug: "jonestown", name: "Jonestown" },
   { slug: "lago-vista", name: "Lago Vista" },
+  { slug: "spicewood", name: "Spicewood" },
   { slug: "dripping-springs", name: "Dripping Springs" },
   { slug: "san-marcos", name: "San Marcos" },
   { slug: "horseshoe-bay", name: "Horseshoe Bay", renovationsOnly: true },

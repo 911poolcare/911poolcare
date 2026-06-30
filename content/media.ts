@@ -1,3 +1,4 @@
+import { curatedJobsByService } from "@/content/curated-jobs";
 import type { City } from "@/content/cities";
 import { getCityBySlug } from "@/content/cities";
 import type { GalleryImage } from "@/content/galleries";
@@ -28,6 +29,9 @@ function toGalleryImage(media: ManifestMedia): GalleryImage {
 }
 
 function jobsForService(serviceSlug: string): MediaJob[] {
+  const curated = curatedJobsByService[serviceSlug];
+  if (curated?.length) return curated;
+
   return mediaJobs.filter((job) => job.serviceSlug === serviceSlug);
 }
 
@@ -148,9 +152,11 @@ function jobToProgressSet(job: MediaJob, city?: City): JobProgressSet | null {
   if (job.images.length < 2) return null;
 
   const cityName = city?.name ?? getCityBySlug(job.citySlug)?.name;
-  const label = cityName
-    ? `${formatJobLabel(job)} — ${cityName}`
-    : formatJobLabel(job);
+  const label = job.id.startsWith("curated--")
+    ? (cityName ?? "Renovation project")
+    : cityName
+      ? `${formatJobLabel(job)} — ${cityName}`
+      : formatJobLabel(job);
 
   if (job.images.length === 2) {
     return {
