@@ -66,10 +66,12 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
   const videos = city
     ? getCityServiceVideos(service.slug, city.slug)
     : getServiceVideos(service.slug);
-  const showProgress = service.slug !== "pool-renovations";
+  const isInspections = service.slug === "pool-inspections";
+  const showProgress = service.slug !== "pool-renovations" && !isInspections;
   const showGallery =
     gallery.length > 0 &&
-    !(service.slug === "pool-equipment-repair" && progressSets.length > 0);
+    !(service.slug === "pool-equipment-repair" && progressSets.length > 0) &&
+    !isInspections;
   const galleryTitle =
     service.slug === "pool-leak-detection"
       ? city
@@ -269,7 +271,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
         />
       ) : null}
 
-      {videos.length > 0 ? (
+      {videos.length > 0 && !isInspections ? (
         <VideoGallery
           videos={videos}
           title={videoTitle}
