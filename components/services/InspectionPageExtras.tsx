@@ -112,7 +112,7 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
           <SectionHeading
             eyebrow="Pricing"
             title="Pool inspection pricing"
-            description="Transparent pricing for a certified inspection — not a basic walkthrough."
+            description="$360 for a standard pool or pool/spa inspection. Exclusions apply — see notes below."
           />
           <div className="grid gap-6 lg:grid-cols-2">
             <article className="rounded-2xl border border-brand-300 bg-brand-50 p-6 ring-2 ring-brand-200">

@@ -83,7 +83,7 @@ export const pricing = {
     coldWaterAddOn: 120,
     onSiteHours: 2,
     summary:
-      "Certified pool inspection: $360 — includes up to 2 hours on site, written report, and photo documentation.",
+      "$360 for a standard pool or pool/spa inspection — includes up to 2 hours on site, written report, and photo documentation. Exclusions apply.",
     coldWaterSummary:
       "Cold water add-on: +$120 when water temperature is below 70°F.",
   },

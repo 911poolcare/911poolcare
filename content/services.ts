@@ -98,7 +98,7 @@ export const services: Service[] = [
       "Certified pool inspectors — not a general home inspection substitute",
       "Structure, plumbing, equipment, electrical, and safety evaluation",
       "Written report with photo documentation of findings",
-      "Up to 2 hours on site — $360 certified inspection",
+      "$360 standard pool or pool/spa inspection (exclusions apply)",
       "Cold water add-on available when water is below 70°F",
     ],
     metaDescription: inspectionSeo.metaDescription,

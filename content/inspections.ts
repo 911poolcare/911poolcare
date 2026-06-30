@@ -100,7 +100,7 @@ export const inspectionRelatedServices = [
 
 export const inspectionPricing = {
   base: {
-    label: "Certified pool inspection",
+    label: "Standard pool or pool/spa inspection",
     price: 360,
     includes: [
       "Up to 2 hours on site",
@@ -108,7 +108,7 @@ export const inspectionPricing = {
       "Photo documentation",
       "Repair and safety recommendations",
     ],
-    note: "Pricing reflects a professional, certified inspection — not a basic walkthrough. Additional time on site beyond 2 hours may be billed if required due to pool complexity or conditions.",
+    note: "Exclusions apply. Pricing reflects a professional, certified inspection — not a basic walkthrough. Additional time on site beyond 2 hours may be billed if required due to pool complexity or conditions.",
   },
   coldWaterAddOn: {
     label: "Cold water inspection add-on",
@@ -125,7 +125,7 @@ export const inspectionSeo = {
   subIntro:
     "Our inspections are performed by certified pool inspectors and are designed specifically for real estate transactions, homeowners, and investors who want an accurate assessment of a pool's condition.",
   metaDescription:
-    "Certified pool inspections in Austin and Central Texas — $360 includes written report and photo documentation. For buyers, sellers, and realtors. Call 911 Pool Care.",
+    "Certified pool inspections in Austin and Central Texas — $360 for a standard pool or pool/spa inspection (exclusions apply). Written report and photo documentation. Call 911 Pool Care.",
   ctaLabel: "Schedule a Pool Inspection",
   schedulingNote: `Based in ${site.address.city}, we perform certified pool inspections across Central Texas. Call ${site.phone} or request service to confirm availability.`,
 } as const;
