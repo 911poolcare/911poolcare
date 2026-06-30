@@ -92,6 +92,20 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     alt: "Underground return line exposed during repair — Pflugerville",
     caption: "Underground return line exposed",
   },
+  {
+    file: "field-cedar-park-electronic-detection.png",
+    citySlug: "cedar-park",
+    cityName: "Cedar Park",
+    alt: "Electronic leak detection at the pool edge — Cedar Park",
+    caption: "Electronic leak detection at the pool edge",
+  },
+  {
+    file: "field-cedar-park-underwater-inspection.png",
+    citySlug: "cedar-park",
+    cityName: "Cedar Park",
+    alt: "Underwater inspection at a main drain and shell crack — Cedar Park",
+    caption: "Underwater inspection at drain and shell crack",
+  },
 ];
 
 function renovationImage(
