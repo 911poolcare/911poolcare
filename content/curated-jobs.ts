@@ -25,6 +25,7 @@ const RENOVATION_JOBS: CuratedJobSpec[] = [
   { citySlug: "leander", cityName: "Leander" },
   { citySlug: "cedar-park", cityName: "Cedar Park" },
   { citySlug: "spicewood", cityName: "Spicewood" },
+  { citySlug: "lago-vista", cityName: "Lago Vista" },
 ];
 
 const LEAK_REPAIR_JOBS: LeakRepairJobSpec[] = [
