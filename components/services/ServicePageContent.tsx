@@ -67,14 +67,21 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
     ? getCityServiceVideos(service.slug, city.slug)
     : getServiceVideos(service.slug);
   const showProgress = service.slug !== "pool-renovations";
+  const showGallery =
+    gallery.length > 0 &&
+    !(service.slug === "pool-equipment-repair" && progressSets.length > 0);
   const galleryTitle =
     service.slug === "pool-leak-detection"
       ? city
         ? `On the job — ${city.name}`
         : "Leak detection & repair in the field"
-      : city
-        ? `${service.title} in ${city.name} — project photos`
-        : `${service.title} — project photos`;
+      : service.slug === "pool-equipment-repair"
+        ? city
+          ? `Equipment work — ${city.name}`
+          : "Pool equipment in the field"
+        : city
+          ? `${service.title} in ${city.name} — project photos`
+          : `${service.title} — project photos`;
   const videoTitle = city
     ? `${service.title} in ${city.name} — project videos`
     : `${service.title} — project videos`;
@@ -221,23 +228,31 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
               ? city
                 ? `Leak repair — ${city.name}`
                 : "Leak repair on the job"
-              : city
-                ? `Before, during & after — ${city.name} jobs`
-                : "Before, during & after"
+              : service.slug === "pool-equipment-repair"
+                ? city
+                  ? `Equipment replacements — ${city.name}`
+                  : "Equipment replacements on the job"
+                : city
+                  ? `Before, during & after — ${city.name} jobs`
+                  : "Before, during & after"
           }
           description={
             service.slug === "pool-leak-detection"
               ? city
                 ? `Underground plumbing leak located and repaired on a ${city.name}-area job.`
                 : "Failed underground PVC located, repaired, and ready to backfill — same job, start to finish."
-              : city
-                ? `Photos from recent ${service.title.toLowerCase()} jobs in and around ${city.name}.`
-                : "Photos from the same pool job — how we diagnose, repair, and finish the work."
+              : service.slug === "pool-equipment-repair"
+                ? city
+                  ? `Pumps, heaters, filters, and chlorinators replaced on ${city.name}-area equipment pads.`
+                  : "Same equipment pad before and after — pumps, heaters, filters, chlorinators, and booster pumps upgraded or replaced."
+                : city
+                  ? `Photos from recent ${service.title.toLowerCase()} jobs in and around ${city.name}.`
+                  : "Photos from the same pool job — how we diagnose, repair, and finish the work."
           }
         />
       ) : null}
 
-      {gallery.length > 0 ? (
+      {showGallery ? (
         <PhotoGallery
           images={gallery}
           title={galleryTitle}

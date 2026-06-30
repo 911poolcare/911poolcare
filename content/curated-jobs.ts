@@ -28,6 +28,66 @@ const RENOVATION_JOBS: CuratedJobSpec[] = [
   { citySlug: "lago-vista", cityName: "Lago Vista" },
 ];
 
+type EquipmentJobSpec = {
+  citySlug: string;
+  cityName: string;
+  jobKey: string;
+  displayLabel: string;
+  stages: Array<"before" | "during" | "after">;
+};
+
+const EQUIPMENT_JOBS: EquipmentJobSpec[] = [
+  {
+    citySlug: "manor",
+    cityName: "Manor",
+    jobKey: "pump-motor",
+    displayLabel: "Manor — pump motor replacement",
+    stages: ["before", "after"],
+  },
+  {
+    citySlug: "leander",
+    cityName: "Leander",
+    jobKey: "heater",
+    displayLabel: "Leander — gas heater replacement",
+    stages: ["before", "after"],
+  },
+  {
+    citySlug: "leander",
+    cityName: "Leander",
+    jobKey: "booster-pump",
+    displayLabel: "Leander — booster pump replacement",
+    stages: ["before", "after"],
+  },
+  {
+    citySlug: "leander",
+    cityName: "Leander",
+    jobKey: "pump",
+    displayLabel: "Leander — variable-speed pump upgrade",
+    stages: ["before", "after"],
+  },
+  {
+    citySlug: "dripping-springs",
+    cityName: "Dripping Springs",
+    jobKey: "chlorinator",
+    displayLabel: "Dripping Springs — chlorinator replacement",
+    stages: ["before", "after"],
+  },
+  {
+    citySlug: "cedar-park",
+    cityName: "Cedar Park",
+    jobKey: "filter",
+    displayLabel: "Cedar Park — cartridge filter replacement",
+    stages: ["before", "after"],
+  },
+  {
+    citySlug: "georgetown",
+    cityName: "Georgetown",
+    jobKey: "filter",
+    displayLabel: "Georgetown — filter replacement",
+    stages: ["before", "during", "after"],
+  },
+];
+
 const LEAK_REPAIR_JOBS: LeakRepairJobSpec[] = [
   {
     citySlug: "austin",
@@ -138,6 +198,32 @@ function buildRenovationJob({ citySlug, cityName }: CuratedJobSpec): CuratedMedi
   };
 }
 
+function buildEquipmentJob({
+  citySlug,
+  cityName,
+  jobKey,
+  displayLabel,
+  stages,
+}: EquipmentJobSpec): CuratedMediaJob {
+  return {
+    id: `curated--pool-equipment-repair--${citySlug}-${jobKey}`,
+    serviceSlug: "pool-equipment-repair",
+    date: "curated",
+    citySlug,
+    displayLabel,
+    images: stages.map((stage) => {
+      const stageLabel = stage.charAt(0).toUpperCase() + stage.slice(1);
+      return {
+        src: `/images/jobs/pool-equipment-repair/curated-${citySlug}-${jobKey}-${stage}.png`,
+        kind: "image" as const,
+        alt: `${displayLabel} — ${stageLabel.toLowerCase()}`,
+        caption: stageLabel,
+      };
+    }),
+    videos: [],
+  };
+}
+
 function buildLeakRepairJob({
   citySlug,
   cityName,
@@ -192,6 +278,7 @@ export const curatedJobsByService: Partial<Record<string, CuratedMediaJob[]>> = 
     ...LEAK_REPAIR_JOBS.map(buildLeakRepairJob),
     buildLeakFieldPhotosJob(),
   ],
+  "pool-equipment-repair": EQUIPMENT_JOBS.map(buildEquipmentJob),
 };
 
 export function getCuratedJobLabel(job: MediaJob): string | undefined {

@@ -13,6 +13,7 @@ export const cities: City[] = [
   { slug: "cedar-park", name: "Cedar Park" },
   { slug: "round-rock", name: "Round Rock" },
   { slug: "pflugerville", name: "Pflugerville" },
+  { slug: "manor", name: "Manor" },
   { slug: "liberty-hill", name: "Liberty Hill" },
   { slug: "jonestown", name: "Jonestown" },
   { slug: "lago-vista", name: "Lago Vista" },
