@@ -153,7 +153,9 @@ function jobToProgressSet(job: MediaJob, city?: City): JobProgressSet | null {
 
   const cityName = city?.name ?? getCityBySlug(job.citySlug)?.name;
   const label = job.id.startsWith("curated--")
-    ? (cityName ?? "Renovation project")
+    ? job.id.includes("pool-leak-detection")
+      ? `${cityName ?? "Central Texas"} leak repair`
+      : (cityName ?? "Renovation project")
     : cityName
       ? `${formatJobLabel(job)} — ${cityName}`
       : formatJobLabel(job);

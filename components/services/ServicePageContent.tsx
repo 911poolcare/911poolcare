@@ -212,14 +212,22 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
         <JobProgressGallery
           sets={progressSets}
           title={
-            city
-              ? `Before, during & after — ${city.name} jobs`
-              : "Before, during & after"
+            service.slug === "pool-leak-detection"
+              ? city
+                ? `Leak repair — ${city.name}`
+                : "Leak repair on the job"
+              : city
+                ? `Before, during & after — ${city.name} jobs`
+                : "Before, during & after"
           }
           description={
-            city
-              ? `Photos from recent ${service.title.toLowerCase()} jobs in and around ${city.name}.`
-              : "Photos from the same pool job — how we diagnose, repair, and finish the work."
+            service.slug === "pool-leak-detection"
+              ? city
+                ? `Underground plumbing leak located and repaired on a ${city.name}-area job.`
+                : "Failed underground PVC located, repaired, and ready to backfill — same job, start to finish."
+              : city
+                ? `Photos from recent ${service.title.toLowerCase()} jobs in and around ${city.name}.`
+                : "Photos from the same pool job — how we diagnose, repair, and finish the work."
           }
         />
       ) : null}
