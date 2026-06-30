@@ -1,10 +1,10 @@
 /** Site positioning — single source of truth for marketing copy */
 export const poolCareOffering = {
   /** SEO-focused H1 for homepage and local search */
-  seoHeadline: "Pool Leak Detection & Repair · Austin, TX",
+  seoHeadline: "Pool Repair & Renovation Experts · Austin, TX",
   headline: "We bring leaking, broken & aging pools back to life",
   subhead:
-    "Central Texas experts in pool leak detection, repairs, equipment replacement and renovations for residential, commercial and HOAs / community properties.",
+    "Leak detection, equipment repair, renovations & inspections for residential, commercial & HOA properties.",
   tagline: "Central Texas Pool Leak Detection, Repair, Renovation & Inspection",
   metaDescription:
     "Pool leak detection & repair in Austin, TX — 4.9★ rated. Equipment repair, renovations, replaster & inspections across Greater Austin. RAIL certified (Residential Appliance Installer License). Veteran-owned. Call 512-947-2023.",
