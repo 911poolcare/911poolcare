@@ -2,7 +2,7 @@ import { poolEquipment } from "@/content/equipment";
 import { serviceHeroImages } from "@/content/hero-images";
 import { inspectionSeo } from "@/content/inspections";
 import { pricing } from "@/content/pricing";
-import { renovationSeo } from "@/content/renovations";
+import { renovationFinishesIntro, renovationSeo } from "@/content/renovations";
 import { primaryServiceSlugs } from "@/content/service-offering";
 import { site } from "@/content/site";
 
@@ -27,22 +27,22 @@ export const services: Service[] = [
     slug: "pool-leak-detection",
     title: "Pool Leak Detection & Repair",
     description:
-      "Find and fix pool leaks — Leakalyzer testing, electronic detection, and lasting repairs.",
+      "Leaktronics-certified detection with Leakalyzer testing, professional Leaktronics & Anderson gear, and lasting repairs.",
     image: serviceHeroImages["pool-leak-detection"].src,
     imageAlt: serviceHeroImages["pool-leak-detection"].alt,
     headline: "Pool leak detection & repair in Austin, TX",
     intro:
-      "Suspected leak in Austin or Greater Austin? We verify water loss on site, isolate the source with pressure and electronic testing, and complete the repair — in the shell, plumbing, or equipment. Fair pricing and clear answers, every time.",
+      "Suspected leak in Austin or Greater Austin? We're Leaktronics certified and equipped with industry-leading Leaktronics and Anderson gear — hydrophones, listening systems, pressure and vacuum testing, pipe cameras, dye testing, and dive gear when needed. We verify water loss on site, isolate the source, and complete the repair. Fair pricing and clear answers, every time.",
     highlights: [
-      "Visual, dye, and pressure testing to isolate leaks",
-      "Electronic locating — hydrophones, probes, and pipe cameras",
+      "Leaktronics certified leak detection",
+      "Leakalyzer water-loss testing and professional locating equipment",
+      "Hydrophones, listening systems, pressure & vacuum testing, pipe cameras",
       `Transparent residential detection pricing from $${pricing.leakDetection.poolOnlySinglePump}`,
       `Residential guarantee: if we can't find the leak, pay only $${pricing.leakDetection.downPayment} down`,
       "Leak repairs quoted based on location, access, and scope",
-      "Pool leak repair — plumbing, shell, and equipment",
     ],
     metaDescription:
-      `Pool leak detection & repair in Austin, TX and Greater Austin. Detection from $${pricing.leakDetection.poolOnlySinglePump}. Residential $${pricing.leakDetection.downPayment} down-payment guarantee. 4.9★ rated. Call 512-947-2023.`,
+      `Leaktronics-certified pool leak detection & repair in Austin, TX. Leakalyzer testing, professional equipment, detection from $${pricing.leakDetection.poolOnlySinglePump}. Call 512-947-2023.`,
   },
   {
     slug: "pool-equipment-repair",
@@ -69,16 +69,15 @@ export const services: Service[] = [
     slug: "pool-renovations",
     title: "Pool Renovations & Replastering",
     description:
-      "Replaster, PebbleTec, tile, coping, and full pool remodels. Free on-site consultation.",
+      "PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite plaster, tile, coping, and full pool remodels. Free on-site consultation.",
     image: serviceHeroImages["pool-renovations"].src,
     imageAlt: serviceHeroImages["pool-renovations"].alt,
     headline: "Pool renovations & replaster",
-    intro:
-      "Refresh or fully remodel your pool — replaster, PebbleTec, tile, coping, and complete renovations for residential and commercial properties. We start with a free on-site consultation and a clear plan.",
+    intro: `Refresh or fully remodel your pool — ${renovationFinishesIntro.toLowerCase()} We also handle tile, coping, and complete renovations for residential and commercial properties, starting with a free on-site consultation and a clear plan.`,
     highlights: [
       "Free on-site renovation consultations",
-      "Pool replaster and resurfacing",
-      "PebbleTec and premium aggregate finishes",
+      "PebbleTec, MicroFusion, Stonescapes & Quartzscapes",
+      "Basic marcite plaster and other finish options",
       "Waterline tile, coping, and trim updates",
       "Deck and hardscape coordination",
       "Full pool remodels — residential & commercial",

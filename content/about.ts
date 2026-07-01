@@ -1,3 +1,4 @@
+import { footerCredentials } from "@/content/credentials";
 import { poolCareOffering } from "@/content/service-offering";
 import { site } from "@/content/site";
 
@@ -40,6 +41,9 @@ export const about = {
   credentials: [
     { label: "7+ years in the pool industry" },
     { label: site.veteranOwned.label },
+    { label: footerCredentials[0].shortLabel },
+    { label: footerCredentials[1].shortLabel },
+    { label: footerCredentials[2].shortLabel },
     { label: site.railCertified.label },
     { label: "Licensed & insured" },
     { label: formatGoogleReviewsLabel() },

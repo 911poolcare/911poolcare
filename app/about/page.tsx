@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Phone, MessageSquare } from "lucide-react";
 import { about } from "@/content/about";
+import { footerCredentials } from "@/content/credentials";
 import { getAboutGallery } from "@/content/galleries";
 import { poolCareOffering } from "@/content/service-offering";
 import { site } from "@/content/site";
@@ -48,6 +50,55 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
+        </Container>
+      </Section>
+
+      <Section muted>
+        <Container>
+          <SectionHeading
+            eyebrow="Accredited & certified"
+            title="Credentials you can verify"
+            description="BBB accreditation, PHTA industry certifications, and Texas licensing — the same credentials shown on our legacy site and business profiles."
+          />
+          <div className="grid gap-6 lg:grid-cols-3">
+            {footerCredentials.map((credential) => (
+              <article
+                key={credential.id}
+                className="flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm"
+              >
+                {credential.href ? (
+                  <Link
+                    href={credential.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-opacity hover:opacity-90"
+                  >
+                    <Image
+                      src={credential.image.src}
+                      alt={credential.image.alt}
+                      width={credential.image.width}
+                      height={credential.image.height}
+                      className="h-20 w-auto object-contain"
+                    />
+                  </Link>
+                ) : (
+                  <Image
+                    src={credential.image.src}
+                    alt={credential.image.alt}
+                    width={credential.image.width}
+                    height={credential.image.height}
+                    className="h-20 w-auto object-contain"
+                  />
+                )}
+                <h2 className="mt-4 text-lg font-semibold text-slate-900">
+                  {credential.title}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                  {credential.description}
+                </p>
+              </article>
+            ))}
+          </div>
         </Container>
       </Section>
 

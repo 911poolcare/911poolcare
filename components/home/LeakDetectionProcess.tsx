@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { leakDetectionProcessIntro } from "@/content/leak-detection";
 import { leakDetectionProcess } from "@/content/trust";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -12,7 +13,7 @@ export function LeakDetectionProcess() {
         <SectionHeading
           eyebrow="Leak Detection"
           title="How our leak detection process works"
-          description="We start with visual and dye testing, use pressure testing and electronic locating when needed, and finish with a clear repair plan tailored to your situation."
+          description={leakDetectionProcessIntro}
         />
 
         <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

@@ -28,6 +28,7 @@ import {
 import { getServiceGallery } from "@/content/galleries";
 import { RenovationPageExtras } from "@/components/services/RenovationPageExtras";
 import { InspectionPageExtras } from "@/components/services/InspectionPageExtras";
+import { LeakDetectionPageExtras } from "@/components/services/LeakDetectionPageExtras";
 import { ServicePricing } from "@/components/services/ServicePricing";
 import { PhotoGallery } from "@/components/gallery/PhotoGallery";
 import { JobProgressGallery } from "@/components/gallery/JobProgressGallery";
@@ -290,6 +291,10 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
 
       {service.slug === "pool-inspections" ? (
         <InspectionPageExtras city={city} />
+      ) : null}
+
+      {service.slug === "pool-leak-detection" ? (
+        <LeakDetectionPageExtras city={city} />
       ) : null}
 
       <Section muted>

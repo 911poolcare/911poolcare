@@ -1,7 +1,18 @@
-import { poolCareOffering } from "@/content/service-offering";
-import { getServiceAreasDisplay, formatServiceScopeDescriptionInline, site } from "@/content/site";
+import {
+  leakDetectionCertification,
+  leakDetectionEquipmentBrands,
+  leakDetectionPhilosophy,
+} from "@/content/leak-detection";
+import { footerCredentials } from "@/content/credentials";
+import { renovationFinishesIntro } from "@/content/renovations";
 import { poolEquipmentPhrase } from "@/content/equipment";
 import { pricing } from "@/content/pricing";
+import { poolCareOffering } from "@/content/service-offering";
+import {
+  formatServiceScopeDescriptionInline,
+  getServiceAreasDisplay,
+  site,
+} from "@/content/site";
 
 export const leakDetectionProcess = [
   {
@@ -18,9 +29,9 @@ export const leakDetectionProcess = [
   },
   {
     step: "3",
-    title: "Pressure testing & leak locating",
+    title: "Pressure testing & electronic locating",
     description:
-      "When needed, we pressure-test plumbing to confirm leaking pipes and pinpoint the leak using hydrophones underwater, deck and ground probes, and pipe cameras with locators to find leaks under concrete and deep in the ground.",
+      "When needed, we pressure- and vacuum-test plumbing, then deploy Leaktronics and Anderson equipment — underwater hydrophones, amplified listening systems, and pipe cameras with locators — to pinpoint leaks under decks and in the ground.",
   },
   {
     step: "4",
@@ -32,8 +43,8 @@ export const leakDetectionProcess = [
 
 export const ourPromise = [
   {
-    title: "Repair & renovation experts",
-    description: `Leak detection technicians and pool repair specialists for ${poolCareOffering.inlineList}.`,
+    title: "Leaktronics certified detection",
+    description: `${leakDetectionCertification.description} ${leakDetectionPhilosophy}`,
   },
   {
     title: "Specialists — not a cleaning company",
@@ -67,7 +78,11 @@ export const faqs: FAQItem[] = [
   {
     question: "Do you offer pool renovation and replastering?",
     answer:
-      "Yes. Pool renovations and replastering are a core part of what we do — replaster, PebbleTec, tile, coping, and full remodels with free on-site consultations for residential and commercial properties.",
+      `Yes. Pool renovations and replastering are a core part of what we do — ${renovationFinishesIntro.toLowerCase()} We also handle tile, coping, and full remodels with free on-site consultations for residential and commercial properties.`,
+  },
+  {
+    question: "What pool finishes do you install?",
+    answer: `${renovationFinishesIntro} We'll help you choose the right surface for your pool's condition, budget, and how you use it.`,
   },
   {
     question: "Do you offer weekly pool cleaning or maintenance?",
@@ -101,9 +116,13 @@ export const faqs: FAQItem[] = [
     answer: pricing.leakDetection.repairNote,
   },
   {
+    question: "Are you Leaktronics certified for leak detection?",
+    answer: `${leakDetectionCertification.description} ${leakDetectionEquipmentBrands}`,
+  },
+  {
     question: "What is a Leakalyzer and why do you use it?",
     answer:
-      "A Leakalyzer measures water loss on site so we can confirm whether your pool is actually leaking — and how much — before committing to a full detection. It's part of how we keep the process honest and data-driven, not guesswork.",
+      "The Leakalyzer from Anderson Manufacturing measures water loss on site so we can confirm whether your pool is actually leaking — and how much — before committing to a full detection. Combined with Leaktronics-certified methods and professional listening and pressure-testing gear, it keeps the process honest and data-driven, not guesswork.",
   },
   {
     question: "What does pool equipment diagnostic pricing look like?",
@@ -117,6 +136,18 @@ export const faqs: FAQItem[] = [
   {
     question: "What areas do you serve?",
     answer: `We serve ${getServiceAreasDisplay().replace(/ · /g, ", ")}, and surrounding Central Texas communities — with a growing focus on Austin and Georgetown. Horseshoe Bay is currently served for pool renovations only.`,
+  },
+  {
+    question: "Are you BBB accredited?",
+    answer: `${footerCredentials[0].description} View our ${footerCredentials[0].shortLabel} profile on the Better Business Bureau website.`,
+  },
+  {
+    question: "What is Advanced CBP certification?",
+    answer: footerCredentials[1].description,
+  },
+  {
+    question: "Are your pool inspectors certified?",
+    answer: footerCredentials[2].description,
   },
   {
     question: "Are you licensed and insured?",

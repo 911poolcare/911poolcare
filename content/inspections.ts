@@ -1,3 +1,4 @@
+import { getCredentialById } from "@/content/credentials";
 import { site } from "@/content/site";
 
 export const inspectionSlug = "pool-inspections" as const;
@@ -67,9 +68,9 @@ export const inspectionDeliverablesGoal =
   "Our goal is to give you clarity, not create confusion or unnecessary panic.";
 
 export const inspectionCertification = {
-  title: "Certified pool inspector",
+  title: getCredentialById("cpi")?.title ?? "Certified pool inspector",
   description:
-    "911 Pool Care inspections are performed by certified pool inspectors — not general contractors or visual-only walkthroughs. Certification ensures inspections follow professional standards and focus on real-world functionality, safety, and repair risk.",
+    `${getCredentialById("cpi")?.description ?? "911 Pool Care inspections are performed by certified pool inspectors."} Inspections are not general home inspections or visual-only walkthroughs — they follow professional standards and focus on real-world functionality, safety, and repair risk.`,
 } as const;
 
 export const inspectionImportantNotes = [

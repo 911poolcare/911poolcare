@@ -4,6 +4,8 @@ import { cities } from "@/content/cities";
 import {
   finishTypes,
   renovationFaqs,
+  renovationFinishes,
+  renovationFinishesIntro,
   renovationProcess,
   renovationSlug,
 } from "@/content/renovations";
@@ -21,6 +23,7 @@ type RenovationPageExtrasProps = {
 };
 
 export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
+  const areaLabel = city ? `${city.name} and surrounding areas` : "Central Texas";
   const progressSets = city
     ? getCityServiceProgressSets(renovationSlug, city.slug, city, 3)
     : getServiceProgressSets(renovationSlug, 4);
@@ -42,11 +45,45 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
       <BeforeAfterGallery images={renovationShowcase} />
 
       <Section muted>
+        <Container className="grid gap-10 lg:grid-cols-2 lg:items-start">
+          <div>
+            <SectionHeading
+              eyebrow="Finishes we install"
+              title="Pool surface materials for renovations & replasters"
+              description={renovationFinishesIntro}
+              align="left"
+            />
+            <p className="mt-4 text-sm leading-relaxed text-slate-600">
+              {city
+                ? `We help ${city.name}-area homeowners and property managers choose the right finish for their replaster or renovation — not a one-size-fits-all recommendation.`
+                : "We help you choose the right finish for your replaster or renovation — not a one-size-fits-all recommendation."}
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-brand-200 bg-brand-50/60 p-6">
+            <h3 className="text-lg font-semibold text-slate-900">
+              Materials we install in {areaLabel}
+            </h3>
+            <ul className="mt-4 space-y-4">
+              {renovationFinishes.map((finish) => (
+                <li key={finish.title}>
+                  <p className="font-medium text-slate-900">{finish.title}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                    {finish.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Container>
+      </Section>
+
+      <Section muted>
         <Container>
           <SectionHeading
             eyebrow="Finishes & Services"
             title="Pool renovation options we provide"
-            description="From replaster and PebbleTec to tile, coping, and complete pool remodels."
+            description="From replaster and premium finishes to tile, coping, and complete pool remodels."
           />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {finishTypes.map((item) => (

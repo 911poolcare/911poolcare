@@ -3,16 +3,53 @@ import { pricing } from "@/content/pricing";
 
 export const renovationSlug = "pool-renovations" as const;
 
+/** Pool surface materials we install — single source of truth */
+export const renovationFinishesIntro =
+  "We install PebbleTec, MicroFusion, Stonescapes, Quartzscapes, basic marcite plaster, and other materials for renovations and replasters.";
+
+export const renovationFinishes = [
+  {
+    title: "PebbleTec",
+    description:
+      "Durable pebble aggregate finish with natural texture — a popular choice for Central Texas pools that need long-lasting beauty.",
+  },
+  {
+    title: "MicroFusion",
+    description:
+      "Refined pebble finish with a smoother feel underfoot while keeping the strength and color depth of aggregate surfaces.",
+  },
+  {
+    title: "Stonescapes",
+    description:
+      "Blended pebble and glass-bead finish for rich color and a distinctive look on backyard and commercial pools.",
+  },
+  {
+    title: "Quartzscapes",
+    description:
+      "Polished quartz aggregate for a smoother, shimmering surface — great when you want color without heavy texture.",
+  },
+  {
+    title: "Basic marcite plaster",
+    description:
+      "Traditional marcite plaster for a clean, economical resurfacing when your pool needs a straightforward refresh.",
+  },
+  {
+    title: "Other materials",
+    description:
+      "We can source and install other manufacturer finishes when they fit your pool, budget, and design goals.",
+  },
+] as const;
+
 export const renovationSeo = {
   title: "Pool Renovation & Replastering Austin TX",
   titleTemplate: (city: string) => `Pool Renovation ${city} TX | Replaster & PebbleTec`,
   hubDescription:
-    "Residential and commercial pool renovations and replastering across Central Texas — replaster, PebbleTec and other finish options to match your look and budget, tile and coping repair, and full remodels.",
+    "Residential and commercial pool renovations and replastering across Central Texas — PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite plaster, and other finishes, plus tile, coping, and full remodels.",
 } as const;
 
 export const renovationSpotlightCards = [
   "Replaster & resurfacing",
-  "PebbleTec & other finishes",
+  "PebbleTec & premium finishes",
   "Tile & coping repair",
   "Full pool remodels",
 ] as const;
@@ -24,9 +61,9 @@ export const finishTypes = [
       "Restore worn, stained, or delaminating plaster with a fresh surface built to handle Central Texas heat and heavy use.",
   },
   {
-    title: "PebbleTec & other finishes",
+    title: "PebbleTec & premium finishes",
     description:
-      "PebbleTec, pebble, and other premium finishes — we'll help you choose the right material for your pool, budget, and how you use it.",
+      "PebbleTec, MicroFusion, Stonescapes, Quartzscapes, and other premium surfaces — we'll help you choose the right material for your pool, budget, and how you use it.",
   },
   {
     title: "Tile & coping repair",
@@ -79,9 +116,8 @@ export const renovationFaqs = [
       "Common signs include rough or stained plaster, visible rebar spots, peeling or delaminating surfaces, persistent staining that won't clean off, and pools that are 10–20+ years old. If you're unsure, our free renovation consultation is the best place to start.",
   },
   {
-    question: "What pool finishes do you offer?",
-    answer:
-      "We handle traditional replaster, PebbleTec and aggregate finishes, tile and coping updates, and full remodels. We'll recommend the right option based on your pool's condition, budget, and how you use the pool.",
+    question: "What pool finishes do you install?",
+    answer: `${renovationFinishesIntro} We also handle tile, coping, and full remodels — and we'll recommend the right option based on your pool's condition, budget, and how you use it.`,
   },
   {
     question: "Do you offer free renovation consultations?",

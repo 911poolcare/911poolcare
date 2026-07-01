@@ -64,13 +64,13 @@ export const site = {
   ],
   logo: {
     src: "/images/logos/logo.png",
-    width: 446,
-    height: 352,
+    width: 500,
+    height: 500,
   },
   logoLight: {
     src: "/images/logos/logo-white.png",
-    width: 446,
-    height: 352,
+    width: 500,
+    height: 500,
   },
   hero: siteHero,
   urls: {

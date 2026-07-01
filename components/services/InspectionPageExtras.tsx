@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
 import type { City } from "@/content/cities";
+import { getCredentialById } from "@/content/credentials";
 import {
   inspectionAudience,
   inspectionAudienceNote,
@@ -13,7 +15,12 @@ import {
   inspectionRelatedServices,
 } from "@/content/inspections";
 import { site } from "@/content/site";
+import {
+  getCityServiceGalleryImages,
+  getServiceGalleryImages,
+} from "@/content/media";
 import { Button } from "@/components/ui/Button";
+import { PhotoGallery } from "@/components/gallery/PhotoGallery";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -24,9 +31,29 @@ type InspectionPageExtrasProps = {
 
 export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
   const areaLabel = city ? `${city.name} and surrounding areas` : "Central Texas";
+  const inspectorCredential = getCredentialById("cpi");
+  const galleryImages = city
+    ? getCityServiceGalleryImages("pool-inspections", city.slug, 6)
+    : getServiceGalleryImages("pool-inspections", 6);
 
   return (
     <>
+      {galleryImages.length > 0 ? (
+        <PhotoGallery
+          images={galleryImages}
+          title={
+            city
+              ? `On the job — ${city.name} pool inspections`
+              : "Certified pool inspections in the field"
+          }
+          description={
+            city
+              ? `Professional on-site inspection work in ${city.name} — documented with photo evidence in your written report.`
+              : "Professional on-site inspection work across Central Texas — documented with photo evidence in your written report."
+          }
+        />
+      ) : null}
+
       <Section muted>
         <Container>
           <SectionHeading
@@ -97,7 +124,16 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-slate-900">
+            {inspectorCredential ? (
+              <Image
+                src={inspectorCredential.image.src}
+                alt={inspectorCredential.image.alt}
+                width={inspectorCredential.image.width}
+                height={inspectorCredential.image.height}
+                className="h-16 w-auto object-contain"
+              />
+            ) : null}
+            <h3 className="mt-4 text-lg font-semibold text-slate-900">
               {inspectionCertification.title}
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-slate-600">

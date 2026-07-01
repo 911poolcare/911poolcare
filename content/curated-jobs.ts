@@ -271,6 +271,33 @@ function buildLeakFieldPhotosJob(): CuratedMediaJob {
   };
 }
 
+const INSPECTION_FIELD_PHOTOS: FieldPhotoSpec[] = [
+  {
+    file: "curated-cedar-park-inspection-01.png",
+    citySlug: "cedar-park",
+    cityName: "Cedar Park",
+    alt: "Anderson Leakalyzer setup during a certified pool inspection in Cedar Park, TX",
+    caption: "On-site water-loss testing during a pool inspection",
+  },
+];
+
+function buildInspectionFieldPhotosJob(): CuratedMediaJob {
+  return {
+    id: "curated--pool-inspections--field-photos",
+    serviceSlug: "pool-inspections",
+    date: "curated",
+    citySlug: "cedar-park",
+    displayLabel: "Cedar Park — certified pool inspection",
+    images: INSPECTION_FIELD_PHOTOS.map((photo) => ({
+      src: `/images/jobs/pool-inspections/${photo.file}`,
+      kind: "image" as const,
+      alt: photo.alt,
+      caption: photo.caption,
+    })),
+    videos: [],
+  };
+}
+
 /** Hand-picked job photos — overrides auto-imported jobs per service. */
 export const curatedJobsByService: Partial<Record<string, CuratedMediaJob[]>> = {
   "pool-renovations": RENOVATION_JOBS.map(buildRenovationJob),
@@ -279,6 +306,7 @@ export const curatedJobsByService: Partial<Record<string, CuratedMediaJob[]>> = 
     buildLeakFieldPhotosJob(),
   ],
   "pool-equipment-repair": EQUIPMENT_JOBS.map(buildEquipmentJob),
+  "pool-inspections": [buildInspectionFieldPhotosJob()],
 };
 
 export function getCuratedJobLabel(job: MediaJob): string | undefined {

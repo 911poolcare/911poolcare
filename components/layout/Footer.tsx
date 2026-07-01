@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { CredentialsBar } from "@/components/layout/CredentialsBar";
 import { getServiceAreasDisplay, site } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
@@ -61,6 +62,8 @@ export function Footer() {
           </p>
         </div>
       </Container>
+
+      <CredentialsBar />
 
       <Container className="border-t border-white/10 py-6 text-center text-xs text-slate-500">
         © {new Date().getFullYear()} {site.name}. All rights reserved.
