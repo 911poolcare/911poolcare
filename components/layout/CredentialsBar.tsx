@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { footerCredentials } from "@/content/credentials";
 import { Container } from "@/components/ui/Container";
+import { cn } from "@/lib/utils";
 
 export function CredentialsBar() {
   return (
@@ -18,7 +19,11 @@ export function CredentialsBar() {
                 alt={credential.image.alt}
                 width={credential.image.width}
                 height={credential.image.height}
-                className="h-16 w-auto object-contain sm:h-20"
+                className={cn(
+                  credential.id === "bbb"
+                    ? "h-16 w-auto max-w-[11rem] object-contain sm:h-[4.5rem]"
+                    : "h-16 w-auto object-contain sm:h-20",
+                )}
               />
             );
 

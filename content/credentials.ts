@@ -14,19 +14,26 @@ export type Credential = {
   };
 };
 
+export const bbbProfileUrl =
+  "https://www.bbb.org/us/tx/leander/profile/pool-contractors/911-pool-care-llc-0825-1000239743";
+
+/** Official BBB dynamic seal — updates rating date on BBB's servers */
+export const bbbSealImageUrl =
+  "https://seal-austin.bbb.org/seals/blue-seal-200-130-bbb-0825-1000239743.png";
+
 export const footerCredentials: Credential[] = [
   {
     id: "bbb",
-    title: "BBB Accredited Business",
-    shortLabel: "BBB Accredited",
+    title: "BBB Accredited Business — A+ Rating",
+    shortLabel: "BBB A+ Accredited",
     description:
-      "911 Pool Care is a Better Business Bureau accredited business — recognized for commitment to trust, transparency, and responsive customer service.",
-    href: "https://www.bbb.org/us/tx/leander/profile/pool-contractors/911-pool-care-llc-0825-1000239743",
+      "911 Pool Care is a Better Business Bureau accredited business with an A+ rating — recognized for commitment to trust, transparency, and responsive customer service.",
+    href: bbbProfileUrl,
     image: {
-      src: "/images/credentials/bbb-accredited.png",
-      width: 93,
-      height: 93,
-      alt: "Better Business Bureau Accredited Business",
+      src: bbbSealImageUrl,
+      width: 200,
+      height: 130,
+      alt: "BBB Accredited Business — A+ rating",
     },
   },
   {
