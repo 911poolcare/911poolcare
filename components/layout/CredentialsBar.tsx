@@ -21,7 +21,7 @@ export function CredentialsBar() {
                 height={credential.image.height}
                 className={cn(
                   credential.id === "bbb"
-                    ? "h-16 w-auto max-w-[11rem] object-contain sm:h-[4.5rem]"
+                    ? "h-20 w-auto max-w-[8.5rem] object-contain sm:h-24"
                     : "h-16 w-auto object-contain sm:h-20",
                 )}
               />

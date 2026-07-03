@@ -17,23 +17,23 @@ export type Credential = {
 export const bbbProfileUrl =
   "https://www.bbb.org/us/tx/leander/profile/pool-contractors/911-pool-care-llc-0825-1000239743";
 
-/** Official BBB dynamic seal — updates rating date on BBB's servers */
+/** Official BBB accredited seal — accreditation only, no rating date */
 export const bbbSealImageUrl =
-  "https://seal-austin.bbb.org/seals/blue-seal-200-130-bbb-0825-1000239743.png";
+  "https://seal-austin.bbb.org/seals/blue-seal-200-130-whitetxt-bbb-0825-1000239743.png";
 
 export const footerCredentials: Credential[] = [
   {
     id: "bbb",
-    title: "BBB Accredited Business — A+ Rating",
-    shortLabel: "BBB A+ Accredited",
+    title: "BBB Accredited Business",
+    shortLabel: "BBB Accredited",
     description:
-      "911 Pool Care is a Better Business Bureau accredited business with an A+ rating — recognized for commitment to trust, transparency, and responsive customer service.",
+      "911 Pool Care is a Better Business Bureau accredited business — recognized for commitment to trust, transparency, and responsive customer service.",
     href: bbbProfileUrl,
     image: {
-      src: bbbSealImageUrl,
+      src: "/images/credentials/bbb-accredited.png",
       width: 200,
       height: 130,
-      alt: "BBB Accredited Business — A+ rating",
+      alt: "BBB Accredited Business",
     },
   },
   {

@@ -5,6 +5,7 @@ type CuratedMediaJob = MediaJob & { displayLabel?: string };
 type CuratedJobSpec = {
   citySlug: string;
   cityName: string;
+  stages?: Array<"before" | "during" | "after">;
 };
 
 type LeakRepairJobSpec = CuratedJobSpec & {
@@ -26,6 +27,7 @@ const RENOVATION_JOBS: CuratedJobSpec[] = [
   { citySlug: "cedar-park", cityName: "Cedar Park" },
   { citySlug: "spicewood", cityName: "Spicewood" },
   { citySlug: "lago-vista", cityName: "Lago Vista" },
+  { citySlug: "westlake", cityName: "Westlake", stages: ["during"] },
 ];
 
 type EquipmentJobSpec = {
@@ -183,17 +185,18 @@ function renovationImage(
   };
 }
 
-function buildRenovationJob({ citySlug, cityName }: CuratedJobSpec): CuratedMediaJob {
+function buildRenovationJob({
+  citySlug,
+  cityName,
+  stages = ["before", "during", "after"],
+}: CuratedJobSpec): CuratedMediaJob {
   return {
     id: `curated--pool-renovations--${citySlug}`,
     serviceSlug: "pool-renovations",
     date: "curated",
     citySlug,
-    images: [
-      renovationImage(citySlug, "before", cityName),
-      renovationImage(citySlug, "during", cityName),
-      renovationImage(citySlug, "after", cityName),
-    ],
+    displayLabel: `${cityName} — pool renovation`,
+    images: stages.map((stage) => renovationImage(citySlug, stage, cityName)),
     videos: [],
   };
 }

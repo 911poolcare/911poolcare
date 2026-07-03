@@ -139,7 +139,7 @@ export const faqs: FAQItem[] = [
   },
   {
     question: "Are you BBB accredited?",
-    answer: `${footerCredentials[0].description} View our ${footerCredentials[0].shortLabel} profile on the Better Business Bureau website.`,
+    answer: `${footerCredentials[0].description} View our BBB Accredited Business profile on the Better Business Bureau website.`,
   },
   {
     question: "What is Advanced CBP certification?",
