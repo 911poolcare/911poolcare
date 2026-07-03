@@ -53,6 +53,22 @@ export default function AboutPage() {
         </Container>
       </Section>
 
+      <Section>
+        <Container className="max-w-3xl">
+          <div className="border-l-4 border-brand-600 pl-6 sm:pl-8">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">
+              {about.vision.title}
+            </p>
+            <p className="mt-3 text-xl font-semibold leading-snug text-slate-900 sm:text-2xl">
+              {about.vision.statement}
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-slate-600">
+              {about.vision.description}
+            </p>
+          </div>
+        </Container>
+      </Section>
+
       <Section muted>
         <Container>
           <SectionHeading

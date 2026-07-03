@@ -16,6 +16,13 @@ export const about = {
     "We strive to deliver exactly what you are looking for: quality work, clear communication, and respect on every project. We are not the largest team in the area, and that is intentional. Our goal is to be the best.",
     "911 Pool Care is still locally owned and operated. As we grow across Central Texas, we have the processes and structure in place to keep delivering the quality, customer-first experience our clients count on.",
   ],
+  vision: {
+    title: "Our Vision",
+    statement:
+      "911 Pool Care exists to be the most trusted specialty pool care team in Texas.",
+    description:
+      "We are building that trust through honest diagnoses, clear communication, skilled workmanship, and consistent service across every job and every future 911 Pool Care location.",
+  },
   pillars: [
     {
       title: "Trained & certified",
