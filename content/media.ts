@@ -112,7 +112,8 @@ export function getCityServiceGalleryImages(
     }
   }
 
-  if (images.length >= limit) return images;
+  // Only backfill from other cities if this city has NO images at all
+  if (images.length > 0) return images;
 
   for (const job of jobsForService(serviceSlug)) {
     if (job.citySlug === citySlug) continue;
