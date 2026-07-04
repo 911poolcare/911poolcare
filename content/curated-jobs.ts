@@ -275,6 +275,27 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     caption: "Underground plumbing repair in progress",
   },
   {
+    file: "field-spicewood-crack-at-rockwork.png",
+    citySlug: "spicewood",
+    cityName: "Spicewood",
+    alt: "Underwater crack identified at rockwork junction during leak detection — Spicewood",
+    caption: "Crack at rockwork junction identified underwater",
+  },
+  {
+    file: "field-spicewood-structural-crack.png",
+    citySlug: "spicewood",
+    cityName: "Spicewood",
+    alt: "Structural crack running from fitting down pool wall — Spicewood",
+    caption: "Structural crack traced from fitting",
+  },
+  {
+    file: "field-spicewood-pressure-testing-setup.png",
+    citySlug: "spicewood",
+    cityName: "Spicewood",
+    alt: "Leaktronics pressure testing rig connected to skimmer line — Spicewood",
+    caption: "Pressure testing rig connected to skimmer line",
+  },
+  {
     file: "field-lago-vista-dye-supplies.png",
     citySlug: "lago-vista",
     cityName: "Lago Vista",
