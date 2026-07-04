@@ -254,6 +254,27 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     caption: "Pipe camera ready for underground inspection",
   },
   {
+    file: "field-liberty-hill-diver-underwater.png",
+    citySlug: "liberty-hill",
+    cityName: "Liberty Hill",
+    alt: "Diver with hydrophone inspecting pool floor during underwater leak detection — Liberty Hill",
+    caption: "Underwater hydrophone detection",
+  },
+  {
+    file: "field-liberty-hill-dye-testing.png",
+    citySlug: "liberty-hill",
+    cityName: "Liberty Hill",
+    alt: "Dye testing at a return fitting underwater — Liberty Hill",
+    caption: "Dye testing at a return fitting",
+  },
+  {
+    file: "field-liberty-hill-underground-repair.png",
+    citySlug: "liberty-hill",
+    cityName: "Liberty Hill",
+    alt: "Technician repairing underground PVC plumbing after leak located — Liberty Hill",
+    caption: "Underground plumbing repair in progress",
+  },
+  {
     file: "field-pflugerville-underground-line.png",
     citySlug: "pflugerville",
     cityName: "Pflugerville",
