@@ -88,6 +88,13 @@ const EQUIPMENT_JOBS: EquipmentJobSpec[] = [
     displayLabel: "Georgetown — filter replacement",
     stages: ["before", "during", "after"],
   },
+  {
+    citySlug: "georgetown",
+    cityName: "Georgetown",
+    jobKey: "equipment",
+    displayLabel: "Georgetown — equipment replacement",
+    stages: ["before", "after"],
+  },
 ];
 
 const LEAK_REPAIR_JOBS: LeakRepairJobSpec[] = [
