@@ -198,6 +198,34 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     caption: "Cracked PVC located underground",
   },
   {
+    file: "field-leander-underground-repair.png",
+    citySlug: "leander",
+    cityName: "Leander",
+    alt: "Underground PVC pipe repaired with purple primer — Leander",
+    caption: "Underground pipe repair with new fittings",
+  },
+  {
+    file: "field-leander-deck-excavation.png",
+    citySlug: "leander",
+    cityName: "Leander",
+    alt: "Deck excavation revealing underground plumbing at pool edge — Leander",
+    caption: "Deck cut exposing underground plumbing",
+  },
+  {
+    file: "field-leander-leakalyzer-setup.png",
+    citySlug: "leander",
+    cityName: "Leander",
+    alt: "Leakalyzer water-loss testing equipment set up poolside — Leander",
+    caption: "Leakalyzer setup for water-loss testing",
+  },
+  {
+    file: "field-leander-shell-crack.png",
+    citySlug: "leander",
+    cityName: "Leander",
+    alt: "Finger pointing to shell crack at coping joint during leak inspection — Leander",
+    caption: "Shell crack identified at coping joint",
+  },
+  {
     file: "field-pflugerville-underground-line.png",
     citySlug: "pflugerville",
     cityName: "Pflugerville",
@@ -338,23 +366,43 @@ const INSPECTION_FIELD_PHOTOS: FieldPhotoSpec[] = [
     alt: "Anderson Leakalyzer setup during a certified pool inspection in Cedar Park, TX",
     caption: "On-site water-loss testing during a pool inspection",
   },
+  {
+    file: "field-leander-inspection-fill.png",
+    citySlug: "leander",
+    cityName: "Leander",
+    alt: "Pool filling after replaster with dye cones visible during leak inspection — Leander",
+    caption: "Post-replaster fill and leak inspection",
+  },
+  {
+    file: "field-leander-inspection-tile.png",
+    citySlug: "leander",
+    cityName: "Leander",
+    alt: "Close-up of waterline tile and pebble finish during pool inspection — Leander",
+    caption: "Waterline tile and finish detail inspection",
+  },
 ];
 
-function buildInspectionFieldPhotosJob(): CuratedMediaJob {
-  return {
-    id: "curated--pool-inspections--field-photos",
+function buildInspectionFieldPhotosJobs(): CuratedMediaJob[] {
+  const byCity = new Map<string, FieldPhotoSpec[]>();
+  for (const photo of INSPECTION_FIELD_PHOTOS) {
+    const existing = byCity.get(photo.citySlug) ?? [];
+    existing.push(photo);
+    byCity.set(photo.citySlug, existing);
+  }
+
+  return Array.from(byCity.entries()).map(([citySlug, photos]) => ({
+    id: `curated--pool-inspections--field-${citySlug}`,
     serviceSlug: "pool-inspections",
     date: "curated",
-    citySlug: "cedar-park",
-    displayLabel: "Cedar Park — certified pool inspection",
-    images: INSPECTION_FIELD_PHOTOS.map((photo) => ({
+    citySlug,
+    images: photos.map((photo) => ({
       src: `/images/jobs/pool-inspections/${photo.file}`,
       kind: "image" as const,
       alt: photo.alt,
       caption: photo.caption,
     })),
     videos: [],
-  };
+  }));
 }
 
 /** Hand-picked job photos — overrides auto-imported jobs per service. */
@@ -365,7 +413,7 @@ export const curatedJobsByService: Partial<Record<string, CuratedMediaJob[]>> = 
     ...buildLeakFieldPhotosJobs(),
   ],
   "pool-equipment-repair": EQUIPMENT_JOBS.map(buildEquipmentJob),
-  "pool-inspections": [buildInspectionFieldPhotosJob()],
+  "pool-inspections": buildInspectionFieldPhotosJobs(),
 };
 
 export function getCuratedJobLabel(job: MediaJob): string | undefined {
