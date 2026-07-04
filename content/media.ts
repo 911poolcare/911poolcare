@@ -1,9 +1,24 @@
 import { curatedJobsByService, getCuratedJobLabel } from "@/content/curated-jobs";
 import type { City } from "@/content/cities";
-import { getCityBySlug } from "@/content/cities";
+import { cities, getCityBySlug } from "@/content/cities";
 import type { GalleryImage } from "@/content/galleries";
 import { getServiceHeroPick } from "@/content/hero-images";
 import { mediaJobs, type ManifestMedia, type MediaJob } from "@/content/generated/media-manifest";
+
+const cityNames = cities.map((c) => c.name);
+
+function stripCityFromText(text: string): string {
+  for (const name of cityNames) {
+    text = text
+      .replace(new RegExp(` — ${name}$`), "")
+      .replace(new RegExp(` — ${name},`), " —")
+      .replace(new RegExp(`${name} — `), "")
+      .replace(new RegExp(`${name},? TX`), "Central Texas")
+      .replace(new RegExp(` in ${name}`), "")
+      .replace(new RegExp(`${name} `), "");
+  }
+  return text;
+}
 
 export type GalleryVideo = {
   src: string;
@@ -102,7 +117,12 @@ export function getCityServiceGalleryImages(
   for (const job of jobsForService(serviceSlug)) {
     if (job.citySlug === citySlug) continue;
     for (const image of job.images.slice(0, 2)) {
-      images.push(toGalleryImage(image));
+      const gi = toGalleryImage(image);
+      images.push({
+        ...gi,
+        alt: stripCityFromText(gi.alt),
+        caption: gi.caption ? stripCityFromText(gi.caption) : gi.caption,
+      });
       if (images.length >= limit) return images;
     }
   }

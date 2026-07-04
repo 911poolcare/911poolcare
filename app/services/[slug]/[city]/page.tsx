@@ -46,6 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: [{ url: service.image, alt: service.imageAlt }],
     },
     twitter: {
+      card: "summary_large_image",
       title: `${title} | ${site.name}`,
       description,
     },
