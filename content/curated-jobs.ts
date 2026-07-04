@@ -307,20 +307,27 @@ function buildLeakRepairJob({
   };
 }
 
-function buildLeakFieldPhotosJob(): CuratedMediaJob {
-  return {
-    id: "curated--pool-leak-detection--field-photos",
+function buildLeakFieldPhotosJobs(): CuratedMediaJob[] {
+  const byCity = new Map<string, FieldPhotoSpec[]>();
+  for (const photo of LEAK_FIELD_PHOTOS) {
+    const existing = byCity.get(photo.citySlug) ?? [];
+    existing.push(photo);
+    byCity.set(photo.citySlug, existing);
+  }
+
+  return Array.from(byCity.entries()).map(([citySlug, photos]) => ({
+    id: `curated--pool-leak-detection--field-${citySlug}`,
     serviceSlug: "pool-leak-detection",
     date: "curated",
-    citySlug: "austin",
-    images: LEAK_FIELD_PHOTOS.map((photo) => ({
+    citySlug,
+    images: photos.map((photo) => ({
       src: `/images/jobs/pool-leak-detection/${photo.file}`,
       kind: "image" as const,
       alt: photo.alt,
       caption: photo.caption,
     })),
     videos: [],
-  };
+  }));
 }
 
 const INSPECTION_FIELD_PHOTOS: FieldPhotoSpec[] = [
@@ -355,7 +362,7 @@ export const curatedJobsByService: Partial<Record<string, CuratedMediaJob[]>> = 
   "pool-renovations": RENOVATION_JOBS.map(buildRenovationJob),
   "pool-leak-detection": [
     ...LEAK_REPAIR_JOBS.map(buildLeakRepairJob),
-    buildLeakFieldPhotosJob(),
+    ...buildLeakFieldPhotosJobs(),
   ],
   "pool-equipment-repair": EQUIPMENT_JOBS.map(buildEquipmentJob),
   "pool-inspections": [buildInspectionFieldPhotosJob()],
