@@ -275,6 +275,27 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     caption: "Underground plumbing repair in progress",
   },
   {
+    file: "field-lago-vista-dye-supplies.png",
+    citySlug: "lago-vista",
+    cityName: "Lago Vista",
+    alt: "Dye testing supplies laid out on pool coping during leak detection — Lago Vista",
+    caption: "Dye testing supplies ready poolside",
+  },
+  {
+    file: "field-lago-vista-skimmer-gap.png",
+    citySlug: "lago-vista",
+    cityName: "Lago Vista",
+    alt: "Gap between plaster and skimmer throat identified as leak source — Lago Vista",
+    caption: "Skimmer throat gap identified as leak source",
+  },
+  {
+    file: "field-lago-vista-pressure-testing.png",
+    citySlug: "lago-vista",
+    cityName: "Lago Vista",
+    alt: "Leaktronics pressure testing rig monitoring plumbing line pressure — Lago Vista",
+    caption: "Leaktronics pressure testing on plumbing",
+  },
+  {
     file: "field-pflugerville-underground-line.png",
     citySlug: "pflugerville",
     cityName: "Pflugerville",
