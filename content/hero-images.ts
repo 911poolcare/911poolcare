@@ -11,7 +11,7 @@ export type HeroImage = {
 export const siteHeroGallery: HeroImage[] = [
   {
     src: "/images/hero/carousel-leak-detection.png",
-    alt: "Pool leak detection and repair on a spa in Central Texas",
+    alt: "Diver performing underwater pool leak inspection in Central Texas",
     href: "/services/pool-leak-detection",
     label: "Leak detection & repair",
   },
@@ -40,7 +40,7 @@ export const siteHero: HeroImage = siteHeroGallery[0];
 export const serviceHeroImages: Record<string, HeroImage> = {
   "pool-leak-detection": {
     src: "/images/hero/carousel-leak-detection.png",
-    alt: "Pool leak detection and repair on a spa in Central Texas",
+    alt: "Diver performing underwater pool leak inspection in Central Texas",
   },
   "pool-equipment-repair": {
     src: "/images/hero/carousel-equipment-repair.png",
