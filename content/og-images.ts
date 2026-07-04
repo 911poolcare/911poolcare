@@ -1,6 +1,7 @@
 /** Open Graph & social share images */
 
 import { siteHero } from "@/content/hero-images";
+import { site } from "@/content/site";
 
 export const defaultOpenGraphImage = {
   url: "/images/og/default.jpg",
@@ -11,7 +12,7 @@ export const defaultOpenGraphImage = {
 
 export const twitterCard = {
   card: "summary_large_image" as const,
-  title: "Pool Leak Detection & Repair Austin TX | 911 Pool Care",
+  title: `${site.name} — Pool Repair & Renovation Experts in Central Texas`,
   description:
     "Central Texas pool leak detection, repairs, equipment replacement, renovations & inspections. 4.9★ rated. Call 512-947-2023.",
   images: [defaultOpenGraphImage.url],

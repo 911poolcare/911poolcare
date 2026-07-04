@@ -19,11 +19,14 @@ export function getLocalBusinessSchema() {
     logo: `${site.urls.site}${site.logo.src}`,
     address: {
       "@type": "PostalAddress",
+      streetAddress: site.address.street,
       addressLocality: site.address.city,
       addressRegion: site.address.state,
       postalCode: site.address.zip,
       addressCountry: "US",
     },
+    priceRange: site.priceRange,
+    openingHours: site.openingHours,
     geo: {
       "@type": "GeoCoordinates",
       latitude: site.google.coordinates.lat,
@@ -50,7 +53,11 @@ export function getLocalBusinessSchema() {
       reviewBody: review.quote,
       ...(review.datePublished ? { datePublished: review.datePublished } : {}),
     })),
-    sameAs: [site.google.mapsUrl],
+    sameAs: [
+      site.google.mapsUrl,
+      site.social.facebook,
+      site.social.instagram,
+    ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Pool repair and renovation services",

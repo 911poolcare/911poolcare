@@ -4,7 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 import { Analytics } from "@vercel/analytics/next";
-import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { GoogleAnalytics, GoogleTagManager, GoogleTagManagerNoScript } from "@/components/analytics/GoogleAnalytics";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { defaultOpenGraphImage, twitterCard } from "@/content/og-images";
 import { site } from "@/content/site";
@@ -38,6 +38,11 @@ export const metadata: Metadata = {
     description: twitterCard.description,
     images: twitterCard.images,
   },
+  verification: {
+    other: {
+      "msvalidate.01": "EE6AED7EED2E64790F93A9861D4F6A68",
+    },
+  },
   icons: {
     icon: "/favicon.png",
     apple: "/favicon.png",
@@ -52,7 +57,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans">
+        <GoogleTagManagerNoScript />
         <JsonLd />
+        <GoogleTagManager />
         <GoogleAnalytics />
         <Analytics />
         <Header />

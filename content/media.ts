@@ -244,6 +244,7 @@ export function getCityServiceProgressSets(
 
   const fallback = getServiceProgressSets(serviceSlug, limit)
     .filter((set) => !citySets.some((item) => item.id === set.id))
+    .filter((set) => set.cityName === city?.name || !set.cityName)
     .slice(0, limit - citySets.length);
 
   return [...citySets, ...fallback];

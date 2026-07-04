@@ -37,10 +37,17 @@ export const site = {
     reviewCount: 135,
   },
   address: {
+    street: "2413 Billy Pat Rd",
     city: "Leander",
     state: "TX",
     zip: "78641",
-    full: "Leander, TX 78641",
+    full: "2413 Billy Pat Rd, Leander, TX 78641",
+  },
+  openingHours: ["Mo-Fr 07:00-18:00", "Sa 09:00-17:00", "Su Closed"],
+  priceRange: "$$",
+  social: {
+    facebook: "https://www.facebook.com/911poolcare",
+    instagram: "https://www.instagram.com/911poolcare",
   },
   serviceAreas: [
     "Austin",
