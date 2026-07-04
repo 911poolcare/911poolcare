@@ -275,6 +275,27 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     caption: "Underground plumbing repair in progress",
   },
   {
+    file: "field-dripping-springs-tile-separation.png",
+    citySlug: "dripping-springs",
+    cityName: "Dripping Springs",
+    alt: "Separation between waterline tile and plaster identified as leak source — Dripping Springs",
+    caption: "Tile-to-plaster separation identified",
+  },
+  {
+    file: "field-dripping-springs-spa-cracks.png",
+    citySlug: "dripping-springs",
+    cityName: "Dripping Springs",
+    alt: "Structural cracks and calcium deposits on spa wall indicating active leak — Dripping Springs",
+    caption: "Spa wall cracks with calcium buildup",
+  },
+  {
+    file: "field-dripping-springs-diver-inspection.png",
+    citySlug: "dripping-springs",
+    cityName: "Dripping Springs",
+    alt: "Diver performing underwater leak inspection in spa — Dripping Springs",
+    caption: "Diver inspecting spa for leaks",
+  },
+  {
     file: "field-spicewood-crack-at-rockwork.png",
     citySlug: "spicewood",
     cityName: "Spicewood",
