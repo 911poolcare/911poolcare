@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 
 export function CredentialsBar() {
   return (
-    <div className="border-t border-white/10 bg-brand-950/50">
+    <div className="border-y border-slate-200 bg-white">
       <Container className="py-8">
-        <p className="text-center text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <p className="text-center text-xs font-semibold uppercase tracking-wider text-slate-500">
           Accredited & certified
         </p>
         <ul className="mt-5 flex flex-wrap items-center justify-center gap-6 sm:gap-10">
