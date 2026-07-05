@@ -23,6 +23,7 @@ type PhoneLinkProps = {
   className?: string;
   showIcon?: boolean;
   label?: string;
+  ariaLabel?: string;
 };
 
 /** Server-rendered phone link so Google Ads call tracking can swap the number. */
@@ -32,6 +33,7 @@ export function PhoneLink({
   className,
   showIcon = false,
   label,
+  ariaLabel,
 }: PhoneLinkProps) {
   const iconClass = size === "sm" ? "h-4 w-4" : "h-5 w-5";
   const displayText = label ? `${label} ${site.phone}` : site.phone;
@@ -39,6 +41,7 @@ export function PhoneLink({
   return (
     <a
       href={site.phoneHref}
+      aria-label={ariaLabel ?? (label ? `Call ${site.phone}` : undefined)}
       className={cn(
         buttonStyles[variant],
         variant !== "inline" && variant !== "footer" ? sizes[size] : undefined,
@@ -46,7 +49,7 @@ export function PhoneLink({
         className,
       )}
     >
-      {showIcon ? <Phone className={iconClass} aria-hidden /> : null}
+      {showIcon ? <Phone className={cn(iconClass, "shrink-0")} aria-hidden /> : null}
       {displayText}
     </a>
   );
