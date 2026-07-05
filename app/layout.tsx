@@ -60,6 +60,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans">
+        <Header />
+        <main>{children}</main>
+        <Footer />
+        <StickyMobileCTA />
         <GoogleTagManagerNoScript />
         <JsonLd />
         <GoogleTagManager />
@@ -68,10 +72,6 @@ export default function RootLayout({
         <GoogleAdsPhoneResync />
         <TelClickHandler />
         <Analytics />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <StickyMobileCTA />
       </body>
     </html>
   );

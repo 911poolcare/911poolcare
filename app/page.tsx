@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { HeroLcpPreload } from "@/components/home/HeroLcpPreload";
 import { Hero } from "@/components/home/Hero";
 import { poolCareOffering } from "@/content/service-offering";
 import { defaultOpenGraphImage } from "@/content/og-images";
@@ -55,6 +56,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <HeroLcpPreload />
       <FaqJsonLd />
       <Hero />
       <LeakDetectionProcess />
