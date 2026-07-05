@@ -45,7 +45,9 @@ export function GoogleAnalytics() {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${gaId}');
-          gtag('config', 'AW-16454489422');
+          gtag('config', 'AW-16454489422', {
+            'phone_conversion_number': '512-947-2023'
+          });
           gtag('config', 'AW-16454489422/IvjYCILq5O0bEM6qjqY9', {
             'phone_conversion_number': '512-947-2023'
           });

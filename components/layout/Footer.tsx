@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
+import { PhoneLink } from "@/components/layout/PhoneLink";
 import { CredentialsBar } from "@/components/layout/CredentialsBar";
 import { getServiceAreasDisplay, site } from "@/content/site";
 import { Container } from "@/components/ui/Container";
@@ -42,13 +43,7 @@ export function Footer() {
         </div>
 
         <div className="space-y-3 text-sm">
-          <a
-            href={site.phoneHref}
-            className="flex items-center gap-2 font-semibold text-white hover:text-accent-400"
-          >
-            <Phone className="h-4 w-4" aria-hidden />
-            {site.phone}
-          </a>
+          <PhoneLink variant="footer" className="text-sm" />
           <a
             href={`mailto:${site.email}`}
             className="flex items-center gap-2 hover:text-white"

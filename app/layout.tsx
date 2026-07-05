@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAdsPhoneResync } from "@/components/analytics/GoogleAdsPhoneResync";
 import { GoogleAnalytics, GoogleTagManager, GoogleTagManagerNoScript } from "@/components/analytics/GoogleAnalytics";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { defaultOpenGraphImage, twitterCard } from "@/content/og-images";
@@ -61,6 +62,7 @@ export default function RootLayout({
         <JsonLd />
         <GoogleTagManager />
         <GoogleAnalytics />
+        <GoogleAdsPhoneResync />
         <Analytics />
         <Header />
         <main>{children}</main>
