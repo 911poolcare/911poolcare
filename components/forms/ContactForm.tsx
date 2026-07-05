@@ -13,6 +13,7 @@ import {
 import { serviceOptions } from "@/content/services";
 import { validateAttachmentFiles } from "@/lib/contact/attachments";
 import { grantThankYouAccess } from "@/lib/contact/thank-you";
+import { trackGenerateLead } from "@/lib/analytics/track-lead";
 import { formatPhoneInput } from "@/lib/contact/phone";
 import { isAddressAutocompleteEnabled } from "@/lib/google/address-autocomplete";
 import type { ParsedAddress } from "@/lib/google/parse-address";
@@ -194,6 +195,7 @@ export function ContactForm() {
       }
 
       grantThankYouAccess();
+      trackGenerateLead();
       router.replace("/thank-you", { scroll: true });
     } catch (err) {
       setStatus("error");
