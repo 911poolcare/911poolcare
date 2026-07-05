@@ -5,6 +5,7 @@ import { useEffect } from "react";
 const adsId = "AW-16454489422";
 const conversionId = "AW-16454489422/IvjYCILq5O0bEM6qjqY9";
 const phoneConversionNumber = "512-947-2023";
+const originalPhoneHref = "tel:+15129472023";
 
 function isGoogleAdsClick(): boolean {
   const params = new URLSearchParams(window.location.search);
@@ -29,22 +30,59 @@ function resyncPhoneSwap(): boolean {
   return true;
 }
 
+function hasUnswappedPhoneLinks(): boolean {
+  return Array.from(document.querySelectorAll('a[href^="tel:"]')).some(
+    (link) => link.getAttribute("href") === originalPhoneHref,
+  );
+}
+
 /** Re-run Google Ads phone swap after React hydration for ad traffic. */
 export function GoogleAdsPhoneResync() {
   useEffect(() => {
     if (!isGoogleAdsClick()) return;
 
-    if (resyncPhoneSwap()) return;
+    const resyncIfNeeded = () => {
+      if (hasUnswappedPhoneLinks()) {
+        resyncPhoneSwap();
+      }
+    };
 
-    let attempts = 0;
-    const interval = window.setInterval(() => {
-      attempts += 1;
-      if (resyncPhoneSwap() || attempts >= 20) {
-        window.clearInterval(interval);
+    resyncIfNeeded();
+
+    let gtagAttempts = 0;
+    const gtagInterval = window.setInterval(() => {
+      gtagAttempts += 1;
+      resyncIfNeeded();
+      if (typeof window.gtag === "function" || gtagAttempts >= 120) {
+        window.clearInterval(gtagInterval);
       }
     }, 250);
 
-    return () => window.clearInterval(interval);
+    let keepAliveTicks = 0;
+    const keepAliveInterval = window.setInterval(() => {
+      keepAliveTicks += 1;
+      resyncIfNeeded();
+      if (keepAliveTicks >= 30) {
+        window.clearInterval(keepAliveInterval);
+      }
+    }, 2000);
+
+    const observer = new MutationObserver(() => {
+      resyncIfNeeded();
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["href"],
+    });
+
+    return () => {
+      window.clearInterval(gtagInterval);
+      window.clearInterval(keepAliveInterval);
+      observer.disconnect();
+    };
   }, []);
 
   return null;

@@ -3,7 +3,9 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
+import { TelClickHandler } from "@/components/layout/TelClickHandler";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAdsCallTracking } from "@/components/analytics/GoogleAdsCallTracking";
 import { GoogleAdsPhoneResync } from "@/components/analytics/GoogleAdsPhoneResync";
 import { GoogleAnalytics, GoogleTagManager, GoogleTagManagerNoScript } from "@/components/analytics/GoogleAnalytics";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -61,8 +63,10 @@ export default function RootLayout({
         <GoogleTagManagerNoScript />
         <JsonLd />
         <GoogleTagManager />
+        <GoogleAdsCallTracking />
         <GoogleAnalytics />
         <GoogleAdsPhoneResync />
+        <TelClickHandler />
         <Analytics />
         <Header />
         <main>{children}</main>

@@ -32,7 +32,7 @@ export function GoogleTagManagerNoScript() {
   );
 }
 
-/** Renders GA4 + Google Ads when NEXT_PUBLIC_GA_MEASUREMENT_ID is set in Vercel env vars. */
+/** Renders GA4 when NEXT_PUBLIC_GA_MEASUREMENT_ID is set in Vercel env vars. */
 export function GoogleAnalytics() {
   if (!gaId) return null;
 
@@ -43,14 +43,9 @@ export function GoogleAnalytics() {
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
+          window.gtag = window.gtag || gtag;
           gtag('js', new Date());
           gtag('config', '${gaId}');
-          gtag('config', 'AW-16454489422', {
-            'phone_conversion_number': '512-947-2023'
-          });
-          gtag('config', 'AW-16454489422/IvjYCILq5O0bEM6qjqY9', {
-            'phone_conversion_number': '512-947-2023'
-          });
         `}
       </Script>
     </>

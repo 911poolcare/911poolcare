@@ -42,6 +42,7 @@ export function PhoneLink({
       className={cn(
         buttonStyles[variant],
         variant !== "inline" && variant !== "footer" ? sizes[size] : undefined,
+        "relative z-10 touch-manipulation",
         className,
       )}
     >

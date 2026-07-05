@@ -34,3 +34,9 @@ body {
     padding-bottom: 4.5rem;
   }
 }
+
+a[href^="tel:"] {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(28, 94, 212, 0.15);
+}
