@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CheckCircle2, Phone, MessageSquare } from "lucide-react";
 import { getServiceCtaLabel, getServiceSchedulingNote } from "@/content/pricing";
 import type { City } from "@/content/cities";
-import { cities, getCitiesForService, isPriorityCity } from "@/content/cities";
+import { cityOffersService, getCitiesForService, isPriorityCity } from "@/content/cities";
 import { getCityHub } from "@/content/city-hubs";
 import type { Service } from "@/content/services";
 import { services } from "@/content/services";
@@ -44,10 +44,12 @@ type ServicePageContentProps = {
 };
 
 export function ServicePageContent({ service, city }: ServicePageContentProps) {
-  const otherServices = services.filter((s) => s.slug !== service.slug);
-  const otherCities = city
-    ? getCitiesForService(service.slug).filter((c) => c.slug !== city.slug)
-    : cities;
+  const otherServices = services
+    .filter((s) => s.slug !== service.slug)
+    .filter((s) => !city || cityOffersService(city, s.slug));
+  const otherCities = getCitiesForService(service.slug).filter(
+    (c) => !city || c.slug !== city.slug,
+  );
 
   const headline = city ? getCityServiceHeadline(service, city) : service.headline;
   const intro = city ? getCityServiceIntro(service, city) : service.intro;
