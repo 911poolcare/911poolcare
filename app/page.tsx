@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Hero } from "@/components/home/Hero";
 import { poolCareOffering } from "@/content/service-offering";
 import { defaultOpenGraphImage } from "@/content/og-images";
@@ -9,11 +10,26 @@ import { ServicesPreview } from "@/components/home/ServicesPreview";
 import { PartnerSection } from "@/components/home/PartnerSection";
 import { LeakDetectionProcess } from "@/components/home/LeakDetectionProcess";
 import { OurPromise } from "@/components/home/OurPromise";
-import { Testimonials } from "@/components/home/Testimonials";
 import { FeaturesGrid } from "@/components/home/FeaturesGrid";
-import { FAQ } from "@/components/home/FAQ";
-import { ContactSection } from "@/components/home/ContactSection";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
+
+const Testimonials = dynamic(() =>
+  import("@/components/home/Testimonials").then((module) => ({
+    default: module.Testimonials,
+  })),
+);
+
+const FAQ = dynamic(() =>
+  import("@/components/home/FAQ").then((module) => ({
+    default: module.FAQ,
+  })),
+);
+
+const ContactSection = dynamic(() =>
+  import("@/components/home/ContactSection").then((module) => ({
+    default: module.ContactSection,
+  })),
+);
 
 export const metadata: Metadata = {
   title: "Pool Leak Detection & Repair Austin TX",

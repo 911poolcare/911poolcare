@@ -4,6 +4,7 @@ import { legacyRedirects } from "./content/legacy-redirects";
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: "https",

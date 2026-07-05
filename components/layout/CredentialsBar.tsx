@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { footerCredentials } from "@/content/credentials";
 import { Container } from "@/components/ui/Container";
-import { cn } from "@/lib/utils";
 
 export function CredentialsBar() {
   return (
@@ -11,7 +10,7 @@ export function CredentialsBar() {
         <p className="text-center text-xs font-semibold uppercase tracking-wider text-slate-500">
           Accredited & certified
         </p>
-        <ul className="mt-5 flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+        <ul className="mx-auto mt-5 grid w-full max-w-md grid-cols-3 items-center justify-items-center gap-x-6 sm:max-w-2xl sm:gap-x-16">
           {footerCredentials.map((credential) => {
             const image = (
               <Image
@@ -19,16 +18,15 @@ export function CredentialsBar() {
                 alt={credential.image.alt}
                 width={credential.image.width}
                 height={credential.image.height}
-                className={cn(
-                  credential.id === "bbb"
-                    ? "h-20 w-auto max-w-[8.5rem] object-contain sm:h-24"
-                    : "h-16 w-auto object-contain sm:h-20",
-                )}
+                className="max-h-20 w-auto max-w-full object-contain sm:max-h-24"
               />
             );
 
             return (
-              <li key={credential.id}>
+              <li
+                key={credential.id}
+                className="flex h-24 w-full items-center justify-center sm:h-28"
+              >
                 {credential.href ? (
                   <Link
                     href={credential.href}

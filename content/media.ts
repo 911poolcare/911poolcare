@@ -86,7 +86,7 @@ export function getCityServiceHeroImage(
   return getServiceHeroImage(serviceSlug);
 }
 
-export function getServiceGalleryImages(serviceSlug: string, limit = 12): GalleryImage[] {
+export function getServiceGalleryImages(serviceSlug: string, limit = 8): GalleryImage[] {
   const images: GalleryImage[] = [];
   for (const job of jobsForService(serviceSlug)) {
     for (const image of job.images) {
@@ -100,7 +100,7 @@ export function getServiceGalleryImages(serviceSlug: string, limit = 12): Galler
 export function getCityServiceGalleryImages(
   serviceSlug: string,
   citySlug: string,
-  limit = 12,
+  limit = 8,
 ): GalleryImage[] {
   const cityJobs = jobsForCity(serviceSlug, citySlug);
   const images: GalleryImage[] = [];
@@ -244,7 +244,7 @@ function formatJobLabel(job: MediaJob): string {
   return `${monthNames[Number(month) - 1]} ${day}, ${year}`;
 }
 
-export function getServiceProgressSets(serviceSlug: string, limit = 6): JobProgressSet[] {
+export function getServiceProgressSets(serviceSlug: string, limit = 4): JobProgressSet[] {
   return jobsForService(serviceSlug)
     .map((job) => jobToProgressSet(job))
     .filter((set): set is JobProgressSet => set !== null)

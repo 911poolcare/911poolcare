@@ -5,18 +5,24 @@ import { cn } from "@/lib/utils";
 
 type LogoProps = {
   className?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "header" | "md" | "lg";
   variant?: "default" | "light";
   priority?: boolean;
 };
 
 const sizes = {
   sm: { width: 120, height: 94, imageClass: "h-9 w-auto" },
+  header: { width: 444, height: 348, imageClass: "h-16 w-auto md:h-36" },
   md: { width: 444, height: 348, imageClass: "h-[10.3125rem] w-auto sm:h-36" },
   lg: { width: 180, height: 141, imageClass: "h-14 w-auto" },
 };
 
-export function Logo({ className, size = "md", variant = "default", priority = false }: LogoProps) {
+export function Logo({
+  className,
+  size = "md",
+  variant = "default",
+  priority = false,
+}: LogoProps) {
   const dimensions = sizes[size];
   const logo = variant === "light" ? site.logoLight : site.logo;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { Children, cloneElement, isValidElement, useCallback, useId, useMemo, useState, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -257,10 +257,10 @@ export function ContactForm() {
         </Field>
 
 
-        <div className="sm:col-span-2">
-          <p className="mb-2 text-sm font-medium text-slate-700">
+        <fieldset className="sm:col-span-2">
+          <legend className="mb-2 text-sm font-medium text-slate-700">
             Services needed <RequiredMark />
-          </p>
+          </legend>
           <p className="mb-3 text-sm text-slate-500">Select all that apply.</p>
           <div className="grid gap-2 sm:grid-cols-2">
             {serviceOptions.map((option) => {
@@ -291,18 +291,20 @@ export function ContactForm() {
               {serviceError}
             </p>
           ) : null}
-        </div>
+        </fieldset>
 
         <Field
           label="Street address"
           required
           error={errors.street?.message}
           className="sm:col-span-2"
+          fieldId="contact-street"
         >
           {addressAutocompleteEnabled ? (
             <>
               <input type="hidden" {...register("street")} />
               <AddressAutocompleteInput
+                id="contact-street"
                 onAddressSelect={handleAddressSelect}
                 onStreetChange={(street) =>
                   setValue("street", street, { shouldDirty: true })
@@ -315,6 +317,7 @@ export function ContactForm() {
           ) : (
             <input
               {...register("street")}
+              id="contact-street"
               autoComplete="street-address"
               className={inputClass(errors.street)}
               placeholder="123 Main St"
@@ -374,8 +377,10 @@ export function ContactForm() {
           label="Photos or videos (optional)"
           error={fileError}
           className="sm:col-span-2"
+          fieldId="contact-attachments"
         >
           <input
+            id="contact-attachments"
             type="file"
             accept={contactAttachmentLimits.accept}
             multiple
@@ -462,8 +467,7 @@ export function ContactForm() {
         type="text"
         tabIndex={-1}
         autoComplete="off"
-        className="hidden"
-        aria-hidden
+        className="absolute -left-[9999px] h-px w-px opacity-0"
       />
 
       {status === "error" ? (
@@ -504,17 +508,27 @@ function Field({
   required = false,
   error,
   className,
+  fieldId,
   children,
 }: {
   label: string;
   required?: boolean;
   error?: string;
   className?: string;
+  fieldId?: string;
   children: React.ReactNode;
 }) {
+  const generatedId = useId();
+  const controlId = fieldId ?? generatedId;
+  const child = Children.count(children) === 1 ? Children.only(children) : null;
+  const control =
+    child && isValidElement<{ id?: string }>(child) && child.props.id == null
+      ? cloneElement(child, { id: controlId })
+      : children;
+
   return (
     <div className={className}>
-      <label className="mb-1.5 block text-sm font-medium text-slate-700">
+      <label htmlFor={controlId} className="mb-1.5 block text-sm font-medium text-slate-700">
         {label}
         {required ? (
           <>
@@ -523,7 +537,7 @@ function Field({
           </>
         ) : null}
       </label>
-      {children}
+      {control}
       {error ? (
         <p className="mt-1 text-sm text-red-600" role="alert">
           {error}

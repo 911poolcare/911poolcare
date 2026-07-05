@@ -10,6 +10,7 @@ import {
 import type { ParsedAddress } from "@/lib/google/parse-address";
 
 type AddressAutocompleteInputProps = {
+  id?: string;
   onAddressSelect: (address: ParsedAddress) => void;
   onStreetChange: (street: string) => void;
   hasError?: boolean;
@@ -30,6 +31,7 @@ function createSessionToken() {
 }
 
 export function AddressAutocompleteInput({
+  id,
   onAddressSelect,
   onStreetChange,
   hasError,
@@ -213,6 +215,7 @@ export function AddressAutocompleteInput({
   return (
     <div ref={wrapperRef} className="relative">
       <input
+        id={id}
         type="text"
         value={query}
         onChange={(event) => handleInputChange(event.target.value)}
@@ -228,7 +231,9 @@ export function AddressAutocompleteInput({
         aria-controls={listId}
         aria-autocomplete="list"
         aria-invalid={hasError || undefined}
-        aria-activedescendant={open ? `${listId}-option-${highlighted}` : undefined}
+        aria-activedescendant={
+          open && highlighted >= 0 ? `${listId}-option-${highlighted}` : undefined
+        }
         className={className}
         placeholder={placeholder}
       />
