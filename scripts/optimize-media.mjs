@@ -1,16 +1,27 @@
 /**
- * Optimizes job photos for web delivery and builds the OG share image.
+ * Optimizes site images for fast web delivery.
  *
  * Run: npm run optimize:media
  *
- * - Resizes photos wider than 1920px
- * - Recompresses JPEG/PNG in public/images/jobs/
- * - Creates public/images/og/default.jpg (1200×630) for social previews
- * - Re-encodes MP4s when ffmpeg is available (via @ffmpeg-installer/ffmpeg)
+ * - Converts photographic PNGs to JPEG (jobs, hero carousel, field photos)
+ * - Resizes hero carousel to 1280px wide (LCP target)
+ * - Recompresses JPEGs in public/images/jobs/ (max 1920px)
+ * - Updates content/*.ts and content/*.json path references after PNG→JPG conversion
+ * - Creates public/images/og/default.jpg
+ * - Re-encodes MP4s when ffmpeg is available
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, renameSync, statSync, unlinkSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { basename, dirname, extname, join, relative } from "node:path";
 import sharp from "sharp";
 
@@ -19,15 +30,28 @@ const JOBS_DIR = join(ROOT, "jobs");
 const OG_DIR = join(ROOT, "og");
 const OG_SOURCE = join(JOBS_DIR, "pool-renovations", "2024-06-24-p01.jpg");
 const OG_OUTPUT = join(OG_DIR, "default.jpg");
+const CONTENT_DIR = join(process.cwd(), "content");
 
-const MAX_WIDTH = 1920;
-const JPEG_QUALITY = 82;
-const PNG_QUALITY = 80;
+const JOBS_MAX_WIDTH = 1920;
+const HERO_MAX_WIDTH = 1280;
+const JPEG_QUALITY = 80;
+const HERO_JPEG_QUALITY = 78;
 
 const IMAGE_EXT = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+const SKIP_DIR_NAMES = new Set(["credentials", "logos", "og"]);
 
 function formatMb(bytes) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function formatKb(bytes) {
+  return `${(bytes / 1024).toFixed(0)} KB`;
+}
+
+function toWebPath(filePath) {
+  return filePath
+    .replace(join(process.cwd(), "public"), "")
+    .replace(/\\/g, "/");
 }
 
 function dirSize(dir) {
@@ -48,28 +72,70 @@ function* walk(dir) {
   }
 }
 
-async function optimizeImage(filePath) {
+function shouldSkipPath(filePath) {
+  const parts = filePath.split(/[/\\]/);
+  return parts.some((part) => SKIP_DIR_NAMES.has(part));
+}
+
+function isHeroCarousel(filePath) {
+  return basename(filePath).startsWith("carousel-");
+}
+
+function maxWidthFor(filePath) {
+  if (isHeroCarousel(filePath)) return HERO_MAX_WIDTH;
+  return JOBS_MAX_WIDTH;
+}
+
+function jpegQualityFor(filePath) {
+  if (isHeroCarousel(filePath)) return HERO_JPEG_QUALITY;
+  return JPEG_QUALITY;
+}
+
+async function convertPngToJpeg(filePath) {
+  const jpgPath = filePath.replace(/\.png$/i, ".jpg");
+  const before = statSync(filePath).size;
+  const maxWidth = maxWidthFor(filePath);
+  const quality = jpegQualityFor(filePath);
+
+  await sharp(filePath, { failOn: "none" })
+    .rotate()
+    .resize({ width: maxWidth, withoutEnlargement: true })
+    .jpeg({ quality, mozjpeg: true })
+    .toFile(jpgPath);
+
+  unlinkSync(filePath);
+  const after = statSync(jpgPath).size;
+
+  return {
+    from: filePath,
+    to: jpgPath,
+    before,
+    after,
+    saved: before - after,
+  };
+}
+
+async function optimizeRaster(filePath) {
   const ext = extname(filePath).toLowerCase();
-  if (!IMAGE_EXT.has(ext)) return { skipped: true };
+  if (!IMAGE_EXT.has(ext) || ext === ".png") return { skipped: true };
 
   const before = statSync(filePath).size;
-  const image = sharp(filePath, { failOn: "none" });
-  const meta = await image.metadata();
-  const needsResize = (meta.width ?? 0) > MAX_WIDTH;
+  const meta = await sharp(filePath, { failOn: "none" }).metadata();
+  const maxWidth = maxWidthFor(filePath);
+  const needsResize = (meta.width ?? 0) > maxWidth;
 
-  let pipeline = sharp(filePath, { failOn: "none" });
+  let pipeline = sharp(filePath, { failOn: "none" }).rotate();
   if (needsResize) {
-    pipeline = pipeline.resize({ width: MAX_WIDTH, withoutEnlargement: true });
+    pipeline = pipeline.resize({ width: maxWidth, withoutEnlargement: true });
   }
 
   const tempPath = `${filePath}.opt.tmp`;
+  const quality = jpegQualityFor(filePath);
 
-  if (ext === ".png") {
-    await pipeline.png({ quality: PNG_QUALITY, compressionLevel: 9 }).toFile(tempPath);
-  } else if (ext === ".webp") {
-    await pipeline.webp({ quality: JPEG_QUALITY }).toFile(tempPath);
+  if (ext === ".webp") {
+    await pipeline.webp({ quality }).toFile(tempPath);
   } else {
-    await pipeline.jpeg({ quality: JPEG_QUALITY, mozjpeg: true }).toFile(tempPath);
+    await pipeline.jpeg({ quality, mozjpeg: true }).toFile(tempPath);
   }
 
   const after = statSync(tempPath).size;
@@ -81,6 +147,50 @@ async function optimizeImage(filePath) {
 
   unlinkSync(tempPath);
   return { skipped: true, before, after: before };
+}
+
+function collectPhotoPaths() {
+  const paths = [];
+  for (const filePath of walk(ROOT)) {
+    if (shouldSkipPath(filePath)) continue;
+    const ext = extname(filePath).toLowerCase();
+    if (!IMAGE_EXT.has(ext)) continue;
+    paths.push(filePath);
+  }
+  return paths;
+}
+
+function updateContentReferences(conversions) {
+  if (conversions.length === 0) return 0;
+
+  const replacements = conversions.flatMap(({ from, to }) => [
+    { from: toWebPath(from), to: toWebPath(to) },
+    { from: basename(from), to: basename(to) },
+  ]);
+
+  let filesUpdated = 0;
+
+  for (const filePath of walk(CONTENT_DIR)) {
+    if (!/\.(ts|json)$/i.test(filePath)) continue;
+
+    let content = readFileSync(filePath, "utf8");
+    let changed = false;
+
+    for (const { from, to } of replacements) {
+      if (content.includes(from)) {
+        content = content.split(from).join(to);
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      writeFileSync(filePath, content, "utf8");
+      filesUpdated += 1;
+      console.log(`  updated ${relative(process.cwd(), filePath)}`);
+    }
+  }
+
+  return filesUpdated;
 }
 
 async function optimizeVideo(filePath, ffmpegPath) {
@@ -130,13 +240,17 @@ async function optimizeVideo(filePath, ffmpegPath) {
 }
 
 async function buildOgImage() {
-  if (!existsSync(OG_SOURCE)) {
-    console.warn(`OG source missing: ${OG_SOURCE}`);
+  const source = existsSync(OG_SOURCE)
+    ? OG_SOURCE
+    : join(JOBS_DIR, "pool-renovations", "2026-06-25-p01.jpg");
+
+  if (!existsSync(source)) {
+    console.warn("OG source missing — skipping OG image.");
     return;
   }
 
   mkdirSync(OG_DIR, { recursive: true });
-  await sharp(OG_SOURCE)
+  await sharp(source)
     .resize(1200, 630, { fit: "cover", position: "centre" })
     .jpeg({ quality: 85, mozjpeg: true })
     .toFile(OG_OUTPUT);
@@ -150,23 +264,51 @@ async function main() {
     process.exit(1);
   }
 
-  const beforeTotal = dirSize(JOBS_DIR);
-  console.log(`Optimizing images in ${relative(process.cwd(), JOBS_DIR)} (${formatMb(beforeTotal)})…`);
+  const beforeTotal = dirSize(ROOT);
+  console.log(`Optimizing ${relative(process.cwd(), ROOT)} (${formatMb(beforeTotal)})…\n`);
 
+  const photoPaths = collectPhotoPaths();
+  const conversions = [];
+  let pngConverted = 0;
+  let pngBytesSaved = 0;
+
+  console.log("Converting photographic PNGs to JPEG…");
+  for (const filePath of photoPaths) {
+    if (extname(filePath).toLowerCase() !== ".png") continue;
+    const result = await convertPngToJpeg(filePath);
+    conversions.push(result);
+    pngConverted += 1;
+    pngBytesSaved += result.saved;
+    console.log(
+      `  ${basename(result.from)} → ${basename(result.to)}  ${formatKb(result.before)} → ${formatKb(result.after)}`,
+    );
+  }
+
+  if (pngConverted === 0) {
+    console.log("  (no PNGs to convert)");
+  }
+
+  console.log("\nCompressing JPEG/WebP images…");
   let imagesOptimized = 0;
   let imageBytesSaved = 0;
 
-  for (const filePath of walk(JOBS_DIR)) {
+  for (const filePath of collectPhotoPaths()) {
     const ext = extname(filePath).toLowerCase();
-    if (!IMAGE_EXT.has(ext)) continue;
-    const result = await optimizeImage(filePath);
+    if (!IMAGE_EXT.has(ext) || ext === ".png") continue;
+    const result = await optimizeRaster(filePath);
     if (result.saved) {
       imagesOptimized += 1;
       imageBytesSaved += result.saved;
       console.log(
-        `  ${relative(process.cwd(), filePath)}  ${formatMb(result.before)} → ${formatMb(result.after)}`,
+        `  ${relative(process.cwd(), filePath)}  ${formatKb(result.before)} → ${formatKb(result.after)}`,
       );
     }
+  }
+
+  if (conversions.length > 0) {
+    console.log("\nUpdating content references…");
+    const filesUpdated = updateContentReferences(conversions);
+    console.log(`  ${filesUpdated} content file(s) updated`);
   }
 
   await buildOgImage();
@@ -196,14 +338,16 @@ async function main() {
       }
     }
   } else {
-    console.log("\nSkipping video re-encode (ffmpeg not installed). Thumbnails use poster images only.");
+    console.log("\nSkipping video re-encode (ffmpeg not installed).");
   }
 
-  const afterTotal = dirSize(JOBS_DIR);
+  const afterTotal = dirSize(ROOT);
   console.log(
-    `\nDone. Images optimized: ${imagesOptimized} (saved ${formatMb(imageBytesSaved)}).` +
-      ` Videos optimized: ${videosOptimized} (saved ${formatMb(videoBytesSaved)}).` +
-      ` Jobs folder: ${formatMb(beforeTotal)} → ${formatMb(afterTotal)}.`,
+    `\nDone.` +
+      ` PNG→JPEG: ${pngConverted} (saved ${formatMb(pngBytesSaved)}).` +
+      ` Recompressed: ${imagesOptimized} (saved ${formatMb(imageBytesSaved)}).` +
+      ` Videos: ${videosOptimized} (saved ${formatMb(videoBytesSaved)}).` +
+      `\nTotal images folder: ${formatMb(beforeTotal)} → ${formatMb(afterTotal)}.`,
   );
 }
 

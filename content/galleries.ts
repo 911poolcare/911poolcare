@@ -116,19 +116,19 @@ const legacyServiceGalleries: Record<string, GalleryImage[]> = {
 /** Composite before/after images from the legacy Wix renovation page */
 export const renovationShowcase: ShowcaseImage[] = [
   {
-    src: "/images/renovations/2aca84_9c593244a10f4a46988f0d8aa08756ad.png",
+    src: "/images/renovations/2aca84_9c593244a10f4a46988f0d8aa08756ad.jpg",
     alt: "Before and after pool replaster project in Leander, Texas",
     label: "Replaster — Leander",
     caption: "Old plaster removed and new finish applied.",
   },
   {
-    src: "/images/renovations/2aca84_b2b28b3d9ad24cfbbde4236887bbd6f7.png",
+    src: "/images/renovations/2aca84_b2b28b3d9ad24cfbbde4236887bbd6f7.jpg",
     alt: "Before and after pool renovation in Cedar Park, Texas",
     label: "Renovation — Cedar Park",
     caption: "Replaster, tile cleaning, and equipment updates.",
   },
   {
-    src: "/images/renovations/2aca84_a98f842292874b8a9b230bd1ee5e3665.png",
+    src: "/images/renovations/2aca84_a98f842292874b8a9b230bd1ee5e3665.jpg",
     alt: "Before and after pool replaster in Georgetown, Texas",
     label: "Replaster — Georgetown",
     caption: "Stonescapes plaster with MicroGlass seal.",

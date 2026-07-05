@@ -10,19 +10,19 @@ export type HeroImage = {
 /** Homepage hero — one slide per core service */
 export const siteHeroGallery: HeroImage[] = [
   {
-    src: "/images/hero/carousel-leak-detection.png",
+    src: "/images/hero/carousel-leak-detection.jpg",
     alt: "Diver performing underwater pool leak inspection in Central Texas",
     href: "/services/pool-leak-detection",
     label: "Leak detection & repair",
   },
   {
-    src: "/images/hero/carousel-equipment-repair.png",
+    src: "/images/hero/carousel-equipment-repair.jpg",
     alt: "Pool equipment and electrical panel repair by 911 Pool Care",
     href: "/services/pool-equipment-repair",
     label: "Equipment repair",
   },
   {
-    src: "/images/hero/carousel-renovations.png",
+    src: "/images/hero/carousel-renovations.jpg",
     alt: "Pool renovation crew applying new plaster finish in Central Texas",
     href: "/services/pool-renovations",
     label: "Renovations & replaster",
@@ -39,15 +39,15 @@ export const siteHero: HeroImage = siteHeroGallery[0];
 
 export const serviceHeroImages: Record<string, HeroImage> = {
   "pool-leak-detection": {
-    src: "/images/hero/carousel-leak-detection.png",
+    src: "/images/hero/carousel-leak-detection.jpg",
     alt: "Diver performing underwater pool leak inspection in Central Texas",
   },
   "pool-equipment-repair": {
-    src: "/images/hero/carousel-equipment-repair.png",
+    src: "/images/hero/carousel-equipment-repair.jpg",
     alt: "Pool equipment and electrical panel repair by 911 Pool Care",
   },
   "pool-renovations": {
-    src: "/images/hero/carousel-renovations.png",
+    src: "/images/hero/carousel-renovations.jpg",
     alt: "Pool renovation crew applying new plaster finish in Central Texas",
   },
   "pool-inspections": {

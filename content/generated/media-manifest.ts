@@ -280,7 +280,7 @@ export const mediaJobs: MediaJob[] = [
         "caption": "Before"
       },
       {
-        "src": "/images/jobs/pool-inspections/2026-06-24-p02.png",
+        "src": "/images/jobs/pool-inspections/2026-06-24-p02.jpg",
         "kind": "image",
         "alt": "Pool inspection project photo — after, June 2026",
         "caption": "After"
@@ -581,7 +581,7 @@ export const mediaJobs: MediaJob[] = [
     "citySlug": "pflugerville",
     "images": [
       {
-        "src": "/images/jobs/pool-equipment-repair/2026-01-31-p01.png",
+        "src": "/images/jobs/pool-equipment-repair/2026-01-31-p01.jpg",
         "kind": "image",
         "alt": "Pool equipment repair project photo, January 2026"
       }
@@ -908,7 +908,7 @@ export const mediaJobs: MediaJob[] = [
     "citySlug": "georgetown",
     "images": [
       {
-        "src": "/images/jobs/pool-leak-detection/2025-10-14-p01.png",
+        "src": "/images/jobs/pool-leak-detection/2025-10-14-p01.jpg",
         "kind": "image",
         "alt": "Pool leak detection & repair project photo — before, October 2025",
         "caption": "Before"
@@ -935,7 +935,7 @@ export const mediaJobs: MediaJob[] = [
     "citySlug": "pflugerville",
     "images": [
       {
-        "src": "/images/jobs/pool-renovations/2025-10-01-p01.png",
+        "src": "/images/jobs/pool-renovations/2025-10-01-p01.jpg",
         "kind": "image",
         "alt": "Pool renovation project photo — before, October 2025",
         "caption": "Before"
@@ -1425,19 +1425,19 @@ export const mediaJobs: MediaJob[] = [
     "citySlug": "liberty-hill",
     "images": [
       {
-        "src": "/images/jobs/pool-renovations/2025-05-22-p01.png",
+        "src": "/images/jobs/pool-renovations/2025-05-22-p01.jpg",
         "kind": "image",
         "alt": "Pool renovation project photo — before, May 2025",
         "caption": "Before"
       },
       {
-        "src": "/images/jobs/pool-renovations/2025-05-22-p02.png",
+        "src": "/images/jobs/pool-renovations/2025-05-22-p02.jpg",
         "kind": "image",
         "alt": "Pool renovation project photo — during, May 2025",
         "caption": "During"
       },
       {
-        "src": "/images/jobs/pool-renovations/2025-05-22-p03.png",
+        "src": "/images/jobs/pool-renovations/2025-05-22-p03.jpg",
         "kind": "image",
         "alt": "Pool renovation project photo — after, May 2025",
         "caption": "After"
@@ -1452,7 +1452,7 @@ export const mediaJobs: MediaJob[] = [
     "citySlug": "pflugerville",
     "images": [
       {
-        "src": "/images/jobs/pool-equipment-repair/2025-05-22-p01.png",
+        "src": "/images/jobs/pool-equipment-repair/2025-05-22-p01.jpg",
         "kind": "image",
         "alt": "Pool equipment repair project photo, May 2025"
       }
@@ -1501,7 +1501,7 @@ export const mediaJobs: MediaJob[] = [
     "citySlug": "leander",
     "images": [
       {
-        "src": "/images/jobs/pool-renovations/2025-05-06-p01.png",
+        "src": "/images/jobs/pool-renovations/2025-05-06-p01.jpg",
         "kind": "image",
         "alt": "Pool renovation project photo, May 2025"
       }
