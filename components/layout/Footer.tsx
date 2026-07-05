@@ -58,7 +58,7 @@ export function Footer() {
           </a>
           <p className="flex items-start gap-2">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-            {site.address.full}
+            {site.address.display}
           </p>
         </div>
       </Container>

@@ -17,7 +17,7 @@ export async function GET() {
 
   try {
     const suggestions = await fetchPlaceAutocompleteSuggestions(
-      "2413 Billy Pat",
+      "Leander, TX",
       crypto.randomUUID(),
     );
 

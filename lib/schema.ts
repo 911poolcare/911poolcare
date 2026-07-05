@@ -19,7 +19,6 @@ export function getLocalBusinessSchema() {
     logo: `${site.urls.site}${site.logo.src}`,
     address: {
       "@type": "PostalAddress",
-      streetAddress: site.address.street,
       addressLocality: site.address.city,
       addressRegion: site.address.state,
       postalCode: site.address.zip,

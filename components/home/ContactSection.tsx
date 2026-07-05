@@ -40,15 +40,10 @@ export function ContactSection() {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href={site.google.mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-slate-700 hover:text-brand-700"
-                  >
+                  <span className="flex items-center gap-3 text-slate-700">
                     <MapPin className="h-5 w-5 shrink-0" aria-hidden />
-                    {site.address.full}
-                  </a>
+                    {site.address.display}
+                  </span>
                 </li>
               </ul>
             </div>

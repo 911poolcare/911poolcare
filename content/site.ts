@@ -27,21 +27,22 @@ export const site = {
   google: {
     mapsUrl: "https://maps.app.goo.gl/rNdHB9BWzMFnPkyq6",
     mapEmbedUrl:
-      "https://maps.google.com/maps?q=911+Pool+Care,+Leander,+TX+78641&z=11&output=embed",
+      "https://maps.google.com/maps?q=Leander,+TX+78641&z=10&output=embed",
+    /** Leander area centroid — not a public street address */
     coordinates: {
-      lat: 30.2645554,
-      lng: -97.8352093,
+      lat: 30.5788,
+      lng: -97.8531,
     },
     /** Update periodically from your Google Business profile */
     rating: 4.9,
     reviewCount: 135,
   },
   address: {
-    street: "2413 Billy Pat Rd",
     city: "Leander",
     state: "TX",
     zip: "78641",
-    full: "2413 Billy Pat Rd, Leander, TX 78641",
+    /** Public-facing — no street address (mobile service area business) */
+    display: "Leander, TX · Central Texas",
   },
   openingHours: ["Mo-Fr 07:00-18:00", "Sa 09:00-17:00", "Su Closed"],
   priceRange: "$$",
