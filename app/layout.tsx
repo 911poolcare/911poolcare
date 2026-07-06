@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
 import { TelClickHandler } from "@/components/layout/TelClickHandler";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAdsCallTracking } from "@/components/analytics/GoogleAdsCallTracking";
 import { GoogleAdsPhoneResync } from "@/components/analytics/GoogleAdsPhoneResync";
 import { GoogleAnalytics, GoogleTagManager, GoogleTagManagerNoScript } from "@/components/analytics/GoogleAnalytics";
@@ -72,6 +73,7 @@ export default function RootLayout({
         <GoogleAdsPhoneResync />
         <TelClickHandler />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
