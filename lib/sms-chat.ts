@@ -5,7 +5,11 @@ const TZ = "America/Chicago";
 /** Flip `enabled` to false to remove text buttons site-wide. */
 export const smsChatConfig = {
   enabled: true,
-  /** Set to true after live testing to hide text outside business hours. */
+  /**
+   * Keep false — text stays available 24/7 so Quo can capture the number and
+   * send the after-hours auto-reply; your team chooses when to respond manually.
+   * Set true only if you want to hide the site text button outside business hours.
+   */
   businessHoursOnly: false,
 } as const;
 
