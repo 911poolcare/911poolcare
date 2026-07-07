@@ -3,6 +3,8 @@ import { site } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 const buttonStyles = {
+  primary:
+    "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors bg-brand-700 text-white hover:bg-brand-800 shadow-sm shadow-brand-900/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600",
   secondary:
     "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors bg-accent-500 text-brand-950 hover:bg-accent-400 shadow-sm shadow-accent-600/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600",
   outline:
