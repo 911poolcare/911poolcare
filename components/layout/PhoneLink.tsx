@@ -41,6 +41,7 @@ export function PhoneLink({
   return (
     <a
       href={site.phoneHref}
+      data-phone-placement={variant}
       aria-label={ariaLabel ?? (label ? `Call ${site.phone}` : undefined)}
       className={cn(
         buttonStyles[variant],

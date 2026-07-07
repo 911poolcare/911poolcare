@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { trackJobberRequest } from "@/lib/analytics/track-jobber-request";
 import { contactSchema } from "@/lib/validations/contact";
 import { submitLeadToJobber } from "@/lib/jobber/client";
 
@@ -20,6 +21,7 @@ export async function POST(request: Request) {
     }
 
     const result = await submitLeadToJobber(parsed.data);
+    await trackJobberRequest();
 
     return NextResponse.json({
       ok: true,

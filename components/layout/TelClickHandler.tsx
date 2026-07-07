@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { trackPhoneClick } from "@/lib/analytics/track-phone-click";
 
 function isMobileDevice(): boolean {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -31,6 +32,7 @@ export function TelClickHandler() {
 
       event.preventDefault();
 
+      trackPhoneClick(link);
       window.location.href = tel;
 
       if (!isMobileDevice()) {
