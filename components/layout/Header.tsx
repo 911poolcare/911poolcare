@@ -1,5 +1,7 @@
 import { PhoneLink } from "@/components/layout/PhoneLink";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { SmsChatAvailability } from "@/components/layout/SmsChatAvailability";
+import { TextLink } from "@/components/layout/TextLink";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
@@ -34,6 +36,9 @@ export function Header() {
 
           <div className="hidden items-center gap-3 md:flex">
             <PhoneLink variant="secondary" size="sm" showIcon />
+            <SmsChatAvailability>
+              <TextLink variant="secondary" size="sm" showIcon />
+            </SmsChatAvailability>
             <Button href="/#contact" size="sm">
               Request Service
             </Button>

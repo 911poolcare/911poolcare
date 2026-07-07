@@ -7,6 +7,8 @@ export const site = {
   description: poolCareOffering.metaDescription,
   phone: "512-947-2023",
   phoneHref: "tel:+15129472023",
+  smsNumber: "+15129472023",
+  smsDefaultBody: "Hi, I have a question about my pool.",
   email: "office@911poolcare.com",
   veteranOwned: {
     label: "Veteran-Owned",
