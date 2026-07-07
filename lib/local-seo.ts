@@ -1,6 +1,11 @@
 import type { City } from "@/content/cities";
 import type { Service } from "@/content/services";
 import {
+  getCityLeakDetectionIntro,
+  getCityLeakDetectionMeta,
+  leakDetectionSlug,
+} from "@/content/leak-detection";
+import {
   cityRenovationIntros,
   cityRenovationMeta,
   renovationSeo,
@@ -18,8 +23,6 @@ const cityServiceTitles: Record<string, string> = {
 
 const priorityCityIntros: Record<string, Record<string, string>> = {
   austin: {
-    "pool-leak-detection":
-      "Austin pools lose water fast in summer — and a hidden leak can cost hundreds before you notice. We pinpoint leaks in the shell, plumbing, and equipment so you stop the waste and avoid structural damage.",
     "pool-equipment-repair":
       "From pump failures after heavy use to heater and filter issues, Austin pool equipment takes a beating. We repair pumps, filters, heaters, automation systems, pool lights, and more — correctly the first time.",
     "pool-renovations": cityRenovationIntros.austin,
@@ -27,8 +30,6 @@ const priorityCityIntros: Record<string, Record<string, string>> = {
       "Austin's competitive real estate market means pool inspections matter. We provide certified inspections with clear reports for buyers, sellers, and agents across the metro.",
   },
   georgetown: {
-    "pool-leak-detection":
-      "Georgetown's growth means more pools — and more leaks. If you're losing more than a quarter inch per day, we'll find the source and fix it before it becomes a bigger problem.",
     "pool-equipment-repair":
       "Whether it's a Sun City community pool or a backyard oasis in Wolf Ranch, we repair pool pumps, filters, heaters, automation systems, lights, and related equipment throughout Georgetown.",
     "pool-renovations": cityRenovationIntros.georgetown,
@@ -46,9 +47,12 @@ export function getCityServiceHeadline(service: Service, city: City): string {
 }
 
 export function getCityServiceIntro(service: Service, city: City): string {
-  const renovationIntro = cityRenovationIntros[city.slug];
-  if (service.slug === renovationSlug && renovationIntro) {
-    return `${renovationIntro} ${site.name} offers free renovation consultations throughout ${city.name} and nearby communities.`;
+  if (service.slug === renovationSlug && cityRenovationIntros[city.slug]) {
+    return `${cityRenovationIntros[city.slug]} ${site.name} offers free renovation consultations throughout ${city.name} and nearby communities.`;
+  }
+
+  if (service.slug === leakDetectionSlug) {
+    return getCityLeakDetectionIntro(city.slug, city.name);
   }
 
   const priorityIntro = priorityCityIntros[city.slug]?.[service.slug];
@@ -64,6 +68,10 @@ export function getCityServiceMetaDescription(service: Service, city: City): str
       cityRenovationMeta[city.slug] ??
       `Pool renovation & replastering in ${city.name}, TX. PebbleTec, tile, coping & full remodels. Free consultation. Call ${site.phone}.`
     );
+  }
+
+  if (service.slug === leakDetectionSlug) {
+    return getCityLeakDetectionMeta(city.slug, city.name);
   }
 
   const label = cityServiceTitles[service.slug] ?? service.title;

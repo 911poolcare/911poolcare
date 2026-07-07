@@ -1,7 +1,9 @@
 import type { City } from "@/content/cities";
 import {
+  getCityLeakDetectionFaqs,
   leakDetectionCertification,
   leakDetectionEquipmentBrands,
+  leakDetectionFaqs,
   leakDetectionPhilosophy,
   leakDetectionTools,
 } from "@/content/leak-detection";
@@ -15,6 +17,9 @@ type LeakDetectionPageExtrasProps = {
 
 export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) {
   const areaLabel = city ? `${city.name} and surrounding areas` : "Central Texas";
+  const faqs = city
+    ? getCityLeakDetectionFaqs(city.slug, city.name)
+    : leakDetectionFaqs;
 
   return (
     <>
@@ -49,6 +54,27 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
                 </li>
               ))}
             </ul>
+          </div>
+        </Container>
+      </Section>
+
+      <Section>
+        <Container className="max-w-3xl">
+          <SectionHeading
+            eyebrow="Leak detection FAQ"
+            title={
+              city
+                ? `Common pool leak questions in ${city.name}`
+                : "Common pool leak detection questions"
+            }
+          />
+          <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
+            {faqs.map((item) => (
+              <div key={item.question} className="px-5 py-5 sm:px-6">
+                <h3 className="font-semibold text-slate-900">{item.question}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.answer}</p>
+              </div>
+            ))}
           </div>
         </Container>
       </Section>
