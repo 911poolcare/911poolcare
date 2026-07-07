@@ -51,6 +51,12 @@ export function isSmsChatVisible(date = new Date()): boolean {
 }
 
 export function formatSmsHref(body = site.smsDefaultBody): string {
-  const params = new URLSearchParams({ body });
-  return `sms:${site.smsNumber}?${params.toString()}`;
+  // encodeURIComponent uses %20 for spaces — iOS Messages treats + literally in sms: URLs.
+  return `sms:${site.smsNumber}?body=${encodeURIComponent(body)}`;
+}
+
+export function parseSmsBodyFromHref(href: string): string {
+  const match = href.match(/[?&]body=([^&]*)/i);
+  if (!match?.[1]) return site.smsDefaultBody;
+  return decodeURIComponent(match[1].replace(/\+/g, " "));
 }

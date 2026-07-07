@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { trackSmsClick } from "@/lib/analytics/track-sms-click";
+import { parseSmsBodyFromHref } from "@/lib/sms-chat";
 import { site } from "@/content/site";
 
 function isMobileDevice(): boolean {
@@ -11,10 +12,9 @@ function isMobileDevice(): boolean {
 }
 
 function parseSmsHref(href: string): { phone: string; body: string } {
-  const match = href.match(/^sms:([^?]+)(?:\?(.*))?$/i);
+  const match = href.match(/^sms:([^?]+)/i);
   const phone = match?.[1] ?? site.smsNumber;
-  const params = new URLSearchParams(match?.[2] ?? "");
-  const body = params.get("body") ?? site.smsDefaultBody;
+  const body = parseSmsBodyFromHref(href);
 
   return { phone, body };
 }
