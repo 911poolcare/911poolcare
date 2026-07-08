@@ -1,4 +1,10 @@
 import { type NextRequest, NextResponse } from "next/server";
+import {
+  isAllowedReferrer,
+  isAllowedUserAgent,
+  isBlockedReferrer,
+  isKnownNonHumanUserAgent,
+} from "@/lib/security/traffic-filter";
 
 /**
  * Block search engines from indexing Vercel preview URLs while you test.
@@ -6,6 +12,19 @@ import { type NextRequest, NextResponse } from "next/server";
  */
 export function middleware(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
+  const referrer = request.headers.get("referer");
+  const userAgent = request.headers.get("user-agent");
+  const trustedReferrer = isAllowedReferrer(referrer);
+  const trustedUserAgent = isAllowedUserAgent(userAgent);
+
+  // Drop known spoof/bot patterns before they pollute analytics reports.
+  if (
+    !trustedReferrer &&
+    !trustedUserAgent &&
+    (isBlockedReferrer(referrer) || isKnownNonHumanUserAgent(userAgent))
+  ) {
+    return new NextResponse(null, { status: 204 });
+  }
 
   if (host.includes("vercel.app") || host.includes("localhost")) {
     const response = NextResponse.next();
