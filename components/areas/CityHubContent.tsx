@@ -4,13 +4,16 @@ import { CheckCircle2, Phone, MessageSquare, MapPin } from "lucide-react";
 import type { CityHub } from "@/content/city-hubs";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
+import { getCityHubGalleryImages } from "@/content/media";
 import { getCityServicePath } from "@/lib/local-seo";
+import { PhotoGallery } from "@/components/gallery/PhotoGallery";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 
 export function CityHubContent({ hub }: { hub: CityHub }) {
+  const gallery = getCityHubGalleryImages(hub.slug, 9);
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
@@ -118,6 +121,15 @@ export function CityHubContent({ hub }: { hub: CityHub }) {
           </div>
         </Container>
       </Section>
+
+      {gallery.length > 0 ? (
+        <PhotoGallery
+          images={gallery}
+          title={`Recent work in ${hub.name}`}
+          description={`Leak detection, equipment repair, and renovation photos from ${hub.name}-area jobs.`}
+          muted={false}
+        />
+      ) : null}
     </>
   );
 }

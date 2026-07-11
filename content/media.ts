@@ -274,3 +274,24 @@ export function getCityServiceProgressSets(
 export function getTeamGalleryImages(): GalleryImage[] {
   return jobsForService("team").flatMap((job) => job.images.map(toGalleryImage));
 }
+
+const HUB_GALLERY_SERVICES = [
+  "pool-leak-detection",
+  "pool-equipment-repair",
+  "pool-renovations",
+  "pool-inspections",
+] as const;
+
+export function getCityHubGalleryImages(citySlug: string, limit = 9): GalleryImage[] {
+  const images: GalleryImage[] = [];
+
+  for (const serviceSlug of HUB_GALLERY_SERVICES) {
+    for (const image of getCityServiceGalleryImages(serviceSlug, citySlug, 12)) {
+      if (images.some((item) => item.src === image.src)) continue;
+      images.push(image);
+      if (images.length >= limit) return images;
+    }
+  }
+
+  return images;
+}

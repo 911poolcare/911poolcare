@@ -95,6 +95,13 @@ const EQUIPMENT_JOBS: EquipmentJobSpec[] = [
     displayLabel: "Georgetown — equipment replacement",
     stages: ["before", "after"],
   },
+  {
+    citySlug: "round-rock",
+    cityName: "Round Rock",
+    jobKey: "equipment",
+    displayLabel: "Round Rock — full equipment pad replacement",
+    stages: ["before", "during", "after"],
+  },
 ];
 
 const LEAK_REPAIR_JOBS: LeakRepairJobSpec[] = [
@@ -233,6 +240,27 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     caption: "Cracked return fitting found underwater",
   },
   {
+    file: "field-round-rock-wall-fitting-leak.jpg",
+    citySlug: "round-rock",
+    cityName: "Round Rock",
+    alt: "Active water leak at a PVC wall fitting during pressure testing — Round Rock",
+    caption: "Wall fitting leak found during pressure test",
+  },
+  {
+    file: "field-round-rock-rockwork-leak.jpg",
+    citySlug: "round-rock",
+    cityName: "Round Rock",
+    alt: "Water seeping between rockwork and pool deck identified as leak source — Round Rock",
+    caption: "Leak at rockwork and deck junction",
+  },
+  {
+    file: "field-round-rock-shell-crack.jpg",
+    citySlug: "round-rock",
+    cityName: "Round Rock",
+    alt: "Structural crack at waterline tile and pebble finish — Round Rock",
+    caption: "Shell crack at waterline tile",
+  },
+  {
     file: "field-round-rock-cracked-pump-housing.jpg",
     citySlug: "round-rock",
     cityName: "Round Rock",
@@ -252,6 +280,13 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     cityName: "Round Rock",
     alt: "Pipe camera system set up poolside for underground plumbing inspection — Round Rock",
     caption: "Pipe camera ready for underground inspection",
+  },
+  {
+    file: "field-round-rock-deck-excavation.jpg",
+    citySlug: "round-rock",
+    cityName: "Round Rock",
+    alt: "Pool deck excavation to access underground plumbing leak — Round Rock",
+    caption: "Deck cut to reach underground leak",
   },
   {
     file: "field-liberty-hill-diver-underwater.jpg",
