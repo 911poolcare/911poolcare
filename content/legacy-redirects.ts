@@ -33,8 +33,7 @@ export const legacyRedirects: LegacyRedirect[] = [
   },
 
   // Common Wix page aliases
-  { source: "/contact", destination: "/#contact", permanent: true },
-  { source: "/contact-us", destination: "/#contact", permanent: true },
+  { source: "/contact-us", destination: "/contact", permanent: true },
   { source: "/about-us", destination: "/about", permanent: true },
   { source: "/faq", destination: "/#faq", permanent: true },
 
@@ -59,13 +58,18 @@ export const legacyRedirects: LegacyRedirect[] = [
   },
   {
     source: "/flood-response",
-    destination: "/#contact",
+    destination: "/contact",
     permanent: true,
   },
 
-  // Indexed Wix booking & location paths
-  { source: "/book-now", destination: "/#contact", permanent: true },
-  { source: "/book-online", destination: "/#contact", permanent: true },
+  // Indexed Wix booking & process paths
+  { source: "/book-now", destination: "/contact", permanent: true },
+  { source: "/book-online", destination: "/contact", permanent: true },
+  {
+    source: "/leak-process",
+    destination: "/services/pool-leak-detection",
+    permanent: true,
+  },
   { source: "/locations", destination: "/areas", permanent: true },
   { source: "/locations/leander", destination: "/areas/leander", permanent: true },
   { source: "/locations/sanmarcos", destination: "/areas/san-marcos", permanent: true },

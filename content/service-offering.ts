@@ -33,6 +33,16 @@ export const poolCareOffering = {
   /** Services index / section heading — all four core services */
   servicesHeading:
     "Pool leak detection & repair · Equipment repair & replacement · Renovations & replaster · Pool inspections",
+  servicesIndex: {
+    title: "Pool Services Austin TX | Leak Detection, Repair & Renovations",
+    metaDescription:
+      "Pool leak detection, equipment repair, renovations, and inspections across Austin, Georgetown, Leander & Central Texas. Veteran-owned, RAIL certified. Call 512-947-2023 or request service online.",
+  },
+  contact: {
+    title: "Contact & Schedule Pool Service",
+    metaDescription:
+      "Book pool leak detection, repair, renovation, or inspection service in Central Texas. Call 512-947-2023 or submit our online form — we respond fast, often same day.",
+  },
 } as const;
 
 export const primaryServiceSlugs = new Set(

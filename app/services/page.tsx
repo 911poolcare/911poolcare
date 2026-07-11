@@ -11,8 +11,16 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export const metadata: Metadata = {
-  title: "Pool Services",
-  description: `Leak detection technicians, pool repair experts, and renovation specialists in Austin and Central Texas — ${poolCareOffering.inlineList}.`,
+  title: poolCareOffering.servicesIndex.title,
+  description: poolCareOffering.servicesIndex.metaDescription,
+  alternates: {
+    canonical: `${site.urls.site}/services`,
+  },
+  openGraph: {
+    title: `${poolCareOffering.servicesIndex.title} | ${site.name}`,
+    description: poolCareOffering.servicesIndex.metaDescription,
+    url: `${site.urls.site}/services`,
+  },
 };
 
 export default function ServicesIndexPage() {

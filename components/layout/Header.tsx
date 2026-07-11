@@ -10,7 +10,7 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/partners", label: "Partners" },
-  { href: "/#leak-process", label: "Leak Process" },
+  { href: "/services/pool-leak-detection", label: "Leak Process" },
   { href: "/#faq", label: "FAQ" },
   { href: "/#contact", label: "Contact" },
 ];

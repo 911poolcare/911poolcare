@@ -42,7 +42,7 @@ export const services: Service[] = [
       "Leak repairs quoted based on location, access, and scope",
     ],
     metaDescription:
-      `Leaktronics-certified pool leak detection & repair in Austin, TX. Leakalyzer testing, professional equipment, detection from $${pricing.leakDetection.poolOnlySinglePump}. Call 512-947-2023.`,
+      `Pool leak detection & repair in Austin, TX — Leaktronics certified. Leakalyzer testing, hydrophones & pipe cameras to pinpoint leaks fast. Detection from $${pricing.leakDetection.poolOnlySinglePump}. Call 512-947-2023.`,
   },
   {
     slug: "pool-equipment-repair",
