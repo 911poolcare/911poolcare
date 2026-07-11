@@ -7,6 +7,11 @@ export type CityHub = {
   neighborhoods: string[];
   whyLocal: string[];
   responseTime: string;
+  /** Hand-picked local job photo for the hub hero — real field work, not stock. */
+  heroImage?: {
+    src: string;
+    alt: string;
+  };
 };
 
 export const cityHubs: Record<string, CityHub> = {
@@ -36,6 +41,10 @@ export const cityHubs: Record<string, CityHub> = {
       "Free renovation consultations — replaster, PebbleTec, tile & full remodels",
     ],
     responseTime: "Most Austin service calls scheduled within 3–5 business days",
+    heroImage: {
+      src: "/images/jobs/pool-leak-detection/curated-austin-repair-after.jpg",
+      alt: "Underground pool plumbing leak repaired in Austin, TX — 911 Pool Care leak detection and repair",
+    },
   },
   georgetown: {
     slug: "georgetown",
@@ -62,6 +71,10 @@ export const cityHubs: Record<string, CityHub> = {
       "Serving Sun City, Wolf Ranch, and all of Georgetown",
     ],
     responseTime: "Georgetown appointments often available same week",
+    heroImage: {
+      src: "/images/jobs/pool-leak-detection/field-georgetown-deck-excavation.jpg",
+      alt: "Pool deck excavation for underground leak repair in Georgetown, TX — 911 Pool Care leak detection",
+    },
   },
   "round-rock": {
     slug: "round-rock",
@@ -88,6 +101,10 @@ export const cityHubs: Record<string, CityHub> = {
       "Serving HOAs, backyard pools, and commercial properties",
     ],
     responseTime: "Most Round Rock service calls scheduled within 3–5 business days",
+    heroImage: {
+      src: "/images/jobs/pool-leak-detection/field-round-rock-deck-excavation.jpg",
+      alt: "Pool deck excavation for underground leak repair in Round Rock, TX — 911 Pool Care leak detection",
+    },
   },
   "cedar-park": {
     slug: "cedar-park",
@@ -114,6 +131,10 @@ export const cityHubs: Record<string, CityHub> = {
       "Trusted by Cedar Park homeowners and area realtors",
     ],
     responseTime: "Cedar Park appointments often available within the week",
+    heroImage: {
+      src: "/images/jobs/pool-leak-detection/field-cedar-park-electronic-detection.jpg",
+      alt: "Electronic pool leak detection at the pool edge in Cedar Park, TX — 911 Pool Care",
+    },
   },
 };
 

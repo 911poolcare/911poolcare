@@ -4,7 +4,7 @@ import { CheckCircle2, Phone, MessageSquare, MapPin } from "lucide-react";
 import type { CityHub } from "@/content/city-hubs";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
-import { getCityHubGalleryImages } from "@/content/media";
+import { getCityHubGalleryImages, getCityHubHeroImage } from "@/content/media";
 import { getCityServicePath } from "@/lib/local-seo";
 import { PhotoGallery } from "@/components/gallery/PhotoGallery";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -14,18 +14,19 @@ import { Section } from "@/components/ui/Section";
 
 export function CityHubContent({ hub }: { hub: CityHub }) {
   const gallery = getCityHubGalleryImages(hub.slug, 9);
+  const hero = getCityHubHeroImage(hub.slug);
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
-        <Container className="relative py-14 lg:py-20">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Service Areas", href: "/areas" },
-              { label: hub.name },
-            ]}
-          />
-          <div className="max-w-3xl">
+        <Container className="relative grid items-center gap-10 py-14 lg:grid-cols-2 lg:py-20">
+          <div>
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Service Areas", href: "/areas" },
+                { label: hub.name },
+              ]}
+            />
             <p className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-brand-200">
               <MapPin className="h-4 w-4" aria-hidden />
               {hub.name}, Texas
@@ -46,6 +47,24 @@ export function CityHubContent({ hub }: { hub: CityHub }) {
               </Button>
             </div>
           </div>
+
+          {hero ? (
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
+              <Image
+                src={hero.src}
+                alt={hero.alt}
+                fill
+                priority
+                fetchPriority="high"
+                sizes="(max-width: 1024px) 100vw, 42rem"
+                className="object-cover"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-950/40 via-brand-950/15 to-transparent"
+                aria-hidden
+              />
+            </div>
+          ) : null}
         </Container>
       </section>
 

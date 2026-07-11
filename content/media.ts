@@ -1,6 +1,7 @@
 import { curatedJobsByService, getCuratedJobLabel } from "@/content/curated-jobs";
 import type { City } from "@/content/cities";
 import { cities, getCityBySlug } from "@/content/cities";
+import { getCityHub } from "@/content/city-hubs";
 import type { GalleryImage } from "@/content/galleries";
 import { getServiceHeroPick } from "@/content/hero-images";
 import { mediaJobs, type ManifestMedia, type MediaJob } from "@/content/generated/media-manifest";
@@ -294,4 +295,73 @@ export function getCityHubGalleryImages(citySlug: string, limit = 9): GalleryIma
   }
 
   return images;
+}
+
+const HUB_HERO_FIELD_PATTERNS = [
+  "deck-excavation",
+  "deck-cut",
+  "wall-fitting",
+  "electronic-detection",
+  "pressure-testing",
+  "pipe-camera",
+  "underground-repair",
+];
+
+function hubHeroAlt(cityName: string, detail: string): string {
+  return `${detail} in ${cityName}, TX — 911 Pool Care leak detection and repair`;
+}
+
+function getCityLeakFieldHero(citySlug: string): GalleryImage | undefined {
+  const cityName = getCityBySlug(citySlug)?.name ?? citySlug;
+  const fieldJob = jobsForCity("pool-leak-detection", citySlug).find(
+    (job) => job.id === `curated--pool-leak-detection--field-${citySlug}`,
+  );
+  if (!fieldJob?.images.length) return undefined;
+
+  const preferred = fieldJob.images.find((image) =>
+    HUB_HERO_FIELD_PATTERNS.some((pattern) => image.src.includes(pattern)),
+  );
+  const pick = preferred ?? fieldJob.images[fieldJob.images.length - 1];
+
+  return {
+    src: pick.src,
+    alt: pick.alt.includes(cityName)
+      ? pick.alt
+      : hubHeroAlt(cityName, pick.alt.replace(/ — .*$/, "")),
+  };
+}
+
+export function getCityHubHeroImage(citySlug: string): GalleryImage | undefined {
+  const hub = getCityHub(citySlug);
+  const cityName = hub?.name ?? getCityBySlug(citySlug)?.name ?? citySlug;
+
+  if (hub?.heroImage) return hub.heroImage;
+
+  const leakHero = getCityLeakFieldHero(citySlug);
+  if (leakHero) return leakHero;
+
+  for (const serviceSlug of HUB_GALLERY_SERVICES) {
+    if (serviceSlug === "pool-leak-detection") continue;
+
+    const src = getCityServiceHeroImage(serviceSlug, citySlug);
+    if (!src) continue;
+
+    for (const job of jobsForCity(serviceSlug, citySlug)) {
+      const match = job.images.find((image) => image.src === src);
+      if (match) return toGalleryImage(match);
+    }
+
+    return {
+      src,
+      alt: hubHeroAlt(cityName, "Pool equipment repair and replacement"),
+    };
+  }
+
+  const fallback = getServiceHeroImage("pool-leak-detection");
+  if (!fallback) return undefined;
+
+  return {
+    src: fallback,
+    alt: hubHeroAlt(cityName, "Pool leak detection and repair"),
+  };
 }
