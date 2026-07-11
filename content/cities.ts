@@ -27,6 +27,22 @@ export const cities: City[] = [
 
 export const priorityCities = cities.filter((city) => city.priority);
 
+/** Cities tracked in SEO ranking reports — used for homepage links and hub expansion. */
+export const trackedMarketSlugs = [
+  "austin",
+  "georgetown",
+  "leander",
+  "cedar-park",
+  "round-rock",
+  "pflugerville",
+  "liberty-hill",
+  "san-marcos",
+] as const;
+
+export const trackedMarketCities = cities.filter((city) =>
+  (trackedMarketSlugs as readonly string[]).includes(city.slug),
+);
+
 export function getCityBySlug(slug: string): City | undefined {
   return cities.find((city) => city.slug === slug);
 }

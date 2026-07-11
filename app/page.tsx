@@ -12,6 +12,7 @@ import { PartnerSection } from "@/components/home/PartnerSection";
 import { LeakDetectionProcess } from "@/components/home/LeakDetectionProcess";
 import { OurPromise } from "@/components/home/OurPromise";
 import { FeaturesGrid } from "@/components/home/FeaturesGrid";
+import { ServiceAreaChips } from "@/components/home/ServiceAreaChips";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
 
 const Testimonials = dynamic(() =>
@@ -63,6 +64,7 @@ export default function HomePage() {
       <RenovationSpotlight />
       <PriorityMarkets />
       <ServicesPreview />
+      <ServiceAreaChips />
       <PartnerSection />
       <OurPromise />
       <Testimonials />

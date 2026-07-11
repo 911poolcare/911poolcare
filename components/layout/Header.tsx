@@ -9,10 +9,11 @@ import { Logo } from "@/components/ui/Logo";
 const navLinks = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
+  { href: "/areas", label: "Service Areas" },
   { href: "/partners", label: "Partners" },
   { href: "/services/pool-leak-detection", label: "Leak Process" },
   { href: "/#faq", label: "FAQ" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Header() {
@@ -39,7 +40,7 @@ export function Header() {
             <SmsChatAvailability>
               <TextLink variant="secondary" size="sm" showIcon />
             </SmsChatAvailability>
-            <Button href="/#contact" size="sm">
+            <Button href="/contact" size="sm">
               Request Service
             </Button>
           </div>

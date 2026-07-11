@@ -171,6 +171,28 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                 {getServiceSchedulingNote(service.slug)}
               </p>
             )}
+            {city && service.slug === "pool-leak-detection" ? (
+              <p className="mt-4 text-slate-600 leading-relaxed">
+                Also need pump, heater, or filter repair in {city.name}?{" "}
+                <Link
+                  href={getCityServicePath("pool-equipment-repair", city.slug)}
+                  className="font-semibold text-brand-700 hover:text-brand-800"
+                >
+                  Pool equipment repair in {city.name} →
+                </Link>
+              </p>
+            ) : null}
+            {city && service.slug === "pool-equipment-repair" ? (
+              <p className="mt-4 text-slate-600 leading-relaxed">
+                Losing water and think it might be a leak?{" "}
+                <Link
+                  href={getCityServicePath("pool-leak-detection", city.slug)}
+                  className="font-semibold text-brand-700 hover:text-brand-800"
+                >
+                  Pool leak detection in {city.name} →
+                </Link>
+              </p>
+            ) : null}
           </div>
 
           <aside className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
@@ -204,6 +226,14 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                 <h3 className="text-lg font-semibold text-slate-900">
                   {city ? `Also serving near ${city.name}` : "Service areas"}
                 </h3>
+                {city ? (
+                  <Link
+                    href={getCityHubPath(city.slug)}
+                    className="mt-2 inline-block text-sm font-semibold text-brand-700 hover:text-brand-800"
+                  >
+                    Pool services in {city.name} →
+                  </Link>
+                ) : null}
               </>
             )}
             <ul className={`space-y-2 ${city && isPriorityCity(city.slug) ? "mt-6 border-t border-slate-200 pt-4" : "mt-3"}`}>
@@ -218,7 +248,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                 </li>
               ))}
             </ul>
-            <Button href="/#contact" className="mt-6 w-full">
+            <Button href="/contact" className="mt-6 w-full">
               {ctaLabel}
             </Button>
           </aside>
