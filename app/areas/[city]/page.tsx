@@ -29,6 +29,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
       title: `Pool Care ${hub.name} TX`,
       description: hub.metaDescription,
+      alternates: {
+        canonical: `${site.urls.site}/areas/${hub.slug}`,
+      },
+      openGraph: {
+        title: `Pool Care ${hub.name} TX | ${site.name}`,
+        description: hub.metaDescription,
+        url: `${site.urls.site}/areas/${hub.slug}`,
+      },
     };
   }
 

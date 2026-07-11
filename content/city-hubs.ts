@@ -63,8 +63,68 @@ export const cityHubs: Record<string, CityHub> = {
     ],
     responseTime: "Georgetown appointments often available same week",
   },
+  "round-rock": {
+    slug: "round-rock",
+    name: "Round Rock",
+    headline: "Round Rock pool leak detection, equipment, renovation & inspection",
+    intro:
+      "911 Pool Care serves Round Rock homeowners and property managers with leak detection and repair, pool equipment repair and replacement, renovations and replaster, and certified inspections. From Teravista and Forest Creek to Old Town and Behren's Ranch, we help you fix leaks, failing equipment, and aging pool surfaces — without weekly cleaning services.",
+    metaDescription:
+      "Pool leak detection, repair & renovations in Round Rock, TX. Equipment repair, replaster & inspections. Veteran-owned. Call 512-947-2023.",
+    neighborhoods: [
+      "Teravista",
+      "Forest Creek",
+      "Behren's Ranch",
+      "Old Town Round Rock",
+      "Walsh Ranch",
+      "Palm Valley",
+      "Brushy Creek",
+      "Siena",
+    ],
+    whyLocal: [
+      "Leak detection for pools losing water in Round Rock's hot summers",
+      "Equipment repair for pumps, heaters, filters, and automation",
+      "Replaster, PebbleTec, and renovation consultations available",
+      "Serving HOAs, backyard pools, and commercial properties",
+    ],
+    responseTime: "Most Round Rock service calls scheduled within 3–5 business days",
+  },
+  "cedar-park": {
+    slug: "cedar-park",
+    name: "Cedar Park",
+    headline: "Cedar Park pool leak detection, equipment, renovation & inspection",
+    intro:
+      "Cedar Park pools work hard every summer — and when you're losing water, equipment fails, or plaster is worn, 911 Pool Care can help. We provide leak detection and repair, equipment repair and replacement, pool renovations and replaster, and certified inspections throughout Avery Ranch, Buttercup Creek, Deer Creek, and surrounding Cedar Park neighborhoods.",
+    metaDescription:
+      "Pool leak detection, repair & renovations in Cedar Park, TX. Equipment repair, replaster & inspections. Call 512-947-2023.",
+    neighborhoods: [
+      "Avery Ranch",
+      "Buttercup Creek",
+      "Ranch at Brushy Creek",
+      "Deer Creek",
+      "Lakeline",
+      "Twin Creeks",
+      "Anderson Mill West",
+      "Cypress Canyon",
+    ],
+    whyLocal: [
+      "Electronic leak detection for plumbing leaks under decks and patios",
+      "Pump, heater, and filter diagnostics with repair credits",
+      "Free renovation consultations for replaster and PebbleTec projects",
+      "Trusted by Cedar Park homeowners and area realtors",
+    ],
+    responseTime: "Cedar Park appointments often available within the week",
+  },
 };
 
 export function getCityHub(slug: string): CityHub | undefined {
   return cityHubs[slug];
+}
+
+export function getHubCitySlugs(): string[] {
+  return Object.keys(cityHubs);
+}
+
+export function hasCityHub(slug: string): boolean {
+  return slug in cityHubs;
 }

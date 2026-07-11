@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
-import { priorityCities } from "@/content/cities";
-import { cityHubs } from "@/content/city-hubs";
+import { getCityHub, cityHubs } from "@/content/city-hubs";
 import { services } from "@/content/services";
 import { getCityHubPath, getCityServicePath } from "@/lib/local-seo";
 import { Button } from "@/components/ui/Button";
@@ -15,18 +14,18 @@ export function PriorityMarkets() {
       <Container>
         <SectionHeading
           eyebrow="Now Serving"
-          title="Growing in Austin & Georgetown"
-          description="We're investing in two of Central Texas's biggest pool markets — with faster scheduling, local crews, and the same quality that built our reputation."
+          title="Growing across Central Texas"
+          description="Dedicated local service in Austin, Georgetown, Round Rock, Cedar Park, and the communities we know best."
         />
 
         <div className="grid gap-6 lg:grid-cols-2">
-          {priorityCities.map((city) => {
-            const hub = cityHubs[city.slug];
+          {Object.keys(cityHubs).map((slug) => {
+            const hub = getCityHub(slug);
             if (!hub) return null;
 
             return (
               <article
-                key={city.slug}
+                key={hub.slug}
                 className="flex flex-col rounded-2xl border border-brand-200 bg-gradient-to-br from-brand-50 to-white p-6 shadow-sm sm:p-8"
               >
                 <div className="flex items-start gap-3">
@@ -54,12 +53,12 @@ export function PriorityMarkets() {
                 </ul>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <Button href={getCityHubPath(city.slug)} size="md">
+                  <Button href={getCityHubPath(hub.slug)} size="md">
                     Pool care in {hub.name}
                     <ArrowRight className="h-4 w-4" aria-hidden />
                   </Button>
                   <Button
-                    href={getCityServicePath("pool-leak-detection", city.slug)}
+                    href={getCityServicePath("pool-leak-detection", hub.slug)}
                     variant="secondary"
                     size="md"
                   >
