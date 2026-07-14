@@ -3,11 +3,65 @@
  * Add entries here as you discover old indexed URLs in Google Search Console.
  */
 
+import { cities, getCitiesForService } from "./cities";
+
 export type LegacyRedirect = {
   source: string;
   destination: string;
   permanent: boolean;
 };
+
+/** Wix often jammed multi-word cities onto the slug (cedarpark, not cedar-park). */
+function jammedCitySlug(citySlug: string): string {
+  return citySlug.replace(/-/g, "");
+}
+
+/**
+ * Old Wix city service pages used two patterns:
+ *   /services/{service}/{service}-{cityjam}
+ *   /services/{service}-{cityjam}
+ * Both should land on /services/{service}/{city}.
+ */
+function wixCityServiceRedirects(
+  serviceSlug: string,
+  citySlug: string,
+): LegacyRedirect[] {
+  const destination = `/services/${serviceSlug}/${citySlug}`;
+  const variants = new Set([jammedCitySlug(citySlug), citySlug]);
+  const redirects: LegacyRedirect[] = [];
+
+  for (const cityPart of variants) {
+    redirects.push(
+      {
+        source: `/services/${serviceSlug}/${serviceSlug}-${cityPart}`,
+        destination,
+        permanent: true,
+      },
+      {
+        source: `/services/${serviceSlug}-${cityPart}`,
+        destination,
+        permanent: true,
+      },
+    );
+  }
+
+  return redirects;
+}
+
+const wixCityPageRedirects: LegacyRedirect[] = getCitiesForService(
+  "pool-leak-detection",
+).flatMap((city) => wixCityServiceRedirects("pool-leak-detection", city.slug));
+
+/** /locations/{slug|jam} → /areas/{slug} */
+const wixLocationRedirects: LegacyRedirect[] = cities.flatMap((city) => {
+  const destination = `/areas/${city.slug}`;
+  const variants = new Set([city.slug, jammedCitySlug(city.slug)]);
+  return [...variants].map((part) => ({
+    source: `/locations/${part}`,
+    destination,
+    permanent: true,
+  }));
+});
 
 export const legacyRedirects: LegacyRedirect[] = [
   // Renamed service slugs
@@ -71,21 +125,10 @@ export const legacyRedirects: LegacyRedirect[] = [
     permanent: true,
   },
   { source: "/locations", destination: "/areas", permanent: true },
-  { source: "/locations/leander", destination: "/areas/leander", permanent: true },
-  { source: "/locations/sanmarcos", destination: "/areas/san-marcos", permanent: true },
-  { source: "/locations/lago-vista", destination: "/areas/lago-vista", permanent: true },
-  { source: "/locations/dripping-springs", destination: "/areas/dripping-springs", permanent: true },
-  { source: "/locations/horseshoe-bay", destination: "/areas/horseshoe-bay", permanent: true },
-  {
-    source: "/services/pool-leak-detection-austin",
-    destination: "/services/pool-leak-detection/austin",
-    permanent: true,
-  },
-  {
-    source: "/services/pool-leak-detection-georgetown",
-    destination: "/services/pool-leak-detection/georgetown",
-    permanent: true,
-  },
+  ...wixLocationRedirects,
+
+  // Wix city leak pages: /services/pool-leak-detection/pool-leak-detection-cedarpark → /cedar-park
+  ...wixCityPageRedirects,
 
   // Legacy Wix blog (no blog on new site yet)
   { source: "/blog", destination: "/services", permanent: true },
