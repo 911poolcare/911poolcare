@@ -17,32 +17,38 @@ function jammedCitySlug(citySlug: string): string {
 }
 
 /**
- * Old Wix city service pages used two patterns:
+ * Old Wix city service pages used patterns like:
  *   /services/{service}/{service}-{cityjam}
+ *   /services/{service}/{service}-repair-{cityjam}
  *   /services/{service}-{cityjam}
- * Both should land on /services/{service}/{city}.
+ *   /services/{service}-repair-{cityjam}
+ * All should land on /services/{service}/{city}.
  */
 function wixCityServiceRedirects(
   serviceSlug: string,
   citySlug: string,
+  middleParts: string[] = [""],
 ): LegacyRedirect[] {
   const destination = `/services/${serviceSlug}/${citySlug}`;
-  const variants = new Set([jammedCitySlug(citySlug), citySlug]);
+  const cityVariants = new Set([jammedCitySlug(citySlug), citySlug]);
   const redirects: LegacyRedirect[] = [];
 
-  for (const cityPart of variants) {
-    redirects.push(
-      {
-        source: `/services/${serviceSlug}/${serviceSlug}-${cityPart}`,
-        destination,
-        permanent: true,
-      },
-      {
-        source: `/services/${serviceSlug}-${cityPart}`,
-        destination,
-        permanent: true,
-      },
-    );
+  for (const cityPart of cityVariants) {
+    for (const middle of middleParts) {
+      const suffix = middle ? `${middle}-${cityPart}` : cityPart;
+      redirects.push(
+        {
+          source: `/services/${serviceSlug}/${serviceSlug}-${suffix}`,
+          destination,
+          permanent: true,
+        },
+        {
+          source: `/services/${serviceSlug}-${suffix}`,
+          destination,
+          permanent: true,
+        },
+      );
+    }
   }
 
   return redirects;
@@ -50,7 +56,9 @@ function wixCityServiceRedirects(
 
 const wixCityPageRedirects: LegacyRedirect[] = getCitiesForService(
   "pool-leak-detection",
-).flatMap((city) => wixCityServiceRedirects("pool-leak-detection", city.slug));
+).flatMap((city) =>
+  wixCityServiceRedirects("pool-leak-detection", city.slug, ["", "repair"]),
+);
 
 /** /locations/{slug|jam} → /areas/{slug} */
 const wixLocationRedirects: LegacyRedirect[] = cities.flatMap((city) => {
@@ -128,7 +136,14 @@ export const legacyRedirects: LegacyRedirect[] = [
   ...wixLocationRedirects,
 
   // Wix city leak pages: /services/pool-leak-detection/pool-leak-detection-cedarpark → /cedar-park
+  // also: .../pool-leak-detection-repair-austin → /austin
   ...wixCityPageRedirects,
+  // Catch leftover jammed Wix leak paths we haven't catalogued yet
+  {
+    source: "/services/pool-leak-detection/pool-leak-detection-:path*",
+    destination: "/services/pool-leak-detection",
+    permanent: true,
+  },
 
   // Legacy Wix blog (no blog on new site yet)
   { source: "/blog", destination: "/services", permanent: true },
