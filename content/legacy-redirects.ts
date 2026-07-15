@@ -138,12 +138,6 @@ export const legacyRedirects: LegacyRedirect[] = [
   // Wix city leak pages: /services/pool-leak-detection/pool-leak-detection-cedarpark → /cedar-park
   // also: .../pool-leak-detection-repair-austin → /austin
   ...wixCityPageRedirects,
-  // Catch leftover jammed Wix leak paths we haven't catalogued yet
-  {
-    source: "/services/pool-leak-detection/pool-leak-detection-:path*",
-    destination: "/services/pool-leak-detection",
-    permanent: true,
-  },
 
   // Legacy Wix blog (no blog on new site yet)
   { source: "/blog", destination: "/services", permanent: true },
