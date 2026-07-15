@@ -1,10 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import {
-  isAllowedReferrer,
-  isAllowedUserAgent,
-  isBlockedReferrer,
-  isKnownNonHumanUserAgent,
-} from "@/lib/security/traffic-filter";
+import { shouldDropBotTraffic } from "@/lib/security/traffic-filter";
 
 /**
  * Block search engines from indexing Vercel preview URLs while you test.
@@ -14,15 +9,10 @@ export function middleware(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
   const referrer = request.headers.get("referer");
   const userAgent = request.headers.get("user-agent");
-  const trustedReferrer = isAllowedReferrer(referrer);
-  const trustedUserAgent = isAllowedUserAgent(userAgent);
 
   // Drop known spoof/bot patterns before they pollute analytics reports.
-  if (
-    !trustedReferrer &&
-    !trustedUserAgent &&
-    (isBlockedReferrer(referrer) || isKnownNonHumanUserAgent(userAgent))
-  ) {
+  // Allowed crawlers (Googlebot, etc.) still pass; google.com referrer alone does not.
+  if (shouldDropBotTraffic(referrer, userAgent)) {
     return new NextResponse(null, { status: 204 });
   }
 
