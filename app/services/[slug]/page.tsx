@@ -4,6 +4,7 @@ import {
   getAllServiceSlugs,
   getServiceBySlug,
 } from "@/content/services";
+import { inspectionSeo } from "@/content/inspections";
 import { renovationSeo } from "@/content/renovations";
 import { site } from "@/content/site";
 import { ServicePageContent } from "@/components/services/ServicePageContent";
@@ -30,8 +31,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       : slug === "pool-leak-detection"
         ? "Pool Leak Detection & Repair Austin TX"
         : slug === "pool-equipment-repair"
-          ? "Pool Equipment Repair & Replacement Austin TX"
-          : service.title;
+          ? "Pool Equipment Repair Austin TX"
+          : slug === "pool-inspections"
+            ? inspectionSeo.title
+            : service.title;
+
+  const canonical = `${site.urls.site}/services/${slug}`;
 
   return {
     title,
@@ -39,10 +44,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     keywords: slug === "pool-renovations"
       ? [
           "pool renovation Austin",
+          "pool coping repair",
           "pool replastering Austin TX",
           "PebbleTec Austin",
           "pool remodel Central Texas",
-          "pool resurfacing Georgetown",
         ]
       : slug === "pool-leak-detection"
         ? [
@@ -51,10 +56,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             "pool leak detection Central Texas",
             "swimming pool leak repair",
           ]
-        : undefined,
+      : slug === "pool-inspections"
+        ? [
+            "pool inspection near me",
+            "pool inspection companies",
+            "certified pool inspection Austin",
+            "pool inspection Austin TX",
+          ]
+        : slug === "pool-equipment-repair"
+          ? [
+              "pool repair Austin TX",
+              "pool equipment repair Austin",
+              "swimming pool repair in austin",
+            ]
+          : undefined,
+    alternates: {
+      canonical,
+    },
     openGraph: {
       title: `${title} | ${site.name}`,
       description: service.metaDescription,
+      url: canonical,
       images: [{ url: service.image, alt: service.imageAlt }],
     },
     twitter: {

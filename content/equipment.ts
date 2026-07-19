@@ -15,7 +15,7 @@ export const poolEquipment = {
   shortDescription:
     "Repair and replacement for pool pumps, filters, heaters, automation, lights, and related equipment.",
   metaDescription:
-    `Pool equipment repair & replacement in Central Texas — pumps, filters, heaters, automation, pool lights, and more. ${site.railCertified.label} (${site.railCertified.fullName}). Call 911 Pool Care.`,
+    `Pool repair in Austin & Central Texas — pumps, filters, heaters, automation, lights & more. ${site.railCertified.label} (${site.railCertified.fullName}). Fast diagnostics. Call 512-947-2023.`,
 } as const;
 
 export function poolEquipmentPhrase(): string {

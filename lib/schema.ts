@@ -73,17 +73,40 @@ export function getLocalBusinessSchema() {
   };
 }
 
-export function getFaqSchema() {
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+type BreadcrumbItem = {
+  name: string;
+  url: string;
+};
+
+export function getFaqSchema(items: readonly FaqItem[] = faqs) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((item) => ({
+    mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
         "@type": "Answer",
         text: item.answer,
       },
+    })),
+  };
+}
+
+export function getBreadcrumbSchema(items: readonly BreadcrumbItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
     })),
   };
 }

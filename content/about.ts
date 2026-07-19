@@ -3,9 +3,9 @@ import { poolCareOffering } from "@/content/service-offering";
 import { site } from "@/content/site";
 
 export const about = {
-  metaTitle: "About Us",
+  metaTitle: "About Our Austin Pool Repair Team",
   metaDescription:
-    "Locally owned pool specialists in Central Texas. 7+ years of leak detection, equipment repair, renovations, and inspections — technicians, not pool cleaners.",
+    "Meet the Central Texas pool repair specialists behind 911 Pool Care — Leaktronics-certified leak detection, equipment repair, renovations & inspections. Technicians, not pool cleaners. 4.9★ on Google.",
   headline: "Technicians. Experts. Not pool cleaners.",
   subhead:
     "911 Pool Care was built with one goal: be the best and most consistent pool repair and renovation specialists in our field.",

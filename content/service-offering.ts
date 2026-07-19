@@ -7,7 +7,7 @@ export const poolCareOffering = {
     "Leak detection, equipment repair, renovations & inspections for residential, commercial & HOA properties.",
   tagline: "Central Texas Pool Leak Detection, Repair, Renovation & Inspection",
   metaDescription:
-    "Pool leak detection & repair in Austin, TX — 4.9★ rated. Equipment repair, renovations, replaster & inspections across Greater Austin. RAIL certified (Residential Appliance Installer License). Veteran-owned. Call 512-947-2023.",
+    "Pool repair near Austin, TX — leak detection, equipment repair, renovations & certified inspections. 4.9★ on Google · RAIL certified · veteran-owned. Call 512-947-2023.",
   primary: [
     {
       label: "Pool leak detection & repair",
@@ -34,9 +34,9 @@ export const poolCareOffering = {
   servicesHeading:
     "Pool leak detection & repair · Equipment repair & replacement · Renovations & replaster · Pool inspections",
   servicesIndex: {
-    title: "Pool Services Austin TX | Leak Detection, Repair & Renovations",
+    title: "Pool Repair Services Austin TX",
     metaDescription:
-      "Pool leak detection, equipment repair, renovations, and inspections across Austin, Georgetown, Leander & Central Texas. Veteran-owned, RAIL certified. Call 512-947-2023 or request service online.",
+      "Compare pool repair services in Austin & Central Texas — leak detection, equipment repair, renovations, and certified inspections. 4.9★ rated. Call 512-947-2023.",
   },
   contact: {
     title: "Contact & Schedule Pool Service",

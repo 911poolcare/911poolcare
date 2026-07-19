@@ -15,6 +15,15 @@ export const metadata: Metadata = {
   title: "Service Areas",
   description:
     "911 Pool Care serves Austin, Georgetown, Round Rock, Cedar Park, Leander, Pflugerville, and surrounding Central Texas. Leak detection, repair, renovations & inspections.",
+  alternates: {
+    canonical: `${site.urls.site}/areas`,
+  },
+  openGraph: {
+    title: `Service Areas | ${site.name}`,
+    description:
+      "911 Pool Care serves Austin, Georgetown, Round Rock, Cedar Park, Leander, Pflugerville, and surrounding Central Texas. Leak detection, repair, renovations & inspections.",
+    url: `${site.urls.site}/areas`,
+  },
 };
 
 export default function AreasPage() {
@@ -25,11 +34,18 @@ export default function AreasPage() {
     <>
       <Section className="bg-gradient-to-b from-brand-50 to-white">
         <Container>
-          <SectionHeading
-            eyebrow="Featured markets"
-            title="Pool care in your city"
-            description="Local leak detection, equipment repair, renovations, and inspections — with dedicated pages for the communities we serve most."
-          />
+          <div className="mb-10 mx-auto max-w-3xl text-center">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-600">
+              Featured markets
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Pool care in your city
+            </h1>
+            <p className="mt-4 text-lg leading-relaxed text-slate-600">
+              Local leak detection, equipment repair, renovations, and inspections — with dedicated
+              pages for the communities we serve most.
+            </p>
+          </div>
           <div className="grid gap-6 md:grid-cols-2">
             {featuredCities.map((city) => {
               const hub = getCityHub(city.slug);

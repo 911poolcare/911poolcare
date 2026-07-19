@@ -120,13 +120,14 @@ export const inspectionPricing = {
 } as const;
 
 export const inspectionSeo = {
+  title: "Pool Inspection Near Me Austin TX",
   headline: "Certified pool inspection services",
   intro:
-    "Buying or selling a home with a pool? A certified pool inspection helps identify safety concerns, equipment issues, and costly repairs before closing. We provide professional, unbiased inspections throughout Central Texas with clear written reports you can trust.",
+    "Looking for a pool inspection near you in Austin or Central Texas? A certified pool inspection helps identify safety concerns, equipment issues, and costly repairs before closing. We provide professional, unbiased inspections with clear written reports you can trust.",
   subIntro:
     "Our inspections are performed by certified pool inspectors and are designed specifically for real estate transactions, homeowners, and investors who want an accurate assessment of a pool's condition.",
   metaDescription:
-    "Certified pool inspections in Austin and Central Texas — $360 for a standard pool or pool/spa inspection (exclusions apply). Written report and photo documentation. Call 911 Pool Care.",
+    "Pool inspection near me in Austin & Central Texas — certified inspectors, $360 standard pool or pool/spa inspection (exclusions apply). Written report + photos. Call 512-947-2023.",
   ctaLabel: "Schedule a Pool Inspection",
   schedulingNote: `Based in ${site.address.city}, we perform certified pool inspections across Central Texas. Call ${site.phone} or request service to confirm availability.`,
 } as const;

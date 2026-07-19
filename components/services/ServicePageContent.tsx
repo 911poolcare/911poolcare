@@ -33,10 +33,15 @@ import { ServicePricing } from "@/components/services/ServicePricing";
 import { PhotoGallery } from "@/components/gallery/PhotoGallery";
 import { JobProgressGallery } from "@/components/gallery/JobProgressGallery";
 import { VideoGallery } from "@/components/gallery/VideoGallery";
+import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
+import {
+  getCityLeakDetectionFaqs,
+  leakDetectionFaqs,
+} from "@/content/leak-detection";
 
 type ServicePageContentProps = {
   service: Service;
@@ -90,26 +95,37 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
   const videoTitle = city
     ? `${service.title} in ${city.name} — project videos`
     : `${service.title} — project videos`;
+  const servicePath = `/services/${service.slug}`;
+  const pagePath = city ? `${servicePath}/${city.slug}` : servicePath;
+  const leakFaqs =
+    service.slug === "pool-leak-detection"
+      ? city
+        ? getCityLeakDetectionFaqs(city.slug, city.name)
+        : leakDetectionFaqs
+      : null;
 
   return (
     <>
+      {leakFaqs ? <FaqJsonLd items={leakFaqs} /> : null}
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
         <Container className="relative grid items-center gap-10 py-14 lg:grid-cols-2 lg:py-20">
           <div>
-            {city ? (
-              <Breadcrumbs
-                items={[
-                  { label: "Home", href: "/" },
-                  { label: "Services", href: "/services" },
-                  { label: service.title, href: `/services/${service.slug}` },
-                  { label: city.name },
-                ]}
-              />
-            ) : (
-              <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-200">
-                {site.name}
-              </p>
-            )}
+            <Breadcrumbs
+              items={
+                city
+                  ? [
+                      { label: "Home", href: "/" },
+                      { label: "Services", href: "/services" },
+                      { label: service.title, href: servicePath },
+                      { label: city.name, href: pagePath },
+                    ]
+                  : [
+                      { label: "Home", href: "/" },
+                      { label: "Services", href: "/services" },
+                      { label: service.title, href: pagePath },
+                    ]
+              }
+            />
             <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
               {headline}
             </h1>

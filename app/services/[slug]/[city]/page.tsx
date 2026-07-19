@@ -36,13 +36,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const title = getCityServicePageTitle(service, city);
   const description = getCityServiceMetaDescription(service, city);
+  const canonical = `${site.urls.site}/services/${slug}/${citySlug}`;
 
   return {
     title,
     description,
+    alternates: {
+      canonical,
+    },
     openGraph: {
       title: `${title} | ${site.name}`,
       description,
+      url: canonical,
       images: [{ url: service.image, alt: service.imageAlt }],
     },
     twitter: {

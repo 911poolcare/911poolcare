@@ -23,7 +23,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: `Pool Leak Detection & Repair Austin TX | ${site.name}`,
+    default: `Pool Repair Austin TX | Leak Detection & Renovation | ${site.name}`,
     template: `%s | ${site.name}`,
   },
   description: site.description,

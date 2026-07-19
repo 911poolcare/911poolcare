@@ -10,6 +10,14 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 export const metadata: Metadata = {
   title: partnerProgram.metaTitle,
   description: partnerProgram.metaDescription,
+  alternates: {
+    canonical: `${site.urls.site}/partners`,
+  },
+  openGraph: {
+    title: `${partnerProgram.metaTitle} | ${site.name}`,
+    description: partnerProgram.metaDescription,
+    url: `${site.urls.site}/partners`,
+  },
 };
 
 const partnerEmailHref = `mailto:${site.email}?subject=${encodeURIComponent("Pool company partnership inquiry")}`;

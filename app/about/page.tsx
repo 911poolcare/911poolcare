@@ -16,6 +16,14 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 export const metadata: Metadata = {
   title: about.metaTitle,
   description: about.metaDescription,
+  alternates: {
+    canonical: `${site.urls.site}/about`,
+  },
+  openGraph: {
+    title: `${about.metaTitle} | ${site.name}`,
+    description: about.metaDescription,
+    url: `${site.urls.site}/about`,
+  },
 };
 
 export default function AboutPage() {

@@ -24,7 +24,7 @@ export function CityHubContent({ hub }: { hub: CityHub }) {
               items={[
                 { label: "Home", href: "/" },
                 { label: "Service Areas", href: "/areas" },
-                { label: hub.name },
+                { label: hub.name, href: `/areas/${hub.slug}` },
               ]}
             />
             <p className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-brand-200">

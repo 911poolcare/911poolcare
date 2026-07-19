@@ -41,10 +41,10 @@ export const renovationFinishes = [
 ] as const;
 
 export const renovationSeo = {
-  title: "Pool Renovation & Replastering Austin TX",
-  titleTemplate: (city: string) => `Pool Renovation ${city} TX | Replaster & PebbleTec`,
+  title: "Pool Renovation & Coping Repair Austin TX",
+  titleTemplate: (city: string) => `Pool Renovation ${city} TX | Replaster & Coping`,
   hubDescription:
-    "Residential and commercial pool renovations and replastering across Central Texas — PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite plaster, and other finishes, plus tile, coping, and full remodels.",
+    "Pool renovation, replastering & coping repair in Austin and Central Texas — PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite, tile, coping, and full remodels. Free on-site consultation. Call 512-947-2023.",
 } as const;
 
 export const renovationSpotlightCards = [

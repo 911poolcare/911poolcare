@@ -10,7 +10,6 @@ import { getCityServicePath } from "@/lib/local-seo";
 import { CityHubContent } from "@/components/areas/CityHubContent";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 
 type PageProps = {
   params: Promise<{ city: string }>;
@@ -44,9 +43,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const description = city.renovationsOnly
       ? `Pool renovations and replastering in ${city.name}, TX. PebbleTec, tile, coping & full remodels. Call ${site.phone}.`
       : `Pool leak detection, repair, renovations, and inspections in ${city.name}, TX. Call ${site.phone}.`;
+    const canonical = `${site.urls.site}/areas/${city.slug}`;
     return {
       title: `Pool Services ${city.name} TX`,
       description,
+      alternates: {
+        canonical,
+      },
+      openGraph: {
+        title: `Pool Services ${city.name} TX | ${site.name}`,
+        description,
+        url: canonical,
+      },
     };
   }
 
@@ -61,15 +69,19 @@ function GenericCityPage({ city }: { city: City }) {
   return (
     <Section>
       <Container>
-        <SectionHeading
-          eyebrow="Service Area"
-          title={`Pool care in ${city.name}, TX`}
-          description={
-            city.renovationsOnly
+        <div className="mb-10 mx-auto max-w-3xl text-center">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-600">
+            Service Area
+          </p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            Pool care in {city.name}, TX
+          </h1>
+          <p className="mt-4 text-lg leading-relaxed text-slate-600">
+            {city.renovationsOnly
               ? `${site.name} currently serves ${city.name} for pool renovations and replaster projects — PebbleTec, tile, coping, and full remodels.`
-              : `${site.name} provides leak detection, equipment repair, renovations, and inspections throughout ${city.name} and surrounding Central Texas.`
-          }
-        />
+              : `${site.name} provides leak detection, equipment repair, renovations, and inspections throughout ${city.name} and surrounding Central Texas.`}
+          </p>
+        </div>
         <ul className="mx-auto max-w-lg space-y-3">
           {availableServices.map((service) => (
             <li key={service.slug}>
