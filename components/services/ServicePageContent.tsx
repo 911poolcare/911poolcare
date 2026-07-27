@@ -107,7 +107,8 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
     ? getCityServiceVideos(service.slug, city.slug)
     : getServiceVideos(service.slug, 4);
   const isInspections = service.slug === "pool-inspections";
-  const showProgress = service.slug !== "pool-renovations" && !isInspections;
+  const isRenovations = service.slug === "pool-renovations";
+  const showProgress = !isRenovations && !isInspections;
   const showGallery =
     gallery.length > 0 &&
     !(service.slug === "pool-equipment-repair" && progressSets.length > 0) &&
@@ -129,6 +130,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
     : `${service.title} — project videos`;
   const servicePath = `/services/${service.slug}`;
   const pagePath = city ? `${servicePath}/${city.slug}` : servicePath;
+  const contactHref = "/contact";
   const leakFaqs =
     service.slug === "pool-leak-detection"
       ? city
@@ -168,15 +170,39 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                 {inspectionSeo.subIntro}
               </p>
             ) : null}
+            {isRenovations ? (
+              <p className="mt-4 text-sm font-medium text-brand-50">
+                {site.google.rating}★ on Google ({site.google.reviewCount} reviews)
+                {" · "}
+                Free on-site consultation
+                {" · "}
+                Serving Central Texas
+              </p>
+            ) : null}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href={site.phoneHref} variant="secondary" size="lg">
-                <Phone className="h-5 w-5" aria-hidden />
-                Call {site.phone}
-              </Button>
-              <Button href="/#contact" variant="outline" size="lg">
-                <MessageSquare className="h-5 w-5" aria-hidden />
-                {ctaLabel}
-              </Button>
+              {isRenovations ? (
+                <>
+                  <Button href={contactHref} variant="secondary" size="lg">
+                    <MessageSquare className="h-5 w-5" aria-hidden />
+                    {ctaLabel}
+                  </Button>
+                  <Button href={site.phoneHref} variant="outline" size="lg">
+                    <Phone className="h-5 w-5" aria-hidden />
+                    Call {site.phone}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button href={site.phoneHref} variant="secondary" size="lg">
+                    <Phone className="h-5 w-5" aria-hidden />
+                    Call {site.phone}
+                  </Button>
+                  <Button href={contactHref} variant="outline" size="lg">
+                    <MessageSquare className="h-5 w-5" aria-hidden />
+                    {ctaLabel}
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
@@ -298,7 +324,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                 </li>
               ))}
             </ul>
-            <Button href="/contact" className="mt-6 w-full">
+            <Button href={contactHref} className="mt-6 w-full">
               {ctaLabel}
             </Button>
           </aside>

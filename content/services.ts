@@ -2,7 +2,7 @@ import { poolEquipment } from "@/content/equipment";
 import { serviceHeroImages } from "@/content/hero-images";
 import { inspectionSeo } from "@/content/inspections";
 import { pricing } from "@/content/pricing";
-import { renovationFinishesIntro, renovationSeo } from "@/content/renovations";
+import { renovationSeo } from "@/content/renovations";
 import { primaryServiceSlugs } from "@/content/service-offering";
 import { site } from "@/content/site";
 
@@ -72,10 +72,11 @@ export const services: Service[] = [
       "PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite plaster, tile, coping, and full pool remodels. Free on-site consultation.",
     image: serviceHeroImages["pool-renovations"].src,
     imageAlt: serviceHeroImages["pool-renovations"].alt,
-    headline: "Pool renovations & replaster",
-    intro: `Refresh or fully remodel your pool — ${renovationFinishesIntro.toLowerCase()} We also handle tile, coping, and complete renovations for residential and commercial properties, starting with a free on-site consultation and a clear plan.`,
+    headline: "Pool renovations & replastering in Austin, TX",
+    intro:
+      "Worn plaster, cracked coping, or a pool that looks tired? We replaster and remodel residential and commercial pools across Central Texas — PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite, tile, and coping. Start with a free on-site consultation and a clear plan.",
     highlights: [
-      "Free on-site renovation consultations",
+      "Free on-site renovation consultation — no pressure",
       "PebbleTec, MicroFusion, Stonescapes & Quartzscapes",
       "Basic marcite plaster and other finish options",
       "Waterline tile, coping, and trim updates",

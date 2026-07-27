@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MessageSquare, Phone } from "lucide-react";
 import type { City } from "@/content/cities";
 import { cities } from "@/content/cities";
 import {
@@ -11,8 +12,12 @@ import {
 } from "@/content/renovations";
 import { renovationShowcase } from "@/content/galleries";
 import { getCityServiceProgressSets, getServiceProgressSets } from "@/content/media";
+import { pricing } from "@/content/pricing";
+import { site } from "@/content/site";
 import { BeforeAfterGallery } from "@/components/gallery/BeforeAfterGallery";
 import { JobProgressGallery } from "@/components/gallery/JobProgressGallery";
+import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
+import { Button } from "@/components/ui/Button";
 import { getCityServicePath } from "@/lib/local-seo";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -30,6 +35,37 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
 
   return (
     <>
+      <FaqJsonLd items={renovationFaqs} />
+
+      {/* Proof first — paid traffic needs to see results before finishes lists */}
+      <BeforeAfterGallery images={renovationShowcase} />
+
+      <Section muted>
+        <Container className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-brand-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:p-8">
+          <div className="max-w-xl">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">
+              {pricing.renovation.consultationLabel}
+            </p>
+            <p className="mt-2 text-lg font-semibold text-slate-900 sm:text-xl">
+              Get a clear renovation plan for your pool — no pressure.
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              {pricing.renovation.consultationDescription} Serving {areaLabel}.
+            </p>
+          </div>
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <Button href="/contact" size="lg">
+              <MessageSquare className="h-5 w-5" aria-hidden />
+              Request free consultation
+            </Button>
+            <Button href={site.phoneHref} variant="outline" size="lg" className="border-brand-700 text-brand-800 hover:bg-brand-50">
+              <Phone className="h-5 w-5" aria-hidden />
+              Call {site.phone}
+            </Button>
+          </div>
+        </Container>
+      </Section>
+
       {progressSets.length > 0 ? (
         <JobProgressGallery
           sets={progressSets}
@@ -41,8 +77,6 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
           description="Multiple photos from the same replaster or remodel job — stripped, resurfaced, and finished."
         />
       ) : null}
-
-      <BeforeAfterGallery images={renovationShowcase} />
 
       <Section muted>
         <Container className="grid gap-10 lg:grid-cols-2 lg:items-start">
