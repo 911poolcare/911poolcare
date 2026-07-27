@@ -26,7 +26,7 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
   const areaLabel = city ? `${city.name} and surrounding areas` : "Central Texas";
   const progressSets = city
     ? getCityServiceProgressSets(renovationSlug, city.slug, city, 3)
-    : getServiceProgressSets(renovationSlug, 4);
+    : getServiceProgressSets(renovationSlug, 2);
 
   return (
     <>

@@ -130,6 +130,7 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
                 alt={inspectorCredential.image.alt}
                 width={inspectorCredential.image.width}
                 height={inspectorCredential.image.height}
+                loading="lazy"
                 className="h-16 w-auto object-contain"
               />
             ) : null}

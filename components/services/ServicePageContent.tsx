@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { CheckCircle2, Phone, MessageSquare } from "lucide-react";
 import { getServiceCtaLabel, getServiceSchedulingNote } from "@/content/pricing";
 import type { City } from "@/content/cities";
@@ -26,13 +27,8 @@ import {
   getServiceVideos,
 } from "@/content/media";
 import { getServiceGallery } from "@/content/galleries";
-import { RenovationPageExtras } from "@/components/services/RenovationPageExtras";
-import { InspectionPageExtras } from "@/components/services/InspectionPageExtras";
-import { LeakDetectionPageExtras } from "@/components/services/LeakDetectionPageExtras";
 import { ServicePricing } from "@/components/services/ServicePricing";
-import { PhotoGallery } from "@/components/gallery/PhotoGallery";
-import { JobProgressGallery } from "@/components/gallery/JobProgressGallery";
-import { VideoGallery } from "@/components/gallery/VideoGallery";
+import { ServiceHeroLcpPreload } from "@/components/services/ServiceHeroLcpPreload";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
@@ -42,6 +38,42 @@ import {
   getCityLeakDetectionFaqs,
   leakDetectionFaqs,
 } from "@/content/leak-detection";
+
+const PhotoGallery = dynamic(() =>
+  import("@/components/gallery/PhotoGallery").then((module) => ({
+    default: module.PhotoGallery,
+  })),
+);
+
+const JobProgressGallery = dynamic(() =>
+  import("@/components/gallery/JobProgressGallery").then((module) => ({
+    default: module.JobProgressGallery,
+  })),
+);
+
+const VideoGallery = dynamic(() =>
+  import("@/components/gallery/VideoGallery").then((module) => ({
+    default: module.VideoGallery,
+  })),
+);
+
+const RenovationPageExtras = dynamic(() =>
+  import("@/components/services/RenovationPageExtras").then((module) => ({
+    default: module.RenovationPageExtras,
+  })),
+);
+
+const InspectionPageExtras = dynamic(() =>
+  import("@/components/services/InspectionPageExtras").then((module) => ({
+    default: module.InspectionPageExtras,
+  })),
+);
+
+const LeakDetectionPageExtras = dynamic(() =>
+  import("@/components/services/LeakDetectionPageExtras").then((module) => ({
+    default: module.LeakDetectionPageExtras,
+  })),
+);
 
 type ServicePageContentProps = {
   service: Service;
@@ -65,15 +97,15 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
     : getServiceHeroImage(service.slug) ?? service.image;
   const gallery = city
     ? getCityServiceGalleryImages(service.slug, city.slug)
-    : getServiceGalleryImages(service.slug).length > 0
-      ? getServiceGalleryImages(service.slug)
-      : getServiceGallery(service.slug);
+    : getServiceGalleryImages(service.slug, 6).length > 0
+      ? getServiceGalleryImages(service.slug, 6)
+      : getServiceGallery(service.slug).slice(0, 6);
   const progressSets = city
     ? getCityServiceProgressSets(service.slug, city.slug, city)
-    : getServiceProgressSets(service.slug);
+    : getServiceProgressSets(service.slug, 2);
   const videos = city
     ? getCityServiceVideos(service.slug, city.slug)
-    : getServiceVideos(service.slug);
+    : getServiceVideos(service.slug, 4);
   const isInspections = service.slug === "pool-inspections";
   const showProgress = service.slug !== "pool-renovations" && !isInspections;
   const showGallery =
@@ -106,6 +138,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
 
   return (
     <>
+      <ServiceHeroLcpPreload src={heroSrc} />
       {leakFaqs ? <FaqJsonLd items={leakFaqs} /> : null}
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
         <Container className="relative grid items-center gap-10 py-14 lg:grid-cols-2 lg:py-20">
@@ -153,6 +186,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
               alt={service.imageAlt}
               fill
               priority
+              fetchPriority="high"
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />

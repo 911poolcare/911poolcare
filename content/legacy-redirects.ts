@@ -114,6 +114,11 @@ export const legacyRedirects: LegacyRedirect[] = [
     permanent: true,
   },
   {
+    source: "/pool-tile-cleaning",
+    destination: "/services/pool-renovations",
+    permanent: true,
+  },
+  {
     source: "/post/pool-tile-cleaning-process",
     destination: "/services/pool-renovations",
     permanent: true,
@@ -133,6 +138,8 @@ export const legacyRedirects: LegacyRedirect[] = [
     permanent: true,
   },
   { source: "/locations", destination: "/areas", permanent: true },
+  // Old Wix search stub — no search page on the new site
+  { source: "/search", destination: "/", permanent: true },
   ...wixLocationRedirects,
 
   // Wix city leak pages: /services/pool-leak-detection/pool-leak-detection-cedarpark → /cedar-park

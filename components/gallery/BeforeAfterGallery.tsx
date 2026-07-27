@@ -30,6 +30,7 @@ export function BeforeAfterGallery({ images }: BeforeAfterGalleryProps) {
                   src={image.src}
                   alt={image.alt}
                   fill
+                  loading="lazy"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                   className="object-cover"
                 />
