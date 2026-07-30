@@ -143,6 +143,11 @@ function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
     `Service address: ${formatAddressLine(buildAddress(data))}`,
   ];
 
+  const companyName = data.companyName?.trim();
+  if (companyName) {
+    lines.push("", `Company: ${companyName}`);
+  }
+
   const referral = getReferralLabel(data);
   if (referral) {
     lines.push("", `How they found us: ${referral}`);
@@ -276,6 +281,11 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     billingAddress: address,
     properties: [{ address }],
   };
+
+  const companyName = data.companyName?.trim();
+  if (companyName) {
+    clientInput.companyName = companyName;
+  }
 
   if (customFields.length) {
     clientInput.customFields = customFields;

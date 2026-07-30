@@ -50,6 +50,7 @@ export function ContactForm() {
     defaultValues: {
       name: "",
       phone: "",
+      companyName: "",
       email: "",
       street: "",
       city: "",
@@ -242,6 +243,19 @@ export function ContactForm() {
                 onChange={(event) => field.onChange(formatPhoneInput(event.target.value))}
               />
             )}
+          />
+        </Field>
+
+        <Field
+          label="Company name"
+          error={errors.companyName?.message}
+          className="sm:col-span-2"
+        >
+          <input
+            {...register("companyName")}
+            autoComplete="organization"
+            className={inputClass(errors.companyName)}
+            placeholder="Optional — HOA, property management, or business name"
           />
         </Field>
 

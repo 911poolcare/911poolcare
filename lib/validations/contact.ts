@@ -23,6 +23,7 @@ const contactFieldsSchema = z.object({
     .refine((value) => stripPhoneDigits(value).length === 10, {
       message: "Please enter a valid 10-digit phone number",
     }),
+  companyName: z.string().trim().max(120, "Please keep company name under 120 characters").optional().or(z.literal("")),
   email: z.string().email("Please enter a valid email address"),
   services: z
     .array(z.enum(serviceValues))
