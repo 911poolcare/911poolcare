@@ -2,10 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { CheckCircle2, Phone, MessageSquare, MapPin } from "lucide-react";
 import type { CityHub } from "@/content/city-hubs";
+import { getCityBySlug } from "@/content/cities";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
 import { getCityHubGalleryImages, getCityHubHeroImage } from "@/content/media";
 import { getCityServicePath } from "@/lib/local-seo";
+import { NearbyAreas } from "@/components/areas/NearbyAreas";
 import { PhotoGallery } from "@/components/gallery/PhotoGallery";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
@@ -15,6 +17,7 @@ import { Section } from "@/components/ui/Section";
 export function CityHubContent({ hub }: { hub: CityHub }) {
   const gallery = getCityHubGalleryImages(hub.slug, 9);
   const hero = getCityHubHeroImage(hub.slug);
+  const city = getCityBySlug(hub.slug);
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
@@ -149,6 +152,8 @@ export function CityHubContent({ hub }: { hub: CityHub }) {
           muted={false}
         />
       ) : null}
+
+      {city ? <NearbyAreas city={city} muted={gallery.length > 0} /> : null}
     </>
   );
 }

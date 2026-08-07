@@ -8,6 +8,7 @@ import { services } from "@/content/services";
 import { site } from "@/content/site";
 import { getCityServicePath } from "@/lib/local-seo";
 import { CityHubContent } from "@/components/areas/CityHubContent";
+import { NearbyAreas } from "@/components/areas/NearbyAreas";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 
@@ -67,35 +68,38 @@ function GenericCityPage({ city }: { city: City }) {
   );
 
   return (
-    <Section>
-      <Container>
-        <div className="mb-10 mx-auto max-w-3xl text-center">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-600">
-            Service Area
-          </p>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            Pool care in {city.name}, TX
-          </h1>
-          <p className="mt-4 text-lg leading-relaxed text-slate-600">
-            {city.renovationsOnly
-              ? `${site.name} currently serves ${city.name} for pool renovations and replaster projects — PebbleTec, tile, coping, and full remodels.`
-              : `${site.name} provides leak detection, equipment repair, renovations, and inspections throughout ${city.name} and surrounding Central Texas.`}
-          </p>
-        </div>
-        <ul className="mx-auto max-w-lg space-y-3">
-          {availableServices.map((service) => (
-            <li key={service.slug}>
-              <Link
-                href={getCityServicePath(service.slug, city.slug)}
-                className="block rounded-xl border border-slate-200 bg-white px-5 py-4 font-medium text-brand-700 shadow-sm hover:border-brand-200 hover:bg-brand-50"
-              >
-                {service.title} — {city.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Container>
-    </Section>
+    <>
+      <Section>
+        <Container>
+          <div className="mb-10 mx-auto max-w-3xl text-center">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-600">
+              Service Area
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Pool care in {city.name}, TX
+            </h1>
+            <p className="mt-4 text-lg leading-relaxed text-slate-600">
+              {city.renovationsOnly
+                ? `${site.name} currently serves ${city.name} for pool renovations and replaster projects — PebbleTec, tile, coping, and full remodels.`
+                : `${site.name} provides leak detection, equipment repair, renovations, and inspections throughout ${city.name} and surrounding Central Texas.`}
+            </p>
+          </div>
+          <ul className="mx-auto max-w-lg space-y-3">
+            {availableServices.map((service) => (
+              <li key={service.slug}>
+                <Link
+                  href={getCityServicePath(service.slug, city.slug)}
+                  className="block rounded-xl border border-slate-200 bg-white px-5 py-4 font-medium text-brand-700 shadow-sm hover:border-brand-200 hover:bg-brand-50"
+                >
+                  {service.title} — {city.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+      <NearbyAreas city={city} />
+    </>
   );
 }
 

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { trackedMarketCities } from "@/content/cities";
+import { cities } from "@/content/cities";
 import { getCityHubPath } from "@/lib/local-seo";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 
-/** Homepage links to primary service-area hubs for SEO crawl depth. */
+/** Homepage links to every /areas/[city] hub for crawl depth and indexing. */
 export function ServiceAreaChips() {
   return (
     <Section muted className="py-10 sm:py-12">
@@ -17,16 +17,22 @@ export function ServiceAreaChips() {
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm leading-relaxed text-slate-600 sm:text-base">
           Leak detection, equipment repair, renovations, and inspections in the
-          communities we serve most.
+          communities we serve — including markets still building search
+          visibility.
         </p>
         <ul className="mt-6 flex flex-wrap justify-center gap-2">
-          {trackedMarketCities.map((city) => (
+          {cities.map((city) => (
             <li key={city.slug}>
               <Link
                 href={getCityHubPath(city.slug)}
                 className="inline-flex min-h-11 items-center rounded-full bg-white px-4 py-2 text-sm font-medium text-brand-800 ring-1 ring-brand-200 transition-colors hover:bg-brand-50"
               >
                 {city.name}, TX
+                {city.renovationsOnly ? (
+                  <span className="ml-1.5 text-xs font-normal text-slate-500">
+                    (renovations)
+                  </span>
+                ) : null}
               </Link>
             </li>
           ))}

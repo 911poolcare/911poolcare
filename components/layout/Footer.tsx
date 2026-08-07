@@ -2,7 +2,9 @@ import Link from "next/link";
 import { Mail, MapPin } from "lucide-react";
 import { PhoneLink } from "@/components/layout/PhoneLink";
 import { CredentialsBar } from "@/components/layout/CredentialsBar";
-import { getServiceAreasDisplay, site } from "@/content/site";
+import { cities } from "@/content/cities";
+import { getCityHubPath } from "@/lib/local-seo";
+import { site } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 
@@ -21,13 +23,24 @@ export function Footer() {
           <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-white">
             Service Areas
           </p>
-          <Link
-            href="/areas"
-            className="text-sm leading-relaxed text-slate-400 hover:text-white"
-          >
-            {getServiceAreasDisplay()}
-          </Link>
+          <ul className="flex flex-wrap gap-x-3 gap-y-2">
+            {cities.map((city) => (
+              <li key={city.slug}>
+                <Link
+                  href={getCityHubPath(city.slug)}
+                  className="text-sm text-slate-400 hover:text-white"
+                >
+                  {city.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
           <p className="mt-4">
+            <Link href="/areas" className="text-sm font-medium text-slate-400 hover:text-white">
+              View all service areas →
+            </Link>
+          </p>
+          <p className="mt-2">
             <Link href="/about" className="text-sm font-medium text-slate-400 hover:text-white">
               About us →
             </Link>

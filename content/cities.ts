@@ -69,3 +69,34 @@ export function getCitiesForService(serviceSlug: string): City[] {
 export function isRenovationsOnlyCity(slug: string): boolean {
   return getCityBySlug(slug)?.renovationsOnly === true;
 }
+
+/**
+ * Nearby markets for internal linking — helps Google discover /areas/[city]
+ * pages that are otherwise only reachable via the areas index or sitemap.
+ */
+const nearbyCitySlugs: Record<string, readonly string[]> = {
+  austin: ["westlake", "lakeway", "cedar-park", "round-rock", "pflugerville", "manor"],
+  georgetown: ["round-rock", "leander", "liberty-hill", "pflugerville"],
+  leander: ["cedar-park", "liberty-hill", "georgetown", "jonestown", "lago-vista"],
+  "cedar-park": ["leander", "austin", "round-rock", "liberty-hill"],
+  "round-rock": ["georgetown", "pflugerville", "austin", "cedar-park"],
+  pflugerville: ["austin", "round-rock", "manor", "georgetown"],
+  manor: ["austin", "pflugerville", "round-rock"],
+  "liberty-hill": ["leander", "georgetown", "cedar-park", "jonestown"],
+  jonestown: ["leander", "lago-vista", "liberty-hill", "spicewood"],
+  "lago-vista": ["jonestown", "lakeway", "spicewood", "leander"],
+  spicewood: ["lakeway", "lago-vista", "dripping-springs", "horseshoe-bay"],
+  lakeway: ["westlake", "austin", "spicewood", "lago-vista"],
+  westlake: ["austin", "lakeway"],
+  "dripping-springs": ["austin", "spicewood", "san-marcos"],
+  "san-marcos": ["austin", "dripping-springs"],
+  "horseshoe-bay": ["spicewood", "lakeway"],
+};
+
+export function getNearbyCities(citySlug: string, limit = 6): City[] {
+  const slugs = nearbyCitySlugs[citySlug] ?? [];
+  return slugs
+    .map((slug) => getCityBySlug(slug))
+    .filter((city): city is City => Boolean(city))
+    .slice(0, limit);
+}
