@@ -136,6 +136,66 @@ export const cityHubs: Record<string, CityHub> = {
       alt: "Electronic pool leak detection at the pool edge in Cedar Park, TX — 911 Pool Care",
     },
   },
+  pflugerville: {
+    slug: "pflugerville",
+    name: "Pflugerville",
+    headline: "Pflugerville pool leak detection, equipment, renovation & inspection",
+    intro:
+      "Pflugerville pools — from Blackhawk and Avalon to established backyard systems — develop plumbing and shell leaks over time, plus equipment wear from long Central Texas summers. 911 Pool Care provides leak detection and repair, equipment repair and replacement, renovations and replaster, and certified inspections. No weekly cleaning.",
+    metaDescription:
+      "Pool leak detection, repair & renovations in Pflugerville, TX. Equipment repair, replaster & inspections. Call 512-947-2023.",
+    neighborhoods: [
+      "Blackhawk",
+      "Avalon",
+      "Falcon Pointe",
+      "Heatherwilde",
+      "Springbrook",
+      "Villages of Hidden Lake",
+      "Cambridge Heights",
+      "Brookfield",
+    ],
+    whyLocal: [
+      "Leakalyzer water-loss checks before a full detection",
+      "Underground plumbing leaks located under decks and landscaping",
+      "Free renovation consultations for replaster and PebbleTec projects",
+      "Serving Pflugerville homeowners, HOAs, and nearby Travis County pools",
+    ],
+    responseTime: "Most Pflugerville appointments scheduled within 3–5 business days",
+    heroImage: {
+      src: "/images/jobs/pool-leak-detection/field-pflugerville-underground-line.jpg",
+      alt: "Underground pool plumbing line exposed for leak repair in Pflugerville, TX — 911 Pool Care",
+    },
+  },
+  "liberty-hill": {
+    slug: "liberty-hill",
+    name: "Liberty Hill",
+    headline: "Liberty Hill pool leak detection, equipment, renovation & inspection",
+    intro:
+      "Liberty Hill's growth means more pools on larger lots — and longer plumbing runs that hide leaks under rock, decking, and landscaping. We serve Liberty Hill with leak detection and repair, equipment repair and replacement, renovations and replaster, and certified inspections. Technicians and renovation specialists — not a cleaning route.",
+    metaDescription:
+      "Pool leak detection, repair & renovations in Liberty Hill, TX. Equipment repair, replaster & inspections. Call 512-947-2023.",
+    neighborhoods: [
+      "Santa Rita Ranch",
+      "Liberty Hill Ranch",
+      "Summerlyn",
+      "Orchard Ridge",
+      "Stonewall Ranch",
+      "Downtown Liberty Hill",
+      "Ronald Reagan corridor",
+      "Highway 29 area",
+    ],
+    whyLocal: [
+      "Electronic listening for long underground plumbing runs",
+      "Dye testing and dive work when the job needs it",
+      "Free renovation consultations for aging plaster and coping",
+      "Convenient from our Leander base for fast Liberty Hill response",
+    ],
+    responseTime: "Liberty Hill appointments often available same week",
+    heroImage: {
+      src: "/images/jobs/pool-leak-detection/field-liberty-hill-diver-underwater.jpg",
+      alt: "Underwater pool leak inspection dive in Liberty Hill, TX — 911 Pool Care leak detection",
+    },
+  },
 };
 
 export function getCityHub(slug: string): CityHub | undefined {
