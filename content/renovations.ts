@@ -124,6 +124,11 @@ export const renovationFaqs = [
     answer: pricing.renovation.consultationDescription,
   },
   {
+    question: "Do you offer financing for pool renovations?",
+    answer:
+      "Yes. We offer multiple financing options so you can start your renovation now and pay over time. Ask about financing during your free consultation, or apply online. We also accept all major credit cards.",
+  },
+  {
     question: "Do you renovate commercial pools?",
     answer: `Yes. ${site.serviceScope.description} We handle HOA amenities, apartment communities, hotels, and other commercial pool renovation projects across Central Texas.`,
   },

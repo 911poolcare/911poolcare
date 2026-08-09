@@ -85,6 +85,10 @@ export function ServicePricing({ serviceSlug }: ServicePricingProps) {
         <p className="mt-2 text-sm text-slate-700">
           {pricing.renovation.consultationDescription}
         </p>
+        <p className="mt-3 text-sm text-slate-700">
+          Flexible financing options available — ask during your consultation. We also
+          accept all major credit cards.
+        </p>
       </div>
     );
   }

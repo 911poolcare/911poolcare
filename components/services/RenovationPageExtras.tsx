@@ -17,6 +17,7 @@ import { site } from "@/content/site";
 import { BeforeAfterGallery } from "@/components/gallery/BeforeAfterGallery";
 import { JobProgressGallery } from "@/components/gallery/JobProgressGallery";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
+import { FinancingCallout } from "@/components/services/FinancingCallout";
 import { Button } from "@/components/ui/Button";
 import { getCityServicePath } from "@/lib/local-seo";
 import { Container } from "@/components/ui/Container";
@@ -41,28 +42,32 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
       <BeforeAfterGallery images={renovationShowcase} />
 
       <Section muted>
-        <Container className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-brand-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:p-8">
-          <div className="max-w-xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">
-              {pricing.renovation.consultationLabel}
-            </p>
-            <p className="mt-2 text-lg font-semibold text-slate-900 sm:text-xl">
-              Get a clear renovation plan for your pool — no pressure.
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-slate-600">
-              {pricing.renovation.consultationDescription} Serving {areaLabel}.
-            </p>
+        <Container className="space-y-4">
+          <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-brand-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:p-8">
+            <div className="max-w-xl">
+              <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">
+                {pricing.renovation.consultationLabel}
+              </p>
+              <p className="mt-2 text-lg font-semibold text-slate-900 sm:text-xl">
+                Get a clear renovation plan for your pool — no pressure.
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                {pricing.renovation.consultationDescription} Serving {areaLabel}.
+              </p>
+            </div>
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <Button href="/contact" size="lg">
+                <MessageSquare className="h-5 w-5" aria-hidden />
+                Request free consultation
+              </Button>
+              <Button href={site.phoneHref} variant="outline" size="lg" className="border-brand-700 text-brand-800 hover:bg-brand-50">
+                <Phone className="h-5 w-5" aria-hidden />
+                Call {site.phone}
+              </Button>
+            </div>
           </div>
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Button href="/contact" size="lg">
-              <MessageSquare className="h-5 w-5" aria-hidden />
-              Request free consultation
-            </Button>
-            <Button href={site.phoneHref} variant="outline" size="lg" className="border-brand-700 text-brand-800 hover:bg-brand-50">
-              <Phone className="h-5 w-5" aria-hidden />
-              Call {site.phone}
-            </Button>
-          </div>
+
+          <FinancingCallout />
         </Container>
       </Section>
 
