@@ -5,7 +5,7 @@ import { site } from "@/content/site";
 export const about = {
   metaTitle: "About Our Austin Pool Repair Team",
   metaDescription:
-    "Meet the Central Texas pool repair specialists behind 911 Pool Care — Leaktronics-certified leak detection, equipment repair, renovations & inspections. Technicians, not pool cleaners. 4.9★ on Google.",
+    "Meet Chris, Danielle, Steven & Breanna — the Central Texas pool repair specialists behind 911 Pool Care. Leaktronics-certified leak detection, RAIL-certified equipment work, CPI inspections & renovations. Technicians, not pool cleaners.",
   headline: "Technicians. Experts. Not pool cleaners.",
   subhead:
     "911 Pool Care was built with one goal: be the best and most consistent pool repair and renovation specialists in our field.",
@@ -32,7 +32,7 @@ export const about = {
     {
       title: "Communication & respect",
       description:
-        "You get straight answers, clear expectations, and respectful service from the first call through project completion.",
+        "Breanna coordinates scheduling and quotes from the office. In the field, Danielle and Steven keep you informed — and Chris stays your point of contact on renovations and inspections.",
     },
     {
       title: "Quality over volume",

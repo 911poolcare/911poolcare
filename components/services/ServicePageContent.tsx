@@ -27,9 +27,11 @@ import {
   getServiceVideos,
 } from "@/content/media";
 import { getServiceGallery } from "@/content/galleries";
+import { getTeamForService } from "@/content/team";
 import { ServicePricing } from "@/components/services/ServicePricing";
 import { ServiceHeroLcpPreload } from "@/components/services/ServiceHeroLcpPreload";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
+import { TeamSection } from "@/components/team/TeamSection";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -403,6 +405,16 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
 
       {service.slug === "pool-leak-detection" ? (
         <LeakDetectionPageExtras city={city} />
+      ) : null}
+
+      {service.slug === "pool-equipment-repair" ? (
+        <TeamSection
+          members={getTeamForService("pool-equipment-repair")}
+          muted
+          eyebrow="Your equipment specialist"
+          title="RAIL-certified repair led by Danielle"
+          description="Danielle — our head technician — focuses on pool electrical work, equipment repair, leak detection, and quality control on repairs."
+        />
       ) : null}
 
       <Section muted>

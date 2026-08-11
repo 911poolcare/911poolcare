@@ -8,6 +8,7 @@ import { getAboutGallery } from "@/content/galleries";
 import { poolCareOffering } from "@/content/service-offering";
 import { site } from "@/content/site";
 import { PhotoGallery } from "@/components/gallery/PhotoGallery";
+import { TeamSection } from "@/components/team/TeamSection";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -60,6 +61,8 @@ export default function AboutPage() {
           </ul>
         </Container>
       </Section>
+
+      <TeamSection muted />
 
       <Section>
         <Container className="max-w-3xl">

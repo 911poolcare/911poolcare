@@ -87,19 +87,19 @@ export const renovationProcess = [
     step: "1",
     title: "Free on-site consultation",
     description:
-      "We assess your pool's condition, discuss finish options, and explain what a renovation would involve — no pressure.",
+      "Chris, your renovation project manager, assesses your pool's condition, discusses finish options, and explains what a renovation would involve — no pressure.",
   },
   {
     step: "2",
     title: "Clear scope & quote",
     description:
-      "You get a straightforward plan covering surface work, tile, coping, equipment updates, and timeline.",
+      "You get a straightforward plan covering surface work, tile, coping, equipment updates, and timeline — with one point of contact through the project.",
   },
   {
     step: "3",
     title: "Professional execution",
     description:
-      "Our crew handles prep, resurfacing, tile, and finishing details with residential and commercial projects in mind.",
+      "Our crew handles prep, resurfacing, tile, and finishing details while Chris stays your project manager for updates, questions, and quality control.",
   },
   {
     step: "4",
@@ -108,6 +108,24 @@ export const renovationProcess = [
       "Walk the finished project with us, get care guidance, and enjoy a pool that looks and performs like new.",
   },
 ] as const;
+
+/** Named quality checklist — trust signal for renovation pages */
+export const renovationQualityChecklist = {
+  eyebrow: "Quality checklist",
+  title: "Our renovation quality checklist",
+  description:
+    "Every replaster and remodel is managed by Chris as your dedicated project manager — with clear communication and a consistent quality process from start to finish.",
+  items: [
+    "On-site consultation and finish recommendation",
+    "Written scope covering surface, tile, coping, and related work",
+    "Confirm water-loss / leak concerns before resurfacing when needed",
+    "Surface prep and substrate checks before new finish",
+    "Material and finish verification (PebbleTec, MicroFusion, plaster, and more)",
+    "Tile, coping, and waterline detail quality review",
+    "Mid-project updates from your project manager",
+    "Final walkthrough and care guidance before handoff",
+  ],
+} as const;
 
 export const renovationFaqs = [
   {
@@ -127,6 +145,11 @@ export const renovationFaqs = [
     question: "Do you offer financing for pool renovations?",
     answer:
       "Yes. We offer multiple financing options so you can start your renovation now and pay over time. Ask about financing during your free consultation, or apply online. We also accept all major credit cards.",
+  },
+  {
+    question: "Who manages my renovation project?",
+    answer:
+      "Chris, our General Manager, is your dedicated renovation project manager — from the free on-site consultation through final walkthrough. You get one point of contact for scope, updates, and quality control.",
   },
   {
     question: "Do you renovate commercial pools?",

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MessageSquare, Phone } from "lucide-react";
+import { CheckCircle2, MessageSquare, Phone } from "lucide-react";
 import type { City } from "@/content/cities";
 import { cities } from "@/content/cities";
 import {
@@ -8,16 +8,20 @@ import {
   renovationFinishes,
   renovationFinishesIntro,
   renovationProcess,
+  renovationQualityChecklist,
   renovationSlug,
 } from "@/content/renovations";
 import { renovationShowcase } from "@/content/galleries";
 import { getCityServiceProgressSets, getServiceProgressSets } from "@/content/media";
 import { pricing } from "@/content/pricing";
 import { site } from "@/content/site";
+import { getTeamForService } from "@/content/team";
 import { BeforeAfterGallery } from "@/components/gallery/BeforeAfterGallery";
 import { JobProgressGallery } from "@/components/gallery/JobProgressGallery";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
 import { FinancingCallout } from "@/components/services/FinancingCallout";
+import { LeakRenoBridge } from "@/components/services/LeakRenoBridge";
+import { TeamSection } from "@/components/team/TeamSection";
 import { Button } from "@/components/ui/Button";
 import { getCityServicePath } from "@/lib/local-seo";
 import { Container } from "@/components/ui/Container";
@@ -33,6 +37,7 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
   const progressSets = city
     ? getCityServiceProgressSets(renovationSlug, city.slug, city, 3)
     : getServiceProgressSets(renovationSlug, 2);
+  const specialists = getTeamForService("pool-renovations");
 
   return (
     <>
@@ -40,6 +45,8 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
 
       {/* Proof first — paid traffic needs to see results before finishes lists */}
       <BeforeAfterGallery images={renovationShowcase} />
+
+      <LeakRenoBridge from="renovation" citySlug={city?.slug} />
 
       <Section muted>
         <Container className="space-y-4">
@@ -165,6 +172,35 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
           </ol>
         </Container>
       </Section>
+
+      <Section>
+        <Container>
+          <SectionHeading
+            eyebrow={renovationQualityChecklist.eyebrow}
+            title={renovationQualityChecklist.title}
+            description={renovationQualityChecklist.description}
+          />
+          <ul className="mx-auto grid max-w-3xl gap-3 sm:grid-cols-2">
+            {renovationQualityChecklist.items.map((item) => (
+              <li key={item} className="flex gap-3 text-sm text-slate-700">
+                <CheckCircle2
+                  className="mt-0.5 h-5 w-5 shrink-0 text-brand-600"
+                  aria-hidden
+                />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+
+      <TeamSection
+        members={specialists}
+        muted
+        eyebrow="Your project lead"
+        title="A dedicated renovation project manager"
+        description="Chris stays your point of contact from free consultation through final walkthrough — so you're never wondering who's running the job."
+      />
 
       <Section>
         <Container className="max-w-3xl">

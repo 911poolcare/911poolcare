@@ -56,6 +56,14 @@ export const inspectionChecks = [
   },
 ] as const;
 
+/** Customer-facing brand for the inspection checklist */
+export const inspectionChecklistBrand = {
+  eyebrow: "7-point inspection",
+  title: "Our 7-point pool inspection checklist",
+  description:
+    "Every inspection follows the same documented checklist — performed by Chris, our CPI-certified inspector and General Manager — so buyers, sellers, and realtors get clear, consistent reporting.",
+} as const;
+
 export const inspectionDeliverables = [
   "Up to 2 hours on-site inspection",
   "A clear, written inspection report",
@@ -70,7 +78,7 @@ export const inspectionDeliverablesGoal =
 export const inspectionCertification = {
   title: getCredentialById("cpi")?.title ?? "Certified pool inspector",
   description:
-    `${getCredentialById("cpi")?.description ?? "911 Pool Care inspections are performed by certified pool inspectors."} Inspections are not general home inspections or visual-only walkthroughs — they follow professional standards and focus on real-world functionality, safety, and repair risk.`,
+    `${getCredentialById("cpi")?.description ?? "911 Pool Care inspections are performed by certified pool inspectors."} Inspections are performed by Chris, our General Manager and CPI-certified inspector — not a general home inspection substitute or visual-only walkthrough. They follow professional standards and focus on real-world functionality, safety, and repair risk.`,
 } as const;
 
 export const inspectionImportantNotes = [

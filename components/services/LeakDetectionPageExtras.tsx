@@ -7,6 +7,9 @@ import {
   leakDetectionPhilosophy,
   leakDetectionTools,
 } from "@/content/leak-detection";
+import { getTeamForService } from "@/content/team";
+import { LeakRenoBridge } from "@/components/services/LeakRenoBridge";
+import { TeamSection } from "@/components/team/TeamSection";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -20,6 +23,7 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
   const faqs = city
     ? getCityLeakDetectionFaqs(city.slug, city.name)
     : leakDetectionFaqs;
+  const specialists = getTeamForService("pool-leak-detection");
 
   return (
     <>
@@ -57,6 +61,15 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
           </div>
         </Container>
       </Section>
+
+      <TeamSection
+        members={specialists}
+        eyebrow="Your leak specialists"
+        title="Named technicians on every detection"
+        description="Danielle leads leak detection, electrical, and equipment work with RAIL certification. Steven handles leak detection and field repairs — so you know who's showing up."
+      />
+
+      <LeakRenoBridge from="leak" citySlug={city?.slug} />
 
       <Section>
         <Container className="max-w-3xl">

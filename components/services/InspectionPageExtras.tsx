@@ -8,6 +8,7 @@ import {
   inspectionAudienceNote,
   inspectionCertification,
   inspectionChecks,
+  inspectionChecklistBrand,
   inspectionDeliverables,
   inspectionDeliverablesGoal,
   inspectionImportantNotes,
@@ -15,12 +16,14 @@ import {
   inspectionRelatedServices,
 } from "@/content/inspections";
 import { site } from "@/content/site";
+import { getTeamForService } from "@/content/team";
 import {
   getCityServiceGalleryImages,
   getServiceGalleryImages,
 } from "@/content/media";
 import { Button } from "@/components/ui/Button";
 import { PhotoGallery } from "@/components/gallery/PhotoGallery";
+import { TeamSection } from "@/components/team/TeamSection";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -35,6 +38,7 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
   const galleryImages = city
     ? getCityServiceGalleryImages("pool-inspections", city.slug, 6)
     : getServiceGalleryImages("pool-inspections", 6);
+  const specialists = getTeamForService("pool-inspections");
 
   return (
     <>
@@ -53,6 +57,14 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
           }
         />
       ) : null}
+
+      <TeamSection
+        members={specialists}
+        muted
+        eyebrow="Your inspector"
+        title="CPI-certified inspections by Chris"
+        description="Chris — our General Manager and Certified Pool Inspector — performs the inspection and delivers the written report. Not a general home inspector guessing at the pool."
+      />
 
       <Section muted>
         <Container>
@@ -80,9 +92,9 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
       <Section>
         <Container>
           <SectionHeading
-            eyebrow="What we check"
-            title="What our pool inspection includes"
-            description="Each inspection is thorough, professional, and documented with a written report."
+            eyebrow={inspectionChecklistBrand.eyebrow}
+            title={inspectionChecklistBrand.title}
+            description={inspectionChecklistBrand.description}
           />
           <ul className="grid gap-4 lg:grid-cols-2">
             {inspectionChecks.map((item) => (
