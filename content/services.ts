@@ -52,13 +52,14 @@ export const services: Service[] = [
     imageAlt: serviceHeroImages["pool-equipment-repair"].alt,
     headline: "Pool equipment repair & replacement",
     intro:
-      `Pumps, filters, heaters, automation, lights, and more — we diagnose, repair, and replace pool equipment for residential and commercial properties. ${site.railCertified.inline}. Pump diagnostics are $120 and heater diagnostics are $150, each with a $50 credit toward repairs.`,
+      `Pumps, filters, heaters, automation, lights, and more — we diagnose, repair, and replace pool equipment for residential and commercial properties. ${site.raicLicensed.inline}. ${site.railCertified.inline}. Pump diagnostics are $120 and heater diagnostics are $150, each with a $50 credit toward repairs.`,
     highlights: [
       "Pump repair, diagnosis & replacement",
       "Filter repair & replacement",
       "Heater repair, diagnosis & replacement",
       "Automation & control system troubleshooting",
       "Pool light repair & replacement",
+      site.raicLicensed.inline,
       site.railCertified.inline,
       "Pump diagnostic: $120 ($50 credit toward repairs)",
       "Heater diagnostic: $150 ($50 credit toward repairs)",

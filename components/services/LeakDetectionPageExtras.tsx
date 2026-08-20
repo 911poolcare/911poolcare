@@ -66,7 +66,7 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
         members={specialists}
         eyebrow="Your leak specialists"
         title="Named technicians on every detection"
-        description="Danielle leads leak detection, electrical, and equipment work with RAIL certification. Steven handles leak detection and field repairs — so you know who's showing up."
+        description="Danielle leads leak detection, electrical, and equipment work as our RAIL-certified Installer of Record. Steven handles leak detection and field repairs — so you know who's showing up."
       />
 
       <LeakRenoBridge from="leak" citySlug={city?.slug} />

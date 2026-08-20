@@ -1,4 +1,4 @@
-import { Building2, Layers, MessageCircle, ShieldCheck, Wrench, Zap } from "lucide-react";
+import { Building2, Layers, MessageCircle, ShieldCheck, Wrench, BadgeCheck } from "lucide-react";
 import { poolEquipment } from "@/content/equipment";
 import { poolCareOffering } from "@/content/service-offering";
 import { site } from "@/content/site";
@@ -24,7 +24,7 @@ export const features: Feature[] = [
   },
   {
     title: poolEquipment.label,
-    description: `Repair and replacement for ${poolEquipment.inlineList}. ${site.railCertified.inline}.`,
+    description: `Repair and replacement for ${poolEquipment.inlineList}. ${site.raicLicensed.inline}.`,
     icon: Wrench,
   },
   {
@@ -34,9 +34,9 @@ export const features: Feature[] = [
     icon: MessageCircle,
   },
   {
-    title: site.railCertified.fullName,
-    description: site.railCertified.description,
-    icon: Zap,
+    title: site.raicLicensed.label,
+    description: `${site.raicLicensed.description} ${site.railCertified.description}`,
+    icon: BadgeCheck,
   },
   {
     title: site.serviceScope.label,

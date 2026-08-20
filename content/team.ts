@@ -30,7 +30,7 @@ export const teamMembers: TeamMember[] = [
     role: "Head Technician",
     focus:
       "Leads pool electrical work, equipment repair, leak detection, and quality control on repair jobs across Central Texas.",
-    credentials: ["RAIL certified"],
+    credentials: ["RAIL #666617", "Installer of Record"],
     services: ["pool-leak-detection", "pool-equipment-repair"],
   },
   {

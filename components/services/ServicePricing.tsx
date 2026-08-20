@@ -68,9 +68,9 @@ export function ServicePricing({ serviceSlug }: ServicePricingProps) {
         </ul>
 
         <p className="mt-4 text-xs text-slate-500">
-          {site.railCertified.description} Diagnostic fees apply to pump and heater
-          troubleshooting. Repair credits are applied when you approve the recommended
-          repair work.
+          {site.raicLicensed.description} {site.railCertified.description} Diagnostic
+          fees apply to pump and heater troubleshooting. Repair credits are applied when
+          you approve the recommended repair work.
         </p>
       </div>
     );

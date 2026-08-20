@@ -413,7 +413,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
           muted
           eyebrow="Your equipment specialist"
           title="RAIL-certified repair led by Danielle"
-          description="Danielle — our head technician — focuses on pool electrical work, equipment repair, leak detection, and quality control on repairs."
+          description={`Danielle — our head technician and Installer of Record (RAIL ${site.railCertified.displayNumber}) — focuses on pool electrical work, equipment repair, leak detection, and quality control. ${site.raicLicensed.inline}.`}
         />
       ) : null}
 

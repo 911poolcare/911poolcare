@@ -3,7 +3,9 @@ import {
   leakDetectionEquipmentBrands,
   leakDetectionPhilosophy,
 } from "@/content/leak-detection";
-import { footerCredentials } from "@/content/credentials";
+import {
+  getCredentialById,
+} from "@/content/credentials";
 import { renovationFinishesIntro } from "@/content/renovations";
 import { poolEquipmentPhrase } from "@/content/equipment";
 import { pricing } from "@/content/pricing";
@@ -57,7 +59,7 @@ export const ourPromise = [
   },
   {
     title: "Clear equipment diagnostics",
-    description: `${site.railCertified.description} Pump diagnostics are $120 ($50 credit toward repairs). Heater diagnostics are $150 ($50 credit toward repairs).`,
+    description: `${site.raicLicensed.inline}. ${site.railCertified.description} Pump diagnostics are $120 ($50 credit toward repairs). Heater diagnostics are $150 ($50 credit toward repairs).`,
   },
   {
     title: "Free renovation consultations",
@@ -96,7 +98,7 @@ export const faqs: FAQItem[] = [
   },
   {
     question: "What pool equipment do you repair?",
-    answer: `We repair and replace pumps, filters, heaters, automation and control systems, pool lights, timers, and related electrical work. We're ${site.railCertified.inline}.`,
+    answer: `We repair and replace pumps, filters, heaters, automation and control systems, pool lights, timers, and related electrical work. We're a ${site.raicLicensed.inline}, with a ${site.railCertified.inline}.`,
   },
   {
     question: "How do I know if my pool has a leak?",
@@ -139,23 +141,23 @@ export const faqs: FAQItem[] = [
   },
   {
     question: "Are you BBB accredited?",
-    answer: `${footerCredentials[0].description} View our BBB Accredited Business profile on the Better Business Bureau website.`,
+    answer: `${getCredentialById("bbb")?.description ?? ""} View our BBB Accredited Business profile on the Better Business Bureau website.`,
   },
   {
     question: "What is Advanced CBP certification?",
-    answer: footerCredentials[1].description,
+    answer: getCredentialById("cbp")?.description ?? "",
   },
   {
     question: "Are your pool inspectors certified?",
-    answer: footerCredentials[2].description,
+    answer: getCredentialById("cpi")?.description ?? "",
   },
   {
     question: "Are you licensed and insured?",
-    answer: `Yes. ${site.name} is licensed, insured, and ${site.railCertified.label} for pool electrical work in Texas. We serve ${site.serviceScope.label.toLowerCase()} customers across Central Texas.`,
+    answer: `Yes. ${site.name} is a ${site.raicLicensed.inline}, insured, and ${site.railCertified.inline}. We serve ${site.serviceScope.label.toLowerCase()} customers across Central Texas. Verify our RAIC license on the Texas Department of Licensing and Regulation website.`,
   },
   {
-    question: "What is RAIL certification and why does it matter?",
-    answer: `${site.railCertified.description} Pool pumps, heaters, lights, and automation all require properly licensed electrical work in Texas.`,
+    question: "What is RAIC and RAIL licensing?",
+    answer: `${site.raicLicensed.description} ${site.railCertified.description} Pool pumps, heaters, lights, and automation require properly licensed work in Texas — both at the company and installer level.`,
   },
   {
     question: "Do you serve commercial properties?",

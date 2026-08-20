@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Star, Shield, Medal, Zap } from "lucide-react";
+import { Star, Shield, Medal, Zap, BadgeCheck } from "lucide-react";
 import { formatGoogleReviewsLabel, site } from "@/content/site";
+
 export function HeroBadges() {
   return (
     <ul className="mt-5 flex flex-wrap items-center gap-2">
@@ -9,6 +10,18 @@ export function HeroBadges() {
           <Medal className="h-4 w-4 text-accent-400" aria-hidden />
           {site.veteranOwned.label}
         </span>
+      </li>
+      <li>
+        <a
+          href={site.raicLicensed.verifyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white ring-1 ring-white/20 transition-colors hover:bg-white/25"
+          title={site.raicLicensed.fullName}
+        >
+          <BadgeCheck className="h-4 w-4 text-accent-400" aria-hidden />
+          {site.raicLicensed.shortLabel}
+        </a>
       </li>
       <li>
         <span

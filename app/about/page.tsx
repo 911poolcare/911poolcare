@@ -85,21 +85,31 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="Accredited & certified"
             title="Credentials you can verify"
-            description="BBB accreditation, PHTA industry certifications, and Texas licensing — the same credentials shown on our legacy site and business profiles."
+            description="TDLR licensing, BBB accreditation, and PHTA industry certifications — credentials you can verify."
           />
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {footerCredentials.map((credential) => (
               <article
                 key={credential.id}
                 className="flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm"
               >
-                {credential.href ? (
-                  <Link
-                    href={credential.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-opacity hover:opacity-90"
-                  >
+                {credential.image ? (
+                  credential.href ? (
+                    <Link
+                      href={credential.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-opacity hover:opacity-90"
+                    >
+                      <Image
+                        src={credential.image.src}
+                        alt={credential.image.alt}
+                        width={credential.image.width}
+                        height={credential.image.height}
+                        className="h-20 w-auto object-contain"
+                      />
+                    </Link>
+                  ) : (
                     <Image
                       src={credential.image.src}
                       alt={credential.image.alt}
@@ -107,15 +117,21 @@ export default function AboutPage() {
                       height={credential.image.height}
                       className="h-20 w-auto object-contain"
                     />
-                  </Link>
+                  )
                 ) : (
-                  <Image
-                    src={credential.image.src}
-                    alt={credential.image.alt}
-                    width={credential.image.width}
-                    height={credential.image.height}
-                    className="h-20 w-auto object-contain"
-                  />
+                  <Link
+                    href={credential.href ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-20 w-full flex-col items-center justify-center rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 transition-opacity hover:opacity-90"
+                  >
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-600">
+                      TDLR Licensed
+                    </span>
+                    <span className="mt-1 text-lg font-bold text-brand-900">
+                      {credential.badgeText ?? credential.shortLabel}
+                    </span>
+                  </Link>
                 )}
                 <h2 className="mt-4 text-lg font-semibold text-slate-900">
                   {credential.title}

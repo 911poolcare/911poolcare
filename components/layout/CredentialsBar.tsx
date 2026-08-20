@@ -8,11 +8,11 @@ export function CredentialsBar() {
     <div className="border-y border-slate-200 bg-white">
       <Container className="py-8">
         <p className="text-center text-xs font-semibold uppercase tracking-wider text-slate-500">
-          Accredited & certified
+          Licensed, accredited & certified
         </p>
-        <ul className="mx-auto mt-5 grid w-full max-w-md grid-cols-3 items-center justify-items-center gap-x-6 sm:max-w-2xl sm:gap-x-16">
+        <ul className="mx-auto mt-5 grid w-full max-w-3xl grid-cols-2 items-center justify-items-center gap-6 sm:grid-cols-4 sm:gap-8">
           {footerCredentials.map((credential) => {
-            const image = (
+            const content = credential.image ? (
               <Image
                 src={credential.image.src}
                 alt={credential.image.alt}
@@ -20,6 +20,15 @@ export function CredentialsBar() {
                 height={credential.image.height}
                 className="max-h-20 w-auto max-w-full object-contain sm:max-h-24"
               />
+            ) : (
+              <span className="flex flex-col items-center justify-center rounded-xl border border-brand-200 bg-brand-50 px-3 py-3 text-center shadow-sm">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-600">
+                  TDLR Licensed
+                </span>
+                <span className="mt-1 text-sm font-bold text-brand-900 sm:text-base">
+                  {credential.badgeText ?? credential.shortLabel}
+                </span>
+              </span>
             );
 
             return (
@@ -35,11 +44,11 @@ export function CredentialsBar() {
                     className="block rounded-lg transition-opacity hover:opacity-90"
                     title={credential.title}
                   >
-                    {image}
+                    {content}
                   </Link>
                 ) : (
                   <span className="block" title={credential.title}>
-                    {image}
+                    {content}
                   </span>
                 )}
               </li>

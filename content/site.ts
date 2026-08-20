@@ -1,4 +1,5 @@
 import { poolCareOffering } from "@/content/service-offering";
+import { texasLicensing } from "@/content/credentials";
 import { siteHero } from "@/content/hero-images";
 
 export const site = {
@@ -18,13 +19,25 @@ export const site = {
     description:
       "Homeowners, property managers, HOAs, apartment communities, and commercial properties across Central Texas.",
   },
+  /** Individual installer license — Danielle is Installer of Record */
   railCertified: {
-    label: "RAIL Certified",
-    fullName: "Residential Appliance Installer License",
-    description:
-      "RAIL — Residential Appliance Installer License — is the Texas standard required whenever electrical work is performed on pool equipment, including pumps, heaters, lights, and automation.",
-    inline:
-      "RAIL certified (Residential Appliance Installer License) for Texas pool electrical work",
+    label: texasLicensing.rail.shortLabel,
+    fullName: texasLicensing.rail.fullName,
+    description: texasLicensing.rail.description,
+    inline: texasLicensing.rail.inline,
+    number: texasLicensing.rail.number,
+    displayNumber: texasLicensing.rail.displayNumber,
+  },
+  /** Company contractor license — 911 Pool Care LLC */
+  raicLicensed: {
+    label: `${texasLicensing.raic.label} ${texasLicensing.raic.displayNumber}`,
+    shortLabel: texasLicensing.raic.shortLabel,
+    fullName: texasLicensing.raic.fullName,
+    number: texasLicensing.raic.number,
+    displayNumber: texasLicensing.raic.displayNumber,
+    description: texasLicensing.raic.description,
+    inline: texasLicensing.raic.inline,
+    verifyUrl: texasLicensing.raic.verifyUrl,
   },
   google: {
     mapsUrl: "https://maps.app.goo.gl/rNdHB9BWzMFnPkyq6",
@@ -67,6 +80,7 @@ export const site = {
     "Horseshoe Bay",
   ],
   trustSignals: [
+    { label: "RAIC #1545", icon: "badge" as const },
     { label: "RAIL Certified", icon: "badge" as const },
     { label: "Licensed & Insured", icon: "shield" as const },
     { label: "Residential & Commercial", icon: "map" as const },

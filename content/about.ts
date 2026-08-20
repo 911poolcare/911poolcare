@@ -5,7 +5,7 @@ import { site } from "@/content/site";
 export const about = {
   metaTitle: "About Our Austin Pool Repair Team",
   metaDescription:
-    "Meet Chris, Danielle, Steven & Breanna — the Central Texas pool repair specialists behind 911 Pool Care. Leaktronics-certified leak detection, RAIL-certified equipment work, CPI inspections & renovations. Technicians, not pool cleaners.",
+    "Meet Chris, Danielle, Steven & Breanna — the Central Texas pool repair specialists behind 911 Pool Care. TDLR-licensed RAIC contractor, Leaktronics-certified leak detection, RAIL-certified equipment work, CPI inspections & renovations. Technicians, not pool cleaners.",
   headline: "Technicians. Experts. Not pool cleaners.",
   subhead:
     "911 Pool Care was built with one goal: be the best and most consistent pool repair and renovation specialists in our field.",
@@ -48,9 +48,10 @@ export const about = {
   credentials: [
     { label: "7+ years in the pool industry" },
     { label: site.veteranOwned.label },
-    { label: footerCredentials[0].shortLabel },
-    { label: footerCredentials[1].shortLabel },
-    { label: footerCredentials[2].shortLabel },
+    { label: site.raicLicensed.shortLabel },
+    { label: footerCredentials.find((c) => c.id === "bbb")!.shortLabel },
+    { label: footerCredentials.find((c) => c.id === "cbp")!.shortLabel },
+    { label: footerCredentials.find((c) => c.id === "cpi")!.shortLabel },
     { label: site.railCertified.label },
     { label: "Licensed & insured" },
     { label: formatGoogleReviewsLabel() },
