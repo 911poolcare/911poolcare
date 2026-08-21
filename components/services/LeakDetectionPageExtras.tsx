@@ -31,7 +31,7 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
         <Container className="grid gap-10 lg:grid-cols-2 lg:items-start">
           <div>
             <SectionHeading
-              eyebrow="Certified & equipped"
+              eyebrow="How we find leaks"
               title={leakDetectionCertification.title}
               description={leakDetectionCertification.description}
               align="left"

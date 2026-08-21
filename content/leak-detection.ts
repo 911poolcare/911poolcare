@@ -7,54 +7,59 @@ import { site } from "@/content/site";
 export const leakDetectionSlug = "pool-leak-detection" as const;
 
 export const leakDetectionCertification = {
-  title: "Leaktronics certified leak detection",
+  title: "Leaktronics & Anderson leak detection",
   description:
-    "911 Pool Care is leak detection certified through Leaktronics — the industry leader in pool leak detection training and equipment. That certification reflects structured field training, proven methods, and the right tools for non-invasive locating.",
+    "911 Pool Care is leak detection certified through Leaktronics and equipped with both Leaktronics and Anderson leak detection systems — the industry leaders for training and professional locating gear. That combination means structured field methods and the right tools to find leaks no matter where they hide.",
 } as const;
 
 export const leakDetectionEquipmentBrands =
-  "We use professional-grade gear from Leaktronics and Anderson Manufacturing — the best equipment in the industry for finding pool leaks accurately.";
+  "We use both Leaktronics and Anderson leak detection systems to pinpoint pool leaks — professional-grade listening gear, pressure testing, pipe cameras, and locating devices for shell, plumbing, and equipment leaks.";
 
 export const leakDetectionPhilosophy =
-  "We balance technology, training, and the art of leak detection — using the right tool for each pool, not guesswork or unnecessary excavation.";
+  "We balance technology, training, and the art of leak detection — using dye testing, pressure testing, and electronic locating to find every source of water loss, not guesswork or unnecessary excavation.";
 
 export const leakDetectionTools = [
   {
-    title: "Leakalyzer water-loss testing",
+    title: "Dye testing",
     description:
-      "Anderson Leakalyzer testing on site to confirm real water loss versus evaporation before a full detection.",
-  },
-  {
-    title: "Underwater hydrophones",
-    description:
-      "Listen for leak signatures in the shell, fittings, and plumbing from inside the pool.",
-  },
-  {
-    title: "Amplified listening systems",
-    description:
-      "Deck probes and ground microphones to trace plumbing leaks under patios and landscaping.",
+      "Dye testing at lights, skimmers, returns, fittings, and cracks to visually confirm leak sources in and around the pool.",
   },
   {
     title: "Pressure & vacuum testing",
     description:
-      "Isolate plumbing lines and confirm where pressure drops — or holds — before we dig.",
+      "Pressure and vacuum testing on plumbing lines to isolate which circuit is leaking — and confirm where pressure drops or holds — before we dig.",
   },
   {
-    title: "Pipe cameras with locators",
+    title: "Listening devices (in & out of the pool)",
     description:
-      "Inspect underground plumbing and mark the repair location with less guesswork.",
+      "Underwater hydrophones inside the pool plus amplified listening systems and deck/ground microphones outside the pool to hear leak signatures in the shell, fittings, and underground plumbing.",
   },
   {
-    title: "Dye testing & dive gear",
+    title: "Pipe cameras",
     description:
-      "Visual and dye testing at lights, skimmers, returns, and cracks — with dive gear when the job requires it.",
+      "Pipe cameras to inspect underground plumbing runs and see the condition of lines that listening and pressure testing have flagged.",
+  },
+  {
+    title: "Locating devices",
+    description:
+      "Electronic locating equipment to mark the exact repair spot under decks, concrete, and landscaping — so we open the right place, not the whole yard.",
+  },
+  {
+    title: "Leaktronics & Anderson systems",
+    description:
+      "Full Leaktronics and Anderson leak detection systems — including Anderson Leakalyzer water-loss testing — so we verify real loss versus evaporation, then pinpoint the leak with the right tool for that pool.",
   },
 ] as const;
 
 export const leakDetectionProcessIntro =
-  "We start with visual and dye testing, verify water loss with a Leakalyzer when needed, then deploy Leaktronics and Anderson equipment — hydrophones, listening systems, pressure and vacuum testing, and pipe cameras — to pinpoint the leak before we recommend a repair.";
+  "We provide dye testing and pressure testing to locate all sources of leaks in a pool. We also use pipe cameras, listening devices in the pool and outside the pool, and locating devices to find leaks no matter where they are. Both Leaktronics and Anderson leak detection systems help us pinpoint the leak before we recommend a repair.";
+
 
 export const leakDetectionFaqs = [
+  {
+    question: "How do you find pool leaks?",
+    answer: leakDetectionProcessIntro,
+  },
   {
     question: "How much does pool leak detection cost?",
     answer: pricing.leakDetection.faqAnswer,
@@ -111,7 +116,7 @@ export const cityLeakDetectionIntros: Record<string, string> = {
 /** Keyword-rich meta descriptions per city */
 export const cityLeakDetectionMeta: Record<string, string> = {
   austin:
-    "Pool leak detection & repair in Austin, TX. Leaktronics certified. Leakalyzer testing, hydrophones & pipe cameras. Call 512-947-2023.",
+    "Pool leak detection & repair in Austin, TX. Dye testing, pressure testing, pipe cameras & listening gear. Leaktronics & Anderson. Call 512-947-2023.",
   georgetown:
     "Pool leak detection & repair in Georgetown, TX. Find hidden plumbing & shell leaks fast. Licensed & insured. Call 512-947-2023.",
   leander:
@@ -171,6 +176,10 @@ function buildDefaultLeakFaqs(cityName: string, localNote?: string): LeakFaq[] {
 
   return [
     {
+      question: `How do you find pool leaks in ${cityName}?`,
+      answer: `${leakDetectionProcessIntro} We serve ${cityName} and nearby communities from our Leander base.`,
+    },
+    {
       question: `How much does pool leak detection cost in ${cityName}?`,
       answer: `${pricing.leakDetection.faqAnswer} We serve ${cityName} and nearby communities from our Leander base.`,
     },
@@ -203,7 +212,7 @@ export function getCityLeakDetectionIntro(citySlug: string, cityName: string): s
 export function getCityLeakDetectionMeta(citySlug: string, cityName: string): string {
   return (
     cityLeakDetectionMeta[citySlug] ??
-    `Pool leak detection & repair in ${cityName}, TX. Leaktronics certified. Licensed & insured. Call ${site.phone}.`
+    `Pool leak detection & repair in ${cityName}, TX. Dye testing, pressure testing, Leaktronics & Anderson systems. Licensed & insured. Call ${site.phone}.`
   );
 }
 

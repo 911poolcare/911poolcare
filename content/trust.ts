@@ -33,7 +33,7 @@ export const leakDetectionProcess = [
     step: "3",
     title: "Pressure testing & electronic locating",
     description:
-      "When needed, we pressure- and vacuum-test plumbing, then deploy Leaktronics and Anderson equipment — underwater hydrophones, amplified listening systems, and pipe cameras with locators — to pinpoint leaks under decks and in the ground.",
+      "When needed, we pressure- and vacuum-test plumbing, then deploy both Leaktronics and Anderson leak detection systems — underwater hydrophones and listening devices in the pool, amplified listening outside the pool, pipe cameras, and locating devices — to pinpoint leaks under decks and in the ground.",
   },
   {
     step: "4",
@@ -45,7 +45,7 @@ export const leakDetectionProcess = [
 
 export const ourPromise = [
   {
-    title: "Leaktronics certified detection",
+    title: "Leaktronics & Anderson certified detection",
     description: `${leakDetectionCertification.description} ${leakDetectionPhilosophy}`,
   },
   {
@@ -124,7 +124,7 @@ export const faqs: FAQItem[] = [
   {
     question: "What is a Leakalyzer and why do you use it?",
     answer:
-      "The Leakalyzer from Anderson Manufacturing measures water loss on site so we can confirm whether your pool is actually leaking — and how much — before committing to a full detection. Combined with Leaktronics-certified methods and professional listening and pressure-testing gear, it keeps the process honest and data-driven, not guesswork.",
+      "The Leakalyzer from Anderson Manufacturing measures water loss on site so we can confirm whether your pool is actually leaking — and how much — before committing to a full detection. Combined with Leaktronics and Anderson leak detection systems — dye testing, pressure testing, listening devices, pipe cameras, and locating gear — it keeps the process honest and data-driven, not guesswork.",
   },
   {
     question: "What does pool equipment diagnostic pricing look like?",
