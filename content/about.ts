@@ -58,6 +58,19 @@ export const about = {
   ],
   servicesIntro:
     `Our leak detection technicians, pool repair experts, and renovation specialists cover ${poolCareOffering.inlineList} for residential and commercial properties across Central Texas.`,
+  community: {
+    eyebrow: "Community",
+    title: "Proud supporters of the Rouse Raiders",
+    description:
+      "As a Leander-based, locally owned company, we're proud to support our local high school football team — the Rouse Raiders.",
+    href: "https://www.rouseraidersfootball.com/",
+    image: {
+      src: "/images/community/rouse-raiders-helmet.png",
+      alt: "Rouse Raiders football helmet",
+      width: 480,
+      height: 480,
+    },
+  },
 } as const;
 
 function formatGoogleReviewsLabel(): string {

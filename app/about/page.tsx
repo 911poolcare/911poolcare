@@ -62,6 +62,39 @@ export default function AboutPage() {
         </Container>
       </Section>
 
+      <Section muted>
+        <Container>
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
+            <Link
+              href={about.community.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl bg-slate-950 shadow-sm ring-1 ring-slate-800 transition-opacity hover:opacity-90 sm:h-32 sm:w-32"
+              title="Rouse Raiders Football"
+            >
+              <Image
+                src={about.community.image.src}
+                alt={about.community.image.alt}
+                width={about.community.image.width}
+                height={about.community.image.height}
+                className="h-full w-full object-cover"
+              />
+            </Link>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">
+                {about.community.eyebrow}
+              </p>
+              <h2 className="mt-2 text-xl font-bold text-slate-900 sm:text-2xl">
+                {about.community.title}
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
+                {about.community.description}
+              </p>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
       <TeamSection muted />
 
       <Section>

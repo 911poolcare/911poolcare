@@ -23,8 +23,12 @@ export const bbbProfileUrl =
 export const bbbSealImageUrl =
   "https://seal-austin.bbb.org/seals/blue-seal-200-130-whitetxt-bbb-0825-1000239743.png";
 
-/** Public TDLR license search — homeowners can verify RAIC / RAIL numbers */
+/** Public TDLR license search — homeowners can verify RAIL and other licenses */
 export const tdlrVerifyUrl = "https://www.tdlr.texas.gov/verify.htm";
+
+/** Direct TDLR record for 911 Pool Care LLC RAIC #1545 */
+export const tdlrRaicLicenseUrl =
+  "https://www.tdlr.texas.gov/LicenseSearch/SearchResultDetail.asp?1=ACTELE00001545&2=RAIC";
 
 /**
  * Texas Department of Licensing and Regulation (TDLR) pool electrical licensing.
@@ -42,7 +46,7 @@ export const texasLicensing = {
       "911 Pool Care LLC is a TDLR-licensed Residential Appliance Installation Contractor (RAIC #1545) — the business-level license required to perform residential appliance installation work in Texas, including pool pumps, heaters, lights, motors, salt systems, automation, and related electrical work.",
     inline:
       "TDLR-licensed Residential Appliance Installation Contractor (RAIC #1545)",
-    verifyUrl: tdlrVerifyUrl,
+    verifyUrl: tdlrRaicLicenseUrl,
   },
   rail: {
     id: "rail",
