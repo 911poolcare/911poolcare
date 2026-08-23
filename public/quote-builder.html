@@ -231,20 +231,6 @@
   }
   .breakdown .subtotal .val{ font-family:'IBM Plex Mono',monospace; }
 
-  .color-chip{
-    display:inline-flex; align-items:center; gap:6px;
-    background:var(--line-soft);
-    border-radius:999px;
-    padding:4px 10px 4px 4px;
-    font-size:12px;
-    margin:3px 4px 0 0;
-  }
-  .color-swatch{
-    width:14px;height:14px;border-radius:50%;
-    background:var(--primary-light);
-    border:1px solid rgba(0,0,0,.1);
-  }
-
   /* sticky total bar */
   .totalbar{
     position:fixed; left:0; right:0; bottom:0;
@@ -411,8 +397,9 @@
         <select id="plasterMat"></select>
       </div>
       <div class="field" id="colorField">
-        <label>Available colors</label>
-        <div id="colorChips"></div>
+        <label for="colorSelect">Color selected (optional)</label>
+        <select id="colorSelect"></select>
+        <div class="hint">Pick on site if the customer has decided, or leave as "Not selected yet" and confirm later.</div>
       </div>
     </div>
   </section>
@@ -541,6 +528,9 @@
     <div class="btn" onclick="window.print()">Print / Save PDF</div>
     <div class="btn primary" onclick="copyQuote()">Copy quote text</div>
   </div>
+  <div class="toolbar">
+    <div class="btn" onclick="clearForm()" style="color:var(--danger);border-color:var(--danger);">New quote (clear all)</div>
+  </div>
 
   <p class="note">Pricing logic ported directly from the office replaster pricing workbook. Verify against the source sheet before it becomes the system of record for jobs outside typical ranges.</p>
 </div>
@@ -615,16 +605,29 @@ PLASTER.forEach((p,i)=>{
 });
 matSel.value = 4; // Quartzscapes level 3, matches source example
 
+let lastMaterialIndex = matSel.value;
+
 function renderColors(){
+  const materialChanged = (matSel.value !== lastMaterialIndex);
   const p = PLASTER[matSel.value];
-  const box = document.getElementById("colorChips");
-  box.innerHTML = "";
+  const sel = document.getElementById("colorSelect");
+  const prevValue = sel.value;
+  sel.innerHTML = "";
+  const noneOpt = document.createElement("option");
+  noneOpt.value = ""; noneOpt.textContent = "Not selected yet";
+  sel.appendChild(noneOpt);
   p.colors.forEach(c=>{
-    const chip = document.createElement("span");
-    chip.className = "color-chip";
-    chip.innerHTML = '<span class="color-swatch"></span>' + c;
-    box.appendChild(chip);
+    const o = document.createElement("option");
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
   });
+  // keep the chosen color if it's still valid for this material, otherwise reset to "not selected"
+  if(!materialChanged && p.colors.includes(prevValue)){
+    sel.value = prevValue;
+  } else {
+    sel.value = "";
+  }
+  lastMaterialIndex = matSel.value;
 }
 
 function calc(){
@@ -706,7 +709,7 @@ function calc(){
   const discountAmount = preDiscount * discount.rate;
   const grand = preDiscount - discountAmount;
 
-  return {markup, jobType, plaster, interiorArea, poolLines, poolTotal, poolIncluded, spaLines, spaTotal, spaIncluded, preDiscount, discount, discountAmount, discountPct, grand};
+  return {markup, jobType, plaster, colorSelected: document.getElementById("colorSelect").value, interiorArea, poolLines, poolTotal, poolIncluded, spaLines, spaTotal, spaIncluded, preDiscount, discount, discountAmount, discountPct, grand};
 }
 
 function renderLines(container, lines, subtotalLabel, subtotalValue, included){
@@ -828,6 +831,7 @@ function copyQuote(){
   lines.push("Job address: " + addr);
   lines.push("Scope: " + r.jobType);
   lines.push("Plaster: " + r.plaster.name);
+  lines.push("Color selected: " + (r.colorSelected || "Not selected yet"));
   lines.push("Colors available: " + r.plaster.colors.join(", "));
   lines.push("");
   if(r.poolIncluded){
@@ -880,36 +884,23 @@ document.querySelectorAll("input, select").forEach(el=>{
   el.addEventListener("change", update);
 });
 
-// seed with the example job from the source sheet so it's obvious it's live
-document.getElementById("p_perimeter").value = 85;
-document.getElementById("p_length").value = 28;
-document.getElementById("p_width").value = 16;
-document.getElementById("p_shallow").value = 3.5;
-document.getElementById("p_middle").value = 5.0;
-document.getElementById("p_deep").value = 8.0;
-document.getElementById("p_drainsplit").value = 2;
-document.getElementById("p_draincover").value = 4;
-document.getElementById("p_eyeballs").value = 5;
-document.getElementById("p_bubblers").value = 3;
-document.getElementById("p_wallsteps").value = 2;
-document.getElementById("p_skimmers").value = 2;
-document.getElementById("p_ledge").value = 125;
-document.getElementById("p_bench").value = 30;
-document.getElementById("p_heads").value = 21;
-document.getElementById("p_rock").value = 30;
-document.getElementById("p_stepsover25").value = 10;
-document.getElementById("p_markertile").value = 32;
-document.getElementById("s_perimeter").value = 28;
-document.getElementById("s_depth").value = 3.5;
-document.getElementById("s_drainsplit").value = 1;
-document.getElementById("s_draincover").value = 2;
-document.getElementById("s_eyeballs").value = 2;
-document.getElementById("s_jetsreplace").value = 6;
-document.getElementById("s_jetsrebuild").value = 6;
-document.getElementById("s_heads").value = 4;
-document.getElementById("s_markertile").value = 32;
-document.getElementById("c_epoxy").value = 10;
-document.getElementById("c_stitches").value = 10;
+const ALL_NUMBER_FIELDS = [...POOL_FIELDS, ...SPA_FIELDS, ...CRACK_FIELDS].map(f=>f[0]);
+
+function clearForm(){
+  if(!confirm("Start a new quote? This clears the customer info and all measurements.")) return;
+  document.getElementById("custName").value = "";
+  document.getElementById("jobAddr").value = "";
+  document.getElementById("jobType").value = "Pool and spa";
+  matSel.value = 4; // Quartzscapes level 3
+  lastMaterialIndex = null; // force renderColors to reset the color dropdown to "Not selected yet"
+  ALL_NUMBER_FIELDS.forEach(id=> document.getElementById(id).value = 0);
+  document.getElementById("discountType").value = "none";
+  document.getElementById("discountPct").value = 0;
+  fullOpen = false;
+  document.getElementById("fullBreakdown").classList.remove("open");
+  update();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
 
 update();
 </script>
