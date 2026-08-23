@@ -797,6 +797,27 @@ function update(){
   window._lastResult = r;
 }
 
+const POOL_FIELDS = [
+  ["p_perimeter","Pool perimeter (ft)"], ["p_length","Pool length (ft)"], ["p_width","Pool width (ft)"],
+  ["p_shallow","Pool shallow depth (ft)"], ["p_middle","Pool middle depth (ft)"], ["p_deep","Pool deep depth (ft)"],
+  ["p_drainsplit","Main drains to split"], ["p_draincover","Drain cover count"],
+  ["p_eyeballs","Eyeballs / returns"], ["p_bubblers","Bubbler fittings"],
+  ["p_wallsteps","Wall steps (3 steps ea.)"], ["p_skimmers","Skimmer count"],
+  ["p_ledge","Tanning ledge area (sq ft)"], ["p_bench","Bench length (linear ft)"],
+  ["p_heads","In-floor head count"], ["p_rock","Rock waterline (linear ft)"],
+  ["p_stepsover25","Steps over 25' (linear ft)"], ["p_markertile","Marker tile count"]
+];
+const SPA_FIELDS = [
+  ["s_perimeter","Spa perimeter (ft)"], ["s_depth","Spa depth (ft)"],
+  ["s_drainsplit","Main drains to split"], ["s_draincover","Drain cover count"],
+  ["s_eyeballs","Eyeballs / returns"], ["s_heads","In-floor head count"],
+  ["s_jetsreplace","Jets to replace"], ["s_jetsrebuild","Jets to rebuild (AquaThunder)"],
+  ["s_markertile","Marker tile count"]
+];
+const CRACK_FIELDS = [
+  ["c_epoxy","Epoxy crack repair (ft)"], ["c_stitches","Stitches crack repair (ft)"]
+];
+
 function copyQuote(){
   const r = window._lastResult || calc();
   const name = document.getElementById("custName").value || "—";
@@ -807,15 +828,35 @@ function copyQuote(){
   lines.push("Job address: " + addr);
   lines.push("Scope: " + r.jobType);
   lines.push("Plaster: " + r.plaster.name);
+  lines.push("Colors available: " + r.plaster.colors.join(", "));
   lines.push("");
   if(r.poolIncluded){
-    lines.push("POOL");
+    lines.push("POOL MEASUREMENTS");
+    POOL_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + document.getElementById(id).value));
+    lines.push("  Pool interior area (calc'd): " + r.interiorArea.toLocaleString(undefined,{maximumFractionDigits:1}) + " sq ft");
+    lines.push("");
+  }
+  if(r.spaIncluded){
+    lines.push("SPA MEASUREMENTS");
+    SPA_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + document.getElementById(id).value));
+    lines.push("");
+  }
+  if(r.poolIncluded){
+    const epoxy = num("c_epoxy"), stitches = num("c_stitches");
+    if(epoxy>0 || stitches>0){
+      lines.push("CRACK REPAIR");
+      CRACK_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + document.getElementById(id).value));
+      lines.push("");
+    }
+  }
+  if(r.poolIncluded){
+    lines.push("POOL COST BREAKDOWN");
     r.poolLines.forEach(l=> lines.push("  " + l.label + ": " + money(l.value)));
     lines.push("  Pool subtotal: " + money(r.poolTotal));
     lines.push("");
   }
   if(r.spaIncluded){
-    lines.push("SPA");
+    lines.push("SPA COST BREAKDOWN");
     r.spaLines.forEach(l=> lines.push("  " + l.label + ": " + money(l.value)));
     lines.push("  Spa subtotal: " + money(r.spaTotal));
     lines.push("");
