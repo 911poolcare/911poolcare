@@ -419,6 +419,7 @@
         <select id="colorSelect"></select>
         <div class="hint">Pick on site if the customer has decided, or leave as "Not selected yet" and confirm later.</div>
       </div>
+      <div class="ia-callout" id="plasterWarning" style="display:none;">No plaster type selected — pool and spa plaster cost will show as $0 until you pick one.</div>
     </div>
   </section>
 
@@ -430,44 +431,44 @@
     <div class="card-body">
       <div class="subhead">Shell</div>
       <div class="row2">
-        <div class="field"><label>Perimeter (ft)</label><input type="number" id="p_perimeter" value="0" step="any"></div>
-        <div class="field"><label>Length (ft)</label><input type="number" id="p_length" value="0" step="any"></div>
+        <div class="field"><label>Perimeter (ft)</label><input type="number" id="p_perimeter" placeholder="0" step="any"></div>
+        <div class="field"><label>Length (ft)</label><input type="number" id="p_length" placeholder="0" step="any"></div>
       </div>
       <div class="row3">
-        <div class="field"><label>Width (ft)</label><input type="number" id="p_width" value="0" step="any"></div>
-        <div class="field"><label>Shallow depth (ft)</label><input type="number" id="p_shallow" value="0" step="any"></div>
-        <div class="field"><label>Middle depth (ft)</label><input type="number" id="p_middle" value="0" step="any"></div>
+        <div class="field"><label>Width (ft)</label><input type="number" id="p_width" placeholder="0" step="any"></div>
+        <div class="field"><label>Shallow depth (ft)</label><input type="number" id="p_shallow" placeholder="0" step="any"></div>
+        <div class="field"><label>Middle depth (ft)</label><input type="number" id="p_middle" placeholder="0" step="any"></div>
       </div>
-      <div class="field"><label>Deep depth (ft)</label><input type="number" id="p_deep" value="0" step="any">
+      <div class="field"><label>Deep depth (ft)</label><input type="number" id="p_deep" placeholder="0" step="any">
         <div class="hint" id="p_area_hint">Interior area (calculated): <b id="p_area">0</b> sq ft</div>
       </div>
 
       <div class="subhead">Drains &amp; fittings</div>
       <div class="row2">
-        <div class="field"><label>Main drains to split</label><input type="number" id="p_drainsplit" value="0" step="1"></div>
-        <div class="field"><label>Drain cover count</label><input type="number" id="p_draincover" value="0" step="1"></div>
+        <div class="field"><label>Main drains to split</label><input type="number" id="p_drainsplit" placeholder="0" step="1"></div>
+        <div class="field"><label>Drain cover count</label><input type="number" id="p_draincover" placeholder="0" step="1"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Eyeballs / returns</label><input type="number" id="p_eyeballs" value="0" step="1"></div>
-        <div class="field"><label>Bubbler fittings</label><input type="number" id="p_bubblers" value="0" step="1"></div>
+        <div class="field"><label>Eyeballs / returns</label><input type="number" id="p_eyeballs" placeholder="0" step="1"></div>
+        <div class="field"><label>Bubbler fittings</label><input type="number" id="p_bubblers" placeholder="0" step="1"></div>
       </div>
 
       <div class="subhead">Structure &amp; features</div>
       <div class="row2">
-        <div class="field"><label>Wall steps (3 steps ea.)</label><input type="number" id="p_wallsteps" value="0" step="1"></div>
-        <div class="field"><label>Skimmer count</label><input type="number" id="p_skimmers" value="0" step="1"></div>
+        <div class="field"><label>Wall steps (3 steps ea.)</label><input type="number" id="p_wallsteps" placeholder="0" step="1"></div>
+        <div class="field"><label>Skimmer count</label><input type="number" id="p_skimmers" placeholder="0" step="1"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Tanning ledge area (sq ft)</label><input type="number" id="p_ledge" value="0" step="any"></div>
-        <div class="field"><label>Bench length (linear ft)</label><input type="number" id="p_bench" value="0" step="any"></div>
+        <div class="field"><label>Tanning ledge area (sq ft)</label><input type="number" id="p_ledge" placeholder="0" step="any"></div>
+        <div class="field"><label>Bench length (linear ft)</label><input type="number" id="p_bench" placeholder="0" step="any"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>In-floor head count</label><input type="number" id="p_heads" value="0" step="1"></div>
-        <div class="field"><label>Rock waterline (linear ft)</label><input type="number" id="p_rock" value="0" step="any"></div>
+        <div class="field"><label>In-floor head count</label><input type="number" id="p_heads" placeholder="0" step="1"></div>
+        <div class="field"><label>Rock waterline (linear ft)</label><input type="number" id="p_rock" placeholder="0" step="any"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Steps over 25' (linear ft)</label><input type="number" id="p_stepsover25" value="0" step="any"></div>
-        <div class="field"><label>Marker tile count</label><input type="number" id="p_markertile" value="0" step="1"></div>
+        <div class="field"><label>Steps over 25' (linear ft)</label><input type="number" id="p_stepsover25" placeholder="0" step="any"></div>
+        <div class="field"><label>Marker tile count</label><input type="number" id="p_markertile" placeholder="0" step="1"></div>
       </div>
 
       <div class="ia-callout" id="iaCallout"></div>
@@ -483,22 +484,22 @@
     </summary>
     <div class="card-body">
       <div class="row2">
-        <div class="field"><label>Perimeter (ft)</label><input type="number" id="s_perimeter" value="0" step="any"></div>
-        <div class="field"><label>Depth (ft)</label><input type="number" id="s_depth" value="0" step="any"></div>
+        <div class="field"><label>Perimeter (ft)</label><input type="number" id="s_perimeter" placeholder="0" step="any"></div>
+        <div class="field"><label>Depth (ft)</label><input type="number" id="s_depth" placeholder="0" step="any"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Main drains to split</label><input type="number" id="s_drainsplit" value="0" step="1"></div>
-        <div class="field"><label>Drain cover count</label><input type="number" id="s_draincover" value="0" step="1"></div>
+        <div class="field"><label>Main drains to split</label><input type="number" id="s_drainsplit" placeholder="0" step="1"></div>
+        <div class="field"><label>Drain cover count</label><input type="number" id="s_draincover" placeholder="0" step="1"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Eyeballs / returns</label><input type="number" id="s_eyeballs" value="0" step="1"></div>
-        <div class="field"><label>In-floor head count</label><input type="number" id="s_heads" value="0" step="1"></div>
+        <div class="field"><label>Eyeballs / returns</label><input type="number" id="s_eyeballs" placeholder="0" step="1"></div>
+        <div class="field"><label>In-floor head count</label><input type="number" id="s_heads" placeholder="0" step="1"></div>
       </div>
       <div class="row2">
-        <div class="field"><label>Jets to replace</label><input type="number" id="s_jetsreplace" value="0" step="1"></div>
-        <div class="field"><label>Jets to rebuild (AquaThunder)</label><input type="number" id="s_jetsrebuild" value="0" step="1"></div>
+        <div class="field"><label>Jets to replace</label><input type="number" id="s_jetsreplace" placeholder="0" step="1"></div>
+        <div class="field"><label>Jets to rebuild (AquaThunder)</label><input type="number" id="s_jetsrebuild" placeholder="0" step="1"></div>
       </div>
-      <div class="field"><label>Marker tile count</label><input type="number" id="s_markertile" value="0" step="1"></div>
+      <div class="field"><label>Marker tile count</label><input type="number" id="s_markertile" placeholder="0" step="1"></div>
 
       <div class="subhead">Spa cost breakdown</div>
       <div class="breakdown" id="spaBreakdown"></div>
@@ -512,10 +513,57 @@
     </summary>
     <div class="card-body">
       <div class="row2">
-        <div class="field"><label>Epoxy crack repair (ft)</label><input type="number" id="c_epoxy" value="0" step="any"></div>
-        <div class="field"><label>Stitches crack repair (ft)</label><input type="number" id="c_stitches" value="0" step="any"></div>
+        <div class="field"><label>Epoxy crack repair (ft)</label><input type="number" id="c_epoxy" placeholder="0" step="any"></div>
+        <div class="field"><label>Stitches crack repair (ft)</label><input type="number" id="c_stitches" placeholder="0" step="any"></div>
       </div>
       <div class="hint" style="margin-top:6px">Included in the pool cost breakdown above.</div>
+    </div>
+  </details>
+
+  <!-- Tile replacement -->
+  <details class="card" id="tileSection">
+    <summary>Tile replacement <span class="meta" id="tileMeta"></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="card-body">
+      <div class="field">
+        <label for="t_material">Tile material</label>
+        <select id="t_material">
+          <option value="ceramic">Ceramic — $10/sq ft</option>
+          <option value="glass">Glass — $15/sq ft</option>
+        </select>
+        <div class="hint">Used for pool and spa waterline tile below. "Other" tile always prices at the ceramic material rate, same as the office sheet.</div>
+      </div>
+
+      <div class="subhead">Pool waterline tile</div>
+      <div class="field">
+        <label for="t_poolretile">Replace pool waterline tile?</label>
+        <select id="t_poolretile">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+        <div class="hint">Uses the pool perimeter already entered above.</div>
+      </div>
+
+      <div class="subhead">Spa waterline tile</div>
+      <div class="field">
+        <label for="t_sparetile">Replace spa waterline tile?</label>
+        <select id="t_sparetile">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+        <div class="hint">Uses the spa perimeter already entered above. No skimmer tile cost is added — spas typically don't have skimmers.</div>
+      </div>
+
+      <div class="subhead">Other tile (not pool or spa waterline)</div>
+      <div class="field">
+        <label for="t_other">Other tile to replace (linear ft)</label>
+        <input type="number" id="t_other" placeholder="0" step="any">
+        <div class="hint">E.g. accent bands, steps, tanning ledge trim. Leave at 0 if not applicable.</div>
+      </div>
+
+      <div class="subhead">Tile replacement cost breakdown</div>
+      <div class="breakdown" id="tileBreakdown"></div>
     </div>
   </details>
 
@@ -594,13 +642,20 @@ const PLASTER = [
   {name:"StoneScapes Tier 3", colors:["Black","Midnight Blue","Tropics Blue","Vintage Blue","Nassau Blue"], acidWash:true, costPer:7.25, spa:700, spaOnly:2200},
 ];
 const RATE = {
-  chipOut:30.00, chipOutOver6:500.00, splitMainDrains:950.00,
+  chipOut:30.00, chipOutOver6:500.00, splitMainDrains:950.00, drainPool:100.00,
   crackEpoxy:45.00, crackStitches:225.00, mainDrainCovers:75.00,
   eyeballFittings:25.00, poolPrep:500.00, stepOver25:10.00,
   benchEvery6:65.00, tanningLedgeEvery75:135.00, rockLine:7.00,
   wallStepReplacement:350.00, inFloorHeadsEach:10.00, spaOver26:150.00,
   acidWashUpTo1200:650.00, acidWashUpTo2000:950.00, poolStartup:950.00,
   spaJetReplace:35.00, spaJetRebuild:125.00
+};
+const TILE_MATERIAL = {
+  ceramic: {label:"Ceramic", costPerSqFt:10.00},
+  glass: {label:"Glass", costPerSqFt:15.00}
+};
+const TILE_RATE = {
+  oldTileRemovalPerFt:3.50, tileInstallPerFt:15.00, skimmerTileInstall:150.00
 };
 const MARKUP = 1.45; // shop markup multiplier — office-set, not field-editable
 const DISCOUNT_LABELS = {
@@ -617,24 +672,36 @@ const num = id => { const v = parseFloat(document.getElementById(id).value); ret
 
 /* populate plaster select */
 const matSel = document.getElementById("plasterMat");
+const noneMatOpt = document.createElement("option");
+noneMatOpt.value = ""; noneMatOpt.textContent = "Select plaster type";
+matSel.appendChild(noneMatOpt);
 PLASTER.forEach((p,i)=>{
   const o = document.createElement("option");
   o.value = i; o.textContent = p.name;
   matSel.appendChild(o);
 });
-matSel.value = 4; // Quartzscapes level 3, matches source example
+matSel.value = ""; // no default — must be picked on site
 
 let lastMaterialIndex = matSel.value;
 
 function renderColors(){
   const materialChanged = (matSel.value !== lastMaterialIndex);
-  const p = PLASTER[matSel.value];
   const sel = document.getElementById("colorSelect");
   const prevValue = sel.value;
   sel.innerHTML = "";
   const noneOpt = document.createElement("option");
-  noneOpt.value = ""; noneOpt.textContent = "Not selected yet";
+  noneOpt.value = "";
+  if(matSel.value === ""){
+    noneOpt.textContent = "Select a plaster type first";
+    sel.appendChild(noneOpt);
+    sel.disabled = true;
+    lastMaterialIndex = matSel.value;
+    return;
+  }
+  sel.disabled = false;
+  noneOpt.textContent = "Not selected yet";
   sel.appendChild(noneOpt);
+  const p = PLASTER[matSel.value];
   p.colors.forEach(c=>{
     const o = document.createElement("option");
     o.value = c; o.textContent = c;
@@ -652,7 +719,8 @@ function renderColors(){
 function calc(){
   const markup = MARKUP;
   const jobType = document.getElementById("jobType").value;
-  const plaster = PLASTER[matSel.value];
+  const plasterSelected = matSel.value !== "";
+  const plaster = plasterSelected ? PLASTER[matSel.value] : {name:"Not selected", colors:[], acidWash:false, costPer:0, spa:0, spaOnly:0};
   const isMarcite = plaster.name.toLowerCase().includes("marcite");
 
   // ---- pool inputs
@@ -675,6 +743,7 @@ function calc(){
 
   addP("Remove old plaster (up to 2 layers)",
     (deep>6 ? (deep-6)*RATE.chipOutOver6*markup : 0) + (perim*RATE.chipOut*markup));
+  addP("Drain pool", RATE.drainPool*markup);
   addP("Split main drains", RATE.splitMainDrains*drainSplit*markup);
   addP("Crack repair", (epoxy*RATE.crackEpoxy*markup) + (stitches*RATE.crackStitches*markup));
   addP("Pre-plaster prep", RATE.poolPrep*markup);
@@ -715,7 +784,36 @@ function calc(){
   const spaIncluded = (jobType==="Spa only" || jobType==="Pool and spa");
   const spaTotal = spaIncluded ? spaLines.reduce((s,l)=>s+l.value,0) : 0;
 
-  const preDiscount = poolTotal+spaTotal;
+  // ---- tile replacement
+  const tileMaterial = TILE_MATERIAL[document.getElementById("t_material").value];
+  const poolRetile = document.getElementById("t_poolretile").value === "yes";
+  const spaRetile = document.getElementById("t_sparetile").value === "yes";
+  const otherTileFt = num("t_other");
+  const poolSkimmers = num("p_skimmers");
+
+  const tileLines = [];
+  const addT = (label, value) => tileLines.push({label, value});
+
+  addT("Cost to retile pool", !poolRetile ? 0 :
+    (tileMaterial.costPerSqFt * perim/2 * 1.15 * markup) +
+    (perim * TILE_RATE.oldTileRemovalPerFt * markup) +
+    (perim * TILE_RATE.tileInstallPerFt * markup) +
+    (poolSkimmers * TILE_RATE.skimmerTileInstall * markup));
+
+  addT("Cost to retile spa", !spaRetile ? 0 :
+    (tileMaterial.costPerSqFt * sPerim/2 * 1.15 * markup) +
+    (sPerim * TILE_RATE.oldTileRemovalPerFt * markup) +
+    (sPerim * TILE_RATE.tileInstallPerFt * markup));
+
+  addT("Other tile replacement",
+    (otherTileFt * TILE_RATE.oldTileRemovalPerFt * markup) +
+    (otherTileFt/2 * 1.15 * TILE_MATERIAL.ceramic.costPerSqFt * markup) +
+    (otherTileFt * TILE_RATE.tileInstallPerFt * markup));
+
+  const tileIncluded = poolRetile || spaRetile || otherTileFt>0;
+  const tileTotal = tileLines.reduce((s,l)=>s+l.value,0);
+
+  const preDiscount = poolTotal+spaTotal+tileTotal;
   const discountKey = document.getElementById("discountType").value;
   let discountPct = parseFloat(document.getElementById("discountPct").value);
   if(isNaN(discountPct) || discountPct<0) discountPct = 0;
@@ -730,7 +828,7 @@ function calc(){
   const discountAmount = preDiscount * discount.rate;
   const grand = preDiscount - discountAmount;
 
-  return {markup, jobType, plaster, colorSelected: document.getElementById("colorSelect").value, interiorArea, billedInteriorArea, iaFloorApplied, poolLines, poolTotal, poolIncluded, spaLines, spaTotal, spaIncluded, preDiscount, discount, discountAmount, discountPct, grand};
+  return {markup, jobType, plaster, plasterSelected, colorSelected: document.getElementById("colorSelect").value, interiorArea, billedInteriorArea, iaFloorApplied, poolLines, poolTotal, poolIncluded, spaLines, spaTotal, spaIncluded, tileLines, tileTotal, tileIncluded, tileMaterial, poolRetile, spaRetile, otherTileFt, preDiscount, discount, discountAmount, discountPct, grand};
 }
 
 function renderLines(container, lines, subtotalLabel, subtotalValue, included){
@@ -762,6 +860,7 @@ function update(){
   document.getElementById("p_area").textContent = r.interiorArea.toLocaleString(undefined,{maximumFractionDigits:1});
 
   const iaBox = document.getElementById("iaCallout");
+  document.getElementById("plasterWarning").style.display = r.plasterSelected ? "none" : "block";
   const iaCalc = r.interiorArea.toLocaleString(undefined,{maximumFractionDigits:1});
   const iaBilled = r.billedInteriorArea.toLocaleString(undefined,{maximumFractionDigits:1});
   iaBox.innerHTML = `Interior area (IA), calculated from perimeter and depths: <b>${iaCalc}</b> sq ft.` +
@@ -770,9 +869,11 @@ function update(){
       : ` Plaster is billed on this figure (already above the 900 sq ft minimum).`);
   document.getElementById("poolMeta").textContent = r.poolIncluded ? money(r.poolTotal) : "not in scope";
   document.getElementById("spaMeta").textContent = r.spaIncluded ? money(r.spaTotal) : "not in scope";
+  document.getElementById("tileMeta").textContent = money(r.tileTotal);
 
   renderLines(document.getElementById("poolBreakdown"), r.poolLines, "Pool subtotal", r.poolTotal, r.poolIncluded);
   renderLines(document.getElementById("spaBreakdown"), r.spaLines, "Spa subtotal", r.spaTotal, r.spaIncluded);
+  renderLines(document.getElementById("tileBreakdown"), r.tileLines, "Tile subtotal", r.tileTotal, true);
 
   const poolCard = document.getElementById("poolSection");
   const spaCard = document.getElementById("spaSection");
@@ -793,6 +894,7 @@ function update(){
   const splitParts = [];
   if(r.poolIncluded) splitParts.push("Pool " + money(r.poolTotal));
   if(r.spaIncluded) splitParts.push("Spa " + money(r.spaTotal));
+  if(r.tileIncluded) splitParts.push("Tile " + money(r.tileTotal));
   if(r.discount.rate>0) splitParts.push(r.discount.label + " -" + money(r.discountAmount));
   document.getElementById("splitLine").textContent = splitParts.join("  ·  ");
 
@@ -819,6 +921,11 @@ function update(){
     html += `<div class="grp">Spa</div>`;
     r.spaLines.forEach(l=> html += `<div class="line"><span>${l.label}</span><span class="val">${money(l.value)}</span></div>`);
     html += `<div class="line" style="font-weight:600;color:#fff;border-top:1px solid rgba(255,255,255,.15);padding-top:6px;margin-top:2px;"><span>Spa subtotal</span><span class="val">${money(r.spaTotal)}</span></div>`;
+  }
+  if(r.tileIncluded){
+    html += `<div class="grp">Tile replacement</div>`;
+    r.tileLines.forEach(l=> html += `<div class="line"><span>${l.label}</span><span class="val">${money(l.value)}</span></div>`);
+    html += `<div class="line" style="font-weight:600;color:#fff;border-top:1px solid rgba(255,255,255,.15);padding-top:6px;margin-top:2px;"><span>Tile subtotal</span><span class="val">${money(r.tileTotal)}</span></div>`;
   }
   if(r.discount.rate>0){
     html += `<div class="line" style="padding-top:8px;"><span>${r.discount.label} (${r.discountPct}%)</span><span class="val">-${money(r.discountAmount)}</span></div>`;
@@ -865,23 +972,31 @@ function copyQuote(){
   lines.push("");
   if(r.poolIncluded){
     lines.push("POOL MEASUREMENTS");
-    POOL_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + document.getElementById(id).value));
+    POOL_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + (document.getElementById(id).value || "0")));
     lines.push("  Pool interior area (IA), calculated: " + r.interiorArea.toLocaleString(undefined,{maximumFractionDigits:1}) + " sq ft");
     lines.push("  Pool interior area billed for plaster (900 sq ft minimum applied): " + r.billedInteriorArea.toLocaleString(undefined,{maximumFractionDigits:1}) + " sq ft" + (r.iaFloorApplied ? " — 900 sq ft floor applied" : ""));
     lines.push("");
   }
   if(r.spaIncluded){
     lines.push("SPA MEASUREMENTS");
-    SPA_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + document.getElementById(id).value));
+    SPA_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + (document.getElementById(id).value || "0")));
     lines.push("");
   }
   if(r.poolIncluded){
     const epoxy = num("c_epoxy"), stitches = num("c_stitches");
     if(epoxy>0 || stitches>0){
       lines.push("CRACK REPAIR");
-      CRACK_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + document.getElementById(id).value));
+      CRACK_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + (document.getElementById(id).value || "0")));
       lines.push("");
     }
+  }
+  if(r.tileIncluded){
+    lines.push("TILE REPLACEMENT");
+    lines.push("  Tile material: " + r.tileMaterial.label);
+    lines.push("  Replace pool waterline tile: " + (r.poolRetile ? "Yes" : "No"));
+    lines.push("  Replace spa waterline tile: " + (r.spaRetile ? "Yes" : "No"));
+    lines.push("  Other tile to replace (linear ft): " + r.otherTileFt);
+    lines.push("");
   }
   if(r.poolIncluded){
     lines.push("POOL COST BREAKDOWN");
@@ -893,6 +1008,12 @@ function copyQuote(){
     lines.push("SPA COST BREAKDOWN");
     r.spaLines.forEach(l=> lines.push("  " + l.label + ": " + money(l.value)));
     lines.push("  Spa subtotal: " + money(r.spaTotal));
+    lines.push("");
+  }
+  if(r.tileIncluded){
+    lines.push("TILE REPLACEMENT COST BREAKDOWN");
+    r.tileLines.forEach(l=> lines.push("  " + l.label + ": " + money(l.value)));
+    lines.push("  Tile subtotal: " + money(r.tileTotal));
     lines.push("");
   }
   if(r.discount.rate>0){
@@ -915,15 +1036,20 @@ document.querySelectorAll("input, select").forEach(el=>{
 });
 
 const ALL_NUMBER_FIELDS = [...POOL_FIELDS, ...SPA_FIELDS, ...CRACK_FIELDS].map(f=>f[0]);
+const TILE_NUMBER_FIELDS = ["t_other"];
 
 function clearForm(){
   if(!confirm("Start a new quote? This clears the customer info and all measurements.")) return;
   document.getElementById("custName").value = "";
   document.getElementById("jobAddr").value = "";
   document.getElementById("jobType").value = "Pool and spa";
-  matSel.value = 4; // Quartzscapes level 3
+  matSel.value = ""; // clear plaster selection
   lastMaterialIndex = null; // force renderColors to reset the color dropdown to "Not selected yet"
-  ALL_NUMBER_FIELDS.forEach(id=> document.getElementById(id).value = 0);
+  ALL_NUMBER_FIELDS.forEach(id=> document.getElementById(id).value = "");
+  TILE_NUMBER_FIELDS.forEach(id=> document.getElementById(id).value = "");
+  document.getElementById("t_material").value = "glass";
+  document.getElementById("t_poolretile").value = "no";
+  document.getElementById("t_sparetile").value = "no";
   document.getElementById("discountType").value = "none";
   document.getElementById("discountPct").value = 0;
   fullOpen = false;
