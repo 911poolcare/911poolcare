@@ -231,6 +231,24 @@
   }
   .breakdown .subtotal .val{ font-family:'IBM Plex Mono',monospace; }
 
+  .ia-callout{
+    margin-top:16px;
+    background:var(--accent-soft);
+    border:1px solid rgba(232,114,42,.35);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:12.5px;
+    color:var(--ink);
+    line-height:1.5;
+  }
+  .ia-callout b{ font-family:'IBM Plex Mono',monospace; }
+  .ia-callout .floor-note{
+    display:block;
+    margin-top:4px;
+    font-weight:600;
+    color:var(--accent);
+  }
+
   /* sticky total bar */
   .totalbar{
     position:fixed; left:0; right:0; bottom:0;
@@ -421,7 +439,7 @@
         <div class="field"><label>Middle depth (ft)</label><input type="number" id="p_middle" value="0" step="any"></div>
       </div>
       <div class="field"><label>Deep depth (ft)</label><input type="number" id="p_deep" value="0" step="any">
-        <div class="hint">Interior area (calculated, 900&nbsp;sq&nbsp;ft minimum applied to plaster cost): <b id="p_area">0</b> sq ft</div>
+        <div class="hint" id="p_area_hint">Interior area (calculated): <b id="p_area">0</b> sq ft</div>
       </div>
 
       <div class="subhead">Drains &amp; fittings</div>
@@ -452,6 +470,7 @@
         <div class="field"><label>Marker tile count</label><input type="number" id="p_markertile" value="0" step="1"></div>
       </div>
 
+      <div class="ia-callout" id="iaCallout"></div>
       <div class="subhead">Pool cost breakdown</div>
       <div class="breakdown" id="poolBreakdown"></div>
     </div>
@@ -648,6 +667,8 @@ function calc(){
   const epoxy = num("c_epoxy"), stitches = num("c_stitches");
 
   const interiorArea = perim*((shallow + 2*mid + deep)/4) + len*wid;
+  const billedInteriorArea = Math.max(interiorArea, 900);
+  const iaFloorApplied = interiorArea < 900;
 
   const poolLines = [];
   const addP = (label, value) => poolLines.push({label, value});
@@ -665,7 +686,7 @@ function calc(){
   addP("Step plaster (over 25')", stepsOver25*RATE.stepOver25*markup);
   addP("In-floor head plaster", heads===0 ? 0 : (heads>20 ? heads*RATE.inFloorHeadsEach*markup : 20*RATE.inFloorHeadsEach*markup));
   addP("Rock line plaster", rock*RATE.rockLine*markup);
-  addP("Plaster cost", plaster.costPer * (isMarcite ? perim : Math.max(interiorArea,900)) * markup);
+  addP("Plaster cost", plaster.costPer * (isMarcite ? perim : billedInteriorArea) * markup);
   addP("Acid wash / slurry box", !plaster.acidWash ? 0 : (interiorArea<1201 ? RATE.acidWashUpTo1200*markup : RATE.acidWashUpTo2000*markup));
   addP("New pool startup", RATE.poolStartup*markup);
 
@@ -709,7 +730,7 @@ function calc(){
   const discountAmount = preDiscount * discount.rate;
   const grand = preDiscount - discountAmount;
 
-  return {markup, jobType, plaster, colorSelected: document.getElementById("colorSelect").value, interiorArea, poolLines, poolTotal, poolIncluded, spaLines, spaTotal, spaIncluded, preDiscount, discount, discountAmount, discountPct, grand};
+  return {markup, jobType, plaster, colorSelected: document.getElementById("colorSelect").value, interiorArea, billedInteriorArea, iaFloorApplied, poolLines, poolTotal, poolIncluded, spaLines, spaTotal, spaIncluded, preDiscount, discount, discountAmount, discountPct, grand};
 }
 
 function renderLines(container, lines, subtotalLabel, subtotalValue, included){
@@ -739,6 +760,14 @@ function update(){
   const r = calc();
 
   document.getElementById("p_area").textContent = r.interiorArea.toLocaleString(undefined,{maximumFractionDigits:1});
+
+  const iaBox = document.getElementById("iaCallout");
+  const iaCalc = r.interiorArea.toLocaleString(undefined,{maximumFractionDigits:1});
+  const iaBilled = r.billedInteriorArea.toLocaleString(undefined,{maximumFractionDigits:1});
+  iaBox.innerHTML = `Interior area (IA), calculated from perimeter and depths: <b>${iaCalc}</b> sq ft.` +
+    (r.iaFloorApplied
+      ? `<span class="floor-note">Below the 900 sq ft minimum — plaster cost is billed at the 900 sq ft floor, not the calculated IA.</span>`
+      : ` Plaster is billed on this figure (already above the 900 sq ft minimum).`);
   document.getElementById("poolMeta").textContent = r.poolIncluded ? money(r.poolTotal) : "not in scope";
   document.getElementById("spaMeta").textContent = r.spaIncluded ? money(r.spaTotal) : "not in scope";
 
@@ -837,7 +866,8 @@ function copyQuote(){
   if(r.poolIncluded){
     lines.push("POOL MEASUREMENTS");
     POOL_FIELDS.forEach(([id,label])=> lines.push("  " + label + ": " + document.getElementById(id).value));
-    lines.push("  Pool interior area (calc'd): " + r.interiorArea.toLocaleString(undefined,{maximumFractionDigits:1}) + " sq ft");
+    lines.push("  Pool interior area (IA), calculated: " + r.interiorArea.toLocaleString(undefined,{maximumFractionDigits:1}) + " sq ft");
+    lines.push("  Pool interior area billed for plaster (900 sq ft minimum applied): " + r.billedInteriorArea.toLocaleString(undefined,{maximumFractionDigits:1}) + " sq ft" + (r.iaFloorApplied ? " — 900 sq ft floor applied" : ""));
     lines.push("");
   }
   if(r.spaIncluded){
