@@ -15,7 +15,7 @@ export function ThankYouGate({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    router.replace("/#contact");
+    router.replace("/contact");
   }, [router]);
 
   useEffect(() => {

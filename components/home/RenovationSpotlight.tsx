@@ -41,7 +41,7 @@ export function RenovationSpotlight() {
               Pool renovation services
               <ArrowRight className="h-5 w-5" aria-hidden />
             </Button>
-            <Button href="/#contact" variant="outline" size="lg">
+            <Button href="/contact" variant="outline" size="lg">
               Free renovation consultation
             </Button>
           </div>

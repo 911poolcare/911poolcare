@@ -28,10 +28,10 @@ body {
   @apply bg-white text-slate-800 antialiased;
 }
 
-/* Room for sticky mobile CTA bar */
+/* Room for two-row sticky mobile CTA bar */
 @media (max-width: 767px) {
   body {
-    padding-bottom: 4.5rem;
+    padding-bottom: calc(10.5rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

@@ -247,7 +247,7 @@ export default function AboutPage() {
               <Phone className="h-5 w-5" aria-hidden />
               Call {site.phone}
             </Button>
-            <Button href="/#contact" variant="outline" size="lg">
+            <Button href="/contact" variant="outline" size="lg">
               <MessageSquare className="h-5 w-5" aria-hidden />
               Request Service
             </Button>

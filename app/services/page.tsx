@@ -75,7 +75,7 @@ export default function ServicesIndexPage() {
 
         <p className="mt-4 text-center text-sm text-slate-600">
           Not sure which service you need?{" "}
-          <Link href="/#contact" className="font-semibold text-brand-700 hover:text-brand-800">
+          <Link href="/contact" className="font-semibold text-brand-700 hover:text-brand-800">
             Contact us to schedule service
           </Link>{" "}
           or call{" "}

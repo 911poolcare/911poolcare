@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -22,6 +23,10 @@ const sizes = {
   lg: "min-h-14 px-6 py-3 text-base font-semibold sm:text-lg",
 };
 
+function isInternalHref(href: string) {
+  return href.startsWith("/") && !href.startsWith("//");
+}
+
 export function Button({
   className,
   variant = "primary",
@@ -38,6 +43,14 @@ export function Button({
   );
 
   if (href) {
+    if (isInternalHref(href)) {
+      return (
+        <Link href={href} className={classes}>
+          {children}
+        </Link>
+      );
+    }
+
     return (
       <a href={href} className={classes}>
         {children}

@@ -241,7 +241,7 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
             <Button href={site.phoneHref} size="lg">
               Call {site.phone}
             </Button>
-            <Button href="/#contact" variant="outline" size="lg">
+            <Button href="/contact" variant="outline" size="lg">
               Schedule a Pool Inspection
             </Button>
           </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PhoneLink } from "@/components/layout/PhoneLink";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { SmsChatAvailability } from "@/components/layout/SmsChatAvailability";
@@ -25,13 +26,13 @@ export function Header() {
 
           <nav className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="text-sm font-medium text-slate-600 transition-colors hover:text-brand-700"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 

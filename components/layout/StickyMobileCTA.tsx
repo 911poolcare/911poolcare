@@ -24,10 +24,10 @@ export function StickyMobileCTA() {
   return (
     <div
       data-sticky-mobile-cta
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 p-3 shadow-[0_-8px_30px_rgba(15,23,42,0.08)] backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgba(15,23,42,0.08)] backdrop-blur-md md:hidden"
     >
       <div className="mx-auto flex max-w-lg flex-col gap-2">
-        <Button href="/#contact" size="lg" variant="secondary" className="w-full">
+        <Button href="/contact" size="lg" variant="secondary" className="w-full">
           <MessageSquare className="h-5 w-5 shrink-0" aria-hidden />
           Request Service
         </Button>
