@@ -62,7 +62,7 @@ export function LeakRenoBridge({ from, citySlug }: LeakRenoBridgeProps) {
         <p className="mt-3 text-sm text-slate-600">
           Prefer to start with detection?{" "}
           <Link href={leakHref} className="font-semibold text-brand-700 hover:text-brand-800">
-            Pool leak detection & repair →
+            Pool leak repair & detection →
           </Link>
         </p>
       </Container>

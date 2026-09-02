@@ -6,6 +6,7 @@ import {
   leakDetectionFaqs,
   leakDetectionPhilosophy,
   leakDetectionTools,
+  leakRepairTypes,
 } from "@/content/leak-detection";
 import { getTeamForService } from "@/content/team";
 import { LeakRenoBridge } from "@/components/services/LeakRenoBridge";
@@ -19,15 +20,39 @@ type LeakDetectionPageExtrasProps = {
 };
 
 export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) {
-  const areaLabel = city ? `${city.name} and surrounding areas` : "Central Texas";
+  const areaLabel = city ? `${city.name} and surrounding areas` : "Austin and Central Texas";
   const faqs = city
     ? getCityLeakDetectionFaqs(city.slug, city.name)
     : leakDetectionFaqs;
   const specialists = getTeamForService("pool-leak-detection");
+  const repairTitle = city
+    ? `Pool leak repair in ${city.name}`
+    : "Pool leak repair in Austin";
 
   return (
     <>
       <Section muted>
+        <Container>
+          <SectionHeading
+            eyebrow="Find it, then fix it"
+            title={repairTitle}
+            description={`Pool leak repair is a specialty — not an add-on. After we confirm the source in ${areaLabel}, we repair plumbing leaks, shell leaks, fittings, and equipment-pad leaks so the pool holds water again.`}
+          />
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            {leakRepairTypes.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-brand-200 bg-white p-6 shadow-sm"
+              >
+                <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      <Section>
         <Container className="grid gap-10 lg:grid-cols-2 lg:items-start">
           <div>
             <SectionHeading
@@ -65,20 +90,20 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
       <TeamSection
         members={specialists}
         eyebrow="Your leak specialists"
-        title="Named technicians on every detection"
+        title="Named technicians on every leak repair"
         description="Danielle leads leak detection, electrical, and equipment work as our RAIL-certified Installer of Record. Steven handles leak detection and field repairs — so you know who's showing up."
       />
 
       <LeakRenoBridge from="leak" citySlug={city?.slug} />
 
-      <Section>
+      <Section muted>
         <Container className="max-w-3xl">
           <SectionHeading
-            eyebrow="Leak detection FAQ"
+            eyebrow="Pool leak repair FAQ"
             title={
               city
-                ? `Common pool leak questions in ${city.name}`
-                : "Common pool leak detection questions"
+                ? `Common pool leak repair questions in ${city.name}`
+                : "Common pool leak repair questions in Austin"
             }
           />
           <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">

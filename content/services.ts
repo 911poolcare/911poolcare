@@ -1,6 +1,7 @@
 import { poolEquipment } from "@/content/equipment";
 import { serviceHeroImages } from "@/content/hero-images";
 import { inspectionSeo } from "@/content/inspections";
+import { leakDetectionSeo } from "@/content/leak-detection";
 import { pricing } from "@/content/pricing";
 import { renovationSeo } from "@/content/renovations";
 import { primaryServiceSlugs } from "@/content/service-offering";
@@ -25,24 +26,24 @@ export function isPrimaryService(slug: string): boolean {
 export const services: Service[] = [
   {
     slug: "pool-leak-detection",
-    title: "Pool Leak Detection & Repair",
+    title: "Pool Leak Repair & Detection",
     description:
-      "Leaktronics & Anderson systems — dye testing, pressure testing, pipe cameras, listening & locating gear to find every leak source.",
+      "Pool leak repair in Austin and Central Texas — Leaktronics & Anderson systems, dye testing, pressure testing, pipe cameras, then we complete the repair.",
     image: serviceHeroImages["pool-leak-detection"].src,
     imageAlt: serviceHeroImages["pool-leak-detection"].alt,
-    headline: "Pool leak detection & repair in Austin, TX",
+    headline: leakDetectionSeo.hubHeadline,
     intro:
-      "Suspected leak in Austin or Greater Austin? We provide dye testing and pressure testing to locate all sources of leaks in a pool. We also use pipe cameras, listening devices in the pool and outside the pool, and locating devices to find leaks no matter where they are. Both Leaktronics and Anderson leak detection systems help us pinpoint the leak — then we complete the repair. Fair pricing and clear answers, every time.",
+      "Need pool leak repair in Austin or Greater Austin? We locate the source with dye testing, pressure testing, pipe cameras, and listening gear in and around the pool — then we complete the repair. Leaktronics and Anderson systems help us pinpoint plumbing, shell, and equipment leaks so you stop wasting water. Fair pricing and clear answers, every time.",
     highlights: [
+      "Pool leak repair after we confirm the source — often the same visit",
       "Dye testing & pressure testing to locate all leak sources",
       "Pipe cameras, in-pool & out-of-pool listening devices, and locating gear",
       "Leaktronics and Anderson leak detection systems",
       `Transparent residential detection pricing from $${pricing.leakDetection.poolOnlySinglePump}`,
       `Residential guarantee: if we can't find the leak, pay only $${pricing.leakDetection.downPayment} down`,
-      "Leak repairs quoted based on location, access, and scope",
     ],
     metaDescription:
-      `Pool leak detection & repair in Austin, TX — dye testing, pressure testing, pipe cameras & listening gear. Leaktronics & Anderson systems. From $${pricing.leakDetection.poolOnlySinglePump}. Call 512-947-2023.`,
+      `Pool leak repair in Austin, TX — we find the leak with Leaktronics & Anderson systems, then complete the repair. Dye testing, pressure testing, pipe cameras. From $${pricing.leakDetection.poolOnlySinglePump}. Call 512-947-2023.`,
   },
   {
     slug: "pool-equipment-repair",
@@ -107,7 +108,7 @@ export const services: Service[] = [
 ];
 
 export const serviceOptions = [
-  { value: "leak-detection", label: "Pool Leak Detection & Repair" },
+  { value: "leak-detection", label: "Pool Leak Repair & Detection" },
   { value: "renovation", label: "Pool Renovation & Replastering" },
   { value: "equipment-repair", label: "Pool Equipment Repair & Replacement" },
   { value: "inspection", label: "Pool Inspection" },

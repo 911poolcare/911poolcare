@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllCitySlugs, getCitiesForService } from "@/content/cities";
+import { leakDetectionSlug } from "@/content/leak-detection";
 import { renovationSlug } from "@/content/renovations";
 import { getAllServiceSlugs } from "@/content/services";
 import { site } from "@/content/site";
@@ -16,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.95,
     },
+    {
+      url: `${base}/services/${leakDetectionSlug}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
     { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/services`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
@@ -24,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const servicePages = getAllServiceSlugs()
-    .filter((slug) => slug !== renovationSlug)
+    .filter((slug) => slug !== renovationSlug && slug !== leakDetectionSlug)
     .map((slug) => ({
       url: `${base}/services/${slug}`,
       lastModified: now,
@@ -39,8 +46,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
+  const leakCityPages = getCitiesForService(leakDetectionSlug).map((city) => ({
+    url: `${base}/services/${leakDetectionSlug}/${city.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: city.slug === "austin" ? 0.9 : 0.85,
+  }));
+
   const otherCityServicePages = getAllServiceSlugs()
-    .filter((slug) => slug !== renovationSlug)
+    .filter((slug) => slug !== renovationSlug && slug !== leakDetectionSlug)
     .flatMap((slug) =>
       getCitiesForService(slug).map((city) => ({
         url: `${base}/services/${slug}/${city.slug}`,
@@ -61,6 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticPages,
     ...servicePages,
     ...renovationCityPages,
+    ...leakCityPages,
     ...otherCityServicePages,
     ...areaPages,
   ];

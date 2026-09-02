@@ -3,6 +3,7 @@ import type { Service } from "@/content/services";
 import {
   getCityLeakDetectionIntro,
   getCityLeakDetectionMeta,
+  leakDetectionSeo,
   leakDetectionSlug,
 } from "@/content/leak-detection";
 import {
@@ -15,7 +16,7 @@ import { getCityHub } from "@/content/city-hubs";
 import { site } from "@/content/site";
 
 const cityServiceTitles: Record<string, string> = {
-  "pool-leak-detection": "Pool Leak Detection & Repair",
+  "pool-leak-detection": "Pool Leak Repair & Detection",
   "pool-equipment-repair": "Pool Equipment Repair & Replacement",
   "pool-renovations": "Pool Renovation & Replastering",
   "pool-inspections": "Pool Inspections",
@@ -41,6 +42,9 @@ const priorityCityIntros: Record<string, Record<string, string>> = {
 export function getCityServiceHeadline(service: Service, city: City): string {
   if (service.slug === renovationSlug) {
     return `Pool Renovation & Replastering in ${city.name}, TX`;
+  }
+  if (service.slug === leakDetectionSlug) {
+    return leakDetectionSeo.cityHeadline(city.name);
   }
   const label = cityServiceTitles[service.slug] ?? service.title;
   return `${label} in ${city.name}, TX`;
@@ -85,6 +89,9 @@ export function getCityServiceMetaDescription(service: Service, city: City): str
 export function getCityServicePageTitle(service: Service, city: City): string {
   if (service.slug === renovationSlug) {
     return renovationSeo.titleTemplate(city.name);
+  }
+  if (service.slug === leakDetectionSlug) {
+    return leakDetectionSeo.titleTemplate(city.name);
   }
   const label = cityServiceTitles[service.slug] ?? service.title;
   return `${label} ${city.name} TX`;

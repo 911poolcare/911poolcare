@@ -5,6 +5,7 @@ import {
   getServiceBySlug,
 } from "@/content/services";
 import { inspectionSeo } from "@/content/inspections";
+import { leakDetectionSeo } from "@/content/leak-detection";
 import { renovationSeo } from "@/content/renovations";
 import { site } from "@/content/site";
 import { ServicePageContent } from "@/components/services/ServicePageContent";
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     slug === "pool-renovations"
       ? renovationSeo.title
       : slug === "pool-leak-detection"
-        ? "Pool Leak Detection & Repair Austin TX"
+        ? leakDetectionSeo.title
         : slug === "pool-equipment-repair"
           ? "Pool Equipment Repair Austin TX"
           : slug === "pool-inspections"
@@ -50,12 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           "pool remodel Central Texas",
         ]
       : slug === "pool-leak-detection"
-        ? [
-            "pool leak detection Austin",
-            "pool leak repair Austin TX",
-            "pool leak detection Central Texas",
-            "swimming pool leak repair",
-          ]
+        ? [...leakDetectionSeo.keywords]
       : slug === "pool-inspections"
         ? [
             "pool inspection near me",

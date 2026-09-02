@@ -122,3 +122,27 @@ export function getWebsiteSchema() {
     publisher: { "@id": businessId },
   };
 }
+
+export function getServiceSchema(options: {
+  name: string;
+  description: string;
+  url: string;
+  serviceType: string;
+  areaServed?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: options.name,
+    serviceType: options.serviceType,
+    description: options.description,
+    url: options.url,
+    provider: { "@id": businessId },
+    areaServed: options.areaServed
+      ? { "@type": "City", name: `${options.areaServed}, TX` }
+      : site.serviceAreas.map((city) => ({
+          "@type": "City",
+          name: `${city}, TX`,
+        })),
+  };
+}

@@ -10,7 +10,7 @@ export function ServicePricing({ serviceSlug }: ServicePricingProps) {
   if (serviceSlug === "pool-leak-detection") {
     return (
       <div className="mt-8 rounded-2xl border border-brand-200 bg-brand-50 p-6">
-        <h3 className="text-lg font-semibold text-slate-900">Leak detection pricing</h3>
+        <h3 className="text-lg font-semibold text-slate-900">Leak detection & repair pricing</h3>
         <ul className="mt-4 space-y-3 text-sm text-slate-700">
           {pricing.leakDetection.pricingLines.map((line) => (
             <li key={line.label} className="flex flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">

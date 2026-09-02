@@ -18,11 +18,11 @@ export const cityHubs: Record<string, CityHub> = {
   austin: {
     slug: "austin",
     name: "Austin",
-    headline: "Austin pool leak detection, equipment, renovation & inspection",
+    headline: "Austin pool leak repair, equipment, renovation & inspection",
     intro:
-      "911 Pool Care brings leak detection technicians, pool repair experts, and renovation specialists to Austin — leak detection and repair, pool equipment repair and replacement, pool renovations and replaster, and certified inspections. Residential and commercial. We do not offer weekly pool cleaning.",
+      "911 Pool Care provides pool leak repair in Austin — leak detection technicians find the source, then we complete the repair. We also handle pool equipment repair and replacement, pool renovations and replaster, and certified inspections. Residential and commercial. We do not offer weekly pool cleaning.",
     metaDescription:
-      "Leak detection technicians & pool repair experts in Austin, TX — equipment repair, renovations & replaster, inspections. Call 512-947-2023.",
+      "Pool leak repair in Austin, TX — leak detection technicians, equipment repair, renovations & inspections. Call 512-947-2023.",
     neighborhoods: [
       "Northwest Hills",
       "Westlake",
@@ -36,7 +36,7 @@ export const cityHubs: Record<string, CityHub> = {
     ],
     whyLocal: [
       "Same-week appointments available across Austin",
-      "Leak detection without unnecessary draining when possible",
+      "Pool leak repair without unnecessary draining when possible",
       "Trusted by homeowners, HOAs, and Austin-area realtors",
       "Free renovation consultations — replaster, PebbleTec, tile & full remodels",
     ],

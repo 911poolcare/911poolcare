@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCityBySlug, getCitiesForService, cityOffersService } from "@/content/cities";
 import { getServiceBySlug, getAllServiceSlugs } from "@/content/services";
+import { leakDetectionSlug } from "@/content/leak-detection";
 import { site } from "@/content/site";
 import {
   getCityServiceMetaDescription,
@@ -41,6 +42,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
+    keywords:
+      slug === leakDetectionSlug
+        ? [
+            `pool leak repair ${city.name}`,
+            `pool leak repair ${city.name} TX`,
+            `pool leak detection ${city.name}`,
+          ]
+        : undefined,
     alternates: {
       canonical,
     },

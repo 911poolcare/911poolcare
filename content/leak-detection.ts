@@ -6,6 +6,46 @@ import { site } from "@/content/site";
 
 export const leakDetectionSlug = "pool-leak-detection" as const;
 
+export const leakDetectionSeo = {
+  title: "Pool Leak Repair Austin TX | Detection & Repair",
+  titleTemplate: (city: string) =>
+    city === "Austin"
+      ? "Pool Leak Repair Austin TX | Plumbing, Shell & Equipment"
+      : `Pool Leak Repair ${city} TX | Detection & Repair`,
+  hubHeadline: "Pool leak repair in Austin & Central Texas",
+  cityHeadline: (city: string) => `Pool leak repair in ${city}, TX`,
+  keywords: [
+    "pool leak repair Austin",
+    "pool leak repair Austin TX",
+    "swimming pool leak repair",
+    "pool leak detection Austin",
+    "pool plumbing leak repair",
+  ],
+} as const;
+
+export const leakRepairTypes = [
+  {
+    title: "Plumbing & underground line repair",
+    description:
+      "We repair leaking suction, return, and spa lines under decks, rock, and landscaping. Electronic locating marks the exact spot so we open the right place — not the whole yard.",
+  },
+  {
+    title: "Pool shell & crack repair",
+    description:
+      "Hairline cracks, fitting leaks, and shell damage waste water and can undermine the structure. After dye testing confirms the source, we repair the leak before it becomes a bigger renovation.",
+  },
+  {
+    title: "Skimmer, light & fitting leaks",
+    description:
+      "Skimmers, returns, lights, and wall fittings are common leak points. We confirm them with dye testing, then repair or replace the fitting so the pool holds water again.",
+  },
+  {
+    title: "Equipment pad leak repair",
+    description:
+      "Pumps, filters, valves, and heater connections leak at the pad too. We isolate equipment leaks from underground plumbing so you are not paying to dig when the fix is above ground.",
+  },
+] as const;
+
 export const leakDetectionCertification = {
   title: "Leaktronics & Anderson leak detection",
   description:
@@ -52,12 +92,17 @@ export const leakDetectionTools = [
 ] as const;
 
 export const leakDetectionProcessIntro =
-  "We provide dye testing and pressure testing to locate all sources of leaks in a pool. We also use pipe cameras, listening devices in the pool and outside the pool, and locating devices to find leaks no matter where they are. Both Leaktronics and Anderson leak detection systems help us pinpoint the leak before we recommend a repair.";
+  "We provide dye testing and pressure testing to locate all sources of leaks in a pool. We also use pipe cameras, listening devices in the pool and outside the pool, and locating devices to find leaks no matter where they are. Both Leaktronics and Anderson leak detection systems help us pinpoint the leak — then we complete the pool leak repair.";
 
 
 export const leakDetectionFaqs = [
   {
-    question: "How do you find pool leaks?",
+    question: "Do you offer pool leak repair in Austin?",
+    answer:
+      "Yes. Pool leak repair in Austin and Central Texas is a core specialty — we locate the leak with Leaktronics and Anderson systems, then complete the repair. That includes plumbing leaks under decks, shell and crack leaks, skimmer and fitting leaks, and equipment-pad leaks. Many repairs happen the same visit once the source is confirmed.",
+  },
+  {
+    question: "How do you find and repair pool leaks?",
     answer: leakDetectionProcessIntro,
   },
   {
@@ -65,13 +110,12 @@ export const leakDetectionFaqs = [
     answer: pricing.leakDetection.faqAnswer,
   },
   {
-    question: "What if you can't find the leak?",
-    answer: pricing.leakDetection.guaranteeFaqAnswer,
+    question: "How much does pool leak repair cost?",
+    answer: pricing.leakDetection.repairNote,
   },
   {
-    question: "Do you repair leaks after you find them?",
-    answer:
-      "Yes. After we locate the leak, we provide a repair quote based on access, depth, and whether the line is under decking or landscaping. Many jobs are completed the same visit once the source is confirmed.",
+    question: "What if you can't find the leak?",
+    answer: pricing.leakDetection.guaranteeFaqAnswer,
   },
   {
     question: "How do I know if my pool is leaking or just evaporating?",
@@ -82,7 +126,7 @@ export const leakDetectionFaqs = [
 /** City-specific opening copy for local leak detection pages */
 export const cityLeakDetectionIntros: Record<string, string> = {
   austin:
-    "Austin pools lose water fast in summer — and a hidden leak can cost hundreds before you notice. From Northwest Hills and Circle C to Steiner Ranch and Mueller, we pinpoint leaks in the shell, plumbing, and equipment so you stop the waste and avoid structural damage.",
+    "Need pool leak repair in Austin? Summer heat hides water loss until the bill spikes. From Northwest Hills and Circle C to Steiner Ranch and Mueller, we find leaks in the shell, plumbing, and equipment — then complete the pool leak repair so you stop wasting water and avoid structural damage.",
   georgetown:
     "Georgetown's growth means more pools — and more leaks. In Sun City, Wolf Ranch, and established neighborhoods throughout Georgetown, we find the source and fix it before a small leak becomes deck damage or a high water bill.",
   leander:
@@ -116,7 +160,7 @@ export const cityLeakDetectionIntros: Record<string, string> = {
 /** Keyword-rich meta descriptions per city */
 export const cityLeakDetectionMeta: Record<string, string> = {
   austin:
-    "Pool leak detection & repair in Austin, TX. Dye testing, pressure testing, pipe cameras & listening gear. Leaktronics & Anderson. Call 512-947-2023.",
+    "Pool leak repair in Austin, TX — find and fix shell, plumbing, and equipment leaks. Dye testing, pressure testing, Leaktronics & Anderson. Call 512-947-2023.",
   georgetown:
     "Pool leak detection & repair in Georgetown, TX. Find hidden plumbing & shell leaks fast. Licensed & insured. Call 512-947-2023.",
   leander:
@@ -176,6 +220,10 @@ function buildDefaultLeakFaqs(cityName: string, localNote?: string): LeakFaq[] {
 
   return [
     {
+      question: `Do you offer pool leak repair in ${cityName}?`,
+      answer: `Yes — pool leak repair in ${cityName} is a core service. After we locate the leak, we quote the repair based on access, depth, and whether the line is under decking or landscaping. Many jobs are completed the same visit once the source is confirmed.`,
+    },
+    {
       question: `How do you find pool leaks in ${cityName}?`,
       answer: `${leakDetectionProcessIntro} We serve ${cityName} and nearby communities from our Leander base.`,
     },
@@ -184,12 +232,12 @@ function buildDefaultLeakFaqs(cityName: string, localNote?: string): LeakFaq[] {
       answer: `${pricing.leakDetection.faqAnswer} We serve ${cityName} and nearby communities from our Leander base.`,
     },
     {
-      question: `How do I know if my pool is leaking in ${cityName}?`,
-      answer: `If you're losing more than ${pricing.leakDetection.waterLossThresholdInches}″ per day, seeing wet spots near equipment, or constantly refilling, it's worth a professional check.${areaNote} We verify water loss on site before recommending a full detection.`,
+      question: `How much does pool leak repair cost in ${cityName}?`,
+      answer: `${pricing.leakDetection.repairNote} We serve ${cityName} and nearby communities from our Leander base.`,
     },
     {
-      question: `Do you repair pool leaks in ${cityName} after you find them?`,
-      answer: `Yes — we locate and repair leaks throughout ${cityName}.${pricing.leakDetection.repairNote} Many homeowners schedule detection and repair together once the source is confirmed.`,
+      question: `How do I know if my pool is leaking in ${cityName}?`,
+      answer: `If you're losing more than ${pricing.leakDetection.waterLossThresholdInches}″ per day, seeing wet spots near equipment, or constantly refilling, it's worth a professional check.${areaNote} We verify water loss on site before recommending a full detection.`,
     },
   ];
 }
@@ -212,7 +260,7 @@ export function getCityLeakDetectionIntro(citySlug: string, cityName: string): s
 export function getCityLeakDetectionMeta(citySlug: string, cityName: string): string {
   return (
     cityLeakDetectionMeta[citySlug] ??
-    `Pool leak detection & repair in ${cityName}, TX. Dye testing, pressure testing, Leaktronics & Anderson systems. Licensed & insured. Call ${site.phone}.`
+    `Pool leak repair in ${cityName}, TX. Dye testing, pressure testing, Leaktronics & Anderson systems. Licensed & insured. Call ${site.phone}.`
   );
 }
 

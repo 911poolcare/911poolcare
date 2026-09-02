@@ -101,6 +101,11 @@ export const faqs: FAQItem[] = [
     answer: `We repair and replace pumps, filters, heaters, automation and control systems, pool lights, timers, and related electrical work. We're a ${site.raicLicensed.inline}, with a ${site.railCertified.inline}.`,
   },
   {
+    question: "Do you offer pool leak repair in Austin?",
+    answer:
+      "Yes. Pool leak repair in Austin and Central Texas is a core specialty. We locate the leak with Leaktronics and Anderson systems, then complete the repair — plumbing leaks under decks, shell and crack leaks, fittings, and equipment-pad leaks. Many repairs happen the same visit once the source is confirmed.",
+  },
+  {
     question: "How do I know if my pool has a leak?",
     answer:
       "Common signs include water level dropping faster than normal evaporation, rising water bills, soggy spots around the pool, air in the pump, or trouble keeping chemicals balanced. If your pool is losing more than ½ inch of water per day, it's time to schedule a professional leak evaluation.",
@@ -114,7 +119,7 @@ export const faqs: FAQItem[] = [
     answer: pricing.leakDetection.guaranteeFaqAnswer,
   },
   {
-    question: "How much do leak repairs cost?",
+    question: "How much does pool leak repair cost?",
     answer: pricing.leakDetection.repairNote,
   },
   {

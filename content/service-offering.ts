@@ -1,16 +1,16 @@
 /** Site positioning — single source of truth for marketing copy */
 export const poolCareOffering = {
   /** SEO-focused H1 for homepage and local search */
-  seoHeadline: "Pool Repair & Renovation Experts · Austin, TX",
+  seoHeadline: "Pool Leak Repair & Renovation Experts · Austin, TX",
   headline: "We bring leaking, broken & aging pools back to life",
   subhead:
-    "Leak detection, equipment repair, renovations & inspections for residential, commercial & HOA properties.",
-  tagline: "Central Texas Pool Leak Detection, Repair, Renovation & Inspection",
+    "Pool leak repair, equipment repair, renovations & inspections for residential, commercial & HOA properties.",
+  tagline: "Central Texas Pool Leak Repair, Equipment, Renovation & Inspection",
   metaDescription:
-    "Pool repair near Austin, TX — leak detection, equipment repair, renovations & certified inspections. 4.9★ on Google · TDLR RAIC #1545 · RAIL certified · veteran-owned. Call 512-947-2023.",
+    "Pool leak repair in Austin, TX — leak detection, equipment repair, renovations & certified inspections. 4.9★ on Google · TDLR RAIC #1545 · RAIL certified · veteran-owned. Call 512-947-2023.",
   primary: [
     {
-      label: "Pool leak detection & repair",
+      label: "Pool leak repair & detection",
       slug: "pool-leak-detection",
     },
     {
@@ -32,16 +32,16 @@ export const poolCareOffering = {
     "leak detection and repair, equipment repair and replacement, pool renovations and replaster, and pool inspections",
   /** Services index / section heading — all four core services */
   servicesHeading:
-    "Pool leak detection & repair · Equipment repair & replacement · Renovations & replaster · Pool inspections",
+    "Pool leak repair & detection · Equipment repair & replacement · Renovations & replaster · Pool inspections",
   servicesIndex: {
     title: "Pool Repair Services Austin TX",
     metaDescription:
-      "Compare pool repair services in Austin & Central Texas — leak detection, equipment repair, renovations, and certified inspections. 4.9★ rated. Call 512-947-2023.",
+      "Compare pool repair services in Austin & Central Texas — pool leak repair, equipment repair, renovations, and certified inspections. 4.9★ rated. Call 512-947-2023.",
   },
   contact: {
     title: "Contact & Schedule Pool Service",
     metaDescription:
-      "Book pool leak detection, repair, renovation, or inspection service in Central Texas. Call 512-947-2023 or submit our online form — we respond fast, often same day.",
+      "Book pool leak repair, equipment repair, renovation, or inspection service in Central Texas. Call 512-947-2023 or submit our online form — we respond fast, often same day.",
   },
 } as const;
 

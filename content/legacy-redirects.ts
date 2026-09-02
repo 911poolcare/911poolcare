@@ -101,6 +101,10 @@ export const legacyRedirects: LegacyRedirect[] = [
 
   // Old marketing / anchor-style paths sometimes indexed on Wix
   { source: "/pool-leak-detection", destination: "/services/pool-leak-detection", permanent: true },
+  { source: "/pool-leak-repair", destination: "/services/pool-leak-detection", permanent: true },
+  { source: "/services/pool-leak-repair", destination: "/services/pool-leak-detection", permanent: true },
+  { source: "/pool-leak-repair-austin", destination: "/services/pool-leak-detection/austin", permanent: true },
+  { source: "/services/pool-leak-repair/austin", destination: "/services/pool-leak-detection/austin", permanent: true },
   { source: "/pool-renovation", destination: "/services/pool-renovations", permanent: true },
   { source: "/pool-renovations", destination: "/services/pool-renovations", permanent: true },
   { source: "/pool-repair", destination: "/services/pool-equipment-repair", permanent: true },

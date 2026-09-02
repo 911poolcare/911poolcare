@@ -31,6 +31,7 @@ import { getTeamForService } from "@/content/team";
 import { ServicePricing } from "@/components/services/ServicePricing";
 import { ServiceHeroLcpPreload } from "@/components/services/ServiceHeroLcpPreload";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
+import { ServiceJsonLd } from "@/components/seo/ServiceJsonLd";
 import { TeamSection } from "@/components/team/TeamSection";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
@@ -38,6 +39,7 @@ import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import {
   getCityLeakDetectionFaqs,
+  getCityLeakDetectionMeta,
   leakDetectionFaqs,
 } from "@/content/leak-detection";
 
@@ -144,6 +146,17 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
     <>
       <ServiceHeroLcpPreload src={heroSrc} />
       {leakFaqs ? <FaqJsonLd items={leakFaqs} /> : null}
+      {service.slug === "pool-leak-detection" ? (
+        <ServiceJsonLd
+          name={city ? `Pool leak repair in ${city.name}, TX` : "Pool leak repair in Austin & Central Texas"}
+          serviceType="Pool leak repair"
+          description={
+            city ? getCityLeakDetectionMeta(city.slug, city.name) : service.metaDescription
+          }
+          url={`${site.urls.site}${pagePath}`}
+          areaServed={city?.name}
+        />
+      ) : null}
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
         <Container className="relative grid items-center gap-10 py-14 lg:grid-cols-2 lg:py-20">
           <div>
@@ -267,7 +280,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                   href={getCityServicePath("pool-leak-detection", city.slug)}
                   className="font-semibold text-brand-700 hover:text-brand-800"
                 >
-                  Pool leak detection in {city.name} →
+                  Pool leak repair in {city.name} →
                 </Link>
               </p>
             ) : null}
