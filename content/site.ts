@@ -50,7 +50,7 @@ export const site = {
     },
     /** Update periodically from your Google Business profile */
     rating: 4.9,
-    reviewCount: 138,
+    reviewCount: 150,
   },
   address: {
     city: "Leander",
