@@ -1,5 +1,4 @@
 import { site } from "@/content/site";
-import { FinancingCallout } from "@/components/services/FinancingCallout";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -16,10 +15,6 @@ export function ContactSection() {
           title="Let's discuss your pool repair needs"
           description="Fill out the form or call us to schedule service. Free consultations are available for renovation projects. We respond fast — often same day."
         />
-
-        <div className="mb-8">
-          <FinancingCallout />
-        </div>
 
         <div className="grid gap-6 lg:grid-cols-5 lg:gap-10">
           <div className="order-2 lg:order-1 lg:col-span-2">

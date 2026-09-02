@@ -198,6 +198,7 @@ async function createRequest(
   title: string,
   data: ContactFormData,
   referringClientId: string | null,
+  adClick?: AdClickId | null,
 ) {
   const baseInput: Record<string, unknown> = { clientId, title };
   if (propertyId) {
@@ -207,7 +208,7 @@ async function createRequest(
     baseInput[REQUEST_REFERRING_CLIENT_FIELD] = referringClientId;
   }
 
-  const requestDetailsVariants = buildRequestDetailsVariants(data);
+  const requestDetailsVariants = buildRequestDetailsVariants(data, adClick);
   const layouts = ["overview-full", "overview-details", "sections"] as const;
   const formIds = getRequestFormIds();
   const inputs: Array<{
@@ -346,6 +347,7 @@ export async function createJobberLeadFromContact(
     requestTitle,
     data,
     referringClientId,
+    adClick,
   );
 
   void attachLeadNotes({

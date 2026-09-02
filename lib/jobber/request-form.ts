@@ -1,4 +1,5 @@
 import type { ContactFormData } from "@/lib/validations/contact";
+import type { AdClickId } from "@/lib/ads/click-id";
 import { referralSourceOptions } from "@/content/contact-form";
 
 /**
@@ -52,7 +53,11 @@ function getJobberServiceOptions(serviceValues: string[]) {
   );
 }
 
-function buildDetailsText(data: ContactFormData, serviceOptions: string[]) {
+function buildDetailsText(
+  data: ContactFormData,
+  serviceOptions: string[],
+  adClick?: AdClickId | null,
+) {
   const lines = [
     "Services requested:",
     ...serviceOptions.map((label) => `- ${label}`),
@@ -75,6 +80,10 @@ function buildDetailsText(data: ContactFormData, serviceOptions: string[]) {
     lines.push("", `Referrer: ${referrer}`);
   }
 
+  if (adClick) {
+    lines.push("", `Ad click ID: ${adClick.value} (${adClick.source})`);
+  }
+
   if (data.attachments?.length) {
     lines.push("", "Photos / videos:");
     for (const attachment of data.attachments) {
@@ -86,7 +95,10 @@ function buildDetailsText(data: ContactFormData, serviceOptions: string[]) {
 }
 
 /** Proven layout: Overview section, Service Details item only (form-probe confirmed). */
-function buildOverviewDetailsLayout(data: ContactFormData): RequestDetailsInput {
+function buildOverviewDetailsLayout(
+  data: ContactFormData,
+  adClick?: AdClickId | null,
+): RequestDetailsInput {
   const serviceOptions = getJobberServiceOptions(data.services);
   return {
     form: {
@@ -96,7 +108,7 @@ function buildOverviewDetailsLayout(data: ContactFormData): RequestDetailsInput 
           items: [
             {
               label: SECTION_DETAILS,
-              answerText: buildDetailsText(data, serviceOptions),
+              answerText: buildDetailsText(data, serviceOptions, adClick),
             },
           ],
         },
@@ -106,7 +118,10 @@ function buildOverviewDetailsLayout(data: ContactFormData): RequestDetailsInput 
 }
 
 /** Overview with both service selection + details items. */
-function buildOverviewFullLayout(data: ContactFormData): RequestDetailsInput {
+function buildOverviewFullLayout(
+  data: ContactFormData,
+  adClick?: AdClickId | null,
+): RequestDetailsInput {
   const serviceOptions = getJobberServiceOptions(data.services);
   return {
     form: {
@@ -120,7 +135,7 @@ function buildOverviewFullLayout(data: ContactFormData): RequestDetailsInput {
             },
             {
               label: SECTION_DETAILS,
-              answerText: buildDetailsText(data, serviceOptions),
+              answerText: buildDetailsText(data, serviceOptions, adClick),
             },
           ],
         },
@@ -130,7 +145,10 @@ function buildOverviewFullLayout(data: ContactFormData): RequestDetailsInput {
 }
 
 /** Each field as its own section (alternate Jobber form shape). */
-function buildSectionsLayout(data: ContactFormData): RequestDetailsInput {
+function buildSectionsLayout(
+  data: ContactFormData,
+  adClick?: AdClickId | null,
+): RequestDetailsInput {
   const serviceOptions = getJobberServiceOptions(data.services);
   return {
     form: {
@@ -146,7 +164,7 @@ function buildSectionsLayout(data: ContactFormData): RequestDetailsInput {
           items: [
             {
               label: SECTION_DETAILS,
-              answerText: buildDetailsText(data, serviceOptions),
+              answerText: buildDetailsText(data, serviceOptions, adClick),
             },
           ],
         },
@@ -158,34 +176,36 @@ function buildSectionsLayout(data: ContactFormData): RequestDetailsInput {
 /** Builds requestDetails.form for requestCreate when Jobber form wiring is enabled. */
 export function buildRequestDetailsInput(
   data: ContactFormData,
+  adClick?: AdClickId | null,
 ): RequestDetailsInput | null {
   if (process.env.JOBBER_REQUEST_FORM_ENABLED === "0") {
     return null;
   }
 
   if (process.env.JOBBER_FORM_LAYOUT === "sections") {
-    return buildSectionsLayout(data);
+    return buildSectionsLayout(data, adClick);
   }
   if (process.env.JOBBER_FORM_LAYOUT === "overview-full") {
-    return buildOverviewFullLayout(data);
+    return buildOverviewFullLayout(data, adClick);
   }
 
   // Default: overview-full (services + details) — production-verified.
-  return buildOverviewFullLayout(data);
+  return buildOverviewFullLayout(data, adClick);
 }
 
 /** Layout variants to try when requestCreate rejects the primary shape. */
 export function buildRequestDetailsVariants(
   data: ContactFormData,
+  adClick?: AdClickId | null,
 ): RequestDetailsInput[] {
   if (process.env.JOBBER_REQUEST_FORM_ENABLED === "0") {
     return [];
   }
 
   return [
-    buildOverviewFullLayout(data),
-    buildOverviewDetailsLayout(data),
-    buildSectionsLayout(data),
+    buildOverviewFullLayout(data, adClick),
+    buildOverviewDetailsLayout(data, adClick),
+    buildSectionsLayout(data, adClick),
   ];
 }
 
