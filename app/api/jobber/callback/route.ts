@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { site } from "@/content/site";
 import { JOBBER_TOKEN_URL } from "@/lib/jobber/config";
 
 /**
  * One-time OAuth callback to obtain Jobber refresh tokens.
  *
  * 1. In Jobber Developer Center, set callback URL to:
- *    https://www.911poolcare.com/api/jobber/callback  (or your Vercel preview URL while testing)
+ *    https://www.911poolcare.com/api/jobber/callback
  * 2. Visit /api/jobber/authorize to start the flow
  * 3. Copy the refresh token into Vercel as JOBBER_REFRESH_TOKEN
  */
@@ -32,7 +33,7 @@ export async function GET(request: Request) {
     return new NextResponse("Missing authorization code.", { status: 400 });
   }
 
-  const redirectUri = `${url.origin}/api/jobber/callback`;
+  const redirectUri = `${site.urls.site}/api/jobber/callback`;
 
   const body = new URLSearchParams({
     client_id: clientId,

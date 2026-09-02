@@ -55,6 +55,20 @@ const CREATE_CLIENT_MUTATION = `
   }
 `;
 
+const EDIT_CLIENT_MUTATION = `
+  mutation EditWebsiteLeadClient($clientId: EncodedId!, $input: ClientEditInput!) {
+    clientEdit(clientId: $clientId, input: $input) {
+      client {
+        id
+      }
+      userErrors {
+        message
+        path
+      }
+    }
+  }
+`;
+
 type ClientRecord = {
   id: string;
   name: string;
@@ -147,6 +161,13 @@ type ClientCreateResult = {
         };
       }>;
     } | null;
+    userErrors: Array<{ message: string; path?: string[] }>;
+  };
+};
+
+type ClientEditResult = {
+  clientEdit: {
+    client: { id: string } | null;
     userErrors: Array<{ message: string; path?: string[] }>;
   };
 };
@@ -284,6 +305,47 @@ export async function findOrCreateWebsiteClient(options: {
     client: toClientRecord(client),
     created: true,
   };
+}
+
+/** Best-effort custom field write — does not fail the lead if Jobber rejects the edit. */
+export async function editClientCustomFields(
+  clientId: string,
+  fields: Array<{ id: string; valueText: string }>,
+): Promise<boolean> {
+  if (!fields.length) return true;
+
+  const attempts = [
+    fields.map((field) => ({
+      customFieldConfigurationId: field.id,
+      valueText: field.valueText,
+    })),
+    fields.map((field) => ({
+      id: field.id,
+      valueText: field.valueText,
+    })),
+  ];
+
+  let lastErrors: string | null = null;
+
+  for (const customFields of attempts) {
+    try {
+      const result = await jobberGraphql<ClientEditResult>(EDIT_CLIENT_MUTATION, {
+        clientId,
+        input: { customFields },
+      });
+
+      const errors = formatUserErrors(result.clientEdit.userErrors);
+      if (!errors && result.clientEdit.client) {
+        return true;
+      }
+      lastErrors = errors ?? "no client returned";
+    } catch (error) {
+      lastErrors = error instanceof Error ? error.message : "unknown error";
+    }
+  }
+
+  console.warn("[Jobber] clientEdit custom fields failed:", lastErrors);
+  return false;
 }
 
 export async function resolveServicePropertyId(

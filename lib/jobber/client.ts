@@ -1,4 +1,5 @@
 import type { ContactFormData } from "@/lib/validations/contact";
+import type { AdClickId } from "@/lib/ads/click-id";
 import { isJobberConfigured } from "@/lib/jobber/config";
 import { createJobberLeadFromContact } from "@/lib/jobber/leads";
 
@@ -15,6 +16,7 @@ export type JobberLeadResult = {
  */
 export async function submitLeadToJobber(
   data: ContactFormData,
+  adClick?: AdClickId | null,
 ): Promise<JobberLeadResult> {
   if (!isJobberConfigured()) {
     if (process.env.NODE_ENV === "production") {
@@ -27,6 +29,7 @@ export async function submitLeadToJobber(
       email: data.email,
       services: data.services,
       address: `${data.street}, ${data.city}, ${data.state} ${data.zip}`,
+      adClick: adClick ?? null,
     });
 
     return {
@@ -37,5 +40,5 @@ export async function submitLeadToJobber(
     };
   }
 
-  return createJobberLeadFromContact(data);
+  return createJobberLeadFromContact(data, adClick);
 }

@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAdsCallTracking } from "@/components/analytics/GoogleAdsCallTracking";
 import { GoogleAdsPhoneResync } from "@/components/analytics/GoogleAdsPhoneResync";
+import { CaptureAdClickId } from "@/components/analytics/CaptureAdClickId";
 import { GoogleAnalytics, GoogleTagManager, GoogleTagManagerNoScript } from "@/components/analytics/GoogleAnalytics";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { defaultOpenGraphImage, twitterCard } from "@/content/og-images";
@@ -48,10 +49,6 @@ export const metadata: Metadata = {
       "msvalidate.01": "EE6AED7EED2E64790F93A9861D4F6A68",
     },
   },
-  icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
-  },
 };
 
 export default function RootLayout({
@@ -70,6 +67,7 @@ export default function RootLayout({
         <JsonLd />
         <GoogleTagManager />
         <GoogleAdsCallTracking />
+        <CaptureAdClickId />
         <GoogleAnalytics />
         <GoogleAdsPhoneResync />
         <TelClickHandler />

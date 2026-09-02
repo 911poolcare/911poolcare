@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {
+  JOBBER_CF_GOOGLE_CLICK_ID_NAME,
   JOBBER_CF_REFERRAL_NAME,
   JOBBER_CF_SERVICES_NAME,
   inspectJobberClientCustomFields,
@@ -20,7 +21,11 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     ok: true,
-    expectedFields: [JOBBER_CF_SERVICES_NAME, JOBBER_CF_REFERRAL_NAME],
+    expectedFields: [
+      JOBBER_CF_SERVICES_NAME,
+      JOBBER_CF_REFERRAL_NAME,
+      JOBBER_CF_GOOGLE_CLICK_ID_NAME,
+    ],
     fieldIds: diagnostics.fieldIds,
     ready: diagnostics.ready,
     lookupError: diagnostics.lookupError,
@@ -30,6 +35,6 @@ export async function GET(request: Request) {
       ? "Your Jobber app may need the custom_field_configurations read scope. Re-authorize at /api/jobber/authorize, or paste field IDs into JOBBER_CF_* env vars."
       : diagnostics.ready
         ? "Custom fields are wired up. Submit a test request to verify values on the client record."
-        : "Create the two expected text fields under Client custom fields, then reload with ?refresh=1",
+        : "Create the expected text fields under Client custom fields, then reload with ?refresh=1",
   });
 }

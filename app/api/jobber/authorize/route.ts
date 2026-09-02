@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { site } from "@/content/site";
 import { JOBBER_AUTHORIZE_URL } from "@/lib/jobber/config";
 
 /**
  * Starts the Jobber OAuth flow for one-time token setup.
  * Requires JOBBER_CLIENT_ID in environment variables.
  */
-export async function GET(request: Request) {
+export async function GET() {
   const clientId = process.env.JOBBER_CLIENT_ID;
   if (!clientId) {
     return new NextResponse("Set JOBBER_CLIENT_ID in environment variables first.", {
@@ -13,8 +14,7 @@ export async function GET(request: Request) {
     });
   }
 
-  const origin = new URL(request.url).origin;
-  const redirectUri = `${origin}/api/jobber/callback`;
+  const redirectUri = `${site.urls.site}/api/jobber/callback`;
   const state = crypto.randomUUID();
 
   const authorizeUrl = new URL(JOBBER_AUTHORIZE_URL);

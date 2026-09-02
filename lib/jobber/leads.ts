@@ -3,6 +3,7 @@ import { serviceOptions } from "@/content/services";
 import type { ContactFormData } from "@/lib/validations/contact";
 import {
   findOrCreateWebsiteClient,
+  editClientCustomFields,
   resolveServicePropertyId,
 } from "@/lib/jobber/clients";
 import {
@@ -12,7 +13,9 @@ import {
 } from "@/lib/jobber/referrals";
 import {
   buildClientCustomFieldInputs,
+  findClientTextCustomField,
   getJobberClientCustomFieldIds,
+  JOBBER_CF_GOOGLE_CLICK_ID_NAME,
   logMissingCustomFieldSetup,
 } from "@/lib/jobber/custom-fields";
 import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
@@ -21,6 +24,7 @@ import { attachLeadNotes } from "@/lib/jobber/notes";
 import type { JobberAddressInput } from "@/lib/jobber/property";
 import { attachPhotosToRequest } from "@/lib/jobber/request-attachments";
 import { buildRequestDetailsVariants, getRequestFormIds } from "@/lib/jobber/request-form";
+import type { AdClickId } from "@/lib/ads/click-id";
 
 const CREATE_REQUEST_MUTATION = `
   mutation CreateWebsiteLeadRequest($input: RequestCreateInput!) {
@@ -133,7 +137,11 @@ function buildRequestTitle(data: ContactFormData, serviceValues: string[]) {
   return title.slice(0, 255);
 }
 
-function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
+function buildRequestNote(
+  data: ContactFormData,
+  serviceLabels: string[],
+  adClick?: AdClickId | null,
+) {
   const lines = [
     `Website lead — submitted via ${JOBBER_LEAD_SOURCE}`,
     "",
@@ -156,6 +164,10 @@ function buildRequestNote(data: ContactFormData, serviceLabels: string[]) {
   const referrer = getReferrerName(data);
   if (referrer) {
     lines.push("", `Referrer: ${referrer}`);
+  }
+
+  if (adClick) {
+    lines.push("", `Ad click ID: ${adClick.value} (${adClick.source})`);
   }
 
   if (data.message.trim()) {
@@ -255,13 +267,16 @@ async function createRequest(
   throw new Error(`Jobber requestCreate failed: ${lastErrors ?? "unknown error"}`);
 }
 
-export async function createJobberLeadFromContact(data: ContactFormData) {
+export async function createJobberLeadFromContact(
+  data: ContactFormData,
+  adClick?: AdClickId | null,
+) {
   const { firstName, lastName } = splitName(data.name);
   const serviceLabels = getServiceLabels(data.services);
   const referralLabel = getReferralLabel(data);
   const address = buildAddress(data);
   const requestTitle = buildRequestTitle(data, data.services);
-  const requestNote = buildRequestNote(data, serviceLabels);
+  const requestNote = buildRequestNote(data, serviceLabels, adClick);
   const phone = normalizePhone(data.phone);
 
   const customFieldIds = await getJobberClientCustomFieldIds();
@@ -271,6 +286,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     customFieldIds,
     serviceLabels,
     referralLabel,
+    adClick?.value,
   );
 
   const clientInput: Record<string, unknown> = {
@@ -296,6 +312,29 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     clientInput,
     address,
   });
+
+  if (adClick) {
+    const clickFieldId =
+      customFieldIds.googleClickId ??
+      (await findClientTextCustomField(client.id, JOBBER_CF_GOOGLE_CLICK_ID_NAME))
+        ?.id ??
+      null;
+
+    if (clickFieldId) {
+      try {
+        await editClientCustomFields(client.id, [
+          { id: clickFieldId, valueText: adClick.value },
+        ]);
+      } catch (error) {
+        console.warn("[Jobber] editClientCustomFields (Google Click ID):", error);
+      }
+    } else {
+      console.warn(
+        `[Jobber] Could not resolve "${JOBBER_CF_GOOGLE_CLICK_ID_NAME}" custom field. ` +
+          "Request note still includes the click ID. Set JOBBER_CF_GOOGLE_CLICK_ID or re-authorize with custom_field_configurations read.",
+      );
+    }
+  }
 
   const propertyId = await resolveServicePropertyId(client, address, created);
 
@@ -336,6 +375,7 @@ export async function createJobberLeadFromContact(data: ContactFormData) {
     propertyId: request.property?.id ?? propertyId,
     referringClientId,
     reusedClient: !created,
+    adClickSource: adClick?.source ?? null,
   });
 
   return {
