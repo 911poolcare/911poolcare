@@ -350,13 +350,15 @@ export async function createJobberLeadFromContact(
     adClick,
   );
 
-  void attachLeadNotes({
-    clientId: client.id,
-    requestId: request.id,
-    message: requestNote,
-  }).catch((error) => {
+  try {
+    await attachLeadNotes({
+      clientId: client.id,
+      requestId: request.id,
+      message: requestNote,
+    });
+  } catch (error) {
     console.warn("[Jobber] attachLeadNotes:", error);
-  });
+  }
 
   if (data.attachments?.length) {
     void attachPhotosToRequest(request.id, data.attachments)

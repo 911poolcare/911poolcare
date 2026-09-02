@@ -1,8 +1,25 @@
 import { formatUserErrors, jobberGraphql } from "@/lib/jobber/graphql";
 
-const REQUEST_EDIT_NOTE_MUTATION = `
-  mutation CreateWebsiteLeadRequestNote($input: RequestEditNoteInput!) {
-    requestEditNote(input: $input) {
+const CREATE_REQUEST_NOTE = `
+  mutation CreateWebsiteLeadRequestNote($input: RequestCreateNoteInput!) {
+    requestCreateNote(input: $input) {
+      request {
+        id
+      }
+      userErrors {
+        message
+        path
+      }
+    }
+  }
+`;
+
+const CREATE_REQUEST_NOTE_WITH_ID = `
+  mutation CreateWebsiteLeadRequestNoteWithId(
+    $requestId: EncodedId!
+    $input: RequestCreateNoteInput!
+  ) {
+    requestCreateNote(requestId: $requestId, input: $input) {
       request {
         id
       }
@@ -29,33 +46,44 @@ const CLIENT_EDIT_NOTE_MUTATION = `
 `;
 
 async function tryCreateRequestNote(requestId: string, message: string) {
-  const linkedToVariants = [
-    { requestId },
-    { id: requestId },
+  const variants: Array<{
+    mutation: string;
+    variables: Record<string, unknown>;
+  }> = [
+    {
+      mutation: CREATE_REQUEST_NOTE,
+      variables: { input: { message, linkedTo: { requestId } } },
+    },
+    {
+      mutation: CREATE_REQUEST_NOTE_WITH_ID,
+      variables: { requestId, input: { message } },
+    },
+    {
+      mutation: CREATE_REQUEST_NOTE,
+      variables: { input: { message, linkedTo: { id: requestId } } },
+    },
   ];
 
-  for (const linkedTo of linkedToVariants) {
+  for (const variant of variants) {
     try {
       const result = await jobberGraphql<{
-        requestEditNote: {
+        requestCreateNote: {
           request: { id: string } | null;
           userErrors: Array<{ message: string; path?: string[] }>;
         };
-      }>(REQUEST_EDIT_NOTE_MUTATION, {
-        input: { linkedTo, message },
-      });
+      }>(variant.mutation, variant.variables);
 
-      const errors = formatUserErrors(result.requestEditNote.userErrors);
+      const errors = formatUserErrors(result.requestCreateNote.userErrors);
       if (errors) {
-        console.warn("[Jobber] requestEditNote (create):", errors);
+        console.warn("[Jobber] requestCreateNote:", errors);
         continue;
       }
 
-      if (result.requestEditNote.request) {
+      if (result.requestCreateNote.request) {
         return true;
       }
     } catch (error) {
-      console.warn("[Jobber] requestEditNote (create):", error);
+      console.warn("[Jobber] requestCreateNote:", error);
     }
   }
 
@@ -63,10 +91,7 @@ async function tryCreateRequestNote(requestId: string, message: string) {
 }
 
 async function tryCreateClientNote(clientId: string, message: string) {
-  const linkedToVariants = [
-    { clientId },
-    { id: clientId },
-  ];
+  const linkedToVariants = [{ clientId }, { id: clientId }];
 
   for (const linkedTo of linkedToVariants) {
     try {
@@ -97,7 +122,7 @@ async function tryCreateClientNote(clientId: string, message: string) {
 }
 
 /**
- * Best-effort note on the request or client.
+ * Note on the request (preferred) or client.
  * Lead details are not sent via assessment — that creates an assessment workflow in Jobber.
  */
 export async function attachLeadNotes(options: {
