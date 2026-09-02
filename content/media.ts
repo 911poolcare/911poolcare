@@ -1,4 +1,9 @@
 import { curatedJobsByService, getCuratedJobLabel } from "@/content/curated-jobs";
+import {
+  featuredRenovationCollageCities,
+  hubRenovationCollageCities,
+  renovationSlug,
+} from "@/content/renovations";
 import type { City } from "@/content/cities";
 import { cities, getCityBySlug } from "@/content/cities";
 import { getCityHub } from "@/content/city-hubs";
@@ -250,6 +255,22 @@ export function getServiceProgressSets(serviceSlug: string, limit = 4): JobProgr
     .map((job) => jobToProgressSet(job))
     .filter((set): set is JobProgressSet => set !== null)
     .slice(0, limit);
+}
+
+/** Labeled before / during / after sets for Austin, Cedar Park, and Westlake renovation pages. */
+export function getFeaturedRenovationCollages(citySlug?: string): JobProgressSet[] {
+  const slugs = citySlug
+    ? featuredRenovationCollageCities.filter((slug) => slug === citySlug)
+    : [...hubRenovationCollageCities];
+
+  return slugs.flatMap((slug) => {
+    const job = jobsForCity(renovationSlug, slug).find(
+      (item) => item.id === `curated--${renovationSlug}--${slug}`,
+    );
+    if (!job) return [];
+    const set = jobToProgressSet(job, getCityBySlug(slug));
+    return set?.before && set.after ? [set] : [];
+  });
 }
 
 export function getCityServiceProgressSets(

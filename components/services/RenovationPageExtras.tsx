@@ -12,7 +12,11 @@ import {
   renovationSlug,
 } from "@/content/renovations";
 import { renovationShowcase } from "@/content/galleries";
-import { getCityServiceProgressSets, getServiceProgressSets } from "@/content/media";
+import {
+  getCityServiceProgressSets,
+  getFeaturedRenovationCollages,
+  getServiceProgressSets,
+} from "@/content/media";
 import { pricing } from "@/content/pricing";
 import { site } from "@/content/site";
 import { getTeamForService } from "@/content/team";
@@ -34,9 +38,12 @@ type RenovationPageExtrasProps = {
 
 export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
   const areaLabel = city ? `${city.name} and surrounding areas` : "Central Texas";
-  const progressSets = city
-    ? getCityServiceProgressSets(renovationSlug, city.slug, city, 3)
-    : getServiceProgressSets(renovationSlug, 2);
+  const collageSets = getFeaturedRenovationCollages(city?.slug);
+  const progressSets = (
+    city
+      ? getCityServiceProgressSets(renovationSlug, city.slug, city, 3)
+      : getServiceProgressSets(renovationSlug, 6)
+  ).filter((set) => !collageSets.some((item) => item.id === set.id));
   const specialists = getTeamForService("pool-renovations");
 
   return (
@@ -44,7 +51,9 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
       <FaqJsonLd items={renovationFaqs} />
 
       {/* Proof first — paid traffic needs to see results before finishes lists */}
-      <BeforeAfterGallery images={renovationShowcase} />
+      {collageSets.length === 0 ? (
+        <BeforeAfterGallery images={renovationShowcase} />
+      ) : null}
 
       <LeakRenoBridge from="renovation" citySlug={city?.slug} />
 
@@ -84,7 +93,9 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
           title={
             city
               ? `Renovation progress — ${city.name} pools`
-              : "Renovation before, during & after"
+              : collageSets.length > 0
+                ? "More renovation projects"
+                : "Renovation before, during & after"
           }
           description="Multiple photos from the same replaster or remodel job — stripped, resurfaced, and finished."
         />

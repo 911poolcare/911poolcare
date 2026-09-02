@@ -177,6 +177,8 @@ export const cityRenovationIntros: Record<string, string> = {
     "Jonestown and Lake Travis area pools often need expert replaster and tile work after years of sun exposure. We handle renovations from consultation through completion.",
   "lago-vista":
     "Lago Vista and Lake Travis hillside pools benefit from replaster, PebbleTec, and tile updates after years of sun and water exposure. We provide free renovation consultations in the area.",
+  westlake:
+    "Westlake hillside pools sit on sloped, wooded lots with limestone, rockwork, and mature trees. We handle replaster, PebbleTec, spa, and full remodel work throughout Westlake and nearby Austin — with free on-site consultations.",
   "dripping-springs":
     "Dripping Springs pools — from Hill Country estates to neighborhood backyards — are prime candidates for replaster, PebbleTec, and full renovation projects.",
   "san-marcos":
@@ -205,6 +207,8 @@ export const cityRenovationMeta: Record<string, string> = {
     "Pool replaster & renovation in Jonestown, TX. PebbleTec, tile, coping & resurfacing. Free on-site consultation. Call 512-947-2023.",
   "lago-vista":
     "Pool renovation & replastering in Lago Vista, TX. PebbleTec, tile, coping & full remodels. Free consultation. Call 512-947-2023.",
+  westlake:
+    "Pool renovation & replastering in Westlake, TX. PebbleTec, tile, spa & hillside remodels. Free consultation. Call 512-947-2023.",
   "dripping-springs":
     "Pool renovation & replastering in Dripping Springs, TX. Replaster, PebbleTec, tile & coping. Free on-site consultation. Call 512-947-2023.",
   "san-marcos":
@@ -219,3 +223,23 @@ export const priorityRenovationMarkets = [
   { slug: "round-rock", name: "Round Rock" },
   { slug: "cedar-park", name: "Cedar Park" },
 ] as const;
+
+/** Cities with a complete before / during / after renovation photo set. */
+export const featuredRenovationCollageCities = [
+  "austin",
+  "cedar-park",
+  "westlake",
+] as const;
+
+/** Hub page keeps the two original featured sets; Westlake has its own city page. */
+export const hubRenovationCollageCities = ["austin", "cedar-park"] as const;
+
+export const renovationCollageCopy = {
+  eyebrow: "Before, during & after",
+  hubTitle: "Austin and Cedar Park renovations, start to finish",
+  hubDescription:
+    "The same pool at each stage — neglected or worn, then resurfaced, then filled and finished. Not a mix of random job photos.",
+  cityTitle: (city: string) => `${city} pool renovation — before, during & after`,
+  cityDescription: (city: string) =>
+    `One ${city} job photographed before we started, while the new finish went in, and after the pool was filled.`,
+} as const;

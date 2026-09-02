@@ -21,6 +21,7 @@ import {
   getCityServiceHeroImage,
   getCityServiceProgressSets,
   getCityServiceVideos,
+  getFeaturedRenovationCollages,
   getServiceGalleryImages,
   getServiceHeroImage,
   getServiceProgressSets,
@@ -30,6 +31,7 @@ import { getServiceGallery } from "@/content/galleries";
 import { getTeamForService } from "@/content/team";
 import { ServicePricing } from "@/components/services/ServicePricing";
 import { ServiceHeroLcpPreload } from "@/components/services/ServiceHeroLcpPreload";
+import { RenovationCollage } from "@/components/gallery/RenovationCollage";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
 import { ServiceJsonLd } from "@/components/seo/ServiceJsonLd";
 import { TeamSection } from "@/components/team/TeamSection";
@@ -112,11 +114,15 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
     : getServiceVideos(service.slug, 4);
   const isInspections = service.slug === "pool-inspections";
   const isRenovations = service.slug === "pool-renovations";
+  const collageSets = isRenovations
+    ? getFeaturedRenovationCollages(city?.slug)
+    : [];
   const showProgress = !isRenovations && !isInspections;
   const showGallery =
     gallery.length > 0 &&
     !(service.slug === "pool-equipment-repair" && progressSets.length > 0) &&
-    !isInspections;
+    !isInspections &&
+    !isRenovations;
   const galleryTitle =
     service.slug === "pool-leak-detection"
       ? city
@@ -234,6 +240,10 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
           </div>
         </Container>
       </section>
+
+      {collageSets.length > 0 ? (
+        <RenovationCollage sets={collageSets} cityName={city?.name} />
+      ) : null}
 
       <Section>
         <Container className="grid gap-12 lg:grid-cols-3">
@@ -395,6 +405,10 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
         />
       ) : null}
 
+      {service.slug === "pool-renovations" ? (
+        <RenovationPageExtras city={city} />
+      ) : null}
+
       {videos.length > 0 && !isInspections ? (
         <VideoGallery
           videos={videos}
@@ -406,10 +420,6 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
           }
           muted={gallery.length === 0}
         />
-      ) : null}
-
-      {service.slug === "pool-renovations" ? (
-        <RenovationPageExtras city={city} />
       ) : null}
 
       {service.slug === "pool-inspections" ? (

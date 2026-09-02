@@ -27,7 +27,7 @@ const RENOVATION_JOBS: CuratedJobSpec[] = [
   { citySlug: "cedar-park", cityName: "Cedar Park" },
   { citySlug: "spicewood", cityName: "Spicewood" },
   { citySlug: "lago-vista", cityName: "Lago Vista" },
-  { citySlug: "westlake", cityName: "Westlake", stages: ["during"] },
+  { citySlug: "westlake", cityName: "Westlake" },
 ];
 
 type EquipmentJobSpec = {
@@ -395,6 +395,36 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
   },
 ];
 
+const RENOVATION_STAGE_ALTS: Record<
+  string,
+  Partial<Record<"before" | "during" | "after", string>>
+> = {
+  austin: {
+    before:
+      "Austin pool before renovation — green water, stained deck, and worn red coping",
+    during:
+      "Austin pool during renovation — drained shell with fresh gray plaster and blue waterline tile",
+    after:
+      "Austin pool after renovation — clear water, dark waterline tile, and a bright white deck",
+  },
+  "cedar-park": {
+    before:
+      "Cedar Park pool before renovation — existing finish, diamond-tile steps, and raised brick spa",
+    during:
+      "Cedar Park pool during renovation — drained shell being prepped with coping protected",
+    after:
+      "Cedar Park pool after renovation — pebble finish, brick spa, and stone deck",
+  },
+  westlake: {
+    before:
+      "Westlake pool before renovation — existing freeform pool, spa, and limestone hillside wall",
+    during:
+      "Westlake pool during renovation — crew forming a spa addition in the drained shell",
+    after:
+      "Westlake pool after renovation — pebble finish, mosaic spa, and limestone waterfall",
+  },
+};
+
 function renovationImage(
   citySlug: string,
   stage: "before" | "during" | "after",
@@ -404,7 +434,9 @@ function renovationImage(
   return {
     src: `/images/jobs/pool-renovations/curated-${citySlug}-${stage}.jpg`,
     kind: "image",
-    alt: `${cityName} pool renovation — ${stageLabel.toLowerCase()}`,
+    alt:
+      RENOVATION_STAGE_ALTS[citySlug]?.[stage] ??
+      `${cityName} pool renovation — ${stageLabel.toLowerCase()}`,
     caption: stageLabel,
   };
 }
