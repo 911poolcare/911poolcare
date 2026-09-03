@@ -98,6 +98,18 @@ const REQUEST_SETTINGS_INTROSPECTION = `
         type { name kind ofType { name } }
       }
     }
+    sourceAttribution: __type(name: "SourceAttribution") {
+      fields {
+        name
+        type { name kind ofType { name kind ofType { name } } }
+      }
+    }
+    sourceAttributionAttributes: __type(name: "SourceAttributionAttributes") {
+      inputFields {
+        name
+        type { name kind ofType { name kind ofType { name } } }
+      }
+    }
   }
 `;
 

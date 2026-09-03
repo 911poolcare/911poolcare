@@ -1,4 +1,7 @@
-import { isNamedLeadSource } from "@/content/contact-form";
+import {
+  getLeadSourceOptionLabel,
+  isNamedLeadSource,
+} from "@/content/contact-form";
 import {
   createReferringClient,
   editClient,
@@ -31,6 +34,12 @@ const CLIENT_REFERRAL_SCHEMA_QUERY = `
         type { name kind ofType { name kind ofType { name } } }
       }
     }
+    sourceAttribution: __type(name: "SourceAttributionAttributes") {
+      inputFields {
+        name
+        type { name kind ofType { name kind ofType { name } } }
+      }
+    }
   }
 `;
 
@@ -44,6 +53,8 @@ type ClientReferralWrite = {
   path: "create" | "edit";
   field: string;
   valueKind: "id" | "string";
+  nestedField?: string;
+  sourceField?: string;
 };
 
 let cachedClientReferralWrite: ClientReferralWrite | null | undefined;
@@ -85,6 +96,13 @@ function pickReferralField(
   return null;
 }
 
+function nativeLeadSourceLabel(data: ContactFormData): string | null {
+  if (data.referralSource === "partner" || data.referralSource === "referral") {
+    return "Referral";
+  }
+  return getLeadSourceOptionLabel(data.referralSource);
+}
+
 export async function getClientReferredByWrite(): Promise<ClientReferralWrite | null> {
   if (cachedClientReferralWrite !== undefined) {
     return cachedClientReferralWrite;
@@ -98,22 +116,45 @@ export async function getClientReferredByWrite(): Promise<ClientReferralWrite | 
       edit: {
         inputFields: Array<{ name: string; type: GraphqlTypeRef }>;
       } | null;
+      sourceAttribution: {
+        inputFields: Array<{ name: string; type: GraphqlTypeRef }>;
+      } | null;
     }>(CLIENT_REFERRAL_SCHEMA_QUERY);
 
+    const attributionFields = result.sourceAttribution?.inputFields;
+    const nestedReferral = pickReferralField(attributionFields);
+    const sourceField =
+      attributionFields?.find((field) => field.name === "source")?.name ??
+      attributionFields?.find((field) => field.name === "leadSource")?.name;
+    const createHasAttribution = Boolean(
+      result.create?.inputFields.some((field) => field.name === "sourceAttribution"),
+    );
     const createField = pickReferralField(result.create?.inputFields);
     const editField = pickReferralField(result.edit?.inputFields);
 
-    cachedClientReferralWrite = createField
-      ? { path: "create", ...createField }
-      : editField
-        ? { path: "edit", ...editField }
-        : null;
+    if (createHasAttribution && (nestedReferral || sourceField)) {
+      cachedClientReferralWrite = {
+        path: "create",
+        field: "sourceAttribution",
+        valueKind: nestedReferral?.valueKind ?? "string",
+        nestedField: nestedReferral?.field,
+        sourceField,
+      };
+    } else {
+      cachedClientReferralWrite = createField
+        ? { path: "create", ...createField }
+        : editField
+          ? { path: "edit", ...editField }
+          : null;
+    }
 
     if (!cachedClientReferralWrite) {
       console.warn(
-        "[Jobber] ClientCreateInput/ClientEditInput has no Referred By field. " +
+        "[Jobber] Client create/edit has no Referred By field. " +
           "The client Referred By box cannot be set from the website form.",
       );
+    } else {
+      console.info("[Jobber] Client Referred By write path", cachedClientReferralWrite);
     }
   } catch (error) {
     console.warn("[Jobber] Could not inspect client Referred By fields:", error);
@@ -171,6 +212,30 @@ export async function resolveReferringClientId(
   return created.id;
 }
 
+function referredByPayload(
+  write: ClientReferralWrite,
+  data: ContactFormData,
+  referringClientId: string | null,
+): unknown | null {
+  if (write.field === "sourceAttribution") {
+    const attribution: Record<string, unknown> = {};
+    const referrerValue =
+      write.valueKind === "id" ? referringClientId : getReferrerName(data);
+    if (write.nestedField && referrerValue) {
+      attribution[write.nestedField] = referrerValue;
+    }
+    const source = nativeLeadSourceLabel(data);
+    if (write.sourceField && source) {
+      attribution[write.sourceField] = source;
+    }
+    return Object.keys(attribution).length ? attribution : null;
+  }
+
+  const value =
+    write.valueKind === "id" ? referringClientId : getReferrerName(data);
+  return value;
+}
+
 export async function applyReferredByOnCreateInput(
   clientInput: Record<string, unknown>,
   data: ContactFormData,
@@ -181,8 +246,7 @@ export async function applyReferredByOnCreateInput(
     return;
   }
 
-  const value =
-    write.valueKind === "id" ? referringClientId : getReferrerName(data);
+  const value = referredByPayload(write, data, referringClientId);
   if (!value) {
     return;
   }
@@ -205,8 +269,7 @@ export async function applyReferredByAfterCreate(
     return;
   }
 
-  const value =
-    write.valueKind === "id" ? referringClientId : getReferrerName(data);
+  const value = referredByPayload(write, data, referringClientId);
   if (!value) {
     return;
   }
