@@ -8,6 +8,8 @@ import {
 } from "@/lib/jobber/clients";
 import {
   REQUEST_REFERRING_CLIENT_FIELD,
+  applyReferredByAfterCreate,
+  applyReferredByOnCreateInput,
   resolveReferringClientId,
 } from "@/lib/jobber/referrals";
 import {
@@ -404,11 +406,16 @@ export async function createJobberLeadFromContact(
     clientInput.customFields = customFields;
   }
 
+  const referringClientId = await resolveReferringClientId(data);
+  await applyReferredByOnCreateInput(clientInput, data, referringClientId);
+
   const { client, created } = await findOrCreateWebsiteClient({
     email: data.email,
     clientInput,
     address,
   });
+
+  await applyReferredByAfterCreate(created, client.id, data, referringClientId);
 
   const fieldEdits: Array<{ id: string; valueText: string }> = [];
 
@@ -457,8 +464,6 @@ export async function createJobberLeadFromContact(
   }
 
   const propertyId = await resolveServicePropertyId(client, address, created);
-
-  const referringClientId = await resolveReferringClientId(data);
 
   const request = await createRequest(
     client.id,

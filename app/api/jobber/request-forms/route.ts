@@ -80,6 +80,24 @@ const REQUEST_SETTINGS_INTROSPECTION = `
         type { name kind ofType { name kind ofType { name } } }
       }
     }
+    clientCreateInput: __type(name: "ClientCreateInput") {
+      inputFields {
+        name
+        type { name kind ofType { name kind ofType { name } } }
+      }
+    }
+    clientEditInput: __type(name: "ClientEditInput") {
+      inputFields {
+        name
+        type { name kind ofType { name kind ofType { name } } }
+      }
+    }
+    clientType: __type(name: "Client") {
+      fields {
+        name
+        type { name kind ofType { name } }
+      }
+    }
   }
 `;
 
