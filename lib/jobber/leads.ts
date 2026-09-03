@@ -7,7 +7,6 @@ import {
   resolveServicePropertyId,
 } from "@/lib/jobber/clients";
 import {
-  getReferrerName,
   REQUEST_REFERRING_CLIENT_FIELD,
   resolveReferringClientId,
 } from "@/lib/jobber/referrals";
@@ -34,6 +33,7 @@ const CREATE_REQUEST_MUTATION = `
       request {
         id
         title
+        source
         jobberWebUri
         property {
           id
@@ -58,6 +58,7 @@ type RequestCreateResult = {
     request: {
       id: string;
       title: string;
+      source: string;
       jobberWebUri: string;
       property: {
         id: string;
@@ -72,6 +73,109 @@ type RequestCreateResult = {
     userErrors: Array<{ message: string; path?: string[] }>;
   };
 };
+
+const EDIT_REQUEST_MUTATION = `
+  mutation EditWebsiteLeadRequest($requestId: EncodedId!, $input: RequestEditInput!) {
+    requestEdit(requestId: $requestId, input: $input) {
+      request {
+        id
+        source
+        title
+      }
+      userErrors {
+        message
+        path
+      }
+    }
+  }
+`;
+
+const REQUEST_SOURCE_SCHEMA_QUERY = `
+  query RequestSourceSchema {
+    create: __type(name: "RequestCreateInput") {
+      inputFields { name }
+    }
+    edit: __type(name: "RequestEditInput") {
+      inputFields { name }
+    }
+  }
+`;
+
+type RequestEditResult = {
+  requestEdit: {
+    request: { id: string; source: string; title: string } | null;
+    userErrors: Array<{ message: string; path?: string[] }>;
+  };
+};
+
+type RequestSourceWritePath = "create" | "edit" | null;
+
+let cachedSourceWritePath: RequestSourceWritePath | undefined;
+
+async function getRequestSourceWritePath(): Promise<RequestSourceWritePath> {
+  if (cachedSourceWritePath !== undefined) {
+    return cachedSourceWritePath;
+  }
+
+  try {
+    const result = await jobberGraphql<{
+      create: { inputFields: Array<{ name: string }> } | null;
+      edit: { inputFields: Array<{ name: string }> } | null;
+    }>(REQUEST_SOURCE_SCHEMA_QUERY);
+
+    const createHasSource = Boolean(
+      result.create?.inputFields.some((field) => field.name === "source"),
+    );
+    const editHasSource = Boolean(
+      result.edit?.inputFields.some((field) => field.name === "source"),
+    );
+    cachedSourceWritePath = createHasSource ? "create" : editHasSource ? "edit" : null;
+  } catch (error) {
+    console.warn("[Jobber] Could not inspect request source fields:", error);
+    cachedSourceWritePath = null;
+  }
+
+  return cachedSourceWritePath;
+}
+
+async function applyRequestSource(
+  requestId: string,
+  source: string,
+  currentSource?: string,
+) {
+  if (currentSource === source) {
+    return;
+  }
+
+  const writePath = await getRequestSourceWritePath();
+  if (writePath !== "edit") {
+    if (writePath !== "create") {
+      console.warn(
+        `[Jobber] Request source stays "${currentSource ?? "911 Pool Care Website"}". ` +
+          "Jobber does not let API apps set that box; how they found us is in Overview and the client Lead Source field.",
+      );
+    }
+    return;
+  }
+
+  try {
+    const result = await jobberGraphql<RequestEditResult>(EDIT_REQUEST_MUTATION, {
+      requestId,
+      input: { source },
+    });
+    const errors = formatUserErrors(result.requestEdit.userErrors);
+    if (errors) {
+      console.warn("[Jobber] requestEdit source:", errors);
+      return;
+    }
+    console.info("[Jobber] Request source set", {
+      requestId,
+      source: result.requestEdit.request?.source ?? source,
+    });
+  } catch (error) {
+    console.warn("[Jobber] requestEdit source failed:", error);
+  }
+}
 
 const SERVICE_SHORT_LABELS: Record<string, string> = {
   "leak-detection": "Leak",
@@ -126,10 +230,7 @@ function buildRequestTitle(data: ContactFormData, serviceValues: string[]) {
       : `${shortLabels.length} services`;
   const address = buildAddress(data);
   const location = `${address.city}, ${address.province}`;
-  const referrer = getReferrerName(data);
-  const base = `${services} — ${location}`;
-  const title = referrer ? `[${referrer}] ${base}` : base;
-  return title.slice(0, 255);
+  return `${services} — ${location}`.slice(0, 255);
 }
 
 function buildRequestNote(
@@ -137,23 +238,24 @@ function buildRequestNote(
   serviceLabels: string[],
   adClick?: AdClickId | null,
 ) {
+  const referral = getReferralLabel(data);
   const lines = [
     `Website lead — submitted via ${JOBBER_LEAD_SOURCE}`,
+  ];
+  if (referral) {
+    lines.push("", `How they found us: ${referral}`);
+  }
+  lines.push(
     "",
     "Services requested:",
     ...serviceLabels.map((label) => `- ${label}`),
     "",
     `Service address: ${formatAddressLine(buildAddress(data))}`,
-  ];
+  );
 
   const companyName = data.companyName?.trim();
   if (companyName) {
     lines.push("", `Company: ${companyName}`);
-  }
-
-  const referral = getReferralLabel(data);
-  if (referral) {
-    lines.push("", `How they found us: ${referral}`);
   }
 
   if (adClick) {
@@ -189,6 +291,7 @@ async function createRequest(
   data: ContactFormData,
   referringClientId: string | null,
   adClick?: AdClickId | null,
+  source?: string | null,
 ) {
   const baseInput: Record<string, unknown> = { clientId, title };
   if (propertyId) {
@@ -196,6 +299,9 @@ async function createRequest(
   }
   if (referringClientId) {
     baseInput[REQUEST_REFERRING_CLIENT_FIELD] = referringClientId;
+  }
+  if (source && (await getRequestSourceWritePath()) === "create") {
+    baseInput.source = source;
   }
 
   const requestDetailsVariants = buildRequestDetailsVariants(data, adClick);
@@ -361,7 +467,12 @@ export async function createJobberLeadFromContact(
     data,
     referringClientId,
     adClick,
+    referralLabel,
   );
+
+  if (referralLabel) {
+    await applyRequestSource(request.id, referralLabel, request.source);
+  }
 
   try {
     await attachLeadNotes({
@@ -393,6 +504,7 @@ export async function createJobberLeadFromContact(
     referringClientId,
     reusedClient: !created,
     leadSource: referralLabel,
+    requestSource: request.source,
     adClickSource: adClick?.source ?? null,
   });
 

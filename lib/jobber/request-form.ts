@@ -51,21 +51,21 @@ function buildDetailsText(
   serviceOptions: string[],
   adClick?: AdClickId | null,
 ) {
-  const lines = [
+  const referral = getReferralLabel(data);
+  const lines: string[] = [];
+  if (referral) {
+    lines.push(`How they found us: ${referral}`, "");
+  }
+  lines.push(
     "Services requested:",
     ...serviceOptions.map((label) => `- ${label}`),
     "",
     data.message.trim(),
-  ];
+  );
 
   const companyName = data.companyName?.trim();
   if (companyName) {
     lines.push("", `Company: ${companyName}`);
-  }
-
-  const referral = getReferralLabel(data);
-  if (referral) {
-    lines.push("", `How they found us: ${referral}`);
   }
 
   if (adClick) {

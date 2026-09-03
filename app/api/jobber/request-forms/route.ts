@@ -74,6 +74,12 @@ const REQUEST_SETTINGS_INTROSPECTION = `
         type { name kind ofType { name kind ofType { name } } }
       }
     }
+    requestEditInput: __type(name: "RequestEditInput") {
+      inputFields {
+        name
+        type { name kind ofType { name kind ofType { name } } }
+      }
+    }
   }
 `;
 
