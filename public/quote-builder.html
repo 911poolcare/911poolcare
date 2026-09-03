@@ -593,7 +593,10 @@
 
   <div class="toolbar">
     <div class="btn" onclick="window.print()">Print / Save PDF</div>
-    <div class="btn primary" onclick="copyQuote()">Copy quote text</div>
+    <div class="btn primary" onclick="copyQuote()">Copy detailed breakdown</div>
+  </div>
+  <div class="toolbar">
+    <div class="btn primary" onclick="copyForJobber()" style="background:var(--primary);border-color:var(--primary);">Copy sections for Jobber</div>
   </div>
   <div class="toolbar">
     <div class="btn" onclick="clearForm()" style="color:var(--danger);border-color:var(--danger);">New quote (clear all)</div>
@@ -615,6 +618,18 @@
     </div>
     <div class="full-breakdown" id="fullBreakdown">
       <div class="full-breakdown-in" id="fullBreakdownIn"></div>
+    </div>
+  </div>
+</div>
+
+<div id="copyModalOverlay" style="display:none; position:fixed; inset:0; background:rgba(8,26,29,.55); z-index:100; padding:16px; overflow-y:auto;">
+  <div style="max-width:640px; margin:40px auto 0; background:#fff; border-radius:14px; padding:18px; box-shadow:0 10px 40px rgba(0,0,0,.25);">
+    <div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; color:var(--ink); margin-bottom:4px;" id="copyModalTitle">Copy this text</div>
+    <div style="font-size:12.5px; color:var(--ink-soft); margin-bottom:10px;">Tap the box, select all, then copy — or use the button below if your browser supports it.</div>
+    <textarea id="copyModalText" readonly style="width:100%; height:min(50vh,400px); font-family:'IBM Plex Mono',monospace; font-size:12.5px; border:1.5px solid var(--line); border-radius:10px; padding:10px; resize:vertical;"></textarea>
+    <div style="display:flex; gap:10px; margin-top:12px;">
+      <div class="btn primary" style="flex:1;" onclick="copyModalTryClipboard()">Copy</div>
+      <div class="btn" style="flex:1;" onclick="closeCopyModal()">Done</div>
     </div>
   </div>
 </div>
@@ -1023,11 +1038,131 @@ function copyQuote(){
   }
   lines.push("TOTAL: " + money(r.grand));
   const text = lines.join("\n");
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(text).then(()=> alert("Quote copied to clipboard.")).catch(()=> prompt("Copy manually:", text));
-  } else {
-    prompt("Copy manually:", text);
+  showCopyModal(text, "Detailed breakdown");
+}
+
+/* Robust copy handling — clipboard API can silently fail (no HTTPS, no
+   permission, or iOS standalone/home-screen mode where window.prompt() is a
+   known no-op) so we always show an on-page textarea as the reliable path,
+   with a best-effort clipboard attempt layered on top. */
+function showCopyModal(text, title){
+  document.getElementById("copyModalTitle").textContent = title;
+  const ta = document.getElementById("copyModalText");
+  ta.value = text;
+  document.getElementById("copyModalOverlay").style.display = "block";
+  // best-effort silent clipboard attempt so a single tap is often enough
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).catch(()=>{});
   }
+  setTimeout(()=>{ ta.focus(); ta.select(); }, 50);
+}
+function copyModalTryClipboard(){
+  const ta = document.getElementById("copyModalText");
+  ta.focus();
+  ta.select();
+  let ok = false;
+  try{ ok = document.execCommand("copy"); }catch(e){ ok = false; }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(ta.value).then(()=>{
+      alert("Copied to clipboard.");
+    }).catch(()=>{
+      if(ok) alert("Copied to clipboard.");
+      else alert("Couldn't copy automatically — the text is selected, use your keyboard's copy (or press and hold, then Copy).");
+    });
+  } else if(ok){
+    alert("Copied to clipboard.");
+  } else {
+    alert("Couldn't copy automatically — the text is selected, use your keyboard's copy (or press and hold, then Copy).");
+  }
+}
+function closeCopyModal(){
+  document.getElementById("copyModalOverlay").style.display = "none";
+}
+
+/* section bundling for Jobber — groups the internal cost lines into the
+   customer-facing categories Chris actually quotes with: Demo, Repair Work,
+   Replaster, Startup (pool only), and Tile Replacement as its own section. */
+const POOL_LINE_GROUPS = {
+  "Remove old plaster (up to 2 layers)": "Pool Demo",
+  "Drain pool": "Pool Demo",
+  "Split main drains": "Pool Repair Work",
+  "Crack repair": "Pool Repair Work",
+  "New pebble top drain covers": "Pool Repair Work",
+  "New eyeball / return fittings": "Pool Repair Work",
+  "Wall step replacement": "Pool Repair Work",
+  "Pre-plaster prep": "Pool Replaster",
+  "Tanning ledge plaster": "Pool Replaster",
+  "Bench plaster": "Pool Replaster",
+  "Step plaster (over 25')": "Pool Replaster",
+  "In-floor head plaster": "Pool Replaster",
+  "Rock line plaster": "Pool Replaster",
+  "Plaster cost": "Pool Replaster",
+  "Acid wash / slurry box": "Pool Replaster",
+  "New pool startup": "Pool Startup"
+};
+const SPA_LINE_GROUPS = {
+  "Remove old plaster (up to 2 layers)": "Spa Demo",
+  "Split main drains": "Spa Repair Work",
+  "Replace spa jets": "Spa Repair Work",
+  "Replace spa eyeballs": "Spa Repair Work",
+  "New pebble top drain covers": "Spa Repair Work",
+  "Cost of spa plaster": "Spa Replaster",
+  "Cost for plaster over 26 linear ft": "Spa Replaster",
+  "Acid wash (spa only)": "Spa Replaster"
+};
+const SECTION_ORDER = ["Pool Demo","Pool Repair Work","Pool Replaster","Pool Startup","Spa Demo","Spa Repair Work","Spa Replaster","Tile Replacement"];
+
+function bundleSections(lines, groupMap, sectionName){
+  const totals = {};
+  lines.forEach(l=>{
+    const group = groupMap ? (groupMap[l.label] || l.label) : sectionName;
+    totals[group] = (totals[group] || 0) + l.value;
+  });
+  return totals;
+}
+
+function copyForJobber(){
+  const r = window._lastResult || calc();
+  const name = document.getElementById("custName").value || "—";
+  const addr = document.getElementById("jobAddr").value || "—";
+
+  const sectionTotals = {};
+  if(r.poolIncluded){
+    Object.assign(sectionTotals, bundleSections(r.poolLines, POOL_LINE_GROUPS));
+  }
+  if(r.spaIncluded){
+    Object.assign(sectionTotals, bundleSections(r.spaLines, SPA_LINE_GROUPS));
+  }
+  if(r.tileIncluded){
+    sectionTotals["Tile Replacement"] = r.tileTotal;
+  }
+
+  let lines = [];
+  lines.push("911 POOL CARE — QUOTE SECTIONS (for Jobber)");
+  lines.push("Customer: " + name);
+  lines.push("Job address: " + addr);
+  lines.push("Plaster: " + r.plaster.name + (r.colorSelected ? " — " + r.colorSelected : ""));
+  if(r.tileIncluded){
+    lines.push("Tile: " + r.tileMaterial.label);
+  }
+  lines.push("");
+
+  SECTION_ORDER.forEach(sectionName=>{
+    const amt = sectionTotals[sectionName];
+    if(amt !== undefined && amt !== 0){
+      lines.push(sectionName + " — " + money(amt));
+    }
+  });
+
+  lines.push("");
+  if(r.discount.rate>0){
+    lines.push("Subtotal — " + money(r.preDiscount));
+    lines.push(r.discount.label + " (" + r.discountPct + "%) — -" + money(r.discountAmount));
+  }
+  lines.push("TOTAL — " + money(r.grand));
+
+  const text = lines.join("\n");
+  showCopyModal(text, "Sections for Jobber");
 }
 
 document.querySelectorAll("input, select").forEach(el=>{
