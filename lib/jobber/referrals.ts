@@ -125,7 +125,8 @@ export async function getClientReferredByWrite(): Promise<ClientReferralWrite | 
     const nestedReferral = pickReferralField(attributionFields);
     const sourceField =
       attributionFields?.find((field) => field.name === "source")?.name ??
-      attributionFields?.find((field) => field.name === "leadSource")?.name;
+      attributionFields?.find((field) => field.name === "leadSource")?.name ??
+      attributionFields?.find((field) => field.name === "sourceText")?.name;
     const createHasAttribution = Boolean(
       result.create?.inputFields.some((field) => field.name === "sourceAttribution"),
     );
@@ -224,9 +225,14 @@ function referredByPayload(
     if (write.nestedField && referrerValue) {
       attribution[write.nestedField] = referrerValue;
     }
-    const source = nativeLeadSourceLabel(data);
-    if (write.sourceField && source) {
-      attribution[write.sourceField] = source;
+    if (write.sourceField) {
+      const sourceValue =
+        write.sourceField === "sourceText"
+          ? getReferrerName(data) ?? nativeLeadSourceLabel(data)
+          : nativeLeadSourceLabel(data);
+      if (sourceValue) {
+        attribution[write.sourceField] = sourceValue;
+      }
     }
     return Object.keys(attribution).length ? attribution : null;
   }
