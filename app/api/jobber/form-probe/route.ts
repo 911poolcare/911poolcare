@@ -148,6 +148,7 @@ export async function GET() {
       state: "TX",
       zip: testAddress.postalCode,
       message: "Form probe test — property + Service Details combined.",
+      referralSource: "google",
     } satisfies ContactFormData;
 
     const requestDetails = buildRequestDetailsInput(probeFormData);

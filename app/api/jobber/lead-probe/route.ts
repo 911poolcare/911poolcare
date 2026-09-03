@@ -127,6 +127,7 @@ export async function GET() {
       zip: testAddress.postalCode,
       message:
         "Lead probe test — checking property + Service Details wiring. Please ignore.",
+      referralSource: "google",
     } satisfies ContactFormData;
 
     const requestDetails = buildRequestDetailsInput(probeFormData);

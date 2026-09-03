@@ -149,6 +149,7 @@ export async function GET(request: Request) {
       state: "TX",
       zip: testAddress.postalCode,
       message: "Attachment probe — testing Upload images field. Please ignore.",
+      referralSource: "google",
       attachments: [
         {
           name: "probe-pool.jpg",

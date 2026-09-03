@@ -2,7 +2,7 @@
 export const referralSourceOptions = [
   { value: "returning-customer", label: "Returning Customer" },
   { value: "google", label: "Google" },
-  { value: "ai", label: "AI (ChatGPT, Claude, etc.)" },
+  { value: "ai", label: "AI (Chat GPT, Claude, etc.)" },
   { value: "saw-van", label: "Saw van / employee" },
   { value: "friend-family", label: "Friend / Family" },
   { value: "referral", label: "Referral" },
