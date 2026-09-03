@@ -66,14 +66,13 @@ export function ContactForm() {
 
   const referralSource = watch("referralSource");
   const showReferralOther = referralSource === "other";
-  const showReferrerName =
-    referralSource === "pool-company" || referralSource === "word-of-mouth";
+  const showReferrerName = referralSource === "partner" || referralSource === "referral";
   const referrerFieldLabel =
-    referralSource === "pool-company"
-      ? "Which pool company referred you?"
-      : "Who referred you?";
+    referralSource === "partner" ? "Partner name" : "Who referred you?";
   const referrerFieldPlaceholder =
-    referralSource === "pool-company" ? "Company name" : "Friend, neighbor, or referrer name";
+    referralSource === "partner"
+      ? "Pool company or partner name"
+      : "Name of the person who referred you";
   const addressAutocompleteEnabled = isAddressAutocompleteEnabled();
 
   const handleAddressSelect = useCallback(
@@ -431,7 +430,8 @@ export function ContactForm() {
         </Field>
 
         <Field
-          label="How did you find us? (optional)"
+          label="How did you find us?"
+          required
           error={errors.referralSource?.message}
           className="sm:col-span-2"
         >
@@ -454,7 +454,7 @@ export function ContactForm() {
           >
             <input
               {...register("referrerName")}
-              autoComplete={referralSource === "pool-company" ? "organization" : "name"}
+              autoComplete={referralSource === "partner" ? "organization" : "name"}
               className={inputClass(errors.referrerName)}
               placeholder={referrerFieldPlaceholder}
             />

@@ -2,6 +2,7 @@ import { jobberGraphql } from "@/lib/jobber/graphql";
 
 /** Create these text fields on Clients in Jobber → Settings → Custom Fields. */
 export const JOBBER_CF_SERVICES_NAME = "Website - Services Requested";
+export const JOBBER_CF_LEAD_SOURCE_NAME = "Lead Source";
 export const JOBBER_CF_REFERRAL_NAME = "Website - Referral Source";
 export const JOBBER_CF_GOOGLE_CLICK_ID_NAME = "Google Click ID";
 
@@ -65,7 +66,10 @@ function resolveIdsFromFields(
 
   return {
     servicesRequestedId: byName.get(JOBBER_CF_SERVICES_NAME) ?? null,
-    referralSourceId: byName.get(JOBBER_CF_REFERRAL_NAME) ?? null,
+    referralSourceId:
+      byName.get(JOBBER_CF_LEAD_SOURCE_NAME) ??
+      byName.get(JOBBER_CF_REFERRAL_NAME) ??
+      null,
     googleClickId: byName.get(JOBBER_CF_GOOGLE_CLICK_ID_NAME) ?? null,
   };
 }
@@ -116,7 +120,7 @@ export async function inspectJobberClientCustomFields(
 
   const nearMatches = fields
     .map((field) => field.name)
-    .filter((name) => /website|services|referral|referred|click|gclid|google/i.test(name));
+    .filter((name) => /website|services|referral|referred|lead.?source|click|gclid|google/i.test(name));
 
   return {
     fieldIds,
@@ -189,10 +193,10 @@ export function buildClientCustomFieldInputs(
     });
   }
 
-  if (fieldIds.referralSourceId) {
+  if (fieldIds.referralSourceId && referralLabel) {
     fields.push({
       id: fieldIds.referralSourceId,
-      valueText: referralLabel ?? "Not specified",
+      valueText: referralLabel,
     });
   }
 
@@ -212,7 +216,7 @@ export function logMissingCustomFieldSetup(fieldIds: ResolvedCustomFieldIds) {
     missing.push(JOBBER_CF_SERVICES_NAME);
   }
   if (!fieldIds.referralSourceId) {
-    missing.push(JOBBER_CF_REFERRAL_NAME);
+    missing.push(`${JOBBER_CF_LEAD_SOURCE_NAME} (or ${JOBBER_CF_REFERRAL_NAME})`);
   }
   if (!fieldIds.googleClickId) {
     missing.push(JOBBER_CF_GOOGLE_CLICK_ID_NAME);

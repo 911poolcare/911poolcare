@@ -41,43 +41,30 @@ const contactFieldsSchema = z.object({
     .trim()
     .min(10, "Please describe your issue (at least a few words)")
     .max(2000, "Please keep your description under 2000 characters"),
-  referralSource: z.union([z.enum(referralValues), z.literal("")]).optional(),
+  referralSource: z.union([z.enum(referralValues), z.literal("")]),
   referralSourceOther: z.string().max(120).optional().or(z.literal("")),
   referrerName: z.string().max(120).optional().or(z.literal("")),
   attachments: z.array(contactAttachmentSchema).max(6).optional(),
   website: z.string().max(0).optional(),
 });
 
-export const contactFormFieldsSchema = contactFieldsSchema
-  .omit({
-    services: true,
-    attachments: true,
-  })
-  .superRefine((data, ctx) => {
-    if (data.referralSource === "other" && !data.referralSourceOther?.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please tell us how you found us",
-        path: ["referralSourceOther"],
-      });
-    }
-    if (data.referralSource === "pool-company" && !data.referrerName?.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please enter the pool company name",
-        path: ["referrerName"],
-      });
-    }
-    if (data.referralSource === "word-of-mouth" && !data.referrerName?.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please enter who referred you",
-        path: ["referrerName"],
-      });
-    }
-  });
+function addLeadSourceIssues(
+  data: {
+    referralSource?: string;
+    referralSourceOther?: string;
+    referrerName?: string;
+  },
+  ctx: z.RefinementCtx,
+) {
+  if (!data.referralSource) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please tell us how you found us",
+      path: ["referralSource"],
+    });
+    return;
+  }
 
-export const contactSchema = contactFieldsSchema.superRefine((data, ctx) => {
   if (data.referralSource === "other" && !data.referralSourceOther?.trim()) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -85,21 +72,32 @@ export const contactSchema = contactFieldsSchema.superRefine((data, ctx) => {
       path: ["referralSourceOther"],
     });
   }
-  if (data.referralSource === "pool-company" && !data.referrerName?.trim()) {
+
+  if (data.referralSource === "partner" && !data.referrerName?.trim()) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: "Please enter the pool company name",
+      message: "Please enter the partner name",
       path: ["referrerName"],
     });
   }
-  if (data.referralSource === "word-of-mouth" && !data.referrerName?.trim()) {
+
+  if (data.referralSource === "referral" && !data.referrerName?.trim()) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: "Please enter who referred you",
       path: ["referrerName"],
     });
   }
-});
+}
+
+export const contactFormFieldsSchema = contactFieldsSchema
+  .omit({
+    services: true,
+    attachments: true,
+  })
+  .superRefine(addLeadSourceIssues);
+
+export const contactSchema = contactFieldsSchema.superRefine(addLeadSourceIssues);
 
 export type ContactFormData = z.infer<typeof contactFieldsSchema>;
 

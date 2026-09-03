@@ -1,13 +1,12 @@
+import { isNamedLeadSource } from "@/content/contact-form";
 import { findClientByName } from "@/lib/jobber/clients";
 import type { ContactFormData } from "@/lib/validations/contact";
 
 /** RequestCreateInput field — introspect via GET /api/jobber/request-forms */
 export const REQUEST_REFERRING_CLIENT_FIELD = "referringClientId";
 
-const REFERRER_SOURCES = new Set(["pool-company", "word-of-mouth"]);
-
 export function getReferrerName(data: ContactFormData): string | null {
-  if (!data.referralSource || !REFERRER_SOURCES.has(data.referralSource)) {
+  if (!data.referralSource || !isNamedLeadSource(data.referralSource)) {
     return null;
   }
 

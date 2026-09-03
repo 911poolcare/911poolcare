@@ -1,4 +1,4 @@
-import { referralSourceOptions } from "@/content/contact-form";
+import { formatLeadSourceLabel } from "@/content/contact-form";
 import { serviceOptions } from "@/content/services";
 import type { ContactFormData } from "@/lib/validations/contact";
 import {
@@ -16,6 +16,8 @@ import {
   findClientTextCustomField,
   getJobberClientCustomFieldIds,
   JOBBER_CF_GOOGLE_CLICK_ID_NAME,
+  JOBBER_CF_LEAD_SOURCE_NAME,
+  JOBBER_CF_REFERRAL_NAME,
   logMissingCustomFieldSetup,
 } from "@/lib/jobber/custom-fields";
 import { JOBBER_LEAD_SOURCE } from "@/lib/jobber/config";
@@ -97,14 +99,7 @@ function getServiceLabels(serviceValues: string[]) {
 }
 
 function getReferralLabel(data: ContactFormData) {
-  if (!data.referralSource) return null;
-  if (data.referralSource === "other") {
-    return data.referralSourceOther?.trim() || "Other";
-  }
-  return (
-    referralSourceOptions.find((option) => option.value === data.referralSource)
-      ?.label ?? data.referralSource
-  );
+  return formatLeadSourceLabel(data);
 }
 
 function buildAddress(data: ContactFormData): JobberAddressInput {
@@ -159,11 +154,6 @@ function buildRequestNote(
   const referral = getReferralLabel(data);
   if (referral) {
     lines.push("", `How they found us: ${referral}`);
-  }
-
-  const referrer = getReferrerName(data);
-  if (referrer) {
-    lines.push("", `Referrer: ${referrer}`);
   }
 
   if (adClick) {
@@ -314,6 +304,27 @@ export async function createJobberLeadFromContact(
     address,
   });
 
+  const fieldEdits: Array<{ id: string; valueText: string }> = [];
+
+  if (referralLabel) {
+    const leadFieldId =
+      customFieldIds.referralSourceId ??
+      (await findClientTextCustomField(client.id, JOBBER_CF_LEAD_SOURCE_NAME))
+        ?.id ??
+      (await findClientTextCustomField(client.id, JOBBER_CF_REFERRAL_NAME))
+        ?.id ??
+      null;
+
+    if (leadFieldId) {
+      fieldEdits.push({ id: leadFieldId, valueText: referralLabel });
+    } else {
+      console.warn(
+        `[Jobber] Could not resolve "${JOBBER_CF_LEAD_SOURCE_NAME}" custom field. ` +
+          "Request note still includes the lead source. Create a Client text field named Lead Source, or set JOBBER_CF_REFERRAL_SOURCE_ID.",
+      );
+    }
+  }
+
   if (adClick) {
     const clickFieldId =
       customFieldIds.googleClickId ??
@@ -322,18 +333,20 @@ export async function createJobberLeadFromContact(
       null;
 
     if (clickFieldId) {
-      try {
-        await editClientCustomFields(client.id, [
-          { id: clickFieldId, valueText: adClick.value },
-        ]);
-      } catch (error) {
-        console.warn("[Jobber] editClientCustomFields (Google Click ID):", error);
-      }
+      fieldEdits.push({ id: clickFieldId, valueText: adClick.value });
     } else {
       console.warn(
         `[Jobber] Could not resolve "${JOBBER_CF_GOOGLE_CLICK_ID_NAME}" custom field. ` +
           "Request note still includes the click ID. Set JOBBER_CF_GOOGLE_CLICK_ID or re-authorize with custom_field_configurations read.",
       );
+    }
+  }
+
+  if (fieldEdits.length) {
+    try {
+      await editClientCustomFields(client.id, fieldEdits);
+    } catch (error) {
+      console.warn("[Jobber] editClientCustomFields:", error);
     }
   }
 
@@ -379,6 +392,7 @@ export async function createJobberLeadFromContact(
     propertyId: request.property?.id ?? propertyId,
     referringClientId,
     reusedClient: !created,
+    leadSource: referralLabel,
     adClickSource: adClick?.source ?? null,
   });
 

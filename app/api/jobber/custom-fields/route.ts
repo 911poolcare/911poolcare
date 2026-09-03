@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   JOBBER_CF_GOOGLE_CLICK_ID_NAME,
+  JOBBER_CF_LEAD_SOURCE_NAME,
   JOBBER_CF_REFERRAL_NAME,
   JOBBER_CF_SERVICES_NAME,
   inspectJobberClientCustomFields,
@@ -23,6 +24,7 @@ export async function GET(request: Request) {
     ok: true,
     expectedFields: [
       JOBBER_CF_SERVICES_NAME,
+      JOBBER_CF_LEAD_SOURCE_NAME,
       JOBBER_CF_REFERRAL_NAME,
       JOBBER_CF_GOOGLE_CLICK_ID_NAME,
     ],

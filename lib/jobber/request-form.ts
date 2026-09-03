@@ -1,6 +1,6 @@
 import type { ContactFormData } from "@/lib/validations/contact";
 import type { AdClickId } from "@/lib/ads/click-id";
-import { referralSourceOptions } from "@/content/contact-form";
+import { formatLeadSourceLabel } from "@/content/contact-form";
 
 /**
  * Jobber checkbox option labels — must match Settings → Requests → Forms exactly.
@@ -37,14 +37,7 @@ type FormSectionInput = { label: string; items: FormItemInput[] };
 export type RequestDetailsInput = { form: { sections: FormSectionInput[] } };
 
 function getReferralLabel(data: ContactFormData) {
-  if (!data.referralSource) return null;
-  if (data.referralSource === "other") {
-    return data.referralSourceOther?.trim() || "Other";
-  }
-  return (
-    referralSourceOptions.find((option) => option.value === data.referralSource)
-      ?.label ?? data.referralSource
-  );
+  return formatLeadSourceLabel(data);
 }
 
 function getJobberServiceOptions(serviceValues: string[]) {
@@ -73,11 +66,6 @@ function buildDetailsText(
   const referral = getReferralLabel(data);
   if (referral) {
     lines.push("", `How they found us: ${referral}`);
-  }
-
-  const referrer = data.referrerName?.trim();
-  if (referrer) {
-    lines.push("", `Referrer: ${referrer}`);
   }
 
   if (adClick) {
