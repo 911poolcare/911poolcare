@@ -25,31 +25,25 @@ export function HeroImageRotator({ images, priority = true }: HeroImageRotatorPr
     return () => window.clearInterval(timer);
   }, [images.length]);
 
-  useEffect(() => {
-    if (images.length <= 1) return;
-
-    const next = images[(activeIndex + 1) % images.length];
-    if (!next) return;
-
-    const preload = new window.Image();
-    preload.src = next.src;
-  }, [activeIndex, images]);
-
   if (images.length === 0) return null;
 
   const activeImage = images[activeIndex];
 
   return (
     <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/15 shadow-2xl shadow-brand-950/30">
-      <Image
-        key={activeImage.src}
-        src={activeImage.src}
-        alt={activeImage.alt}
-        fill
-        priority={priority && activeIndex === 0}
-        sizes="(max-width: 1024px) 100vw, 50vw"
-        className="object-cover transition-opacity duration-700"
-      />
+      {images.map((image, index) => (
+        <Image
+          key={image.src}
+          src={image.src}
+          alt={index === activeIndex ? image.alt : ""}
+          fill
+          priority={priority && index === 0}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className={`object-cover transition-opacity duration-700 ${
+            index === activeIndex ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      ))}
       <div className="absolute inset-0 bg-gradient-to-t from-brand-950/40 via-transparent to-transparent" />
       {activeImage.href ? (
         <Link
@@ -64,19 +58,24 @@ export function HeroImageRotator({ images, priority = true }: HeroImageRotatorPr
         </p>
       ) : null}
       {images.length > 1 ? (
-        <div className="absolute bottom-3 left-1/2 z-[2] flex -translate-x-1/2 gap-1.5">
+        <div className="absolute bottom-1 left-1/2 z-[2] flex -translate-x-1/2 gap-0.5">
           {images.map((image, index) => (
             <button
               key={image.src}
               type="button"
               onClick={() => setActiveIndex(index)}
-              className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                index === activeIndex ? "bg-white" : "bg-white/40 hover:bg-white/70"
-              }`}
+              className="flex h-11 w-11 items-center justify-center"
               aria-label={
                 image.label ? `Show ${image.label} photo` : `Show hero photo ${index + 1}`
               }
-            />
+              aria-current={index === activeIndex ? "true" : undefined}
+            >
+              <span
+                className={`block h-2.5 w-2.5 rounded-full transition-colors ${
+                  index === activeIndex ? "bg-white" : "bg-white/40"
+                }`}
+              />
+            </button>
           ))}
         </div>
       ) : null}

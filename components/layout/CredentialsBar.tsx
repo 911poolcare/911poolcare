@@ -42,7 +42,7 @@ export function CredentialsBar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block rounded-lg transition-opacity hover:opacity-90"
-                    title={credential.title}
+                    aria-label={credential.title}
                   >
                     {content}
                   </Link>

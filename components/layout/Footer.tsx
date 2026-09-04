@@ -73,7 +73,7 @@ export function Footer() {
 
       <CredentialsBar />
 
-      <Container className="border-t border-white/10 py-6 text-center text-xs text-slate-500">
+      <Container className="border-t border-white/10 py-6 text-center text-xs text-slate-400">
         © {new Date().getFullYear()} {site.name}. All rights reserved.
       </Container>
     </footer>

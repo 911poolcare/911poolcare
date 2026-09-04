@@ -1,9 +1,15 @@
 import { siteHeroGallery } from "@/content/hero-images";
+import { OptimizedImagePreload } from "@/components/seo/OptimizedImagePreload";
 
-/** Preload homepage hero LCP image before React hydrates the carousel. */
+/** Preload the optimized homepage hero image before the carousel hydrates. */
 export function HeroLcpPreload() {
   const src = siteHeroGallery[0]?.src;
   if (!src) return null;
 
-  return <link rel="preload" as="image" href={src} fetchPriority="high" />;
+  return (
+    <OptimizedImagePreload
+      src={src}
+      sizes="(max-width: 1024px) 100vw, 50vw"
+    />
+  );
 }
