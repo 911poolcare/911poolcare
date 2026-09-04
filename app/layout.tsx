@@ -20,6 +20,8 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -59,11 +61,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans">
+        <GoogleTagManagerNoScript />
         <Header />
         <main>{children}</main>
         <Footer />
         <StickyMobileCTA />
-        <GoogleTagManagerNoScript />
         <JsonLd />
         <GoogleTagManager />
         <GoogleAdsCallTracking />

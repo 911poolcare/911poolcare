@@ -3,10 +3,10 @@ import Script from "next/script";
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const gtmId = "GTM-N4BVSG9T";
 
-/** GTM script tag for <head> */
+/** GTM container — afterInteractive so Ads/GA tags fire without waiting for images. */
 export function GoogleTagManager() {
   return (
-    <Script id="google-tag-manager" strategy="lazyOnload">
+    <Script id="google-tag-manager" strategy="afterInteractive">
       {`
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

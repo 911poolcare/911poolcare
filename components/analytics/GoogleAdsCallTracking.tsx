@@ -4,15 +4,15 @@ const adsId = "AW-16454489422";
 const conversionId = "AW-16454489422/IvjYCILq5O0bEM6qjqY9";
 const phoneConversionNumber = "512-947-2023";
 
-/** Google Ads call tracking — deferred so analytics does not block mobile LCP. */
+/** Google Ads call tracking — afterInteractive so the tag and number swap run before bounce. */
 export function GoogleAdsCallTracking() {
   return (
     <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${adsId}`}
-        strategy="lazyOnload"
+        strategy="afterInteractive"
       />
-      <Script id="google-ads-call-tracking" strategy="lazyOnload">
+      <Script id="google-ads-call-tracking" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}

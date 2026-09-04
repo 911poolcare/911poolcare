@@ -13,8 +13,25 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   async redirects() {
-    return legacyRedirects;
+    return [
+      {
+        source: "/",
+        has: [{ type: "host", value: "911poolcare.com" }],
+        destination: "https://www.911poolcare.com/",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "911poolcare.com" }],
+        destination: "https://www.911poolcare.com/:path*",
+        permanent: true,
+      },
+      ...legacyRedirects,
+    ];
   },
 };
 

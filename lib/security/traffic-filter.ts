@@ -41,6 +41,13 @@ const ALLOWED_USER_AGENT_SNIPPETS = [
   "googlebot",
   "adsbot-google",
   "google-inspectiontool",
+  // Google Ads tag coverage / conversion diagnostics. These often look like
+  // Linux Chrome and would otherwise be dropped as scrapers, which makes
+  // landing pages show up as "Not tagged".
+  "google-ads-conversions",
+  "googleother",
+  "storebot-google",
+  "google-safety",
   "bingbot",
   "duckduckbot",
   "facebookexternalhit",
