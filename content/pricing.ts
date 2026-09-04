@@ -117,7 +117,9 @@ export function getServiceSchedulingNote(serviceSlug: string, cityName?: string)
   }
 
   if (serviceSlug === "pool-inspections") {
-    return inspectionSeo.schedulingNote;
+    return cityName
+      ? `Based in ${site.address.city}, we perform certified pool inspections throughout ${cityName} and nearby communities. Call ${site.phone} or request service to confirm availability.`
+      : inspectionSeo.schedulingNote;
   }
 
   return `Based in ${site.address.city}, we respond quickly to service calls ${area}. Call or submit a request and we'll get you scheduled.`;

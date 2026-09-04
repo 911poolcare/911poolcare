@@ -11,7 +11,7 @@ export const cities: City[] = [
   { slug: "georgetown", name: "Georgetown", priority: true },
   { slug: "leander", name: "Leander" },
   { slug: "cedar-park", name: "Cedar Park" },
-  { slug: "round-rock", name: "Round Rock" },
+  { slug: "round-rock", name: "Round Rock", priority: true },
   { slug: "pflugerville", name: "Pflugerville" },
   { slug: "manor", name: "Manor" },
   { slug: "liberty-hill", name: "Liberty Hill" },

@@ -17,6 +17,46 @@ function jammedCitySlug(citySlug: string): string {
 }
 
 /**
+ * `/services/pool-leak-detection/pool-leak-detection-repair-austin` → `austin`
+ * Returns undefined when `cityParam` is already a real city slug.
+ */
+export function resolveNestedWixCitySlug(
+  serviceSlug: string,
+  cityParam: string,
+): string | undefined {
+  if (cities.some((city) => city.slug === cityParam)) {
+    return undefined;
+  }
+
+  const prefix = `${serviceSlug}-`;
+  if (!cityParam.startsWith(prefix)) {
+    return undefined;
+  }
+
+  let rest = cityParam.slice(prefix.length);
+  if (rest.startsWith("repair-")) {
+    rest = rest.slice("repair-".length);
+  }
+
+  const exact = cities.find((city) => city.slug === rest);
+  if (exact) return exact.slug;
+
+  return cities.find((city) => jammedCitySlug(city.slug) === rest)?.slug;
+}
+
+export function resolveNestedWixServicePath(pathname: string): string | null {
+  const match = pathname.match(/^\/services\/([^/]+)\/([^/]+)\/?$/);
+  if (!match) return null;
+
+  const serviceSlug = match[1];
+  const cityParam = match[2];
+  const resolved = resolveNestedWixCitySlug(serviceSlug, cityParam);
+  if (!resolved) return null;
+
+  return `/services/${serviceSlug}/${resolved}`;
+}
+
+/**
  * Old Wix city service pages used patterns like:
  *   /services/{service}/{service}-{cityjam}
  *   /services/{service}/{service}-repair-{cityjam}

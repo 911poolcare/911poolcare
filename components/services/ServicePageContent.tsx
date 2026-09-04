@@ -4,17 +4,19 @@ import dynamic from "next/dynamic";
 import { CheckCircle2, Phone, MessageSquare } from "lucide-react";
 import { getServiceCtaLabel, getServiceSchedulingNote } from "@/content/pricing";
 import type { City } from "@/content/cities";
-import { cityOffersService, getCitiesForService, isPriorityCity } from "@/content/cities";
+import { cityOffersService, getCitiesForService } from "@/content/cities";
 import { getCityHub } from "@/content/city-hubs";
 import type { Service } from "@/content/services";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
 import {
   getCityServiceHeadline,
+  getCityServiceHighlights,
   getCityServiceIntro,
   getCityServicePath,
   getCityHubPath,
 } from "@/lib/local-seo";
+import { CityLocalContext } from "@/components/services/CityLocalContext";
 import { inspectionSeo } from "@/content/inspections";
 import {
   getCityServiceGalleryImages,
@@ -96,6 +98,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
 
   const headline = city ? getCityServiceHeadline(service, city) : service.headline;
   const intro = city ? getCityServiceIntro(service, city) : service.intro;
+  const highlights = getCityServiceHighlights(service, city);
   const cityHub = city ? getCityHub(city.slug) : undefined;
   const ctaLabel = getServiceCtaLabel(service.slug);
   const heroSrc = city
@@ -230,7 +233,11 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
             <Image
               src={heroSrc}
-              alt={service.imageAlt}
+              alt={
+                city
+                  ? `${service.title} in ${city.name}, TX — ${service.imageAlt}`
+                  : service.imageAlt
+              }
               fill
               priority
               fetchPriority="high"
@@ -245,6 +252,8 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
         <RenovationCollage sets={collageSets} cityName={city?.name} />
       ) : null}
 
+      {city ? <CityLocalContext city={city} service={service} /> : null}
+
       <Section>
         <Container className="grid gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2">
@@ -252,7 +261,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
               {city ? `What we offer in ${city.name}` : "What we offer"}
             </h2>
             <ul className="mt-6 space-y-4">
-              {service.highlights.map((item) => (
+              {highlights.map((item) => (
                 <li key={item} className="flex gap-3 text-slate-700">
                   <CheckCircle2
                     className="mt-0.5 h-5 w-5 shrink-0 text-brand-600"
@@ -297,7 +306,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
           </div>
 
           <aside className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-            {city && isPriorityCity(city.slug) && cityHub ? (
+            {city && cityHub ? (
               <>
                 <p className="text-xs font-semibold uppercase tracking-wider text-brand-600">
                   Growing market
@@ -337,7 +346,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                 ) : null}
               </>
             )}
-            <ul className={`space-y-2 ${city && isPriorityCity(city.slug) ? "mt-6 border-t border-slate-200 pt-4" : "mt-3"}`}>
+            <ul className={`space-y-2 ${city && cityHub ? "mt-6 border-t border-slate-200 pt-4" : "mt-3"}`}>
               {otherCities.map((area) => (
                 <li key={area.slug}>
                   <Link

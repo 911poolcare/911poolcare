@@ -1,5 +1,6 @@
 import type { City } from "@/content/cities";
 import type { Service } from "@/content/services";
+import { getCityServiceLocal } from "@/content/city-service-local";
 import {
   getCityLeakDetectionIntro,
   getCityLeakDetectionMeta,
@@ -50,7 +51,18 @@ export function getCityServiceHeadline(service: Service, city: City): string {
   return `${label} in ${city.name}, TX`;
 }
 
+export function getCityServiceHighlights(service: Service, city?: City): string[] {
+  if (!city) return service.highlights;
+  const local = getCityServiceLocal(city.slug, service.slug);
+  return local?.highlights ?? service.highlights;
+}
+
 export function getCityServiceIntro(service: Service, city: City): string {
+  const local = getCityServiceLocal(city.slug, service.slug);
+  if (local?.heroIntro) {
+    return local.heroIntro;
+  }
+
   if (service.slug === renovationSlug && cityRenovationIntros[city.slug]) {
     return `${cityRenovationIntros[city.slug]} ${site.name} offers free renovation consultations throughout ${city.name} and nearby communities.`;
   }

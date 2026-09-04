@@ -7,6 +7,11 @@ export type CityHub = {
   neighborhoods: string[];
   whyLocal: string[];
   responseTime: string;
+  /** Extra unique copy so the hub is not just a service-card template. */
+  localDetails?: {
+    typicalPools: string;
+    paragraphs: string[];
+  };
   /** Hand-picked local job photo for the hub hero — real field work, not stock. */
   heroImage?: {
     src: string;
@@ -41,6 +46,14 @@ export const cityHubs: Record<string, CityHub> = {
       "Free renovation consultations — replaster, PebbleTec, tile & full remodels",
     ],
     responseTime: "Most Austin service calls scheduled within 3–5 business days",
+    localDetails: {
+      typicalPools:
+        "Older gunite in Allandale, Barton Hills, Tarrytown, and Northwest Hills; 2000s–2020s production pools with spas and water features in Circle C, Steiner Ranch, and Mueller.",
+      paragraphs: [
+        "Austin is not one pool market. Hillside lots in Northwest Hills and Barton Hills hide plumbing under limestone and oak roots. Central 1970s–90s gunite still runs original PVC under later patio pours. Circle C, Steiner Ranch, and Mueller add spas, waterfalls, and longer equipment runs. Leak, equipment, renovation, and inspection work all change with that mix.",
+        "Austin Water rates make a slow leak expensive, and the real-estate market makes a skipped pool inspection expensive in a different way. We schedule most Austin calls within 3–5 business days from our Leander shop — leak detection, equipment repair, replaster, and CPI-certified inspections, not weekly cleaning.",
+      ],
+    },
     heroImage: {
       src: "/images/jobs/pool-leak-detection/curated-austin-repair-after.jpg",
       alt: "Underground pool plumbing leak repaired in Austin, TX — 911 Pool Care leak detection and repair",
@@ -71,6 +84,14 @@ export const cityHubs: Record<string, CityHub> = {
       "Serving Sun City, Wolf Ranch, and all of Georgetown",
     ],
     responseTime: "Georgetown appointments often available same week",
+    localDetails: {
+      typicalPools:
+        "Sun City and established Georgetown gunite from the 1990s–2000s with original plumbing and year-round use; newer Wolf Ranch and infill pools with spas, automation, and construction fittings.",
+      paragraphs: [
+        "Georgetown work splits between Sun City — retirement-community pools that run most of the year on 15–25-year-old equipment — and Wolf Ranch plus infill, where leaks and punch-list issues show up on much newer systems. Berry Creek, Serenada, and Old Town sit in between: established gunite, clay movement, and pads that have been in the weather since the original build.",
+        "From Leander, Georgetown is a regular same-week route for leak detection, equipment repair, renovations, and certified inspections. HOA amenity pools and backyard jobs are both in scope; weekly cleaning is not.",
+      ],
+    },
     heroImage: {
       src: "/images/jobs/pool-leak-detection/field-georgetown-deck-excavation.jpg",
       alt: "Pool deck excavation for underground leak repair in Georgetown, TX — 911 Pool Care leak detection",
@@ -101,6 +122,14 @@ export const cityHubs: Record<string, CityHub> = {
       "Serving HOAs, backyard pools, and commercial properties",
     ],
     responseTime: "Most Round Rock service calls scheduled within 3–5 business days",
+    localDetails: {
+      typicalPools:
+        "Early-2000s subdivision gunite in Teravista, Forest Creek, and Palm Valley — many with in-floor cleaning — plus older Old Town shells and newer Siena and Walsh Ranch production pools.",
+      paragraphs: [
+        "Round Rock's 2000s building boom left thousands of backyard pools that are now in the leak, equipment-replacement, and replaster window. Teravista and Forest Creek in particular have a lot of in-floor cleaning systems, which means extra circuits to test when water is disappearing and extra finish details when it is time to resurface.",
+        "Family use is heavy all summer. When a pump, heater, or leak shows up in July, the pool is not optional. We handle leak detection, equipment repair, renovations, and inspections across Round Rock from Leander, typically within 3–5 business days.",
+      ],
+    },
     heroImage: {
       src: "/images/jobs/pool-leak-detection/field-round-rock-deck-excavation.jpg",
       alt: "Pool deck excavation for underground leak repair in Round Rock, TX — 911 Pool Care leak detection",

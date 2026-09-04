@@ -15,6 +15,9 @@ import {
   inspectionPricing,
   inspectionRelatedServices,
 } from "@/content/inspections";
+import { getCityServiceLocalFaqs } from "@/content/city-service-local";
+import { getCityServicePath } from "@/lib/local-seo";
+import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
 import { site } from "@/content/site";
 import { getTeamForService } from "@/content/team";
 import {
@@ -39,6 +42,7 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
     ? getCityServiceGalleryImages("pool-inspections", city.slug, 6)
     : getServiceGalleryImages("pool-inspections", 6);
   const specialists = getTeamForService("pool-inspections");
+  const faqs = city ? getCityServiceLocalFaqs(city.slug, "pool-inspections") : undefined;
 
   return (
     <>
@@ -213,6 +217,28 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
         </Container>
       </Section>
 
+      {faqs?.length ? (
+        <>
+          <FaqJsonLd items={faqs} />
+          <Section muted>
+            <Container className="max-w-3xl">
+              <SectionHeading
+                eyebrow="Inspection FAQ"
+                title={`Common pool inspection questions in ${city?.name}`}
+              />
+              <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
+                {faqs.map((item) => (
+                  <div key={item.question} className="px-5 py-5 sm:px-6">
+                    <h3 className="font-semibold text-slate-900">{item.question}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </Container>
+          </Section>
+        </>
+      ) : null}
+
       <Section>
         <Container>
           <SectionHeading
@@ -224,7 +250,9 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
             {inspectionRelatedServices.map((item) => (
               <Link
                 key={item.slug}
-                href={`/services/${item.slug}`}
+                href={
+                  city ? getCityServicePath(item.slug, city.slug) : `/services/${item.slug}`
+                }
                 className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
               >
                 <h3 className="font-semibold text-brand-700">{item.label}</h3>

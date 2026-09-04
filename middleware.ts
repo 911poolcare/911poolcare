@@ -1,4 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { resolveNestedWixServicePath } from "@/content/legacy-redirects";
+import { site } from "@/content/site";
 import { shouldDropBotTraffic } from "@/lib/security/traffic-filter";
 
 const QUOTE_BUILDER_USER = process.env.QUOTE_BUILDER_USER;
@@ -51,6 +53,8 @@ function protectQuoteBuilder(request: NextRequest): NextResponse {
 
 /**
  * - Password-protect the internal renovation quote builder
+ * - 301 nested Wix city URLs and non-www host
+ * - Canonical hint for homepage tracking-parameter variants
  * - Drop scrapers that pollute analytics
  * - noindex Vercel preview / localhost
  */
@@ -59,6 +63,22 @@ export function middleware(request: NextRequest) {
 
   if (pathname === "/quote-builder.html") {
     return protectQuoteBuilder(request);
+  }
+
+  const nestedPath = resolveNestedWixServicePath(pathname);
+  if (nestedPath) {
+    const url = request.nextUrl.clone();
+    url.pathname = nestedPath;
+    return NextResponse.redirect(url, 308);
+  }
+
+  const hostname = request.headers.get("host")?.split(":")[0] ?? "";
+  if (hostname === "911poolcare.com") {
+    const url = request.nextUrl.clone();
+    url.hostname = "www.911poolcare.com";
+    url.protocol = "https:";
+    url.port = "";
+    return NextResponse.redirect(url, 308);
   }
 
   const host = request.headers.get("host") ?? "";
@@ -72,6 +92,12 @@ export function middleware(request: NextRequest) {
   if (host.includes("vercel.app") || host.includes("localhost")) {
     const response = NextResponse.next();
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return response;
+  }
+
+  if (pathname === "/" && request.nextUrl.searchParams.size > 0) {
+    const response = NextResponse.next();
+    response.headers.set("Link", `<${site.urls.site}>; rel="canonical"`);
     return response;
   }
 

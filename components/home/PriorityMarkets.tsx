@@ -71,7 +71,7 @@ export function PriorityMarkets() {
         </div>
 
         <p className="mt-8 text-center text-sm text-slate-600">
-          Popular in Austin & Georgetown:{" "}
+          Popular in Austin, Georgetown & Round Rock:{" "}
           {services.slice(0, 3).map((service, i) => (
             <span key={service.slug}>
               {i > 0 ? " · " : ""}
@@ -89,6 +89,13 @@ export function PriorityMarkets() {
             className="font-medium text-brand-700 hover:text-brand-800"
           >
             Leak Repair Georgetown
+          </Link>
+          {" · "}
+          <Link
+            href={getCityServicePath("pool-leak-detection", "round-rock")}
+            className="font-medium text-brand-700 hover:text-brand-800"
+          >
+            Leak Repair Round Rock
           </Link>
         </p>
       </Container>

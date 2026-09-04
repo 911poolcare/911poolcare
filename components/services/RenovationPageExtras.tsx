@@ -27,6 +27,7 @@ import { FinancingCallout } from "@/components/services/FinancingCallout";
 import { LeakRenoBridge } from "@/components/services/LeakRenoBridge";
 import { TeamSection } from "@/components/team/TeamSection";
 import { Button } from "@/components/ui/Button";
+import { getCityServiceLocalFaqs } from "@/content/city-service-local";
 import { getCityServicePath } from "@/lib/local-seo";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -45,10 +46,12 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
       : getServiceProgressSets(renovationSlug, 6)
   ).filter((set) => !collageSets.some((item) => item.id === set.id));
   const specialists = getTeamForService("pool-renovations");
+  const faqs =
+    (city ? getCityServiceLocalFaqs(city.slug, renovationSlug) : undefined) ?? renovationFaqs;
 
   return (
     <>
-      <FaqJsonLd items={renovationFaqs} />
+      <FaqJsonLd items={faqs} />
 
       {/* Proof first — paid traffic needs to see results before finishes lists */}
       {collageSets.length === 0 ? (
@@ -217,10 +220,14 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
         <Container className="max-w-3xl">
           <SectionHeading
             eyebrow="Renovation FAQ"
-            title="Common pool renovation questions"
+            title={
+              city
+                ? `Common pool renovation questions in ${city.name}`
+                : "Common pool renovation questions"
+            }
           />
           <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
-            {renovationFaqs.map((item) => (
+            {faqs.map((item) => (
               <div key={item.question} className="px-5 py-5 sm:px-6">
                 <h3 className="font-semibold text-slate-900">{item.question}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.answer}</p>

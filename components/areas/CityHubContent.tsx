@@ -111,6 +111,33 @@ export function CityHubContent({ hub }: { hub: CityHub }) {
         </Container>
       </Section>
 
+      {hub.localDetails ? (
+        <Section muted>
+          <Container className="grid gap-12 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <h2 className="text-2xl font-bold text-slate-900">
+                What pool work looks like in {hub.name}
+              </h2>
+              <div className="mt-6 space-y-4">
+                {hub.localDetails.paragraphs.map((paragraph) => (
+                  <p key={paragraph.slice(0, 48)} className="leading-relaxed text-slate-600">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <aside className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-slate-900">
+                Pools we typically see in {hub.name}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                {hub.localDetails.typicalPools}
+              </p>
+            </aside>
+          </Container>
+        </Section>
+      ) : null}
+
       <Section muted>
         <Container>
           <h2 className="mb-8 text-2xl font-bold text-slate-900">

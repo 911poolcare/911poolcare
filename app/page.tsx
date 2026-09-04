@@ -47,6 +47,10 @@ export const metadata: Metadata = {
     "pool renovation Austin",
     "pool equipment repair Austin",
   ],
+  robots: {
+    index: true,
+    follow: true,
+  },
   alternates: {
     canonical: site.urls.site,
   },

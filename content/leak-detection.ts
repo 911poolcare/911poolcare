@@ -1,6 +1,7 @@
 /** Leak detection credentials, equipment, and methods — single source of truth */
 
 import { getCitiesForService } from "@/content/cities";
+import { getCityServiceLocalFaqs } from "@/content/city-service-local";
 import { pricing } from "@/content/pricing";
 import { site } from "@/content/site";
 
@@ -265,6 +266,10 @@ export function getCityLeakDetectionMeta(citySlug: string, cityName: string): st
 }
 
 export function getCityLeakDetectionFaqs(citySlug: string, cityName: string): LeakFaq[] {
+  const uniqueFaqs = getCityServiceLocalFaqs(citySlug, leakDetectionSlug);
+  if (uniqueFaqs?.length) {
+    return uniqueFaqs;
+  }
   return (
     cityLeakDetectionFaqs[citySlug] ?? buildDefaultLeakFaqs(cityName, cityLeakFaqLocalNotes[citySlug])
   );
