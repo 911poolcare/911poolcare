@@ -50,6 +50,12 @@ const ALLOWED_USER_AGENT_SNIPPETS = [
   "google-safety",
   "bingbot",
   "duckduckbot",
+  // ChatGPT / Claude search + user-initiated fetches. Training crawlers
+  // (GPTBot, ClaudeBot) stay in the block list below.
+  "oai-searchbot",
+  "chatgpt-user",
+  "claude-searchbot",
+  "claude-user",
   "facebookexternalhit",
   "twitterbot",
   "linkedinbot",

@@ -125,7 +125,7 @@ export const renovationShowcase: ShowcaseImage[] = [
     src: "/images/renovations/2aca84_b2b28b3d9ad24cfbbde4236887bbd6f7.jpg",
     alt: "Before and after pool renovation in Cedar Park, Texas",
     label: "Renovation — Cedar Park",
-    caption: "Replaster, tile cleaning, and equipment updates.",
+    caption: "Replaster, waterline tile, and equipment updates.",
   },
   {
     src: "/images/renovations/2aca84_a98f842292874b8a9b230bd1ee5e3665.jpg",

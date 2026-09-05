@@ -111,6 +111,12 @@ const wixLocationRedirects: LegacyRedirect[] = cities.flatMap((city) => {
   }));
 });
 
+/** Indexed Wix typos that never matched a real city slug. */
+const locationTypoRedirects: LegacyRedirect[] = [
+  { source: "/locations/leaner", destination: "/areas/leander", permanent: true },
+  { source: "/areas/leaner", destination: "/areas/leander", permanent: true },
+];
+
 export const legacyRedirects: LegacyRedirect[] = [
   // Renamed service slugs
   {
@@ -185,6 +191,9 @@ export const legacyRedirects: LegacyRedirect[] = [
   // Old Wix search stub — no search page on the new site
   { source: "/search", destination: "/", permanent: true },
   ...wixLocationRedirects,
+  ...locationTypoRedirects,
+  // Unknown leftover Wix location URLs — do not 404
+  { source: "/locations/:path*", destination: "/areas", permanent: true },
 
   // Wix city leak pages: /services/pool-leak-detection/pool-leak-detection-cedarpark → /cedar-park
   // also: .../pool-leak-detection-repair-austin → /austin
