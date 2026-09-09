@@ -17,6 +17,8 @@ export default function robots(): MetadataRoute.Robots {
           "ChatGPT-User",
           "Claude-SearchBot",
           "Claude-User",
+          "PerplexityBot",
+          "Perplexity-User",
         ],
         allow: "/",
       },

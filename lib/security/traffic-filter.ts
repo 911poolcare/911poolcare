@@ -56,6 +56,8 @@ const ALLOWED_USER_AGENT_SNIPPETS = [
   "chatgpt-user",
   "claude-searchbot",
   "claude-user",
+  "perplexitybot",
+  "perplexity-user",
   "facebookexternalhit",
   "twitterbot",
   "linkedinbot",

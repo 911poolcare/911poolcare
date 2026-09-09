@@ -28,6 +28,10 @@ export function Hero() {
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-brand-100 sm:text-xl">
             {poolCareOffering.subhead}
           </p>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-brand-200">
+            Veteran-owned specialists based in {site.address.city}, {site.address.state}.
+            We do not offer weekly pool cleaning.
+          </p>
 
           <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {poolCareOffering.primary.map((service) => (

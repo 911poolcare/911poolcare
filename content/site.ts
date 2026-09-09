@@ -4,6 +4,7 @@ import { siteHero } from "@/content/hero-images";
 
 export const site = {
   name: "911 Pool Care",
+  legalName: "911 Pool Care LLC",
   tagline: poolCareOffering.tagline,
   description: poolCareOffering.metaDescription,
   phone: "512-947-2023",

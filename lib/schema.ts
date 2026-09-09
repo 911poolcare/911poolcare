@@ -1,7 +1,11 @@
-import { faqs } from "@/content/trust";
+import { bbbProfileUrl, tdlrRaicLicenseUrl, texasLicensing } from "@/content/credentials";
+import { leakDetectionProcessIntro } from "@/content/leak-detection";
+import { faqs, leakDetectionProcess } from "@/content/trust";
 import { getFeaturedGoogleReviews } from "@/content/testimonials";
+import { poolCareOffering } from "@/content/service-offering";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
+import { teamMembers } from "@/content/team";
 
 const businessId = `${site.urls.site}/#business`;
 
@@ -11,7 +15,10 @@ export function getLocalBusinessSchema() {
     "@type": "HomeAndConstructionBusiness",
     "@id": businessId,
     name: site.name,
+    legalName: site.legalName,
+    alternateName: ["911 Poolcare", site.legalName],
     description: site.description,
+    slogan: poolCareOffering.tagline,
     url: site.urls.site,
     telephone: site.phone,
     email: site.email,
@@ -26,6 +33,20 @@ export function getLocalBusinessSchema() {
     },
     priceRange: site.priceRange,
     openingHours: site.openingHours,
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "07:00",
+        closes: "18:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Saturday",
+        opens: "09:00",
+        closes: "17:00",
+      },
+    ],
     geo: {
       "@type": "GeoCoordinates",
       latitude: site.google.coordinates.lat,
@@ -56,7 +77,47 @@ export function getLocalBusinessSchema() {
       site.google.mapsUrl,
       site.social.facebook,
       site.social.instagram,
+      bbbProfileUrl,
+      tdlrRaicLicenseUrl,
     ],
+    knowsAbout: [
+      "pool leak detection",
+      "pool leak repair",
+      "Leaktronics leak detection",
+      "Anderson Leakalyzer",
+      "pool equipment repair",
+      "pool renovation",
+      "pool replaster",
+      "certified pool inspection",
+    ],
+    identifier: [
+      {
+        "@type": "PropertyValue",
+        name: "TDLR RAIC",
+        value: texasLicensing.raic.number,
+        url: tdlrRaicLicenseUrl,
+      },
+    ],
+    hasCredential: [
+      {
+        "@type": "EducationalOccupationalCredential",
+        name: texasLicensing.raic.fullName,
+        credentialCategory: "license",
+        identifier: texasLicensing.raic.number,
+        url: tdlrRaicLicenseUrl,
+        recognizedBy: {
+          "@type": "Organization",
+          name: "Texas Department of Licensing and Regulation",
+        },
+      },
+    ],
+    employee: teamMembers.map((member) => ({
+      "@type": "Person",
+      name: member.name,
+      jobTitle: member.role,
+      description: member.focus,
+      worksFor: { "@id": businessId },
+    })),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Pool repair and renovation services",
@@ -144,5 +205,21 @@ export function getServiceSchema(options: {
           "@type": "City",
           name: `${city}, TX`,
         })),
+  };
+}
+
+export function getLeakDetectionHowToSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How 911 Pool Care finds and repairs a pool leak",
+    description: leakDetectionProcessIntro,
+    url: `${site.urls.site}/#leak-process`,
+    step: leakDetectionProcess.map((item) => ({
+      "@type": "HowToStep",
+      position: Number(item.step),
+      name: item.title,
+      text: item.description,
+    })),
   };
 }

@@ -14,6 +14,7 @@ import { OurPromise } from "@/components/home/OurPromise";
 import { FeaturesGrid } from "@/components/home/FeaturesGrid";
 import { ServiceAreaChips } from "@/components/home/ServiceAreaChips";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
+import { HowToJsonLd } from "@/components/seo/HowToJsonLd";
 
 const Testimonials = dynamic(() =>
   import("@/components/home/Testimonials").then((module) => ({
@@ -67,6 +68,7 @@ export default function HomePage() {
     <>
       <HeroLcpPreload />
       <FaqJsonLd />
+      <HowToJsonLd />
       <Hero />
       <LeakDetectionProcess />
       <RenovationSpotlight />

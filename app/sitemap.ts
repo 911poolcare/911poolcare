@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/services`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${base}/areas`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/partners`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/llms.txt`, lastModified: now, changeFrequency: "monthly", priority: 0.3 },
   ];
 
   const servicePages = getAllServiceSlugs()
