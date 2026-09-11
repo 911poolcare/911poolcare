@@ -46,6 +46,32 @@ export function Footer() {
             </Link>
           </p>
           <p className="mt-2">
+            <Link href="/gallery" className="text-sm font-medium text-slate-400 hover:text-white">
+              Project gallery →
+            </Link>
+          </p>
+          <p className="mt-2">
+            <Link href="/warranty" className="text-sm font-medium text-slate-400 hover:text-white">
+              Renovation warranty →
+            </Link>
+          </p>
+          <p className="mt-2">
+            <Link
+              href="/resources/austin-pool-hard-water"
+              className="text-sm font-medium text-slate-400 hover:text-white"
+            >
+              Austin hard water & pool finishes →
+            </Link>
+          </p>
+          <p className="mt-2">
+            <Link
+              href="/resources/pool-leak-or-evaporation"
+              className="text-sm font-medium text-slate-400 hover:text-white"
+            >
+              Leak or evaporation? →
+            </Link>
+          </p>
+          <p className="mt-2">
             <Link
               href="/partners"
               className="text-sm font-medium text-slate-400 hover:text-white"

@@ -88,6 +88,8 @@ export function getLocalBusinessSchema() {
       "pool equipment repair",
       "pool renovation",
       "pool replaster",
+      "Pebble Tec",
+      "Pebble Sheen",
       "certified pool inspection",
     ],
     identifier: [

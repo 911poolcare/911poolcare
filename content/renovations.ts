@@ -1,17 +1,31 @@
 import { site } from "@/content/site";
 import { pricing } from "@/content/pricing";
+import { financing } from "@/content/financing";
 
 export const renovationSlug = "pool-renovations" as const;
 
+/** Pebble Tec / Pebble Sheen are applied only by certified manufacturer installers. */
+export const renovationCertifiedInstallers =
+  "Pebble Tec and Pebble Sheen finishes are applied only by certified Pebble Tec / Pebble Sheen installers — required for manufacturer warranty eligibility.";
+
+/** Every renovation pool is leak-checked before a new surface goes in. */
+export const renovationLeakCheckBeforePlaster =
+  "We leak-check every pool before plaster or resurfacing. If we find a leak, we repair it first so the new finish is not sitting on a pool that still loses water.";
+
 /** Pool surface materials we install — single source of truth */
 export const renovationFinishesIntro =
-  "We install PebbleTec, MicroFusion, Stonescapes, Quartzscapes, basic marcite plaster, and other materials for renovations and replasters.";
+  "We install Pebble Tec, Pebble Sheen, MicroFusion, Stonescapes, Quartzscapes, basic marcite plaster, and other materials for renovations and replasters. Pebble Tec and Pebble Sheen are applied only by certified installers.";
 
 export const renovationFinishes = [
   {
-    title: "PebbleTec",
+    title: "Pebble Tec",
     description:
-      "Durable pebble aggregate finish with natural texture — a popular choice for Central Texas pools that need long-lasting beauty.",
+      "Durable pebble aggregate finish with natural texture — applied only by certified Pebble Tec installers so the manufacturer warranty stays valid.",
+  },
+  {
+    title: "Pebble Sheen",
+    description:
+      "Smoother pebble finish with the durability of aggregate — applied only by certified Pebble Sheen installers.",
   },
   {
     title: "MicroFusion",
@@ -44,26 +58,36 @@ export const renovationSeo = {
   title: "Pool Renovation & Coping Repair Austin TX",
   titleTemplate: (city: string) => `Pool Renovation ${city} TX | Replaster & Coping`,
   hubDescription:
-    "Pool renovation, replastering & coping repair in Austin and Central Texas — PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite, tile, coping, and full remodels. Free on-site consultation. Call 512-947-2023.",
+    "We leak-check every pool before plaster. Then Pebble Tec and Pebble Sheen by certified installers, other premium finishes, tile, coping, and full remodels in Austin and Central Texas. Free on-site consultation. Call 512-947-2023.",
 } as const;
 
+export const renovationSpotlightHeadline =
+  "We leak-check every pool before we plaster";
+
 export const renovationSpotlightCards = [
+  "Leak-check before every plaster",
   "Replaster & resurfacing",
-  "PebbleTec & premium finishes",
-  "Tile & coping repair",
-  "Full pool remodels",
+  "Pebble Tec & Pebble Sheen",
+  "Tile, coping & full remodels",
+] as const;
+
+export const renovationInstallerBadges = [
+  "Certified Pebble Tec installers",
+  "Certified Pebble Sheen installers",
+  "Manufacturer warranty eligibility",
+  "Leak-check before plaster",
 ] as const;
 
 export const finishTypes = [
   {
     title: "Replaster & resurfacing",
     description:
-      "Restore worn, stained, or delaminating plaster with a fresh surface built to handle Central Texas heat and heavy use.",
+      "Restore worn, stained, or delaminating plaster with a fresh surface. Every pool is leak-checked before we plaster or resurface.",
   },
   {
-    title: "PebbleTec & premium finishes",
+    title: "Pebble Tec & premium finishes",
     description:
-      "PebbleTec, MicroFusion, Stonescapes, Quartzscapes, and other premium surfaces — we'll help you choose the right material for your pool, budget, and how you use it.",
+      "Pebble Tec and Pebble Sheen applied only by certified installers, plus MicroFusion, Stonescapes, Quartzscapes, and other surfaces — we'll help you choose the right material for your pool, budget, and how you use it.",
   },
   {
     title: "Tile & coping repair",
@@ -91,15 +115,15 @@ export const renovationProcess = [
   },
   {
     step: "2",
-    title: "Clear scope & quote",
+    title: "Leak check, then a written scope",
     description:
-      "You get a straightforward plan covering surface work, tile, coping, equipment updates, and timeline — with one point of contact through the project.",
+      "We leak-check every pool before plaster. You then get a straightforward plan covering surface work, tile, coping, equipment updates, and timeline — with one point of contact through the project.",
   },
   {
     step: "3",
     title: "Professional execution",
     description:
-      "Our crew handles prep, resurfacing, tile, and finishing details while Chris stays your project manager for updates, questions, and quality control.",
+      "Prep, resurfacing, tile, and finishing details. Pebble Tec and Pebble Sheen are applied only by certified installers so manufacturer warranty stays valid. Chris stays your project manager for updates and quality control.",
   },
   {
     step: "4",
@@ -117,10 +141,10 @@ export const renovationQualityChecklist = {
     "Every replaster and remodel is managed by Chris as your dedicated project manager — with clear communication and a consistent quality process from start to finish.",
   items: [
     "On-site consultation and finish recommendation",
+    "Leak-check every pool before plaster or resurfacing",
     "Written scope covering surface, tile, coping, and related work",
-    "Confirm water-loss / leak concerns before resurfacing when needed",
     "Surface prep and substrate checks before new finish",
-    "Material and finish verification (PebbleTec, MicroFusion, plaster, and more)",
+    "Pebble Tec / Pebble Sheen applied only by certified installers",
     "Tile, coping, and waterline detail quality review",
     "Mid-project updates from your project manager",
     "Final walkthrough and care guidance before handoff",
@@ -138,13 +162,20 @@ export const renovationFaqs = [
     answer: `${renovationFinishesIntro} We also handle tile, coping, and full remodels — and we'll recommend the right option based on your pool's condition, budget, and how you use it.`,
   },
   {
+    question: "Are you a certified Pebble Tec installer?",
+    answer: renovationCertifiedInstallers,
+  },
+  {
+    question: "Do you leak-check a pool before replastering?",
+    answer: renovationLeakCheckBeforePlaster,
+  },
+  {
     question: "Do you offer free renovation consultations?",
     answer: pricing.renovation.consultationDescription,
   },
   {
     question: "Do you offer financing for pool renovations?",
-    answer:
-      "Yes. We offer multiple financing options so you can start your renovation now and pay over time. Ask about financing during your free consultation, or apply online. We also accept all major credit cards.",
+    answer: financing.faqAnswer,
   },
   {
     question: "Who manages my renovation project?",

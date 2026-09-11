@@ -13,6 +13,7 @@ import {
   inspectionDeliverablesGoal,
   inspectionImportantNotes,
   inspectionPricing,
+  inspectionRealtorKit,
   inspectionRelatedServices,
 } from "@/content/inspections";
 import { getCityServiceLocalFaqs } from "@/content/city-service-local";
@@ -157,6 +158,19 @@ export function InspectionPageExtras({ city }: InspectionPageExtrasProps) {
               {inspectionCertification.description}
             </p>
           </div>
+        </Container>
+      </Section>
+
+      <Section muted>
+        <Container className="max-w-3xl text-center">
+          <SectionHeading
+            eyebrow={inspectionRealtorKit.eyebrow}
+            title={inspectionRealtorKit.title}
+            description={inspectionRealtorKit.description}
+          />
+          <Button href={inspectionRealtorKit.sampleHref} size="lg">
+            {inspectionRealtorKit.sampleLabel}
+          </Button>
         </Container>
       </Section>
 

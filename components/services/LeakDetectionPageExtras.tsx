@@ -114,6 +114,16 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
               </div>
             ))}
           </div>
+          <p className="mt-6 text-center text-sm text-slate-600">
+            Not sure if it is a leak or evaporation?{" "}
+            <a
+              href="/resources/pool-leak-or-evaporation"
+              className="font-medium text-brand-700 hover:text-brand-800"
+            >
+              Read how we tell the difference
+            </a>
+            .
+          </p>
         </Container>
       </Section>
     </>

@@ -28,6 +28,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/services`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${base}/areas`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/partners`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/gallery`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/warranty`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    {
+      url: `${base}/resources/austin-pool-hard-water`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.65,
+    },
+    {
+      url: `${base}/resources/pool-leak-or-evaporation`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.65,
+    },
+    {
+      url: `${base}/resources/sample-pool-inspection-report`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
     { url: `${base}/llms.txt`, lastModified: now, changeFrequency: "monthly", priority: 0.3 },
   ];
 

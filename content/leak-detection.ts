@@ -108,7 +108,7 @@ export const leakDetectionFaqs = [
   },
   {
     question: "How much does pool leak detection cost?",
-    answer: pricing.leakDetection.faqAnswer,
+    answer: `${pricing.leakDetection.faqAnswer} ${pricing.leakDetection.includedNote}`,
   },
   {
     question: "How much does pool leak repair cost?",

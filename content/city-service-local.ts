@@ -105,20 +105,20 @@ const cityServiceLocal: Record<string, Partial<Record<ServiceSlug, CityServiceLo
     },
     "pool-renovations": {
       heroIntro:
-        "Thousands of Austin pools from the 1990s and 2000s are hitting the replaster window — rough plaster, stained surfaces, and tired waterline tile. From Westlake and Northwest Hills to Circle C and Steiner Ranch, we handle PebbleTec, tile, coping, and full remodels. Start with a free on-site consultation.",
+        "We leak-check every Austin renovation pool before plaster. Then we replaster, install Pebble Tec or Pebble Sheen, update tile and coping, or run a full remodel — from Westlake and Northwest Hills to Circle C and Steiner Ranch. Start with a free on-site consultation.",
       title: "Austin pool renovations: the 15–25 year plaster cycle is here",
       paragraphs: [
         "Austin's building boom left a huge wave of pools that are now 15–25 years old. Plaster that was fine in 2004 is chalky, stained, or delaminating in 2026. That is true in established central neighborhoods and in Circle C, Steiner Ranch, and the southwest boom tracts. Heat, calcium, and heavy summer use wear a surface faster here than a brochure timeline suggests.",
-        "Finish choice is local, not generic. Westlake and hillside lots often want PebbleTec or another aggregate that hides scale and lasts. Central Austin remodels sometimes stay with a smoother plaster or quartz when the homeowner wants a cleaner feel underfoot. We install PebbleTec, MicroFusion, Stonescapes, Quartzscapes, and marcite — and we will say so if tile, coping, or a leak check should happen before the new surface goes on.",
-        "Chris manages Austin renovations from the free consultation through final walkthrough. If we suspect water loss, we would rather find the leak before replastering than bury it under a new finish.",
+        "Finish choice is local, not generic. Westlake and hillside lots often want Pebble Tec or another aggregate that hides scale and lasts. Central Austin remodels sometimes stay with a smoother plaster or quartz when the homeowner wants a cleaner feel underfoot. Pebble Tec and Pebble Sheen are applied only by certified installers. We leak-check every Austin renovation pool before plaster.",
+        "Chris manages Austin renovations from the free consultation through final walkthrough. Leak detection happens before the new surface — not after a finish fails to hold water.",
       ],
       typicalPools:
         "1990s–2000s gunite hitting replaster age across the metro, plus hillside Westlake-adjacent pools with rockwork, spas, and waterline tile that has not been updated since the original build.",
       highlights: [
+        "Leak-check every pool before plaster",
         "Free on-site consultation for Austin replaster and remodel projects",
-        "PebbleTec and premium aggregates popular on hillside and west Austin pools",
+        "Pebble Tec and Pebble Sheen applied only by certified installers",
         "Waterline tile, coping, and trim updates with the new surface",
-        "Leak check before resurfacing when the pool is losing water",
         "Residential backyards and commercial / HOA amenity pools",
         "One project manager from consult through walkthrough",
       ],
@@ -136,7 +136,7 @@ const cityServiceLocal: Record<string, Partial<Record<ServiceSlug, CityServiceLo
         {
           question: "Should leak detection happen before an Austin replaster?",
           answer:
-            "If the pool is losing water, yes. Putting a new finish over an active shell or plumbing leak is an expensive way to hide the problem. We can coordinate leak detection and repair before resurfacing so the new plaster is not sitting on a pool that still will not hold water.",
+            "Yes. Putting a new finish over an active shell or plumbing leak is an expensive way to hide the problem. We leak-check every Austin renovation pool before plaster and repair leaks first so the new surface is not sitting on a pool that still will not hold water.",
         },
       ],
     },
@@ -260,21 +260,21 @@ const cityServiceLocal: Record<string, Partial<Record<ServiceSlug, CityServiceLo
     },
     "pool-renovations": {
       heroIntro:
-        "Georgetown's older neighborhoods and Sun City are full of pools ready for resurfacing — plaster that has done its 15–25 years, waterline tile that will not come clean, and coping that has shifted with the clay. We offer free renovation consultations and handle replaster, PebbleTec, tile, and full remodels throughout Georgetown.",
+        "We leak-check every Georgetown renovation pool before plaster. Then we resurface, install Pebble Tec, update tile and coping, or run a full remodel — from Sun City and Berry Creek to Wolf Ranch. Free on-site consultations.",
       title: "Replaster and remodel work for Sun City and established Georgetown",
       paragraphs: [
         "Sun City Georgetown and the 1990s–2000s neighborhoods around Berry Creek and Georgetown Village are right in the replaster window. Surfaces that were new when the houses were built are now stained, rough, or thinning. That is a finish problem, not a chemistry problem, and another round of acid washing will not bring the plaster back.",
         "Newer Wolf Ranch pools are less often a full replaster — more often tile repair, coping, or a surface that was never quite right. We still start with a free on-site consultation so we do not sell a PebbleTec remodel to a homeowner who needs a targeted tile fix.",
-        "If the Georgetown pool is also losing water, we want leak detection on the calendar before the new surface. Burying a shell leak under fresh plaster is a mistake we will talk you out of.",
+        "We leak-check every Georgetown renovation pool before plaster. Burying a shell leak under fresh plaster is a mistake we will not make.",
       ],
       typicalPools:
         "Sun City and established Georgetown gunite from the original community builds, now due for plaster, tile, and coping; newer Wolf Ranch pools that more often need targeted tile or finish corrections.",
       highlights: [
+        "Leak-check every pool before plaster",
         "Free on-site consultation in Sun City, Wolf Ranch, and greater Georgetown",
         "Replaster for 15–25-year-old community and backyard pools",
-        "PebbleTec, MicroFusion, quartz, and marcite — matched to how you use the pool",
+        "Pebble Tec and Pebble Sheen by certified installers, plus quartz and marcite",
         "Tile and coping repairs when a full remodel is not the right call",
-        "Leak check before resurfacing if the pool will not hold water",
         "One project manager from consult through walkthrough",
       ],
       faqs: [
@@ -291,7 +291,7 @@ const cityServiceLocal: Record<string, Partial<Record<ServiceSlug, CityServiceLo
         {
           question: "Can you finance a Georgetown pool renovation?",
           answer:
-            "Yes. We offer financing options so you can start the remodel and pay over time, and we accept major credit cards. Ask during the free consultation or apply online.",
+            "Yes. We offer financing options so you can start the remodel and pay over time, and we accept major credit cards. Ask during the free consultation.",
         },
       ],
     },
@@ -415,7 +415,7 @@ const cityServiceLocal: Record<string, Partial<Record<ServiceSlug, CityServiceLo
     },
     "pool-renovations": {
       heroIntro:
-        "Round Rock's 2000s backyard pools — especially Teravista, Forest Creek, and Palm Valley — are in the replaster window. We handle resurfacing, PebbleTec, tile, coping, and full remodels, starting with a free on-site consultation and a clear plan.",
+        "We leak-check every Round Rock renovation pool before plaster. Then we resurface, install Pebble Tec, update tile and coping, or run a full remodel — especially 2000s backyard pools in Teravista, Forest Creek, and Palm Valley. Free on-site consultation and a clear plan.",
       title: "Replastering Round Rock's 2000s subdivision pools",
       paragraphs: [
         "If your Round Rock pool was new with the house in the early 2000s, the plaster is statistically due. Teravista, Forest Creek, Behren's Ranch, and Palm Valley are full of those jobs: stained waterlines, rough floors, and tile that will not come clean no matter what the route cleaner pours in. That is resurfacing, not a chemistry tweak.",
@@ -425,12 +425,12 @@ const cityServiceLocal: Record<string, Partial<Record<ServiceSlug, CityServiceLo
       typicalPools:
         "Early-2000s gunite in Teravista, Forest Creek, and Palm Valley — many with in-floor cleaning — now due for plaster and waterline tile; older Old Town shells and newer production pools that more often need smaller finish work.",
       highlights: [
+        "Leak-check every pool before plaster",
         "Free on-site consultation for Teravista, Forest Creek, and greater Round Rock",
         "Replaster timed to 2000s subdivision pools hitting 15–25 years",
         "In-floor head and finish details planned with the new surface",
-        "PebbleTec, quartz, and marcite options based on use and budget",
+        "Pebble Tec, quartz, and marcite options based on use and budget",
         "Tile and coping updates with the resurfacing",
-        "Leak check before plaster if the pool will not hold water",
       ],
       faqs: [
         {

@@ -7,6 +7,9 @@ import {
   renovationFaqs,
   renovationFinishes,
   renovationFinishesIntro,
+  renovationCertifiedInstallers,
+  renovationLeakCheckBeforePlaster,
+  renovationInstallerBadges,
   renovationProcess,
   renovationQualityChecklist,
   renovationSlug,
@@ -113,6 +116,31 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
               description={renovationFinishesIntro}
               align="left"
             />
+            <p className="mt-4 text-sm leading-relaxed text-slate-600">
+              {renovationCertifiedInstallers} {renovationLeakCheckBeforePlaster}
+            </p>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {renovationInstallerBadges.map((badge) => (
+                <li
+                  key={badge}
+                  className="rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-brand-800 ring-1 ring-brand-200"
+                >
+                  {badge}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm text-slate-600">
+              <Link href="/warranty" className="font-medium text-brand-700 hover:text-brand-800">
+                Workmanship and manufacturer warranty
+              </Link>
+              {" · "}
+              <Link
+                href="/resources/austin-pool-hard-water"
+                className="font-medium text-brand-700 hover:text-brand-800"
+              >
+                Austin hard water and finishes
+              </Link>
+            </p>
             <p className="mt-4 text-sm leading-relaxed text-slate-600">
               {city
                 ? `We help ${city.name}-area homeowners and property managers choose the right finish for their replaster or renovation — not a one-size-fits-all recommendation.`

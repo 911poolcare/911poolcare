@@ -2,6 +2,8 @@ import { cities } from "@/content/cities";
 import { bbbProfileUrl, tdlrRaicLicenseUrl, texasLicensing } from "@/content/credentials";
 import { leakDetectionCertification } from "@/content/leak-detection";
 import { pricing } from "@/content/pricing";
+import { proof } from "@/content/proof";
+import { renovationCertifiedInstallers, renovationLeakCheckBeforePlaster } from "@/content/renovations";
 import { poolCareOffering } from "@/content/service-offering";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
@@ -58,6 +60,8 @@ Priority markets: Austin, Georgetown, and Round Rock.
 - Heater diagnostic: $${pricing.equipment.heaterDiagnostic.fee} ($${pricing.equipment.heaterDiagnostic.repairCredit} credit toward repairs)
 - Certified pool inspection: $${pricing.inspection.baseFee} for a standard pool or pool/spa visit (exclusions apply)
 - Pool renovations: free on-site consultation
+- ${renovationLeakCheckBeforePlaster}
+- ${renovationCertifiedInstallers}
 
 ## Credentials
 
@@ -68,6 +72,8 @@ Priority markets: Austin, Georgetown, and Round Rock.
 - PHTA Advanced CBP and Certified Pool Inspector (CPI)
 - Leaktronics-certified leak detection; Leaktronics and Anderson locating equipment
 - Google rating ${site.google.rating} from ${site.google.reviewCount} reviews — ${site.google.mapsUrl}
+- ${proof.documentedJobsLabel}. ${proof.documentedJobsNote}
+- Years in the industry: ${proof.yearsLabel}
 
 ## Team
 
@@ -81,7 +87,12 @@ ${teamLines}
 - Website: ${base}
 - About: ${base}/about
 - Contact: ${base}/contact
+- Gallery: ${base}/gallery
+- Warranty: ${base}/warranty
 - Partners (pool service companies): ${base}/partners
+- [Austin hard water and pool finishes](${base}/resources/austin-pool-hard-water)
+- [Pool leak or evaporation](${base}/resources/pool-leak-or-evaporation)
+- [Sample pool inspection report](${base}/resources/sample-pool-inspection-report)
 
 Optional:
 - [${poolCareOffering.primary[0].label} in Austin](${base}/services/pool-leak-detection/austin)

@@ -1,12 +1,14 @@
 /**
  * Renovation financing callout copy.
- * Swap `ctaHref` for the Wisetack / Lyon (or other) application URL when the partner is finalized.
+ * When a Wisetack / Lyon (or other) application URL is live, set `ctaHref`
+ * to that URL and restore apply-online language in `body` / `faqAnswer`.
  */
 export const financing = {
   heading: "Flexible Financing Available",
-  body: "Don't let cost stand between you and the pool you want. We offer multiple financing options so you can start your renovation now and pay over time. Ask about financing during your free consultation, or apply in minutes online.",
+  body: "Don't let cost stand between you and the pool you want. We offer multiple financing options so you can start your renovation now and pay over time. Ask about financing during your free consultation — we'll walk you through the options in person.",
   creditCardsNote: "We also accept all major credit cards.",
-  ctaLabel: "Check Financing Options",
-  /** Temporary until partner application link is ready */
+  ctaLabel: "Ask about financing",
   ctaHref: "/contact",
+  faqAnswer:
+    "Yes. We offer multiple financing options so you can start your renovation now and pay over time. Ask about financing during your free consultation. We also accept all major credit cards.",
 } as const;

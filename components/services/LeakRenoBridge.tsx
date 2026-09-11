@@ -49,15 +49,16 @@ export function LeakRenoBridge({ from, citySlug }: LeakRenoBridgeProps) {
     <Section>
       <Container className="rounded-2xl border border-brand-200 bg-gradient-to-br from-brand-50 to-white p-6 shadow-sm sm:p-8">
         <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">
-          Water loss before you resurface?
+          Leak check before every plaster
         </p>
         <h2 className="mt-2 text-xl font-bold text-slate-900 sm:text-2xl">
-          Fix the leak first — then renovate with confidence
+          We leak-check every pool before we plaster
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
-          Resurfacing over an active leak is a costly mistake. Our Leaktronics-certified technicians
-          locate and repair plumbing and shell leaks before renovation work begins — so your new
-          plaster or PebbleTec finish is protecting a sound pool, not hiding a problem.
+          Resurfacing over an active leak is a costly mistake. Every renovation pool is leak-checked
+          first. If we find a plumbing or shell leak, our Leaktronics-certified technicians repair it
+          before the new surface goes in — so your plaster, Pebble Tec, or Pebble Sheen finish is
+          protecting a sound pool, not hiding a problem.
         </p>
         <p className="mt-3 text-sm text-slate-600">
           Prefer to start with detection?{" "}

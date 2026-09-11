@@ -1,4 +1,5 @@
 import { footerCredentials } from "@/content/credentials";
+import { proof } from "@/content/proof";
 import { poolCareOffering } from "@/content/service-offering";
 import { site } from "@/content/site";
 
@@ -55,6 +56,7 @@ export const about = {
     { label: site.railCertified.label },
     { label: "Licensed & insured" },
     { label: formatGoogleReviewsLabel() },
+    { label: proof.documentedJobsLabel },
   ],
   servicesIntro:
     `Our leak detection technicians, pool repair experts, and renovation specialists cover ${poolCareOffering.inlineList} for residential and commercial properties across Central Texas.`,

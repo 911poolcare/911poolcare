@@ -29,6 +29,22 @@ export function ServicePricing({ serviceSlug }: ServicePricingProps) {
         </p>
 
         <div className="mt-6 rounded-xl border border-brand-200 bg-white p-5">
+          <h4 className="font-semibold text-slate-900">
+            {pricing.leakDetection.includedHeading}
+          </h4>
+          <ul className="mt-3 space-y-2">
+            {pricing.leakDetection.includedItems.map((item) => (
+              <li key={item} className="text-sm leading-relaxed text-slate-700">
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            {pricing.leakDetection.includedNote}
+          </p>
+        </div>
+
+        <div className="mt-6 rounded-xl border border-brand-200 bg-white p-5">
           <h4 className="font-semibold text-slate-900">Residential down-payment guarantee</h4>
           <p className="mt-2 text-sm leading-relaxed text-slate-700">
             {pricing.leakDetection.residentialGuaranteeDetail}

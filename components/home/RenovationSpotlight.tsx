@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import {
   priorityRenovationMarkets,
-  renovationSeo,
   renovationSpotlightCards,
+  renovationSpotlightHeadline,
 } from "@/content/renovations";
 import { pricing } from "@/content/pricing";
 import { Button } from "@/components/ui/Button";
@@ -20,10 +20,12 @@ export function RenovationSpotlight() {
             Pool Renovations
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            Replaster, PebbleTec & other finishes — full pool remodels
+            {renovationSpotlightHeadline}
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-slate-600">
-            {renovationSeo.hubDescription} {pricing.renovation.consultationDescription}
+            Resurfacing over an active leak is a costly mistake. We locate and repair plumbing and
+            shell leaks first — then replaster, install Pebble Tec or Pebble Sheen, and remodel with
+            a dedicated project manager. {pricing.renovation.consultationDescription}
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
             {priorityRenovationMarkets.map((city) => (

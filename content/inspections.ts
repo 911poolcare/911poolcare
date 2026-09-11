@@ -139,3 +139,61 @@ export const inspectionSeo = {
   ctaLabel: "Schedule a Pool Inspection",
   schedulingNote: `Based in ${site.address.city}, we perform certified pool inspections across Central Texas. Call ${site.phone} or request service to confirm availability.`,
 } as const;
+
+export const inspectionRealtorKit = {
+  eyebrow: "For realtors",
+  title: "A report you can put in the listing packet",
+  description:
+    "Chris — our General Manager and PHTA Certified Pool Inspector — performs the visit and writes the report. $360 covers up to two hours on site, photos, and prioritized notes. Leak detection and pressure testing are separate if the pool is losing water. Share the sample report with buyers and agents so they know what they will receive.",
+  sampleHref: "/resources/sample-pool-inspection-report",
+  sampleLabel: "View sample report",
+} as const;
+
+export const sampleInspectionReport = {
+  title: "Sample pool inspection report",
+  metaDescription:
+    "Example of a 911 Pool Care CPI pool inspection report for Austin-area buyers, sellers, and realtors. Fictional property — not a real address.",
+  disclaimer:
+    "This is a sample for illustration only. It is not a report on a real property, and it is not a substitute for an on-site inspection.",
+  property: "Sample residence · Central Texas (address redacted)",
+  inspector: "Chris · General Manager, PHTA Certified Pool Inspector (CPI)",
+  fee: "$360 standard pool / pool-spa inspection (up to 2 hours on site)",
+  notIncluded: "Leak detection, pressure testing, and repairs are quoted separately when needed.",
+  sections: [
+    {
+      title: "Pool structure & visible surface",
+      finding: "Plaster shows typical wear and staining for age. No obvious structural settlement noted in accessible areas.",
+      priority: "Monitor / budget for resurfacing in coming seasons",
+    },
+    {
+      title: "Plumbing & circulation",
+      finding: "Circulation ran during the visit. No pressure test was performed as part of this inspection.",
+      priority: "Optional leak detection if water loss exceeds evaporation",
+    },
+    {
+      title: "Pumps, filters, heaters & automation",
+      finding: "Equipment operated. Age and remaining life noted in the full report with photos.",
+      priority: "Repair vs replace discussed only when a defect is found",
+    },
+    {
+      title: "Electrical & safety-related components",
+      finding: "Visible bonding, GFCI, and equipment-pad electrical items reviewed within inspection scope.",
+      priority: "Safety notes called out in plain language, not alarmist copy",
+    },
+    {
+      title: "Valves, fittings & visible leaks",
+      finding: "Accessible fittings inspected. Active leaks, if present, are photographed and listed.",
+      priority: "Leak detection is a separate service when water loss needs locating",
+    },
+    {
+      title: "Decking, coping, tile & surrounding areas",
+      finding: "Coping, waterline tile, and deck condition documented for trip hazards and water intrusion at the edge.",
+      priority: "Safety and repair cost notes for closing conversations",
+    },
+    {
+      title: "General operational & safety",
+      finding: "Whether the pool appears fit for normal use, with practical next steps — not a sales pitch.",
+      priority: "Clear language a realtor can share without translating jargon",
+    },
+  ],
+} as const;

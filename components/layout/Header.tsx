@@ -10,10 +10,10 @@ import { Logo } from "@/components/ui/Logo";
 const navLinks = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
-  { href: "/areas", label: "Service Areas" },
-  { href: "/partners", label: "Partners" },
+  { href: "/services/pool-renovations", label: "Renovations" },
   { href: "/services/pool-leak-detection", label: "Leak Repair" },
-  { href: "/#faq", label: "FAQ" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/areas", label: "Areas" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -24,7 +24,7 @@ export function Header() {
         <div className="grid grid-cols-[1fr_auto] items-center gap-x-4 md:flex md:h-[9.5rem] md:justify-between">
           <Logo size="header" className="col-start-1 row-start-1" />
 
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-5 lg:gap-7 md:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

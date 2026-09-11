@@ -83,6 +83,12 @@ const LeakDetectionPageExtras = dynamic(() =>
   })),
 );
 
+const EquipmentPageExtras = dynamic(() =>
+  import("@/components/services/EquipmentPageExtras").then((module) => ({
+    default: module.EquipmentPageExtras,
+  })),
+);
+
 type ServicePageContentProps = {
   service: Service;
   city?: City;
@@ -185,6 +191,11 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                     ]
               }
             />
+            {isRenovations ? (
+              <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-200">
+                Pool renovations & replastering · Austin & Central Texas
+              </p>
+            ) : null}
             <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
               {headline}
             </h1>
@@ -198,9 +209,9 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
               <p className="mt-4 text-sm font-medium text-brand-50">
                 {site.google.rating}★ on Google ({site.google.reviewCount} reviews)
                 {" · "}
-                Free on-site consultation
+                Leak-check before plaster
                 {" · "}
-                Serving Central Texas
+                Free on-site consultation
               </p>
             ) : null}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -440,13 +451,16 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
       ) : null}
 
       {service.slug === "pool-equipment-repair" ? (
-        <TeamSection
-          members={getTeamForService("pool-equipment-repair")}
-          muted
-          eyebrow="Your equipment specialist"
-          title="RAIL-certified repair led by Danielle"
-          description={`Danielle — our head technician and Installer of Record (RAIL ${site.railCertified.displayNumber}) — focuses on pool electrical work, equipment repair, leak detection, and quality control. ${site.raicLicensed.inline}.`}
-        />
+        <>
+          <TeamSection
+            members={getTeamForService("pool-equipment-repair")}
+            muted
+            eyebrow="Your equipment specialist"
+            title="RAIL-certified repair led by Danielle"
+            description={`Danielle — our head technician and Installer of Record (RAIL ${site.railCertified.displayNumber}) — focuses on pool electrical work, equipment repair, leak detection, and quality control. ${site.raicLicensed.inline}.`}
+          />
+          <EquipmentPageExtras city={city} />
+        </>
       ) : null}
 
       <Section muted>

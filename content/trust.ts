@@ -6,7 +6,10 @@ import {
 import {
   getCredentialById,
 } from "@/content/credentials";
-import { renovationFinishesIntro } from "@/content/renovations";
+import {
+  renovationFinishesIntro,
+  renovationLeakCheckBeforePlaster,
+} from "@/content/renovations";
 import { poolEquipmentPhrase } from "@/content/equipment";
 import { pricing } from "@/content/pricing";
 import { poolCareOffering } from "@/content/service-offering";
@@ -80,7 +83,11 @@ export const faqs: FAQItem[] = [
   {
     question: "Do you offer pool renovation and replastering?",
     answer:
-      `Yes. Pool renovations and replastering are a core part of what we do — ${renovationFinishesIntro.toLowerCase()} We also handle tile, coping, and full remodels with free on-site consultations for residential and commercial properties.`,
+      `Yes. We leak-check every pool before plaster, then replaster and remodel — ${renovationFinishesIntro.toLowerCase()} We also handle tile, coping, and full remodels with free on-site consultations for residential and commercial properties.`,
+  },
+  {
+    question: "Do you leak-check a pool before replastering?",
+    answer: renovationLeakCheckBeforePlaster,
   },
   {
     question: "What pool finishes do you install?",
@@ -112,7 +119,7 @@ export const faqs: FAQItem[] = [
   },
   {
     question: "How much does leak detection cost?",
-    answer: pricing.leakDetection.faqAnswer,
+    answer: `${pricing.leakDetection.faqAnswer} ${pricing.leakDetection.includedNote}`,
   },
   {
     question: "What is your leak detection guarantee?",

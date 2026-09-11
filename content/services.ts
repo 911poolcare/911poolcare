@@ -71,16 +71,17 @@ export const services: Service[] = [
     slug: "pool-renovations",
     title: "Pool Renovations & Replastering",
     description:
-      "PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite plaster, tile, coping, and full pool remodels. Free on-site consultation.",
+      "We leak-check every pool before plaster. Then Pebble Tec and Pebble Sheen by certified installers, other premium finishes, tile, coping, and full remodels. Free on-site consultation.",
     image: serviceHeroImages["pool-renovations"].src,
     imageAlt: serviceHeroImages["pool-renovations"].alt,
-    headline: "Pool renovations & replastering in Austin, TX",
+    headline: "We leak-check every pool before we plaster",
     intro:
-      "Worn plaster, cracked coping, or a pool that looks tired? We replaster and remodel residential and commercial pools across Central Texas — PebbleTec, MicroFusion, Stonescapes, Quartzscapes, marcite, tile, and coping. Start with a free on-site consultation and a clear plan.",
+      "Worn plaster, cracked coping, or a pool that looks tired? We leak-check every pool before plaster or resurfacing — then replaster and remodel residential and commercial pools across Central Texas. Pebble Tec and Pebble Sheen by certified installers, plus MicroFusion, Stonescapes, Quartzscapes, marcite, tile, and coping. Start with a free on-site consultation and a clear plan.",
     highlights: [
+      "Leak-check every pool before plaster or resurfacing",
       "Free on-site renovation consultation — no pressure",
-      "PebbleTec, MicroFusion, Stonescapes & Quartzscapes",
-      "Basic marcite plaster and other finish options",
+      "Pebble Tec & Pebble Sheen applied only by certified installers",
+      "MicroFusion, Stonescapes, Quartzscapes & marcite options",
       "Waterline tile, coping, and trim updates",
       "Deck and hardscape coordination",
       "Full pool remodels — residential & commercial",

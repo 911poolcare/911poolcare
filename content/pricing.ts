@@ -32,6 +32,15 @@ export const pricing = {
       "Pool company partners are not charged the $120 leak detection deposit on referred jobs.",
     repairNote:
       "Leak repairs are custom quotes. Cost depends on variables such as whether the leak is in-ground, under concrete, depth, access, and more.",
+    includedHeading: "What’s included in the detection fee",
+    includedItems: [
+      "Dye testing and pressure testing to locate leak sources",
+      "Leaktronics and Anderson locating equipment — listening gear, pipe cameras, and electronic locating",
+      "Water-loss check so you are not paying to chase evaporation",
+      "A repair plan from the same team — we find it, then we fix it",
+    ],
+    includedNote:
+      "This is a full locate with professional gear, not a search-only visit. Many repairs happen the same visit once the source is confirmed. Repair work is quoted separately after we know what we are fixing.",
     faqAnswer:
       "Leak detection starts at $650 for a basic pool only with a single pump. Pool and spa with a single pump is $750. Each additional pump is $150 (booster pumps are not counted). Catch basins for infinity edge pools are an additional $150. In-floor cleaning systems start at $400 and include up to 20 in-floor heads tested — $20 for each additional head. Commercial pools start at $750 and are usually custom quotes. Leak repairs are quoted separately based on location, access, and repair scope.",
     guaranteeFaqAnswer:

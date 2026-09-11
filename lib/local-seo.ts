@@ -42,7 +42,7 @@ const priorityCityIntros: Record<string, Record<string, string>> = {
 
 export function getCityServiceHeadline(service: Service, city: City): string {
   if (service.slug === renovationSlug) {
-    return `Pool Renovation & Replastering in ${city.name}, TX`;
+    return `Leak-check, then pool renovation in ${city.name}, TX`;
   }
   if (service.slug === leakDetectionSlug) {
     return leakDetectionSeo.cityHeadline(city.name);

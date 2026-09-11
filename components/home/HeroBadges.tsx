@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Star, Shield, Medal, Zap, BadgeCheck } from "lucide-react";
+import { Star, Shield, Medal, Zap, BadgeCheck, Images } from "lucide-react";
+import { proof } from "@/content/proof";
 import { formatGoogleReviewsLabel, site } from "@/content/site";
 
 export function HeroBadges() {
@@ -47,6 +48,16 @@ export function HeroBadges() {
         >
           <Star className="h-4 w-4 fill-accent-400 text-accent-400" aria-hidden />
           {formatGoogleReviewsLabel()}
+        </Link>
+      </li>
+      <li>
+        <Link
+          href="/gallery"
+          title={proof.documentedJobsNote}
+          className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white ring-1 ring-white/20 transition-colors hover:bg-white/25"
+        >
+          <Images className="h-4 w-4 text-accent-400" aria-hidden />
+          {proof.documentedJobsLabel}
         </Link>
       </li>
     </ul>
