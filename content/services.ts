@@ -74,9 +74,9 @@ export const services: Service[] = [
       "We leak-check every pool before plaster. Then Pebble Tec and Pebble Sheen by certified installers, other premium finishes, tile, coping, and full remodels. Free on-site consultation.",
     image: serviceHeroImages["pool-renovations"].src,
     imageAlt: serviceHeroImages["pool-renovations"].alt,
-    headline: "We leak-check every pool before we plaster",
+    headline: "Austin's Pool Renovation & Remodel Experts",
     intro:
-      "Worn plaster, cracked coping, or a pool that looks tired? We leak-check every pool before plaster or resurfacing — then replaster and remodel residential and commercial pools across Central Texas. Pebble Tec and Pebble Sheen by certified installers, plus MicroFusion, Stonescapes, Quartzscapes, marcite, tile, and coping. Start with a free on-site consultation and a clear plan.",
+      "Worn plaster, cracked coping, or a pool that's ready for a refresh? We renovate and remodel residential and commercial pools across Austin and Central Texas — Pebble Tec and Pebble Sheen by certified installers, plus MicroFusion, Stonescapes, Quartzscapes, marcite, tile, and coping. We leak-check every pool before we plaster, so problems don't get sealed in. Start with a free on-site consultation and a clear plan.",
     highlights: [
       "Leak-check every pool before plaster or resurfacing",
       "Free on-site renovation consultation — no pressure",

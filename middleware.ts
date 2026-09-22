@@ -51,6 +51,17 @@ function protectQuoteBuilder(request: NextRequest): NextResponse {
   return unauthorized();
 }
 
+function isStaticAssetPath(pathname: string): boolean {
+  return (
+    pathname.startsWith("/_next/") ||
+    pathname.startsWith("/images/") ||
+    pathname.startsWith("/favicon") ||
+    /\.(?:avif|css|gif|ico|jpe?g|js|mp4|png|svg|webm|webp|woff2?)$/i.test(
+      pathname,
+    )
+  );
+}
+
 /**
  * - Password-protect the internal renovation quote builder
  * - 301 nested Wix city URLs and non-www host
@@ -85,7 +96,12 @@ export function middleware(request: NextRequest) {
   const referrer = request.headers.get("referer");
   const userAgent = request.headers.get("user-agent");
 
-  if (shouldDropBotTraffic(referrer, userAgent)) {
+  // Next's image optimizer fetches /images/* with a node-fetch UA.
+  // Blocking that returns an empty 204 and every <Image> renders blank.
+  if (
+    !isStaticAssetPath(pathname) &&
+    shouldDropBotTraffic(referrer, userAgent)
+  ) {
     return new NextResponse(null, { status: 204 });
   }
 
@@ -105,5 +121,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/:path*",
+  matcher: [
+    "/((?!_next/static|_next/image|images/|favicon.ico|robots.txt|sitemap.xml).*)",
+  ],
 };
