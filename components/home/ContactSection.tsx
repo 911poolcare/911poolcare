@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { GoogleMapEmbed } from "@/components/contact/GoogleMapEmbed";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
 export function ContactSection() {
   return (
@@ -43,6 +43,20 @@ export function ContactSection() {
                   <span className="flex items-center gap-3 text-slate-700">
                     <MapPin className="h-5 w-5 shrink-0" aria-hidden />
                     {site.address.display}
+                  </span>
+                </li>
+                <li>
+                  <span className="flex items-start gap-3 text-slate-700">
+                    <Clock className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
+                    <span>
+                      {site.openingHoursDisplay.map((row) => (
+                        <span key={row.days} className="block">
+                          <span className="font-medium text-slate-900">{row.days}</span>
+                          {": "}
+                          {row.hours}
+                        </span>
+                      ))}
+                    </span>
                   </span>
                 </li>
               </ul>

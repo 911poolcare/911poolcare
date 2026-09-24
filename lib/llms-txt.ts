@@ -83,7 +83,7 @@ ${teamLines}
 
 - Phone: ${site.phone}
 - Email: ${site.email}
-- Hours: Monday–Friday 7:00–18:00, Saturday 9:00–17:00, Sunday closed
+- Hours: Monday–Friday 7:00–18:00, Saturday and Sunday closed
 - Website: ${base}
 - About: ${base}/about
 - Contact: ${base}/contact

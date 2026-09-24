@@ -40,12 +40,6 @@ export function getLocalBusinessSchema() {
         opens: "07:00",
         closes: "18:00",
       },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: "Saturday",
-        opens: "09:00",
-        closes: "17:00",
-      },
     ],
     geo: {
       "@type": "GeoCoordinates",

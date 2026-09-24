@@ -39,12 +39,11 @@ function getChicagoMinutes(date: Date): { day: number; minutes: number } {
   return { day: weekdayIndex[weekday] ?? 0, minutes: hour * 60 + minute };
 }
 
-/** Matches site.openingHours: Mo–Fr 7–6, Sa 9–5, Su closed. */
+/** Matches site.openingHours: Mo–Fr 7–6, Saturday and Sunday closed. */
 export function isWithinBusinessHours(date = new Date()): boolean {
   const { day, minutes } = getChicagoMinutes(date);
 
-  if (day === 0) return false;
-  if (day === 6) return minutes >= 9 * 60 && minutes < 17 * 60;
+  if (day === 0 || day === 6) return false;
   return minutes >= 7 * 60 && minutes < 18 * 60;
 }
 

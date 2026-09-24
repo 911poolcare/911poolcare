@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin } from "lucide-react";
+import { Clock, Mail, MapPin } from "lucide-react";
 import { PhoneLink } from "@/components/layout/PhoneLink";
 import { CredentialsBar } from "@/components/layout/CredentialsBar";
 import { cities } from "@/content/cities";
@@ -93,6 +93,16 @@ export function Footer() {
           <p className="flex items-start gap-2">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             {site.address.display}
+          </p>
+          <p className="flex items-start gap-2">
+            <Clock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+            <span>
+              {site.openingHoursDisplay.map((row) => (
+                <span key={row.days} className="block">
+                  {row.days}: {row.hours}
+                </span>
+              ))}
+            </span>
           </p>
         </div>
       </Container>

@@ -60,7 +60,13 @@ export const site = {
     /** Public-facing — no street address (mobile service area business) */
     display: "Leander, TX · Central Texas",
   },
-  openingHours: ["Mo-Fr 07:00-18:00", "Sa 09:00-17:00", "Su Closed"],
+  openingHours: ["Mo-Fr 07:00-18:00", "Sa Closed", "Su Closed"],
+  /** Visitor-facing hours. Saturday and Sunday are closed. */
+  openingHoursDisplay: [
+    { days: "Monday–Friday", hours: "7:00 AM – 6:00 PM" },
+    { days: "Saturday", hours: "Closed" },
+    { days: "Sunday", hours: "Closed" },
+  ],
   priceRange: "$$",
   social: {
     facebook: "https://www.facebook.com/911poolcare",
