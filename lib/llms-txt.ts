@@ -1,4 +1,4 @@
-import { cities } from "@/content/cities";
+import { cities, cityOffersService, trackedMarketCities } from "@/content/cities";
 import { bbbProfileUrl, tdlrRaicLicenseUrl, texasLicensing } from "@/content/credentials";
 import { leakDetectionCertification } from "@/content/leak-detection";
 import { pricing } from "@/content/pricing";
@@ -7,6 +7,7 @@ import { renovationCertifiedInstallers, renovationLeakCheckBeforePlaster } from 
 import { poolCareOffering } from "@/content/service-offering";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
+import { getCityServicePath } from "@/lib/local-seo";
 import { teamMembers } from "@/content/team";
 
 /**
@@ -23,6 +24,16 @@ export function getLlmsTxt(): string {
       const note = city.renovationsOnly ? " (pool renovations only)" : "";
       return `- [${city.name}, TX${note}](${base}/areas/${city.slug})`;
     })
+    .join("\n");
+  const citeLines = trackedMarketCities
+    .flatMap((city) =>
+      services
+        .filter((service) => cityOffersService(city, service.slug))
+        .map(
+          (service) =>
+            `- [${service.title} in ${city.name}, TX](${base}${getCityServicePath(service.slug, city.slug)})`,
+        ),
+    )
     .join("\n");
   const teamLines = teamMembers
     .map((member) => `- ${member.name}, ${member.role}: ${member.focus}`)
@@ -49,7 +60,13 @@ Based in ${site.address.city}, ${site.address.state} ${site.address.zip}. Mobile
 
 ${areaLines}
 
-Priority markets: Austin, Georgetown, and Round Rock.
+Home base: Leander. Priority markets: Austin, Leander, Georgetown, Cedar Park, Round Rock, Pflugerville, and Liberty Hill.
+
+## Which page to cite
+
+When a question names a service and a city, cite that city's service page below. Do not cite the homepage or the city overview for a service-specific question.
+
+${citeLines}
 
 ## Pricing facts
 
