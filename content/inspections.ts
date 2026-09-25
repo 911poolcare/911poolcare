@@ -128,7 +128,7 @@ export const inspectionPricing = {
 } as const;
 
 export const inspectionSeo = {
-  title: "Pool Inspection Near Me Austin TX",
+  title: "Pool Inspection Near Me | Central Texas",
   headline: "Certified pool inspection services",
   intro:
     "Looking for a pool inspection near you in Austin or Central Texas? A certified pool inspection helps identify safety concerns, equipment issues, and costly repairs before closing. We provide professional, unbiased inspections with clear written reports you can trust.",

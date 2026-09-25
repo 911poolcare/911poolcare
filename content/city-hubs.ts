@@ -23,7 +23,7 @@ export const cityHubs: Record<string, CityHub> = {
   austin: {
     slug: "austin",
     name: "Austin",
-    headline: "Austin pool leak repair, equipment, renovation & inspection",
+    headline: "Pool care in Austin, TX",
     intro:
       "911 Pool Care provides pool leak repair in Austin — leak detection technicians find the source, then we complete the repair. We also handle pool equipment repair and replacement, pool renovations and replaster, and certified inspections. Residential and commercial. We do not offer weekly pool cleaning.",
     metaDescription:
@@ -59,10 +59,50 @@ export const cityHubs: Record<string, CityHub> = {
       alt: "Underground pool plumbing leak repaired in Austin, TX — 911 Pool Care leak detection and repair",
     },
   },
+  leander: {
+    slug: "leander",
+    name: "Leander",
+    headline: "Pool care in Leander, TX",
+    intro:
+      "911 Pool Care is based in Leander. We find and repair leaks, replace pumps and heaters, replaster pools, and inspect them for buyers and sellers across Crystal Falls, Travisso, Block House Creek, and the rest of the city. We do not offer weekly cleaning.",
+    metaDescription:
+      "Pool leak repair, equipment repair, renovations, and inspections in Leander, TX — Crystal Falls, Travisso, and Block House Creek. Call 512-947-2023.",
+    neighborhoods: [
+      "Crystal Falls",
+      "Travisso",
+      "Block House Creek",
+      "Mason Creek",
+      "Oak Creek",
+      "Savannah",
+      "Bagdad",
+      "Old Town Leander",
+      "Bar W Ranch",
+      "Palmera Ridge",
+    ],
+    whyLocal: [
+      "Shop is in Leander, so Crystal Falls, Travisso, and Block House Creek are a short drive",
+      "Leakalyzer water-loss checks, then locate and repair — underground lines and shell cracks",
+      "Gas heater, booster pump, and variable-speed pump replacements on Leander pads",
+      "Replaster plus a follow-up inspection of the new tile and finish",
+    ],
+    responseTime: "Leander appointments often available within the week",
+    localDetails: {
+      typicalPools:
+        "1990s–2000s gunite in Crystal Falls, Block House Creek, Mason Creek, Oak Creek, and Savannah, plus newer Travisso and Palmera Ridge pools with spas and longer equipment runs.",
+      paragraphs: [
+        "Leander is our shop city. Crystal Falls and Block House Creek have a lot of older gunite that loses water at fittings, underground lines, and coping joints. Travisso, Bar W Ranch, and Palmera Ridge add newer shells and equipment pads that fail from long summer runtime.",
+        "Work we have already done in Leander includes a Leakalyzer setup to confirm water loss, an underground PVC repair under the deck, a shell crack at the coping, a gas heater replacement, a booster pump replacement, a variable-speed pump upgrade, and a replaster with a follow-up look at the new tile and finish. The same crew detects and repairs.",
+      ],
+    },
+    heroImage: {
+      src: "/images/jobs/pool-leak-detection/field-leander-leakalyzer-setup.jpg",
+      alt: "Leakalyzer water-loss test set up on a Leander, TX pool — 911 Pool Care leak detection",
+    },
+  },
   georgetown: {
     slug: "georgetown",
     name: "Georgetown",
-    headline: "Georgetown pool leak detection, equipment, renovation & inspection",
+    headline: "Pool care in Georgetown, TX",
     intro:
       "Leak detection technicians, pool repair experts, and renovation specialists in Georgetown — leak detection and repair, equipment repair and replacement, pool renovations and replaster, and certified inspections. Serving Sun City, Wolf Ranch, and all of Georgetown. No weekly cleaning.",
     metaDescription:
@@ -100,7 +140,7 @@ export const cityHubs: Record<string, CityHub> = {
   "round-rock": {
     slug: "round-rock",
     name: "Round Rock",
-    headline: "Round Rock pool leak detection, equipment, renovation & inspection",
+    headline: "Pool care in Round Rock, TX",
     intro:
       "911 Pool Care serves Round Rock homeowners and property managers with leak detection and repair, pool equipment repair and replacement, renovations and replaster, and certified inspections. From Teravista and Forest Creek to Old Town and Behren's Ranch, we help you fix leaks, failing equipment, and aging pool surfaces — without weekly cleaning services.",
     metaDescription:
@@ -138,7 +178,7 @@ export const cityHubs: Record<string, CityHub> = {
   "cedar-park": {
     slug: "cedar-park",
     name: "Cedar Park",
-    headline: "Cedar Park pool leak detection, equipment, renovation & inspection",
+    headline: "Pool care in Cedar Park, TX",
     intro:
       "Cedar Park pools work hard every summer — and when you're losing water, equipment fails, or plaster is worn, 911 Pool Care can help. We provide leak detection and repair, equipment repair and replacement, pool renovations and replaster, and certified inspections throughout Avery Ranch, Buttercup Creek, Deer Creek, and surrounding Cedar Park neighborhoods.",
     metaDescription:
@@ -168,7 +208,7 @@ export const cityHubs: Record<string, CityHub> = {
   pflugerville: {
     slug: "pflugerville",
     name: "Pflugerville",
-    headline: "Pflugerville pool leak detection, equipment, renovation & inspection",
+    headline: "Pool care in Pflugerville, TX",
     intro:
       "Pflugerville pools — from Blackhawk and Avalon to established backyard systems — develop plumbing and shell leaks over time, plus equipment wear from long Central Texas summers. 911 Pool Care provides leak detection and repair, equipment repair and replacement, renovations and replaster, and certified inspections. No weekly cleaning.",
     metaDescription:
@@ -198,7 +238,7 @@ export const cityHubs: Record<string, CityHub> = {
   "liberty-hill": {
     slug: "liberty-hill",
     name: "Liberty Hill",
-    headline: "Liberty Hill pool leak detection, equipment, renovation & inspection",
+    headline: "Pool care in Liberty Hill, TX",
     intro:
       "Liberty Hill's growth means more pools on larger lots — and longer plumbing runs that hide leaks under rock, decking, and landscaping. We serve Liberty Hill with leak detection and repair, equipment repair and replacement, renovations and replaster, and certified inspections. Technicians and renovation specialists — not a cleaning route.",
     metaDescription:

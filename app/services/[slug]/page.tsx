@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       : slug === "pool-leak-detection"
         ? leakDetectionSeo.title
         : slug === "pool-equipment-repair"
-          ? "Pool Equipment Repair Austin TX"
+          ? "Pool Equipment Repair & Replacement | Central Texas"
           : slug === "pool-inspections"
             ? inspectionSeo.title
             : service.title;

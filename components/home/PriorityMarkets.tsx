@@ -15,7 +15,7 @@ export function PriorityMarkets() {
         <SectionHeading
           eyebrow="Now Serving"
           title="Growing across Central Texas"
-          description="Dedicated local service in Austin, Georgetown, Round Rock, Cedar Park, Pflugerville, Liberty Hill, and the communities we know best."
+          description="Dedicated local pages for Austin, Leander, Georgetown, Round Rock, Cedar Park, Pflugerville, and Liberty Hill. Each city links to its own leak, equipment, renovation, and inspection pages."
         />
 
         <div className="grid gap-6 lg:grid-cols-2">

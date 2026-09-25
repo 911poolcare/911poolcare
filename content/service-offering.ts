@@ -1,13 +1,13 @@
 /** Site positioning — single source of truth for marketing copy */
 export const poolCareOffering = {
   /** SEO-focused H1 for homepage and local search */
-  seoHeadline: "Pool Leak Repair & Renovation Experts · Austin, TX",
+  seoHeadline: "Pool leak repair, equipment, renovations & inspections",
   headline: "We bring leaking, broken & aging pools back to life",
   subhead:
     "Pool leak repair, equipment repair, renovations & inspections for residential, commercial & HOA properties.",
   tagline: "Central Texas Pool Leak Repair, Equipment, Renovation & Inspection",
   metaDescription:
-    "Pool leak repair in Austin, TX — leak detection, equipment repair, renovations & certified inspections. 4.9★ on Google · TDLR RAIC #1545 · RAIL certified · veteran-owned. Call 512-947-2023.",
+    "Pool leak repair, equipment repair, renovations, and certified inspections across Austin and Central Texas. 4.9★ on Google · TDLR RAIC #1545 · RAIL certified · veteran-owned. Call 512-947-2023.",
   primary: [
     {
       label: "Pool leak repair & detection",

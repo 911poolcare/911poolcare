@@ -163,7 +163,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
       {leakFaqs ? <FaqJsonLd items={leakFaqs} /> : null}
       {service.slug === "pool-leak-detection" ? (
         <ServiceJsonLd
-          name={city ? `Pool leak repair in ${city.name}, TX` : "Pool leak repair in Austin & Central Texas"}
+          name={city ? `Pool leak repair in ${city.name}, TX` : "Pool leak repair across Central Texas"}
           serviceType="Pool leak repair"
           description={
             city ? getCityLeakDetectionMeta(city.slug, city.name) : service.metaDescription
@@ -200,6 +200,16 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
               {headline}
             </h1>
             <p className="mt-5 text-lg leading-relaxed text-brand-100">{intro}</p>
+            {!city ? (
+              <p className="mt-4 text-sm leading-relaxed text-brand-100">
+                <Link
+                  href={getCityServicePath(service.slug, "austin")}
+                  className="font-semibold text-white underline decoration-white/40 underline-offset-2 hover:decoration-white"
+                >
+                  {service.title} in Austin →
+                </Link>
+              </p>
+            ) : null}
             {service.slug === "pool-inspections" ? (
               <p className="mt-4 text-lg leading-relaxed text-brand-100">
                 {inspectionSeo.subIntro}

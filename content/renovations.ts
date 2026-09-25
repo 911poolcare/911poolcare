@@ -55,7 +55,7 @@ export const renovationFinishes = [
 ] as const;
 
 export const renovationSeo = {
-  title: "Pool Renovation & Coping Repair Austin TX",
+  title: "Pool Renovation & Replastering | Central Texas",
   titleTemplate: (city: string) => `Pool Renovation ${city} TX | Replaster & Coping`,
   hubDescription:
     "We leak-check every pool before plaster. Then Pebble Tec and Pebble Sheen by certified installers, other premium finishes, tile, coping, and full remodels in Austin and Central Texas. Free on-site consultation. Call 512-947-2023.",

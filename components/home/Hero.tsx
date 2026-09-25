@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, MessageSquare } from "lucide-react";
 import { poolCareOffering } from "@/content/service-offering";
+import { getCityServicePath } from "@/lib/local-seo";
 import { siteHeroGallery } from "@/content/hero-images";
 import { getServiceAreasDisplay, site } from "@/content/site";
 import { Button } from "@/components/ui/Button";
@@ -45,6 +46,21 @@ export function Hero() {
               </li>
             ))}
           </ul>
+
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-brand-100">
+            In Austin:{" "}
+            {poolCareOffering.primary.map((service, index) => (
+              <span key={service.slug}>
+                {index > 0 ? " · " : null}
+                <Link
+                  href={getCityServicePath(service.slug, "austin")}
+                  className="font-semibold text-white underline decoration-white/40 underline-offset-2 hover:decoration-white"
+                >
+                  {service.label} in Austin
+                </Link>
+              </span>
+            ))}
+          </p>
 
           <HeroBadges />
 

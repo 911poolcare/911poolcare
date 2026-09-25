@@ -8,12 +8,12 @@ import { site } from "@/content/site";
 export const leakDetectionSlug = "pool-leak-detection" as const;
 
 export const leakDetectionSeo = {
-  title: "Pool Leak Repair Austin TX | Detection & Repair",
+  title: "Pool Leak Repair & Detection | Central Texas",
   titleTemplate: (city: string) =>
     city === "Austin"
       ? "Pool Leak Repair Austin TX | Plumbing, Shell & Equipment"
       : `Pool Leak Repair ${city} TX | Detection & Repair`,
-  hubHeadline: "Pool leak repair in Austin & Central Texas",
+  hubHeadline: "Pool leak repair across Central Texas",
   cityHeadline: (city: string) => `Pool leak repair in ${city}, TX`,
   keywords: [
     "pool leak repair Austin",

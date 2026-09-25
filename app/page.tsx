@@ -36,17 +36,15 @@ const ContactSection = dynamic(() =>
 
 export const metadata: Metadata = {
   title: {
-    absolute: `Pool Repair Austin TX | Leak Repair & Renovation | ${site.name}`,
+    absolute: `Pool Leak Repair, Equipment & Renovations | ${site.name}`,
   },
   description: poolCareOffering.metaDescription,
   keywords: [
-    "pool leak repair Austin",
-    "pool leak repair Austin TX",
-    "pool repair Austin TX",
-    "pool repair near me",
-    "pool leak detection Austin",
-    "pool renovation Austin",
-    "pool equipment repair Austin",
+    "pool leak repair",
+    "pool equipment repair",
+    "pool renovation",
+    "pool inspection",
+    "Central Texas pool repair",
   ],
   robots: {
     index: true,
@@ -56,7 +54,7 @@ export const metadata: Metadata = {
     canonical: site.urls.site,
   },
   openGraph: {
-    title: `Pool Repair Austin TX | Leak Repair & Renovation | ${site.name}`,
+    title: `Pool Leak Repair, Equipment & Renovations | ${site.name}`,
     description: poolCareOffering.metaDescription,
     url: site.urls.site,
     images: [defaultOpenGraphImage],
