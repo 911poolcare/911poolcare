@@ -12,7 +12,7 @@ const businessId = `${site.urls.site}/#business`;
 export function getLocalBusinessSchema() {
   return {
     "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
+    "@type": ["HomeAndConstructionBusiness", "Organization"],
     "@id": businessId,
     name: site.name,
     legalName: site.legalName,
@@ -23,7 +23,13 @@ export function getLocalBusinessSchema() {
     telephone: site.phone,
     email: site.email,
     image: `${site.urls.site}${site.logo.src}`,
-    logo: `${site.urls.site}${site.logo.src}`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${site.urls.site}${site.logo.src}`,
+      contentUrl: `${site.urls.site}${site.logo.src}`,
+      width: site.logo.width,
+      height: site.logo.height,
+    },
     address: {
       "@type": "PostalAddress",
       addressLocality: site.address.city,
@@ -101,10 +107,6 @@ export function getLocalBusinessSchema() {
         credentialCategory: "license",
         identifier: texasLicensing.raic.number,
         url: tdlrRaicLicenseUrl,
-        recognizedBy: {
-          "@type": "Organization",
-          name: "Texas Department of Licensing and Regulation",
-        },
       },
     ],
     employee: teamMembers.map((member) => ({
