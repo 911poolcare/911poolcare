@@ -7,7 +7,7 @@ export const poolCareOffering = {
     "Pool leak repair, equipment repair, renovations & inspections for residential, commercial & HOA properties.",
   tagline: "Central Texas Pool Leak Repair, Equipment, Renovation & Inspection",
   metaDescription:
-    "Pool leak repair, equipment repair, renovations, and certified inspections across Austin and Central Texas. 4.9★ on Google · TDLR RAIC #1545 · RAIL certified · veteran-owned. Call 512-947-2023.",
+    "Pool leak repair, equipment repair, renovations, and certified inspections across Austin and Central Texas. 4.9★ on Google · 150+ reviews · TDLR RAIC #1545 · RAIL certified · veteran-owned. Call 512-947-2023.",
   primary: [
     {
       label: "Pool leak repair & detection",

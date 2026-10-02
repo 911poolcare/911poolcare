@@ -10,7 +10,6 @@ export type TeamMember = {
     | "pool-equipment-repair"
     | "pool-renovations"
     | "pool-inspections"
-    | "office"
   )[];
 };
 
@@ -40,14 +39,6 @@ export const teamMembers: TeamMember[] = [
     focus:
       "Handles leak detection, pool repairs, and general field repair work with clear communication on every job.",
     services: ["pool-leak-detection"],
-  },
-  {
-    id: "breanna",
-    name: "Breanna",
-    role: "Office Manager",
-    focus:
-      "Handles inbound calls, emails, and client requests — quotes, scheduling, and keeping projects coordinated from first contact.",
-    services: ["office"],
   },
 ] as const;
 

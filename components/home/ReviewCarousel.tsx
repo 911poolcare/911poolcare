@@ -127,7 +127,7 @@ export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           rel="noopener noreferrer"
           className="font-semibold text-brand-700 hover:text-brand-800"
         >
-          See all {site.google.reviewCount.toLocaleString("en-US")} on Google
+          See all {site.google.reviewCountLabel} on Google
         </Link>
       </p>
     </div>

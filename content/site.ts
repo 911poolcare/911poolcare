@@ -51,7 +51,9 @@ export const site = {
     },
     /** Update periodically from your Google Business profile */
     rating: 4.9,
+    /** Floor used in structured data. Public copy says 150+. */
     reviewCount: 150,
+    reviewCountLabel: "150+",
   },
   address: {
     city: "Leander",
@@ -125,8 +127,8 @@ export function formatServiceScopeDescriptionInline(): string {
     .replace(/\bhoas\b/g, "HOAs");
 }
 
-/** e.g. "4.9 · 135 Google reviews" — update `site.google` when your profile changes */
+/** e.g. "4.9★ on Google · 150+ reviews" — update `site.google` when your profile changes */
 export function formatGoogleReviewsLabel(): string {
-  const { rating, reviewCount } = site.google;
-  return `${rating.toFixed(1)} · ${reviewCount.toLocaleString("en-US")} Google reviews`;
+  const { rating, reviewCountLabel } = site.google;
+  return `${rating.toFixed(1)}★ on Google · ${reviewCountLabel} reviews`;
 }

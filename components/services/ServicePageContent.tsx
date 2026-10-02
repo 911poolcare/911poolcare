@@ -8,7 +8,7 @@ import { cityOffersService, getCitiesForService } from "@/content/cities";
 import { getCityHub } from "@/content/city-hubs";
 import type { Service } from "@/content/services";
 import { services } from "@/content/services";
-import { site } from "@/content/site";
+import { formatGoogleReviewsLabel, site } from "@/content/site";
 import {
   getCityServiceHeadline,
   getCityServiceHighlights,
@@ -217,7 +217,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
             ) : null}
             {isRenovations ? (
               <p className="mt-4 text-sm font-medium text-brand-50">
-                {site.google.rating}★ on Google ({site.google.reviewCount} reviews)
+                {formatGoogleReviewsLabel()}
                 {" · "}
                 Leak-check before plaster
                 {" · "}

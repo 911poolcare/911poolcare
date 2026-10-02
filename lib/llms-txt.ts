@@ -6,7 +6,7 @@ import { proof } from "@/content/proof";
 import { renovationCertifiedInstallers, renovationLeakCheckBeforePlaster } from "@/content/renovations";
 import { poolCareOffering } from "@/content/service-offering";
 import { services } from "@/content/services";
-import { site } from "@/content/site";
+import { formatGoogleReviewsLabel, site } from "@/content/site";
 import { getCityServicePath } from "@/lib/local-seo";
 import { teamMembers } from "@/content/team";
 
@@ -88,7 +88,7 @@ ${citeLines}
 - BBB Accredited Business — ${bbbProfileUrl}
 - PHTA Advanced CBP and Certified Pool Inspector (CPI)
 - Leaktronics-certified leak detection; Leaktronics and Anderson locating equipment
-- Google rating ${site.google.rating} from ${site.google.reviewCount} reviews — ${site.google.mapsUrl}
+- ${formatGoogleReviewsLabel()} — ${site.google.mapsUrl}
 - ${proof.documentedJobsLabel}. ${proof.documentedJobsNote}
 - Years in the industry: ${proof.yearsLabel}
 

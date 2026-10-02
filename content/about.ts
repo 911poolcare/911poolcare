@@ -1,12 +1,12 @@
 import { footerCredentials } from "@/content/credentials";
 import { proof } from "@/content/proof";
 import { poolCareOffering } from "@/content/service-offering";
-import { site } from "@/content/site";
+import { formatGoogleReviewsLabel, site } from "@/content/site";
 
 export const about = {
   metaTitle: "About Our Austin Pool Repair Team",
   metaDescription:
-    "Meet Chris, Danielle, Steven & Breanna — the Central Texas pool repair specialists behind 911 Pool Care. TDLR-licensed RAIC contractor, Leaktronics-certified leak detection, RAIL-certified equipment work, CPI inspections & renovations. Technicians, not pool cleaners.",
+    "Meet Chris, Danielle & Steven — the Central Texas pool repair specialists behind 911 Pool Care. TDLR-licensed RAIC contractor, Leaktronics-certified leak detection, RAIL-certified equipment work, CPI inspections & renovations. Technicians, not pool cleaners.",
   headline: "Technicians. Experts. Not pool cleaners.",
   subhead:
     "911 Pool Care was built with one goal: be the best and most consistent pool repair and renovation specialists in our field.",
@@ -33,7 +33,7 @@ export const about = {
     {
       title: "Communication & respect",
       description:
-        "Breanna coordinates scheduling and quotes from the office. In the field, Danielle and Steven keep you informed — and Chris stays your point of contact on renovations and inspections.",
+        "Danielle and Steven keep you informed in the field, and Chris stays your point of contact on renovations and inspections.",
     },
     {
       title: "Quality over volume",
@@ -74,8 +74,3 @@ export const about = {
     },
   },
 } as const;
-
-function formatGoogleReviewsLabel(): string {
-  const { rating, reviewCount } = site.google;
-  return `${rating.toFixed(1)} Google rating · ${reviewCount.toLocaleString("en-US")} reviews`;
-}

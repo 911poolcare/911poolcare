@@ -4,7 +4,7 @@ import { site } from "@/content/site";
 import { StarRating } from "@/components/home/StarRating";
 
 export function GoogleRatingBadge() {
-  const { rating, reviewCount } = site.google;
+  const { rating, reviewCountLabel } = site.google;
 
   return (
     <Link
@@ -21,7 +21,7 @@ export function GoogleRatingBadge() {
       </div>
       <StarRating rating={rating} size="lg" className="mt-3" />
       <p className="mt-3 text-lg font-semibold text-slate-900">
-        {reviewCount.toLocaleString("en-US")} Google reviews
+        {reviewCountLabel} reviews
       </p>
       <p className="mt-1 flex items-center gap-1 text-sm font-medium text-brand-700 group-hover:text-brand-800">
         Read reviews on Google Maps

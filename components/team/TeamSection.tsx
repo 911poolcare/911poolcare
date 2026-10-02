@@ -15,7 +15,7 @@ export function TeamSection({
   members = teamMembers,
   eyebrow = "Our team",
   title = "Real specialists — not an anonymous crew",
-  description = "You know who you're working with: named technicians, a dedicated renovation project manager, and an office lead who answers the phone.",
+  description = "You know who you're working with: named technicians and a dedicated renovation project manager.",
   muted = false,
 }: TeamSectionProps) {
   return (
