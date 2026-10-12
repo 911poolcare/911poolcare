@@ -17,6 +17,7 @@ import {
   getCityHubPath,
 } from "@/lib/local-seo";
 import { CityLocalContext } from "@/components/services/CityLocalContext";
+import { ServiceReviews } from "@/components/services/ServiceReviews";
 import { inspectionSeo } from "@/content/inspections";
 import {
   getCityServiceGalleryImages,
@@ -136,7 +137,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
     service.slug === "pool-leak-detection"
       ? city
         ? `On the job — ${city.name}`
-        : "Leak detection & repair in the field"
+        : "Leak detection / repair in the field"
       : service.slug === "pool-equipment-repair"
         ? city
           ? `Equipment work — ${city.name}`
@@ -163,8 +164,8 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
       {leakFaqs ? <FaqJsonLd items={leakFaqs} /> : null}
       {service.slug === "pool-leak-detection" ? (
         <ServiceJsonLd
-          name={city ? `Pool leak repair in ${city.name}, TX` : "Pool leak repair across Central Texas"}
-          serviceType="Pool leak repair"
+          name={city ? `Pool leak detection / repair in ${city.name}, TX` : "Pool leak detection / repair across Central Texas"}
+          serviceType="Pool leak detection / repair"
           description={
             city ? getCityLeakDetectionMeta(city.slug, city.name) : service.metaDescription
           }
@@ -275,6 +276,8 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
 
       {city ? <CityLocalContext city={city} service={service} /> : null}
 
+      <ServiceReviews serviceSlug={service.slug} />
+
       <Section>
         <Container className="grid gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2">
@@ -320,7 +323,7 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
                   href={getCityServicePath("pool-leak-detection", city.slug)}
                   className="font-semibold text-brand-700 hover:text-brand-800"
                 >
-                  Pool leak repair in {city.name} →
+                  Pool leak detection / repair in {city.name} →
                 </Link>
               </p>
             ) : null}
@@ -392,8 +395,8 @@ export function ServicePageContent({ service, city }: ServicePageContentProps) {
           title={
             service.slug === "pool-leak-detection"
               ? city
-                ? `Leak repair — ${city.name}`
-                : "Leak repair on the job"
+                ? `Leak detection / repair — ${city.name}`
+                : "Leak detection / repair on the job"
               : service.slug === "pool-equipment-repair"
                 ? city
                   ? `Equipment replacements — ${city.name}`

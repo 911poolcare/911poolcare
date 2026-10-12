@@ -13,7 +13,7 @@ export const siteHeroGallery: HeroImage[] = [
     src: "/images/hero/carousel-leak-detection.jpg",
     alt: "Diver performing underwater pool leak inspection in Central Texas",
     href: "/services/pool-leak-detection",
-    label: "Pool leak repair",
+    label: "Pool leak detection / repair",
   },
   {
     src: "/images/hero/carousel-equipment-repair.jpg",
@@ -40,7 +40,7 @@ export const siteHero: HeroImage = siteHeroGallery[0];
 export const serviceHeroImages: Record<string, HeroImage> = {
   "pool-leak-detection": {
     src: "/images/hero/carousel-leak-detection.jpg",
-    alt: "Underwater pool leak repair inspection in Austin, TX by 911 Pool Care",
+    alt: "Underwater pool leak detection / repair inspection in Austin, TX by 911 Pool Care",
   },
   "pool-equipment-repair": {
     src: "/images/hero/carousel-equipment-repair.jpg",

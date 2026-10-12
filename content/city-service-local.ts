@@ -1,3 +1,4 @@
+import { extraCityServiceLocal } from "@/content/city-service-local-markets";
 import { site } from "@/content/site";
 
 export type CityLocalFaq = {
@@ -182,7 +183,7 @@ const cityServiceLocal: Record<string, Partial<Record<ServiceSlug, CityServiceLo
     "pool-leak-detection": {
       heroIntro:
         "Georgetown leaks split along the same line as the city: Sun City and established neighborhoods with 15–25-year-old plumbing, and newer Wolf Ranch and infill pools with construction and fitting leaks. We locate the source with Leaktronics and Anderson systems, then complete the repair before a small loss becomes deck damage or a high water bill.",
-      title: "Pool leak repair in Sun City, Wolf Ranch, and established Georgetown",
+      title: "Pool leak detection / repair in Sun City, Wolf Ranch, and established Georgetown",
       paragraphs: [
         "Sun City Georgetown is a leak-detection market of its own. Many of those community and backyard pools were built in the late 1990s and 2000s with original underground lines, skimmers, and equipment pads that are now at the age when fittings fail and PVC joints give up. Retirees notice water loss quickly because a lot of those pools run most of the year, not just June through August.",
         "Wolf Ranch, Berry Creek, Serenada, and Old Town look different. Newer production pools leak at spa valves, poorly bedded lines, and fittings. Older Georgetown Village and Berry Creek gunite more often shows shell and skimmer leaks after years of Williamson County clay movement. We pressure-test the circuits that matter for that pool instead of treating every Georgetown address like the same job.",
@@ -494,7 +495,10 @@ export function getCityServiceLocal(
   citySlug: string,
   serviceSlug: string,
 ): CityServiceLocal | undefined {
-  return cityServiceLocal[citySlug]?.[serviceSlug as ServiceSlug];
+  return (
+    cityServiceLocal[citySlug]?.[serviceSlug as ServiceSlug] ??
+    extraCityServiceLocal[citySlug]?.[serviceSlug as ServiceSlug]
+  );
 }
 
 export function getCityServiceLocalFaqs(

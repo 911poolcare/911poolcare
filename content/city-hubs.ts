@@ -25,9 +25,9 @@ export const cityHubs: Record<string, CityHub> = {
     name: "Austin",
     headline: "Pool care in Austin, TX",
     intro:
-      "911 Pool Care provides pool leak repair in Austin — leak detection technicians find the source, then we complete the repair. We also handle pool equipment repair and replacement, pool renovations and replaster, and certified inspections. Residential and commercial. We do not offer weekly pool cleaning.",
+      "911 Pool Care provides pool leak detection / repair in Austin — leak detection technicians find the source, then we complete the repair. We also handle pool equipment repair and replacement, pool renovations and replaster, and certified inspections. Residential and commercial. We do not offer weekly pool cleaning.",
     metaDescription:
-      "Pool leak repair in Austin, TX — leak detection technicians, equipment repair, renovations & inspections. Call 512-947-2023.",
+      "Pool leak detection / repair in Austin, TX — leak detection technicians, equipment repair, renovations & inspections. Call 512-947-2023.",
     neighborhoods: [
       "Northwest Hills",
       "Westlake",
@@ -41,7 +41,7 @@ export const cityHubs: Record<string, CityHub> = {
     ],
     whyLocal: [
       "Same-week appointments available across Austin",
-      "Pool leak repair without unnecessary draining when possible",
+      "Pool leak detection / repair without unnecessary draining when possible",
       "Trusted by homeowners, HOAs, and Austin-area realtors",
       "Free renovation consultations — replaster, PebbleTec, tile & full remodels",
     ],
@@ -56,7 +56,7 @@ export const cityHubs: Record<string, CityHub> = {
     },
     heroImage: {
       src: "/images/jobs/pool-leak-detection/curated-austin-repair-after.jpg",
-      alt: "Underground pool plumbing leak repaired in Austin, TX — 911 Pool Care leak detection and repair",
+      alt: "Underground pool plumbing leak repaired in Austin, TX — 911 Pool Care leak detection / repair",
     },
   },
   leander: {
@@ -66,7 +66,7 @@ export const cityHubs: Record<string, CityHub> = {
     intro:
       "911 Pool Care is based in Leander. We find and repair leaks, replace pumps and heaters, replaster pools, and inspect them for buyers and sellers across Crystal Falls, Travisso, Block House Creek, and the rest of the city. We do not offer weekly cleaning.",
     metaDescription:
-      "Pool leak repair, equipment repair, renovations, and inspections in Leander, TX — Crystal Falls, Travisso, and Block House Creek. Call 512-947-2023.",
+      "Pool leak detection / repair, equipment repair, renovations, and inspections in Leander, TX — Crystal Falls, Travisso, and Block House Creek. Call 512-947-2023.",
     neighborhoods: [
       "Crystal Falls",
       "Travisso",
@@ -104,7 +104,7 @@ export const cityHubs: Record<string, CityHub> = {
     name: "Georgetown",
     headline: "Pool care in Georgetown, TX",
     intro:
-      "Leak detection technicians, pool repair experts, and renovation specialists in Georgetown — leak detection and repair, equipment repair and replacement, pool renovations and replaster, and certified inspections. Serving Sun City, Wolf Ranch, and all of Georgetown. No weekly cleaning.",
+      "Leak detection technicians, pool repair experts, and renovation specialists in Georgetown — leak detection / repair, equipment repair and replacement, pool renovations and replaster, and certified inspections. Serving Sun City, Wolf Ranch, and all of Georgetown. No weekly cleaning.",
     metaDescription:
       "Leak detection technicians & pool repair experts in Georgetown, TX — equipment, renovations & inspections. Call 512-947-2023.",
     neighborhoods: [
@@ -134,7 +134,7 @@ export const cityHubs: Record<string, CityHub> = {
     },
     heroImage: {
       src: "/images/jobs/pool-leak-detection/field-georgetown-deck-excavation.jpg",
-      alt: "Pool deck excavation for underground leak repair in Georgetown, TX — 911 Pool Care leak detection",
+      alt: "Pool deck excavation for underground leak detection / repair in Georgetown, TX — 911 Pool Care leak detection",
     },
   },
   "round-rock": {
@@ -142,7 +142,7 @@ export const cityHubs: Record<string, CityHub> = {
     name: "Round Rock",
     headline: "Pool care in Round Rock, TX",
     intro:
-      "911 Pool Care serves Round Rock homeowners and property managers with leak detection and repair, pool equipment repair and replacement, renovations and replaster, and certified inspections. From Teravista and Forest Creek to Old Town and Behren's Ranch, we help you fix leaks, failing equipment, and aging pool surfaces — without weekly cleaning services.",
+      "911 Pool Care serves Round Rock homeowners and property managers with leak detection / repair, pool equipment repair and replacement, renovations and replaster, and certified inspections. From Teravista and Forest Creek to Old Town and Behren's Ranch, we help you fix leaks, failing equipment, and aging pool surfaces — without weekly cleaning services.",
     metaDescription:
       "Pool leak detection, repair & renovations in Round Rock, TX. Equipment repair, replaster & inspections. Veteran-owned. Call 512-947-2023.",
     neighborhoods: [
@@ -172,7 +172,7 @@ export const cityHubs: Record<string, CityHub> = {
     },
     heroImage: {
       src: "/images/jobs/pool-leak-detection/field-round-rock-deck-excavation.jpg",
-      alt: "Pool deck excavation for underground leak repair in Round Rock, TX — 911 Pool Care leak detection",
+      alt: "Pool deck excavation for underground leak detection / repair in Round Rock, TX — 911 Pool Care leak detection",
     },
   },
   "cedar-park": {
@@ -180,7 +180,7 @@ export const cityHubs: Record<string, CityHub> = {
     name: "Cedar Park",
     headline: "Pool care in Cedar Park, TX",
     intro:
-      "Cedar Park pools work hard every summer — and when you're losing water, equipment fails, or plaster is worn, 911 Pool Care can help. We provide leak detection and repair, equipment repair and replacement, pool renovations and replaster, and certified inspections throughout Avery Ranch, Buttercup Creek, Deer Creek, and surrounding Cedar Park neighborhoods.",
+      "Cedar Park pools work hard every summer — and when you're losing water, equipment fails, or plaster is worn, 911 Pool Care can help. We provide leak detection / repair, equipment repair and replacement, pool renovations and replaster, and certified inspections throughout Avery Ranch, Buttercup Creek, Deer Creek, and surrounding Cedar Park neighborhoods.",
     metaDescription:
       "Pool leak detection, repair & renovations in Cedar Park, TX. Equipment repair, replaster & inspections. Call 512-947-2023.",
     neighborhoods: [
@@ -210,7 +210,7 @@ export const cityHubs: Record<string, CityHub> = {
     name: "Pflugerville",
     headline: "Pool care in Pflugerville, TX",
     intro:
-      "Pflugerville pools — from Blackhawk and Avalon to established backyard systems — develop plumbing and shell leaks over time, plus equipment wear from long Central Texas summers. 911 Pool Care provides leak detection and repair, equipment repair and replacement, renovations and replaster, and certified inspections. No weekly cleaning.",
+      "Pflugerville pools — from Blackhawk and Avalon to established backyard systems — develop plumbing and shell leaks over time, plus equipment wear from long Central Texas summers. 911 Pool Care provides leak detection / repair, equipment repair and replacement, renovations and replaster, and certified inspections. No weekly cleaning.",
     metaDescription:
       "Pool leak detection, repair & renovations in Pflugerville, TX. Equipment repair, replaster & inspections. Call 512-947-2023.",
     neighborhoods: [
@@ -232,7 +232,7 @@ export const cityHubs: Record<string, CityHub> = {
     responseTime: "Most Pflugerville appointments scheduled within 3–5 business days",
     heroImage: {
       src: "/images/jobs/pool-leak-detection/field-pflugerville-underground-line.jpg",
-      alt: "Underground pool plumbing line exposed for leak repair in Pflugerville, TX — 911 Pool Care",
+      alt: "Underground pool plumbing line exposed for leak detection / repair in Pflugerville, TX — 911 Pool Care",
     },
   },
   "liberty-hill": {
@@ -240,7 +240,7 @@ export const cityHubs: Record<string, CityHub> = {
     name: "Liberty Hill",
     headline: "Pool care in Liberty Hill, TX",
     intro:
-      "Liberty Hill's growth means more pools on larger lots — and longer plumbing runs that hide leaks under rock, decking, and landscaping. We serve Liberty Hill with leak detection and repair, equipment repair and replacement, renovations and replaster, and certified inspections. Technicians and renovation specialists — not a cleaning route.",
+      "Liberty Hill's growth means more pools on larger lots — and longer plumbing runs that hide leaks under rock, decking, and landscaping. We serve Liberty Hill with leak detection / repair, equipment repair and replacement, renovations and replaster, and certified inspections. Technicians and renovation specialists — not a cleaning route.",
     metaDescription:
       "Pool leak detection, repair & renovations in Liberty Hill, TX. Equipment repair, replaster & inspections. Call 512-947-2023.",
     neighborhoods: [
@@ -266,6 +266,33 @@ export const cityHubs: Record<string, CityHub> = {
     },
   },
 };
+
+/**
+ * Neighborhood labels for cities that have service pages but no full hub yet.
+ * Hub cities keep their lists on `cityHubs`.
+ */
+export const additionalCityNeighborhoods: Record<string, readonly string[]> = {
+  "san-marcos": [
+    "Kissing Tree",
+    "Holland Hills",
+    "Sunset Acres",
+    "Cottonwood Creek",
+    "La Cima",
+    "Downtown San Marcos",
+  ],
+  "dripping-springs": [
+    "Belterra",
+    "Caliterra",
+    "Headwaters",
+    "Highpointe",
+    "Downtown Dripping Springs",
+    "US 290 corridor",
+  ],
+};
+
+export function getCityNeighborhoods(slug: string): readonly string[] {
+  return cityHubs[slug]?.neighborhoods ?? additionalCityNeighborhoods[slug] ?? [];
+}
 
 export function getCityHub(slug: string): CityHub | undefined {
   return cityHubs[slug];

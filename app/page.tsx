@@ -36,11 +36,11 @@ const ContactSection = dynamic(() =>
 
 export const metadata: Metadata = {
   title: {
-    absolute: `Pool Leak Repair, Equipment & Renovations | ${site.name}`,
+    absolute: `Pool Leak Detection / Repair, Equipment & Renovations | ${site.name}`,
   },
   description: poolCareOffering.metaDescription,
   keywords: [
-    "pool leak repair",
+    "pool leak detection / repair",
     "pool equipment repair",
     "pool renovation",
     "pool inspection",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     canonical: site.urls.site,
   },
   openGraph: {
-    title: `Pool Leak Repair, Equipment & Renovations | ${site.name}`,
+    title: `Pool Leak Detection / Repair, Equipment & Renovations | ${site.name}`,
     description: poolCareOffering.metaDescription,
     url: site.urls.site,
     images: [defaultOpenGraphImage],

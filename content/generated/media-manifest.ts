@@ -88,102 +88,102 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/undated-v01.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v02.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v03.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v04.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v05.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v06.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v07.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v08.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v09.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v10.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v11.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v12.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v13.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v14.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v15.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v16.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v17.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v18.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v19.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       },
       {
         "src": "/images/jobs/pool-leak-detection/undated-v20.mp4",
         "kind": "video",
-        "alt": "Pool leak detection & repair project video, recent project"
+        "alt": "Pool leak detection / repair project video, recent project"
       }
     ]
   },
@@ -248,7 +248,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-06-24-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, June 2026"
+        "alt": "Pool leak detection / repair project photo, June 2026"
       }
     ],
     "videos": []
@@ -311,13 +311,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-06-09-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, June 2026",
+        "alt": "Pool leak detection / repair project photo — before, June 2026",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-06-09-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, June 2026",
+        "alt": "Pool leak detection / repair project photo — after, June 2026",
         "caption": "After"
       }
     ],
@@ -346,19 +346,19 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-06-03-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, June 2026",
+        "alt": "Pool leak detection / repair project photo — before, June 2026",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-06-03-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, June 2026",
+        "alt": "Pool leak detection / repair project photo — during, June 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-06-03-p03.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, June 2026",
+        "alt": "Pool leak detection / repair project photo — after, June 2026",
         "caption": "After"
       }
     ],
@@ -373,7 +373,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-06-02-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, June 2026"
+        "alt": "Pool leak detection / repair project photo, June 2026"
       }
     ],
     "videos": []
@@ -387,31 +387,31 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-05-29-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, May 2026",
+        "alt": "Pool leak detection / repair project photo — before, May 2026",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-05-29-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, May 2026",
+        "alt": "Pool leak detection / repair project photo — during, May 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-05-29-p03.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, May 2026",
+        "alt": "Pool leak detection / repair project photo — during, May 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-05-29-p04.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, May 2026",
+        "alt": "Pool leak detection / repair project photo — during, May 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-05-29-p05.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, May 2026",
+        "alt": "Pool leak detection / repair project photo — after, May 2026",
         "caption": "After"
       }
     ],
@@ -499,7 +499,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-04-22-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, April 2026"
+        "alt": "Pool leak detection / repair project photo, April 2026"
       }
     ],
     "videos": []
@@ -541,7 +541,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-02-19-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, February 2026"
+        "alt": "Pool leak detection / repair project photo, February 2026"
       }
     ],
     "videos": []
@@ -639,13 +639,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-20-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, January 2026",
+        "alt": "Pool leak detection / repair project photo — before, January 2026",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-20-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, January 2026",
+        "alt": "Pool leak detection / repair project photo — after, January 2026",
         "caption": "After"
       }
     ],
@@ -688,7 +688,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-19-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, January 2026"
+        "alt": "Pool leak detection / repair project photo, January 2026"
       }
     ],
     "videos": []
@@ -723,43 +723,43 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-17-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, January 2026",
+        "alt": "Pool leak detection / repair project photo — before, January 2026",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-17-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, January 2026",
+        "alt": "Pool leak detection / repair project photo — during, January 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-17-p03.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, January 2026",
+        "alt": "Pool leak detection / repair project photo — during, January 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-17-p04.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, January 2026",
+        "alt": "Pool leak detection / repair project photo — during, January 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-17-p05.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, January 2026",
+        "alt": "Pool leak detection / repair project photo — during, January 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-17-p06.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, January 2026",
+        "alt": "Pool leak detection / repair project photo — during, January 2026",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-17-p07.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, January 2026",
+        "alt": "Pool leak detection / repair project photo — after, January 2026",
         "caption": "After"
       }
     ],
@@ -788,13 +788,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-04-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, January 2026",
+        "alt": "Pool leak detection / repair project photo — before, January 2026",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2026-01-04-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, January 2026",
+        "alt": "Pool leak detection / repair project photo — after, January 2026",
         "caption": "After"
       }
     ],
@@ -862,13 +862,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-11-11-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, November 2025",
+        "alt": "Pool leak detection / repair project photo — before, November 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-11-11-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, November 2025",
+        "alt": "Pool leak detection / repair project photo — after, November 2025",
         "caption": "After"
       }
     ],
@@ -910,19 +910,19 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-10-14-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, October 2025",
+        "alt": "Pool leak detection / repair project photo — before, October 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-10-14-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, October 2025",
+        "alt": "Pool leak detection / repair project photo — during, October 2025",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-10-14-p03.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, October 2025",
+        "alt": "Pool leak detection / repair project photo — after, October 2025",
         "caption": "After"
       }
     ],
@@ -970,13 +970,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-10-01-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, October 2025",
+        "alt": "Pool leak detection / repair project photo — before, October 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-10-01-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, October 2025",
+        "alt": "Pool leak detection / repair project photo — after, October 2025",
         "caption": "After"
       }
     ],
@@ -1012,19 +1012,19 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-09-17-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, September 2025",
+        "alt": "Pool leak detection / repair project photo — before, September 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-09-17-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, September 2025",
+        "alt": "Pool leak detection / repair project photo — during, September 2025",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-09-17-p03.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, September 2025",
+        "alt": "Pool leak detection / repair project photo — after, September 2025",
         "caption": "After"
       }
     ],
@@ -1060,13 +1060,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-08-16-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, August 2025",
+        "alt": "Pool leak detection / repair project photo — before, August 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-08-16-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, August 2025",
+        "alt": "Pool leak detection / repair project photo — after, August 2025",
         "caption": "After"
       }
     ],
@@ -1102,19 +1102,19 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-07-16-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, July 2025",
+        "alt": "Pool leak detection / repair project photo — before, July 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-07-16-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, July 2025",
+        "alt": "Pool leak detection / repair project photo — during, July 2025",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-07-16-p03.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, July 2025",
+        "alt": "Pool leak detection / repair project photo — after, July 2025",
         "caption": "After"
       }
     ],
@@ -1229,13 +1229,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-07-05-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, July 2025",
+        "alt": "Pool leak detection / repair project photo — before, July 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-07-05-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, July 2025",
+        "alt": "Pool leak detection / repair project photo — after, July 2025",
         "caption": "After"
       }
     ],
@@ -1351,13 +1351,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-06-10-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, June 2025",
+        "alt": "Pool leak detection / repair project photo — before, June 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-06-10-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, June 2025",
+        "alt": "Pool leak detection / repair project photo — after, June 2025",
         "caption": "After"
       }
     ],
@@ -1386,7 +1386,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-06-07-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, June 2025"
+        "alt": "Pool leak detection / repair project photo, June 2025"
       }
     ],
     "videos": []
@@ -1544,7 +1544,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-04-23-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, April 2025"
+        "alt": "Pool leak detection / repair project photo, April 2025"
       }
     ],
     "videos": []
@@ -1558,13 +1558,13 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-25-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, March 2025",
+        "alt": "Pool leak detection / repair project photo — before, March 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-25-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, March 2025",
+        "alt": "Pool leak detection / repair project photo — after, March 2025",
         "caption": "After"
       }
     ],
@@ -1593,7 +1593,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-12-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, March 2025"
+        "alt": "Pool leak detection / repair project photo, March 2025"
       }
     ],
     "videos": []
@@ -1607,19 +1607,19 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-07-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, March 2025",
+        "alt": "Pool leak detection / repair project photo — before, March 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-07-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, March 2025",
+        "alt": "Pool leak detection / repair project photo — during, March 2025",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-07-p03.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, March 2025",
+        "alt": "Pool leak detection / repair project photo — after, March 2025",
         "caption": "After"
       }
     ],
@@ -1634,25 +1634,25 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-04-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — before, March 2025",
+        "alt": "Pool leak detection / repair project photo — before, March 2025",
         "caption": "Before"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-04-p02.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, March 2025",
+        "alt": "Pool leak detection / repair project photo — during, March 2025",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-04-p03.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — during, March 2025",
+        "alt": "Pool leak detection / repair project photo — during, March 2025",
         "caption": "During"
       },
       {
         "src": "/images/jobs/pool-leak-detection/2025-03-04-p04.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo — after, March 2025",
+        "alt": "Pool leak detection / repair project photo — after, March 2025",
         "caption": "After"
       }
     ],
@@ -1702,7 +1702,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-02-20-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, February 2025"
+        "alt": "Pool leak detection / repair project photo, February 2025"
       }
     ],
     "videos": []
@@ -1730,7 +1730,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-02-17-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, February 2025"
+        "alt": "Pool leak detection / repair project photo, February 2025"
       }
     ],
     "videos": []
@@ -1765,7 +1765,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-02-16-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, February 2025"
+        "alt": "Pool leak detection / repair project photo, February 2025"
       }
     ],
     "videos": []
@@ -1806,7 +1806,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-01-28-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, January 2025"
+        "alt": "Pool leak detection / repair project photo, January 2025"
       }
     ],
     "videos": []
@@ -1834,7 +1834,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-01-27-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, January 2025"
+        "alt": "Pool leak detection / repair project photo, January 2025"
       }
     ],
     "videos": []
@@ -1862,7 +1862,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2025-01-22-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, January 2025"
+        "alt": "Pool leak detection / repair project photo, January 2025"
       }
     ],
     "videos": []
@@ -1903,7 +1903,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2024-10-30-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, October 2024"
+        "alt": "Pool leak detection / repair project photo, October 2024"
       }
     ],
     "videos": []
@@ -2236,7 +2236,7 @@ export const mediaJobs: MediaJob[] = [
       {
         "src": "/images/jobs/pool-leak-detection/2024-03-24-p01.jpg",
         "kind": "image",
-        "alt": "Pool leak detection & repair project photo, March 2024"
+        "alt": "Pool leak detection / repair project photo, March 2024"
       }
     ],
     "videos": []

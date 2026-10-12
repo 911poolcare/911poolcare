@@ -11,7 +11,7 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/services/pool-renovations", label: "Renovations" },
-  { href: "/services/pool-leak-detection", label: "Leak Repair" },
+  { href: "/services/pool-leak-detection", label: "Leak Detection / Repair" },
   { href: "/gallery", label: "Gallery" },
   { href: "/areas", label: "Areas" },
   { href: "/contact", label: "Contact" },
@@ -24,24 +24,33 @@ export function Header() {
         <div className="grid grid-cols-[1fr_auto] items-center gap-x-4 md:flex md:h-[9.5rem] md:justify-between">
           <Logo size="header" className="col-start-1 row-start-1" />
 
-          <nav className="hidden items-center gap-5 lg:gap-7 md:flex">
+          <nav className="hidden items-center md:flex md:gap-2 lg:gap-4 xl:gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-slate-600 transition-colors hover:text-brand-700"
+                className="shrink-0 text-sm font-medium text-slate-600 transition-colors hover:text-brand-700"
               >
-                {link.label}
+                {link.label === "Leak Detection / Repair" ? (
+                  <span className="block text-center leading-tight">
+                    Leak Detection
+                    <span className="block">/ Repair</span>
+                  </span>
+                ) : (
+                  link.label
+                )}
               </Link>
             ))}
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
             <PhoneLink variant="secondary" size="sm" showIcon />
-            <SmsChatAvailability>
-              <TextLink variant="secondary" size="sm" showIcon />
-            </SmsChatAvailability>
-            <Button href="/contact" size="sm">
+            <div className="hidden lg:contents">
+              <SmsChatAvailability>
+                <TextLink variant="secondary" size="sm" showIcon />
+              </SmsChatAvailability>
+            </div>
+            <Button href="/contact" size="sm" className="max-xl:hidden">
               Request Service
             </Button>
           </div>

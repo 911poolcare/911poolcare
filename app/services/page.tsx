@@ -28,6 +28,7 @@ export default function ServicesIndexPage() {
     <Section>
       <Container>
         <SectionHeading
+          as="h1"
           eyebrow="Our Services"
           title={poolCareOffering.servicesHeading}
           description="Residential and commercial pools across Central Texas — veteran-owned, licensed, and insured."

@@ -11,8 +11,8 @@ export function LeakDetectionProcess() {
     <Section id="leak-process">
       <Container>
         <SectionHeading
-          eyebrow="Pool Leak Repair"
-          title="How our leak detection and repair process works"
+          eyebrow="Pool Leak Detection / Repair"
+          title="How our leak detection / repair process works"
           description={leakDetectionProcessIntro}
         />
 
@@ -38,7 +38,7 @@ export function LeakDetectionProcess() {
             href="/services/pool-leak-detection"
             className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-800"
           >
-            Pool leak repair in Austin
+            Pool leak detection / repair in Austin
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </p>

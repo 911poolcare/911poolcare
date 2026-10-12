@@ -26,8 +26,8 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
     : leakDetectionFaqs;
   const specialists = getTeamForService("pool-leak-detection");
   const repairTitle = city
-    ? `Pool leak repair in ${city.name}`
-    : "Pool leak repair in Austin";
+    ? `Pool leak detection / repair in ${city.name}`
+    : "Pool leak detection / repair in Austin";
 
   return (
     <>
@@ -36,7 +36,7 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
           <SectionHeading
             eyebrow="Find it, then fix it"
             title={repairTitle}
-            description={`Pool leak repair is a specialty — not an add-on. After we confirm the source in ${areaLabel}, we repair plumbing leaks, shell leaks, fittings, and equipment-pad leaks so the pool holds water again.`}
+            description={`Pool leak detection / repair is a specialty — not an add-on. After we confirm the source in ${areaLabel}, we repair plumbing leaks, shell leaks, fittings, and equipment-pad leaks so the pool holds water again.`}
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             {leakRepairTypes.map((item) => (
@@ -90,7 +90,7 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
       <TeamSection
         members={specialists}
         eyebrow="Your leak specialists"
-        title="Named technicians on every leak repair"
+        title="Named technicians on every leak detection / repair"
         description="Danielle leads leak detection, electrical, and equipment work as our RAIL-certified Installer of Record. Steven handles leak detection and field repairs — so you know who's showing up."
       />
 
@@ -99,11 +99,11 @@ export function LeakDetectionPageExtras({ city }: LeakDetectionPageExtrasProps) 
       <Section muted>
         <Container className="max-w-3xl">
           <SectionHeading
-            eyebrow="Pool leak repair FAQ"
+            eyebrow="Pool leak detection / repair FAQ"
             title={
               city
-                ? `Common pool leak repair questions in ${city.name}`
-                : "Common pool leak repair questions in Austin"
+                ? `Common pool leak detection / repair questions in ${city.name}`
+                : "Common pool leak detection / repair questions in Austin"
             }
           />
           <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">

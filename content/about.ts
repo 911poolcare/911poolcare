@@ -11,7 +11,7 @@ export const about = {
   subhead:
     "911 Pool Care was built with one goal: be the best and most consistent pool repair and renovation specialists in our field.",
   mission:
-    "We are technicians and experts in leak detection and repair, equipment repair and replacement, pool renovations and replaster, and inspections — not a cleaning company that occasionally handles technical work.",
+    "We are technicians and experts in leak detection / repair, equipment repair and replacement, pool renovations and replaster, and inspections — not a cleaning company that occasionally handles technical work.",
   story: [
     "With more than seven years in the industry, we have trained, certified, and refined our processes, techniques, and methods to deliver a quality experience from first contact through job completion — and warranty support when you need it.",
     "We strive to deliver exactly what you are looking for: quality work, clear communication, and respect on every project. We are not the largest team in the area, and that is intentional. Our goal is to be the best.",

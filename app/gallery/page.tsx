@@ -17,14 +17,14 @@ import { Section } from "@/components/ui/Section";
 export const metadata: Metadata = {
   title: "Pool Repair & Renovation Gallery Austin TX",
   description:
-    "Before-and-after pool renovations, leak repairs, and equipment work from 911 Pool Care across Austin and Central Texas.",
+    "Before-and-after pool renovations, leak detection / repair, and equipment work from 911 Pool Care across Austin and Central Texas.",
   alternates: {
     canonical: `${site.urls.site}/gallery`,
   },
   openGraph: {
     title: `Pool Repair & Renovation Gallery | ${site.name}`,
     description:
-      "Before-and-after pool renovations, leak repairs, and equipment work across Central Texas.",
+      "Before-and-after pool renovations, leak detection / repair, and equipment work across Central Texas.",
     url: `${site.urls.site}/gallery`,
     images: [defaultOpenGraphImage],
   },
@@ -45,7 +45,7 @@ export default function GalleryPage() {
             Project gallery
           </p>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Leak repairs, equipment pads, and renovations — photographed on the job
+            Leak detection / repair, equipment pads, and renovations — photographed on the job
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-brand-100">
             {proof.documentedJobsLabel} — real Central Texas work, not a lifetime total. Renovations

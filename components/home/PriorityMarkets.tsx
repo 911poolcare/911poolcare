@@ -62,7 +62,7 @@ export function PriorityMarkets() {
                     variant="secondary"
                     size="md"
                   >
-                    Leak repair
+                    Leak detection / repair
                   </Button>
                 </div>
               </article>
@@ -88,14 +88,14 @@ export function PriorityMarkets() {
             href={getCityServicePath("pool-leak-detection", "georgetown")}
             className="font-medium text-brand-700 hover:text-brand-800"
           >
-            Leak Repair Georgetown
+            Leak Detection / Repair Georgetown
           </Link>
           {" · "}
           <Link
             href={getCityServicePath("pool-leak-detection", "round-rock")}
             className="font-medium text-brand-700 hover:text-brand-800"
           >
-            Leak Repair Round Rock
+            Leak Detection / Repair Round Rock
           </Link>
         </p>
       </Container>

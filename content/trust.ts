@@ -96,7 +96,7 @@ export const faqs: FAQItem[] = [
   {
     question: "Do you offer weekly pool cleaning or maintenance?",
     answer:
-      "No — we don't offer weekly cleaning to homeowners. Our focus is leak detection and repair, pool equipment repair and replacement, pool renovations and replaster, and pool inspections when you need them.",
+      "No — we don't offer weekly cleaning to homeowners. Our focus is leak detection / repair, pool equipment repair and replacement, pool renovations and replaster, and pool inspections when you need them.",
   },
   {
     question: "Do you work with pool cleaning companies?",
@@ -108,9 +108,9 @@ export const faqs: FAQItem[] = [
     answer: `We repair and replace pumps, filters, heaters, automation and control systems, pool lights, timers, and related electrical work. We're a ${site.raicLicensed.inline}, with a ${site.railCertified.inline}.`,
   },
   {
-    question: "Do you offer pool leak repair in Austin?",
+    question: "Do you offer pool leak detection / repair in Austin?",
     answer:
-      "Yes. Pool leak repair in Austin and Central Texas is a core specialty. We locate the leak with Leaktronics and Anderson systems, then complete the repair — plumbing leaks under decks, shell and crack leaks, fittings, and equipment-pad leaks. Many repairs happen the same visit once the source is confirmed.",
+      "Yes. Pool leak detection / repair in Austin and Central Texas is a core specialty. We locate the leak with Leaktronics and Anderson systems, then complete the repair — plumbing leaks under decks, shell and crack leaks, fittings, and equipment-pad leaks. Many repairs happen the same visit once the source is confirmed.",
   },
   {
     question: "How do I know if my pool has a leak?",
@@ -126,7 +126,7 @@ export const faqs: FAQItem[] = [
     answer: pricing.leakDetection.guaranteeFaqAnswer,
   },
   {
-    question: "How much does pool leak repair cost?",
+    question: "How much does pool leak detection / repair cost?",
     answer: pricing.leakDetection.repairNote,
   },
   {

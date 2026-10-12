@@ -8,19 +8,16 @@ import { site } from "@/content/site";
 export const leakDetectionSlug = "pool-leak-detection" as const;
 
 export const leakDetectionSeo = {
-  title: "Pool Leak Repair & Detection | Central Texas",
-  titleTemplate: (city: string) =>
-    city === "Austin"
-      ? "Pool Leak Repair Austin TX | Plumbing, Shell & Equipment"
-      : `Pool Leak Repair ${city} TX | Detection & Repair`,
-  hubHeadline: "Pool leak repair across Central Texas",
-  cityHeadline: (city: string) => `Pool leak repair in ${city}, TX`,
+  title: "Pool Leak Detection / Repair | Central Texas",
+  titleTemplate: (city: string) => `Pool Leak Detection / Repair ${city} TX`,
+  hubHeadline: "Pool leak detection / repair across Central Texas",
+  cityHeadline: (city: string) => `Pool leak detection / repair in ${city}, TX`,
   keywords: [
-    "pool leak repair Austin",
-    "pool leak repair Austin TX",
-    "swimming pool leak repair",
+    "pool leak detection / repair Austin",
+    "pool leak detection / repair Austin TX",
+    "swimming pool leak detection / repair",
     "pool leak detection Austin",
-    "pool plumbing leak repair",
+    "pool plumbing leak detection / repair",
   ],
 } as const;
 
@@ -41,7 +38,7 @@ export const leakRepairTypes = [
       "Skimmers, returns, lights, and wall fittings are common leak points. We confirm them with dye testing, then repair or replace the fitting so the pool holds water again.",
   },
   {
-    title: "Equipment pad leak repair",
+    title: "Equipment pad leak detection / repair",
     description:
       "Pumps, filters, valves, and heater connections leak at the pad too. We isolate equipment leaks from underground plumbing so you are not paying to dig when the fix is above ground.",
   },
@@ -93,14 +90,14 @@ export const leakDetectionTools = [
 ] as const;
 
 export const leakDetectionProcessIntro =
-  "We provide dye testing and pressure testing to locate all sources of leaks in a pool. We also use pipe cameras, listening devices in the pool and outside the pool, and locating devices to find leaks no matter where they are. Both Leaktronics and Anderson leak detection systems help us pinpoint the leak — then we complete the pool leak repair.";
+  "We provide dye testing and pressure testing to locate all sources of leaks in a pool. We also use pipe cameras, listening devices in the pool and outside the pool, and locating devices to find leaks no matter where they are. Both Leaktronics and Anderson leak detection systems help us pinpoint the leak — then we complete the pool leak detection / repair.";
 
 
 export const leakDetectionFaqs = [
   {
-    question: "Do you offer pool leak repair in Austin?",
+    question: "Do you offer pool leak detection / repair in Austin?",
     answer:
-      "Yes. Pool leak repair in Austin and Central Texas is a core specialty — we locate the leak with Leaktronics and Anderson systems, then complete the repair. That includes plumbing leaks under decks, shell and crack leaks, skimmer and fitting leaks, and equipment-pad leaks. Many repairs happen the same visit once the source is confirmed.",
+      "Yes. Pool leak detection / repair in Austin and Central Texas is a core specialty — we locate the leak with Leaktronics and Anderson systems, then complete the repair. That includes plumbing leaks under decks, shell and crack leaks, skimmer and fitting leaks, and equipment-pad leaks. Many repairs happen the same visit once the source is confirmed.",
   },
   {
     question: "How do you find and repair pool leaks?",
@@ -111,7 +108,7 @@ export const leakDetectionFaqs = [
     answer: `${pricing.leakDetection.faqAnswer} ${pricing.leakDetection.includedNote}`,
   },
   {
-    question: "How much does pool leak repair cost?",
+    question: "How much does pool leak detection / repair cost?",
     answer: pricing.leakDetection.repairNote,
   },
   {
@@ -127,7 +124,7 @@ export const leakDetectionFaqs = [
 /** City-specific opening copy for local leak detection pages */
 export const cityLeakDetectionIntros: Record<string, string> = {
   austin:
-    "Need pool leak repair in Austin? Summer heat hides water loss until the bill spikes. From Northwest Hills and Circle C to Steiner Ranch and Mueller, we find leaks in the shell, plumbing, and equipment — then complete the pool leak repair so you stop wasting water and avoid structural damage.",
+    "Need pool leak detection / repair in Austin? Summer heat hides water loss until the bill spikes. From Northwest Hills and Circle C to Steiner Ranch and Mueller, we find leaks in the shell, plumbing, and equipment — then complete the pool leak detection / repair so you stop wasting water and avoid structural damage.",
   georgetown:
     "Georgetown's growth means more pools — and more leaks. In Sun City, Wolf Ranch, and established neighborhoods throughout Georgetown, we find the source and fix it before a small leak becomes deck damage or a high water bill.",
   leander:
@@ -135,7 +132,7 @@ export const cityLeakDetectionIntros: Record<string, string> = {
   "cedar-park":
     "Cedar Park pools see heavy summer use — and shifting soil can stress underground plumbing. From Avery Ranch to Buttercup Creek, we use Leaktronics-certified detection to find leaks under decks and in equipment lines without unnecessary digging.",
   "round-rock":
-    "Round Rock homeowners call us when autofill runs constantly or the pool won't hold water. We serve Teravista, Forest Creek, Behren's Ranch, and neighborhoods across Round Rock with electronic detection and lasting leak repairs.",
+    "Round Rock homeowners call us when autofill runs constantly or the pool won't hold water. We serve Teravista, Forest Creek, Behren's Ranch, and neighborhoods across Round Rock with electronic detection and lasting leak detection / repair.",
   pflugerville:
     "Pflugerville pools — especially older backyard systems in Blackhawk, Avalon, and established subdivisions — develop plumbing and shell leaks over time. We verify water loss on site, locate the source, and quote a clear repair.",
   "liberty-hill":
@@ -161,35 +158,35 @@ export const cityLeakDetectionIntros: Record<string, string> = {
 /** Keyword-rich meta descriptions per city */
 export const cityLeakDetectionMeta: Record<string, string> = {
   austin:
-    "Pool leak repair in Austin, TX — find and fix shell, plumbing, and equipment leaks. Dye testing, pressure testing, Leaktronics & Anderson. Call 512-947-2023.",
+    "Pool leak detection / repair in Austin, TX — find and fix shell, plumbing, and equipment leaks. Dye testing, pressure testing, Leaktronics & Anderson. Call 512-947-2023.",
   georgetown:
-    "Pool leak detection & repair in Georgetown, TX. Find hidden plumbing & shell leaks fast. Licensed & insured. Call 512-947-2023.",
+    "Pool leak detection / repair in Georgetown, TX. Find hidden plumbing & shell leaks fast. Licensed & insured. Call 512-947-2023.",
   leander:
-    "Pool leak detection & repair in Leander, TX. Local Leaktronics-certified team. Same-week scheduling when available. Call 512-947-2023.",
+    "Pool leak detection / repair in Leander, TX. Local Leaktronics-certified team. Same-week scheduling when available. Call 512-947-2023.",
   "cedar-park":
-    "Pool leak detection & repair in Cedar Park, TX. Stop water loss under decks & in plumbing. Leakalyzer verified. Call 512-947-2023.",
+    "Pool leak detection / repair in Cedar Park, TX. Stop water loss under decks & in plumbing. Leakalyzer verified. Call 512-947-2023.",
   "round-rock":
-    "Pool leak detection & repair in Round Rock, TX. Electronic locating & lasting repairs. Residential & commercial. Call 512-947-2023.",
+    "Pool leak detection / repair in Round Rock, TX. Electronic locating & lasting repairs. Residential & commercial. Call 512-947-2023.",
   pflugerville:
-    "Pool leak detection & repair in Pflugerville, TX. Leaktronics gear, clear pricing from $650. Down-payment guarantee. Call 512-947-2023.",
+    "Pool leak detection / repair in Pflugerville, TX. Leaktronics gear, clear pricing from $650. Down-payment guarantee. Call 512-947-2023.",
   "liberty-hill":
-    "Pool leak detection & repair in Liberty Hill, TX. Shell, plumbing & equipment leaks located & fixed. Call 512-947-2023.",
+    "Pool leak detection / repair in Liberty Hill, TX. Shell, plumbing & equipment leaks located & fixed. Call 512-947-2023.",
   "san-marcos":
-    "Pool leak detection & repair in San Marcos, TX. Certified detection & professional repairs. Call 512-947-2023.",
+    "Pool leak detection / repair in San Marcos, TX. Certified detection & professional repairs. Call 512-947-2023.",
   manor:
-    "Pool leak detection & repair in Manor, TX. Underground plumbing leaks located with listening gear. Call 512-947-2023.",
+    "Pool leak detection / repair in Manor, TX. Underground plumbing leaks located with listening gear. Call 512-947-2023.",
   jonestown:
-    "Pool leak detection & repair in Jonestown, TX. Lake Travis area leaks found & repaired. Call 512-947-2023.",
+    "Pool leak detection / repair in Jonestown, TX. Lake Travis area leaks found & repaired. Call 512-947-2023.",
   "lago-vista":
-    "Pool leak detection & repair in Lago Vista, TX. Hillside & lake-country pools. Leaktronics certified. Call 512-947-2023.",
+    "Pool leak detection / repair in Lago Vista, TX. Hillside & lake-country pools. Leaktronics certified. Call 512-947-2023.",
   spicewood:
-    "Pool leak detection & repair in Spicewood, TX. Rock, deck & plumbing leaks located accurately. Call 512-947-2023.",
+    "Pool leak detection / repair in Spicewood, TX. Rock, deck & plumbing leaks located accurately. Call 512-947-2023.",
   lakeway:
-    "Pool leak detection & repair in Lakeway, TX. Spas, equipment & plumbing leaks. Licensed & insured. Call 512-947-2023.",
+    "Pool leak detection / repair in Lakeway, TX. Spas, equipment & plumbing leaks. Licensed & insured. Call 512-947-2023.",
   westlake:
-    "Pool leak detection & repair in Westlake, TX. Complex pools & spas — electronic detection. Call 512-947-2023.",
+    "Pool leak detection / repair in Westlake, TX. Complex pools & spas — electronic detection. Call 512-947-2023.",
   "dripping-springs":
-    "Pool leak detection & repair in Dripping Springs, TX. Hill Country pools — verify, locate & repair. Call 512-947-2023.",
+    "Pool leak detection / repair in Dripping Springs, TX. Hill Country pools — verify, locate & repair. Call 512-947-2023.",
 };
 
 type LeakFaq = { question: string; answer: string };
@@ -221,8 +218,8 @@ function buildDefaultLeakFaqs(cityName: string, localNote?: string): LeakFaq[] {
 
   return [
     {
-      question: `Do you offer pool leak repair in ${cityName}?`,
-      answer: `Yes — pool leak repair in ${cityName} is a core service. After we locate the leak, we quote the repair based on access, depth, and whether the line is under decking or landscaping. Many jobs are completed the same visit once the source is confirmed.`,
+      question: `Do you offer pool leak detection / repair in ${cityName}?`,
+      answer: `Yes — pool leak detection / repair in ${cityName} is a core service. After we locate the leak, we quote the repair based on access, depth, and whether the line is under decking or landscaping. Many jobs are completed the same visit once the source is confirmed.`,
     },
     {
       question: `How do you find pool leaks in ${cityName}?`,
@@ -233,7 +230,7 @@ function buildDefaultLeakFaqs(cityName: string, localNote?: string): LeakFaq[] {
       answer: `${pricing.leakDetection.faqAnswer} We serve ${cityName} and nearby communities from our Leander base.`,
     },
     {
-      question: `How much does pool leak repair cost in ${cityName}?`,
+      question: `How much does pool leak detection / repair cost in ${cityName}?`,
       answer: `${pricing.leakDetection.repairNote} We serve ${cityName} and nearby communities from our Leander base.`,
     },
     {
@@ -255,13 +252,13 @@ export function getCityLeakDetectionIntro(citySlug: string, cityName: string): s
   if (intro) {
     return `${intro} ${site.name} serves homeowners and realtors throughout ${cityName} and surrounding communities.`;
   }
-  return `Homeowners and realtors in ${cityName} trust ${site.name} for professional pool leak detection and repair. ${leakDetectionProcessIntro}`;
+  return `Homeowners and realtors in ${cityName} trust ${site.name} for professional pool leak detection / repair. ${leakDetectionProcessIntro}`;
 }
 
 export function getCityLeakDetectionMeta(citySlug: string, cityName: string): string {
   return (
     cityLeakDetectionMeta[citySlug] ??
-    `Pool leak repair in ${cityName}, TX. Dye testing, pressure testing, Leaktronics & Anderson systems. Licensed & insured. Call ${site.phone}.`
+    `Pool leak detection / repair in ${cityName}, TX. Dye testing, pressure testing, Leaktronics & Anderson systems. Licensed & insured. Call ${site.phone}.`
   );
 }
 

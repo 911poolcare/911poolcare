@@ -6,11 +6,17 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { GoogleMapEmbed } from "@/components/contact/GoogleMapEmbed";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
-export function ContactSection() {
+export function ContactSection({
+  headingAs = "h2",
+}: {
+  /** Homepage already has an h1. The contact page should pass h1. */
+  headingAs?: "h1" | "h2";
+} = {}) {
   return (
     <Section id="contact" muted className="scroll-mt-36 sm:scroll-mt-32">
       <Container>
         <SectionHeading
+          as={headingAs}
           eyebrow="Get Started"
           title="Let's discuss your pool repair needs"
           description="Fill out the form or call us to schedule service. Free consultations are available for renovation projects. We respond fast — often same day."

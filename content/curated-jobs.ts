@@ -145,14 +145,14 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     file: "field-lakeway-old-fitting.jpg",
     citySlug: "lakeway",
     cityName: "Lakeway",
-    alt: "Failed PVC fitting removed during leak repair — Lakeway",
+    alt: "Failed PVC fitting removed during leak detection / repair — Lakeway",
     caption: "Failed fitting removed on site",
   },
   {
     file: "field-lakeway-pool-deck-dig.jpg",
     citySlug: "lakeway",
     cityName: "Lakeway",
-    alt: "Pool deck excavation for underground leak repair — Lakeway",
+    alt: "Pool deck excavation for underground leak detection / repair — Lakeway",
     caption: "Deck excavation to reach the leak",
   },
   {
@@ -201,7 +201,7 @@ const LEAK_FIELD_PHOTOS: FieldPhotoSpec[] = [
     file: "field-georgetown-cracked-pvc.jpg",
     citySlug: "georgetown",
     cityName: "Georgetown",
-    alt: "Cracked underground PVC pipe found during leak repair — Georgetown",
+    alt: "Cracked underground PVC pipe found during leak detection / repair — Georgetown",
     caption: "Cracked PVC located underground",
   },
   {

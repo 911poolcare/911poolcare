@@ -6,7 +6,7 @@ import { formatLeadSourceLabel } from "@/content/contact-form";
  * Jobber checkbox option labels — must match Settings → Requests → Forms exactly.
  */
 const JOBBER_SERVICE_OPTION_LABELS: Record<string, string> = {
-  "leak-detection": "Leak detection & repair",
+  "leak-detection": "Leak detection / repair",
   renovation: "Pool renovation",
   "equipment-repair": "Pool Equipment Repair & Replacement",
   inspection: "Pool inspection",

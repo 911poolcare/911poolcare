@@ -17,7 +17,7 @@ import { getCityHub } from "@/content/city-hubs";
 import { site } from "@/content/site";
 
 const cityServiceTitles: Record<string, string> = {
-  "pool-leak-detection": "Pool Leak Repair & Detection",
+  "pool-leak-detection": "Pool Leak Detection / Repair",
   "pool-equipment-repair": "Pool Equipment Repair & Replacement",
   "pool-renovations": "Pool Renovation & Replastering",
   "pool-inspections": "Pool Inspections",

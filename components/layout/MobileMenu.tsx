@@ -24,12 +24,12 @@ export function MobileMenu({ navLinks }: { navLinks: NavLink[] }) {
 
       {open ? (
         <div className="col-span-2 row-start-2 border-t border-slate-200 bg-white md:hidden">
-          <Container className="flex flex-col gap-1 py-3">
+          <Container className="flex flex-col py-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="min-h-11 rounded-lg px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50"
+                className="rounded-lg px-3 py-2 text-base font-medium text-slate-800 hover:bg-slate-50 hover:text-brand-700"
                 onClick={() => setOpen(false)}
               >
                 {link.label}

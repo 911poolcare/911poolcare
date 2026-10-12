@@ -203,7 +203,7 @@ function jobToProgressSet(job: MediaJob, city?: City): JobProgressSet | null {
     ? curatedLabel
     : job.id.startsWith("curated--")
       ? job.id.includes("pool-leak-detection")
-        ? `${cityName ?? "Central Texas"} leak repair`
+        ? `${cityName ?? "Central Texas"} leak detection / repair`
         : (cityName ?? "Renovation project")
       : cityName
         ? `${formatJobLabel(job)} — ${cityName}`
@@ -329,7 +329,7 @@ const HUB_HERO_FIELD_PATTERNS = [
 ];
 
 function hubHeroAlt(cityName: string, detail: string): string {
-  return `${detail} in ${cityName}, TX — 911 Pool Care leak detection and repair`;
+  return `${detail} in ${cityName}, TX — 911 Pool Care leak detection / repair`;
 }
 
 function getCityLeakFieldHero(citySlug: string): GalleryImage | undefined {
@@ -383,6 +383,6 @@ export function getCityHubHeroImage(citySlug: string): GalleryImage | undefined 
 
   return {
     src: fallback,
-    alt: hubHeroAlt(cityName, "Pool leak detection and repair"),
+    alt: hubHeroAlt(cityName, "Pool leak detection / repair"),
   };
 }

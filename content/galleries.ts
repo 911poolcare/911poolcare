@@ -42,7 +42,7 @@ const aboutGalleryImages: GalleryImage[] = [
   ),
   jobImage(
     "/images/jobs/pool-leak-detection/2026-02-19-p01.jpg",
-    "Underwater pool leak detection and repair on the pool floor",
+    "Underwater pool leak detection / repair on the pool floor",
   ),
   jobImage(
     "/images/jobs/pool-leak-detection/2026-05-29-p01.jpg",
@@ -74,7 +74,7 @@ const legacyServiceGalleries: Record<string, GalleryImage[]> = {
     ),
     leakImage(
       "2aca84_39809da03bd548d480ba88926818cc99.jpg",
-      "Completed pool plumbing leak repair at the equipment pad",
+      "Completed pool plumbing leak detection / repair at the equipment pad",
     ),
   ],
   "pool-equipment-repair": [

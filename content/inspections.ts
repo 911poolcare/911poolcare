@@ -91,7 +91,7 @@ export const inspectionImportantNotes = [
 
 export const inspectionRelatedServices = [
   {
-    label: "Pool leak detection & repair",
+    label: "Pool leak detection / repair",
     slug: "pool-leak-detection",
     description: "When water loss or plumbing issues need specialist testing beyond the inspection scope.",
   },

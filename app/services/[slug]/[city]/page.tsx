@@ -66,8 +66,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     keywords:
       slug === leakDetectionSlug
         ? [
-            `pool leak repair ${city.name}`,
-            `pool leak repair ${city.name} TX`,
+            `pool leak detection / repair ${city.name}`,
+            `pool leak detection / repair ${city.name} TX`,
             `pool leak detection ${city.name}`,
           ]
         : undefined,

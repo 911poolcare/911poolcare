@@ -1,5 +1,5 @@
 import type { City } from "@/content/cities";
-import { getCityHub } from "@/content/city-hubs";
+import { getCityNeighborhoods } from "@/content/city-hubs";
 import { getCityServiceLocal } from "@/content/city-service-local";
 import type { Service } from "@/content/services";
 import { FaqJsonLd } from "@/components/seo/FaqJsonLd";
@@ -15,7 +15,7 @@ export function CityLocalContext({ city, service }: CityLocalContextProps) {
   const local = getCityServiceLocal(city.slug, service.slug);
   if (!local) return null;
 
-  const neighborhoods = getCityHub(city.slug)?.neighborhoods ?? [];
+  const neighborhoods = getCityNeighborhoods(city.slug);
 
   return (
     <Section muted>

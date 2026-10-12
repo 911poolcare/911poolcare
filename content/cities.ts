@@ -27,7 +27,7 @@ export const cities: City[] = [
 
 export const priorityCities = cities.filter((city) => city.priority);
 
-/** Cities tracked in SEO ranking reports — used for homepage links and hub expansion. */
+/** Cities listed in the llms.txt "which page to cite" block. */
 export const trackedMarketSlugs = [
   "austin",
   "georgetown",
@@ -37,6 +37,7 @@ export const trackedMarketSlugs = [
   "pflugerville",
   "liberty-hill",
   "san-marcos",
+  "dripping-springs",
 ] as const;
 
 export const trackedMarketCities = cities.filter((city) =>

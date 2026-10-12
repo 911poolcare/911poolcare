@@ -45,7 +45,7 @@ export default function LeakOrEvaporationPage() {
           ))}
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button href="/services/pool-leak-detection" size="lg">
-              Pool leak repair
+              Pool leak detection / repair
             </Button>
             <Button href="/contact" variant="outline" size="lg" className="border-brand-700 text-brand-800 hover:bg-brand-50">
               Request service

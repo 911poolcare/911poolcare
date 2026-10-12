@@ -6,7 +6,7 @@ export const partnerProgram = {
     "Partner with 911 Pool Care — competitive pricing to resell specialist services, priority scheduling, and direct support for pool service companies in Central Texas.",
   headline: "Help your customers more. Grow your business.",
   intro:
-    "Pool service companies partner with us for leak detection technicians, pool repair experts, and renovation specialists — leak detection and repair, equipment repair and replacement, pool renovations and replaster, and inspections — without competing for weekly cleaning routes. Partners get competitive pricing, priority scheduling, and direct support.",
+    "Pool service companies partner with us for leak detection technicians, pool repair experts, and renovation specialists — leak detection / repair, equipment repair and replacement, pool renovations and replaster, and inspections — without competing for weekly cleaning routes. Partners get competitive pricing, priority scheduling, and direct support.",
   benefits: [
     {
       title: "No leak detection deposit for partners",
@@ -35,7 +35,7 @@ export const partnerProgram = {
     },
   ],
   services: [
-    "Pool leak detection & repair",
+    "Pool leak detection / repair",
     `Pool equipment repair & replacement — ${poolEquipment.inlineList}`,
     "Pool renovations & replastering",
     "Pool inspections (buyers, sellers & realtors)",

@@ -82,7 +82,7 @@ export function getLocalBusinessSchema() {
     ],
     knowsAbout: [
       "pool leak detection",
-      "pool leak repair",
+      "pool leak detection / repair",
       "Leaktronics leak detection",
       "Anderson Leakalyzer",
       "pool equipment repair",

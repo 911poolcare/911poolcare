@@ -2,7 +2,7 @@ import { ClipboardCheck, ShieldCheck, Sparkles, Wrench } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
 const items = [
-  { icon: Wrench, label: "Leak Detection & Repair" },
+  { icon: Wrench, label: "Leak Detection / Repair" },
   { icon: ShieldCheck, label: "Equipment Repair" },
   { icon: Sparkles, label: "Renovations & Replaster" },
   { icon: ClipboardCheck, label: "Pool Inspections" },

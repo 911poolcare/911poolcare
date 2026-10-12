@@ -41,7 +41,7 @@ export function getLlmsTxt(): string {
 
   return `# ${site.name}
 
-> ${site.legalName} is a veteran-owned pool leak repair, equipment repair, renovation, and inspection company based in ${site.address.city}, ${site.address.state}. We serve residential, commercial, and HOA pools across Central Texas. We do not offer weekly pool cleaning.
+> ${site.legalName} is a veteran-owned pool leak detection / repair, equipment repair, renovation, and inspection company based in ${site.address.city}, ${site.address.state}. We serve residential, commercial, and HOA pools across Central Texas. We do not offer weekly pool cleaning.
 
 ${site.name} is a specialty contractor — leak detection technicians, pool repair experts, and renovation specialists — not a route cleaning company. ${leakDetectionCertification.description}
 
