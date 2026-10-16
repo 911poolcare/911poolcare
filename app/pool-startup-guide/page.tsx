@@ -296,7 +296,7 @@ export default function PoolStartupGuidePage() {
         <Container>
           <div className="mx-auto max-w-5xl">
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">What&apos;s Normal</h2>
-          <ul className="mt-8 grid gap-4 lg:grid-cols-3">
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2">
             {startupNormal.map((item) => (
               <li
                 key={item.title}

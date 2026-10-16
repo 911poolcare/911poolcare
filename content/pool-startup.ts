@@ -58,7 +58,7 @@ export const startupFillRules = [
   },
   {
     lead: "Don't touch the bucket",
-    body: "The bucket in the pool holds our startup treatment, which balances the water as the pool fills.",
+    body: "The Orenda bucket near the pool holds our startup treatment, which balances the water as the pool fills.",
   },
   {
     lead: "Stop the water when it reaches halfway up the waterline tile",
@@ -145,6 +145,10 @@ export const startupNormal = [
   {
     title: "Missing return fittings at first",
     body: "We install them on Visit 2.",
+  },
+  {
+    title: "Slight greenish water",
+    body: "Fill water may turn a slight greenish color until it is chlorinated. We add chlorine on Visit 3, and the color clears after that.",
   },
 ] as const;
 
