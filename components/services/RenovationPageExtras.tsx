@@ -20,6 +20,7 @@ import {
   getFeaturedRenovationCollages,
   getServiceProgressSets,
 } from "@/content/media";
+import { poolStartupGuide } from "@/content/pool-startup";
 import { pricing } from "@/content/pricing";
 import { site } from "@/content/site";
 import { getTeamForService } from "@/content/team";
@@ -49,8 +50,11 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
       : getServiceProgressSets(renovationSlug, 6)
   ).filter((set) => !collageSets.some((item) => item.id === set.id));
   const specialists = getTeamForService("pool-renovations");
-  const faqs =
+  const baseFaqs =
     (city ? getCityServiceLocalFaqs(city.slug, renovationSlug) : undefined) ?? renovationFaqs;
+  const faqs = baseFaqs.some((item) => item.question === poolStartupGuide.faq.question)
+    ? baseFaqs
+    : [...baseFaqs, poolStartupGuide.faq];
 
   return (
     <>
@@ -140,6 +144,13 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
               >
                 Austin hard water and finishes
               </Link>
+              {" · "}
+              <Link
+                href={poolStartupGuide.href}
+                className="font-medium text-brand-700 hover:text-brand-800"
+              >
+                New plaster startup guide
+              </Link>
             </p>
             <p className="mt-4 text-sm leading-relaxed text-slate-600">
               {city
@@ -212,6 +223,24 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
               </li>
             ))}
           </ol>
+          <div className="mt-8 flex flex-col items-start justify-between gap-5 rounded-2xl border border-brand-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:p-8">
+            <div className="max-w-xl">
+              <p className="text-sm font-semibold uppercase tracking-wider text-brand-700">
+                After the plaster
+              </p>
+              <p className="mt-2 text-lg font-semibold text-slate-900">
+                {poolStartupGuide.headline}
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                {city
+                  ? `The fill, brush, and 6-visit schedule we follow after a replaster in ${city.name} — and what to avoid through Day 30.`
+                  : poolStartupGuide.renovationBlurb}
+              </p>
+            </div>
+            <Button href={poolStartupGuide.href} size="lg" className="shrink-0">
+              Read the startup guide
+            </Button>
+          </div>
         </Container>
       </Section>
 
@@ -259,6 +288,16 @@ export function RenovationPageExtras({ city }: RenovationPageExtrasProps) {
               <div key={item.question} className="px-5 py-5 sm:px-6">
                 <h3 className="font-semibold text-slate-900">{item.question}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.answer}</p>
+                {item.question === poolStartupGuide.faq.question ? (
+                  <p className="mt-3">
+                    <Link
+                      href={poolStartupGuide.href}
+                      className="text-sm font-semibold text-brand-700 hover:text-brand-800"
+                    >
+                      Read the startup guide
+                    </Link>
+                  </p>
+                ) : null}
               </div>
             ))}
           </div>

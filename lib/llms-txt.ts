@@ -106,6 +106,7 @@ ${teamLines}
 - Contact: ${base}/contact
 - Gallery: ${base}/gallery
 - Warranty: ${base}/warranty
+- [New pool plaster startup guide](${base}/pool-startup-guide): Fill, brushing, 6 startup visits, and the first 30 days after a replaster.
 - Partners (pool service companies): ${base}/partners
 - [Austin hard water and pool finishes](${base}/resources/austin-pool-hard-water)
 - [Pool leak or evaporation](${base}/resources/pool-leak-or-evaporation)

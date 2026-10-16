@@ -56,6 +56,11 @@ export function Footer() {
             </Link>
           </p>
           <p className="mt-2">
+            <Link href="/pool-startup-guide" className="text-sm font-medium text-slate-400 hover:text-white">
+              New plaster startup guide →
+            </Link>
+          </p>
+          <p className="mt-2">
             <Link
               href="/resources/austin-pool-hard-water"
               className="text-sm font-medium text-slate-400 hover:text-white"

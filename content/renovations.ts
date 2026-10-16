@@ -129,7 +129,7 @@ export const renovationProcess = [
     step: "4",
     title: "Ready for the season",
     description:
-      "Walk the finished project with us, get care guidance, and enjoy a pool that looks and performs like new.",
+      "Walk the finished project with us, then follow the startup guide — brushing, chemistry visits, and what to avoid through Day 30.",
   },
 ] as const;
 

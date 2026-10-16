@@ -53,7 +53,7 @@ export function isSmsChatVisible(date = new Date()): boolean {
   return isWithinBusinessHours(date);
 }
 
-export function formatSmsHref(body = site.smsDefaultBody): string {
+export function formatSmsHref(body: string = site.smsDefaultBody): string {
   // encodeURIComponent uses %20 for spaces — iOS Messages treats + literally in sms: URLs.
   return `sms:${site.smsNumber}?body=${encodeURIComponent(body)}`;
 }
