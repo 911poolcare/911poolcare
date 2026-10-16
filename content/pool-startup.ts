@@ -19,7 +19,8 @@ export const poolStartupGuide = {
     src: "/images/renovations/pool-startup-fill.jpg",
     alt: "Fresh white plaster on fill day, with hoses in the deep end and cloth wraps softening the water flow.",
   },
-  dayCountNote: "All day counts below start from the day your plaster is installed.",
+  dayCountNote:
+    "All day counts below start from the day your plaster is installed, once the pool is completely filled up.",
   phone: site.phone,
 } as const;
 
