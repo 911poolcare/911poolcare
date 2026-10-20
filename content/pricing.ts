@@ -30,6 +30,9 @@ export const pricing = {
       "Commercial leak detection does not include the residential down-payment guarantee.",
     partnerNote:
       "Pool company partners are not charged the $120 leak detection deposit on referred jobs.",
+    coldWaterDiveFee: 150,
+    coldWaterDiveNote:
+      "Conditional. We measure the water temperature on site. From 55°F to 70°F, this fee applies. Above 70°F, it does not. Below 55°F, we cannot dive safely and will reschedule the dive until the water warms up. The rest of the detection can still go ahead.",
     repairNote:
       "For leak detection / repair, the detection fee is listed above. The repair is a custom quote. Cost depends on variables such as whether the leak is in-ground, under concrete, depth, access, and more.",
     includedHeading: "What’s included in the detection fee",
@@ -42,7 +45,7 @@ export const pricing = {
     includedNote:
       "This is a full locate with professional gear, not a search-only visit. Many repairs happen the same visit once the source is confirmed. Repair work is quoted separately after we know what we are fixing.",
     faqAnswer:
-      "Leak detection starts at $650 for a basic pool only with a single pump. Pool and spa with a single pump is $750. Each additional pump is $150 (booster pumps are not counted). Catch basins for infinity edge pools are an additional $150. In-floor cleaning systems start at $400 and include up to 20 in-floor heads tested — $20 for each additional head. Commercial pools start at $750 and are usually custom quotes. For leak detection / repair, the repair is quoted separately based on location, access, and repair scope.",
+      "Leak detection starts at $650 for a basic pool only with a single pump. Pool and spa with a single pump is $750. Each additional pump is $150 (booster pumps are not counted). Catch basins for infinity edge pools are an additional $150. In-floor cleaning systems start at $400 and include up to 20 in-floor heads tested — $20 for each additional head. A cold water dive is an additional $150 when the water is 55°F to 70°F — we check the temperature on site. Above 70°F, that charge does not apply. Below 55°F, we cannot dive safely and will reschedule the dive until the water warms up. Commercial pools start at $750 and are usually custom quotes. For leak detection / repair, the repair is quoted separately based on location, access, and repair scope.",
     guaranteeFaqAnswer:
       "For residential pools losing more than ½ inch of water per day, we verify water loss on site before a full detection. If we cannot locate the leak, you pay only the $120 down payment — not the remainder of the leak detection service. This guarantee applies to residential properties only — not commercial pools. Pool company partners are not charged the $120 deposit on referred leak detection jobs.",
     pricingLines: [
@@ -89,12 +92,12 @@ export const pricing = {
   },
   inspection: {
     baseFee: 360,
-    coldWaterAddOn: 120,
+    coldWaterAddOn: 150,
     onSiteHours: 2,
     summary:
       "$360 for a standard pool or pool/spa inspection — includes up to 2 hours on site, written report, and photo documentation. Exclusions apply.",
     coldWaterSummary:
-      "Cold water add-on: +$120 when water temperature is below 70°F.",
+      "Cold water add-on: +$150 when water temperature is below 70°F.",
   },
 } as const;
 

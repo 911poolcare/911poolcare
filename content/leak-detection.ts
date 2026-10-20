@@ -119,6 +119,10 @@ export const leakDetectionFaqs = [
     question: "How do I know if my pool is leaking or just evaporating?",
     answer: `Central Texas heat can cause noticeable evaporation, but losing more than ${pricing.leakDetection.waterLossThresholdInches}″ per day usually points to a leak. We verify water loss on site with a Leakalyzer before running a full detection so you're not paying for work you don't need.`,
   },
+  {
+    question: "What if the water is cold?",
+    answer: pricing.leakDetection.coldWaterDiveNote,
+  },
 ] as const;
 
 /** City-specific opening copy for local leak detection pages */
@@ -262,12 +266,22 @@ export function getCityLeakDetectionMeta(citySlug: string, cityName: string): st
   );
 }
 
+const coldWaterDiveFaq: LeakFaq = {
+  question: "What if the water is cold?",
+  answer: pricing.leakDetection.coldWaterDiveNote,
+};
+
+function withColdWaterDiveFaq(faqs: LeakFaq[]): LeakFaq[] {
+  if (faqs.some((item) => item.question === coldWaterDiveFaq.question)) return faqs;
+  return [...faqs, coldWaterDiveFaq];
+}
+
 export function getCityLeakDetectionFaqs(citySlug: string, cityName: string): LeakFaq[] {
   const uniqueFaqs = getCityServiceLocalFaqs(citySlug, leakDetectionSlug);
   if (uniqueFaqs?.length) {
-    return uniqueFaqs;
+    return withColdWaterDiveFaq(uniqueFaqs);
   }
-  return (
-    cityLeakDetectionFaqs[citySlug] ?? buildDefaultLeakFaqs(cityName, cityLeakFaqLocalNotes[citySlug])
+  return withColdWaterDiveFaq(
+    cityLeakDetectionFaqs[citySlug] ?? buildDefaultLeakFaqs(cityName, cityLeakFaqLocalNotes[citySlug]),
   );
 }

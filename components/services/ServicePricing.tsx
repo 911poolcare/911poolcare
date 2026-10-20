@@ -23,6 +23,17 @@ export function ServicePricing({ serviceSlug }: ServicePricingProps) {
               <span className="shrink-0 font-semibold text-brand-800">{line.value}</span>
             </li>
           ))}
+          <li className="flex flex-col gap-0.5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+            <span>
+              <span className="font-medium text-slate-900">Cold water dive</span>
+              <span className="mt-0.5 block text-slate-600">
+                {pricing.leakDetection.coldWaterDiveNote}
+              </span>
+            </span>
+            <span className="shrink-0 font-semibold text-brand-800">
+              +${pricing.leakDetection.coldWaterDiveFee}
+            </span>
+          </li>
         </ul>
         <p className="mt-5 text-sm leading-relaxed text-slate-700">
           {pricing.leakDetection.repairNote}

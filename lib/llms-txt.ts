@@ -73,6 +73,7 @@ ${citeLines}
 - Residential leak detection starts at $${pricing.leakDetection.poolOnlySinglePump} (pool only, single pump)
 - Pool and spa, single pump: $${pricing.leakDetection.poolAndSpaSinglePump}
 - Residential leak-detection guarantee: if we cannot locate a leak after on-site testing on a pool losing more than ${pricing.leakDetection.waterLossThresholdInches} inch per day, the customer pays only the $${pricing.leakDetection.downPayment} down payment
+- Cold water dive during leak detection: +$${pricing.leakDetection.coldWaterDiveFee} when water is 55–70°F, measured on site. Above 70°F the charge does not apply. Below 55°F we cannot dive and reschedule the dive until the water warms up
 - Pump diagnostic: $${pricing.equipment.pumpDiagnostic.fee} ($${pricing.equipment.pumpDiagnostic.repairCredit} credit toward repairs)
 - Heater diagnostic: $${pricing.equipment.heaterDiagnostic.fee} ($${pricing.equipment.heaterDiagnostic.repairCredit} credit toward repairs)
 - Certified pool inspection: $${pricing.inspection.baseFee} for a standard pool or pool/spa visit (exclusions apply)

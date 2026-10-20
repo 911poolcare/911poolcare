@@ -121,7 +121,7 @@ export const inspectionPricing = {
   },
   coldWaterAddOn: {
     label: "Cold water inspection add-on",
-    price: 120,
+    price: 150,
     description:
       "Applies when water temperature is below 70°F. This fee ensures inspections are performed safely and thoroughly when colder water requires additional protective equipment and time.",
   },
